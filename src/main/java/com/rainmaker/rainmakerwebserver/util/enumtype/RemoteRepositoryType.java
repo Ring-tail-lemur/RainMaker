@@ -1,4 +1,4 @@
-package com.rainmaker.rainmakerwebserver.domain.enumtype;
+package com.rainmaker.rainmakerwebserver.util.enumtype;
 
 public enum RemoteRepositoryType {
 	GITHUB, GITLAB, BITBUCKET

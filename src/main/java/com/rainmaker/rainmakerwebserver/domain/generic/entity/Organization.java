@@ -1,4 +1,4 @@
-package com.rainmaker.rainmakerwebserver.domain.meta.entity;
+package com.rainmaker.rainmakerwebserver.domain.generic.entity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,7 +12,7 @@ import javax.persistence.OneToMany;
 
 import com.rainmaker.rainmakerwebserver.domain.BaseEntity;
 import com.rainmaker.rainmakerwebserver.domain.analysis.delivery.entity.CycleTime;
-import com.rainmaker.rainmakerwebserver.domain.enumtype.RemoteRepositoryType;
+import com.rainmaker.rainmakerwebserver.util.enumtype.RemoteRepositoryType;
 
 import lombok.AccessLevel;
 import lombok.Builder;

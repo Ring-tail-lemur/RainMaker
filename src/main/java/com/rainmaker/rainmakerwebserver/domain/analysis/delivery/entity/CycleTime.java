@@ -10,8 +10,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
 import com.rainmaker.rainmakerwebserver.domain.BaseEntity;
-import com.rainmaker.rainmakerwebserver.domain.meta.entity.GitRepository;
-import com.rainmaker.rainmakerwebserver.domain.meta.entity.Organization;
+import com.rainmaker.rainmakerwebserver.domain.generic.entity.GitRepository;
+import com.rainmaker.rainmakerwebserver.domain.generic.entity.Organization;
 
 import lombok.AccessLevel;
 import lombok.Builder;
