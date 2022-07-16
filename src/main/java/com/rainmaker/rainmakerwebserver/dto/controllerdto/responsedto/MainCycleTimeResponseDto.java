@@ -12,30 +12,30 @@ import lombok.Data;
 public class MainCycleTimeResponseDto {
 
 	private Long totalCycleTime;
-	private CycleTimeDto cycleTimeDto = new CycleTimeDto();
+	private AverageCycleTime averageCycleTime = new AverageCycleTime();
 	private ProductivityLevel productivityLevel;
 
 	@Builder
 	MainCycleTimeResponseDto(Long codingTime, Long pickupTime, Long reviewTime, Long deploymentTime) {
-		cycleTimeDto.codingTime = codingTime;
-		cycleTimeDto.pickupTime = pickupTime;
-		cycleTimeDto.reviewTime = reviewTime;
-		cycleTimeDto.deploymentTime = deploymentTime;
-		totalCycleTime = cycleTimeDto.getTotalCycleTime();
-		productivityLevel = cycleTimeDto.calculateCycleTimeProductivityLevel(totalCycleTime);
+		averageCycleTime.codingTime = codingTime;
+		averageCycleTime.pickupTime = pickupTime;
+		averageCycleTime.reviewTime = reviewTime;
+		averageCycleTime.deploymentTime = deploymentTime;
+		totalCycleTime = averageCycleTime.getTotalCycleTime();
+		productivityLevel = averageCycleTime.calculateCycleTimeProductivityLevel(totalCycleTime);
 	}
 
 	public MainCycleTimeResponseDto(Map<String, Long> cycleTime) {
-		cycleTimeDto.codingTime = cycleTime.get("codingTime");
-		cycleTimeDto.pickupTime = cycleTime.get("pickupTime");
-		cycleTimeDto.reviewTime = cycleTime.get("reviewTime");
-		cycleTimeDto.deploymentTime = cycleTime.get("deploymentTime");
-		totalCycleTime = cycleTimeDto.getTotalCycleTime();
-		productivityLevel = cycleTimeDto.calculateCycleTimeProductivityLevel(totalCycleTime);
+		this.averageCycleTime.codingTime = cycleTime.get("codingTime");
+		this.averageCycleTime.pickupTime = cycleTime.get("pickupTime");
+		this.averageCycleTime.reviewTime = cycleTime.get("reviewTime");
+		this.averageCycleTime.deploymentTime = cycleTime.get("deploymentTime");
+		totalCycleTime = this.averageCycleTime.getTotalCycleTime();
+		productivityLevel = this.averageCycleTime.calculateCycleTimeProductivityLevel(totalCycleTime);
 	}
 
 	@Data
-	private class CycleTimeDto {
+	private class AverageCycleTime {
 		//모든 시간은 minute 이다.
 		Long codingTime;
 		Long pickupTime;
