@@ -50,13 +50,13 @@ public class MainCycleTimeResponseDto {
 
 		public ProductivityLevel calculateCycleTimeProductivityLevel(Long totalCycleTime) {
 			if (totalCycleTime < CycleTimeProductivityBounder.SEED_AND_SPROUT_BOUNDER) {
-				return ProductivityLevel.Fruit;
+				return ProductivityLevel.FRUIT;
 			}
 			if (totalCycleTime < CycleTimeProductivityBounder.SPROUT_AND_FLOWER_BOUNDER) {
-				return ProductivityLevel.Flower;
+				return ProductivityLevel.FLOWER;
 			}
 			if (totalCycleTime < CycleTimeProductivityBounder.FLOWER_AND_FRUIT_BOUNDER) {
-				return ProductivityLevel.Sprout;
+				return ProductivityLevel.SPROUT;
 			}
 			return ProductivityLevel.SEED;
 		}
