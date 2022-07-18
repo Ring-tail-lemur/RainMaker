@@ -39,8 +39,6 @@ public class CycleTime extends BaseEntity {
 
 	private LocalDateTime cycleTimeEnd;
 
-	private Long fullCycleTime;
-
 	private Long codingTime;
 
 	private Long pickupTime;
@@ -54,7 +52,6 @@ public class CycleTime extends BaseEntity {
 		Organization organization,
 		LocalDateTime cycleTimeStart,
 		LocalDateTime cycleTimeEnd,
-		Long fullCycleTime,
 		Long codingTime,
 		Long pickupTime,
 		Long reviewTime,
@@ -63,7 +60,6 @@ public class CycleTime extends BaseEntity {
 		setOrganization(organization);
 		this.cycleTimeStart = cycleTimeStart;
 		this.cycleTimeEnd = cycleTimeEnd;
-		this.fullCycleTime = fullCycleTime;
 		this.codingTime = codingTime;
 		this.pickupTime = pickupTime;
 		this.reviewTime = reviewTime;
