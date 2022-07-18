@@ -47,6 +47,8 @@ public class CycleTime extends BaseEntity {
 
 	private Long deploymentTime;
 
+	private Long commitId;
+
 	@Builder
 	public CycleTime(GitRepository gitRepository,
 		Organization organization,
@@ -55,7 +57,8 @@ public class CycleTime extends BaseEntity {
 		Long codingTime,
 		Long pickupTime,
 		Long reviewTime,
-		Long deploymentTime) {
+		Long deploymentTime,
+		Long commitId) {
 		setGitRepository(gitRepository);
 		setOrganization(organization);
 		this.cycleTimeStart = cycleTimeStart;
@@ -64,6 +67,7 @@ public class CycleTime extends BaseEntity {
 		this.pickupTime = pickupTime;
 		this.reviewTime = reviewTime;
 		this.deploymentTime = deploymentTime;
+		this.commitId = commitId;
 	}
 
 	public void setGitRepository(GitRepository gitRepository) {
