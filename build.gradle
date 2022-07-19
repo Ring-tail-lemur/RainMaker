@@ -28,6 +28,9 @@ dependencies {
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 	implementation 'com.h2database:h2'
+	implementation platform('com.google.cloud:libraries-bom:26.0.0')
+	implementation 'com.google.cloud:google-cloud-bigquery'
+	implementation 'com.google.cloud:google-cloud-bigquery:2.13.8'
 }
 
 tasks.named('test') {

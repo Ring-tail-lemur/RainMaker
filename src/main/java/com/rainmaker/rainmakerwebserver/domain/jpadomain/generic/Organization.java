@@ -1,4 +1,4 @@
-package com.rainmaker.rainmakerwebserver.domain.generic.entity;
+package com.rainmaker.rainmakerwebserver.domain.jpadomain.generic;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -10,8 +10,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 
-import com.rainmaker.rainmakerwebserver.domain.BaseEntity;
-import com.rainmaker.rainmakerwebserver.domain.analysis.delivery.entity.CycleTime;
+import com.rainmaker.rainmakerwebserver.domain.jpadomain.BaseEntity;
+import com.rainmaker.rainmakerwebserver.domain.jpadomain.analysis.delivery.CycleTime;
 import com.rainmaker.rainmakerwebserver.util.enumtype.RemoteRepositoryType;
 
 import lombok.AccessLevel;

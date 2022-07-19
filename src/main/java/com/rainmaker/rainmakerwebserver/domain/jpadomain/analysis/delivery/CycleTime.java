@@ -1,4 +1,4 @@
-package com.rainmaker.rainmakerwebserver.domain.analysis.delivery.entity;
+package com.rainmaker.rainmakerwebserver.domain.jpadomain.analysis.delivery;
 
 import java.time.LocalDateTime;
 
@@ -9,9 +9,9 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
-import com.rainmaker.rainmakerwebserver.domain.BaseEntity;
-import com.rainmaker.rainmakerwebserver.domain.generic.entity.GitRepository;
-import com.rainmaker.rainmakerwebserver.domain.generic.entity.Organization;
+import com.rainmaker.rainmakerwebserver.domain.jpadomain.BaseEntity;
+import com.rainmaker.rainmakerwebserver.domain.jpadomain.generic.GitRepository;
+import com.rainmaker.rainmakerwebserver.domain.jpadomain.generic.Organization;
 
 import lombok.AccessLevel;
 import lombok.Builder;

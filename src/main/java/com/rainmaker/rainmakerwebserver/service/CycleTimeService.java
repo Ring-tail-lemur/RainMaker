@@ -8,9 +8,10 @@ import java.util.Map;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.rainmaker.rainmakerwebserver.domain.analysis.delivery.entity.CycleTime;
-import com.rainmaker.rainmakerwebserver.domain.analysis.delivery.repoistory.CycleTimeRepository;
+import com.rainmaker.rainmakerwebserver.domain.jpadomain.analysis.delivery.CycleTime;
 import com.rainmaker.rainmakerwebserver.dto.controllerdto.responsedto.MainCycleTimeResponseDto;
+import com.rainmaker.rainmakerwebserver.dto.domaindto.CycleTimeDto;
+import com.rainmaker.rainmakerwebserver.repository.BigqueryCycleTimeRepository;
 
 import lombok.RequiredArgsConstructor;
 
@@ -19,16 +20,39 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class CycleTimeService {
 
-	private final CycleTimeRepository cycleTimeRepository;
+	private final BigqueryCycleTimeRepository bigqueryCycleTimeRepository;
 
-	public MainCycleTimeResponseDto getMainCycleTimeResponse() {
-		List<CycleTime> targetCycleTimes = cycleTimeRepository.findCycleTimesByCycleTimeEndBetween(
+	public MainCycleTimeResponseDto getMainCycleTimeResponse() throws InterruptedException {
+		List<CycleTimeDto> targetCycleTimes = bigqueryCycleTimeRepository.findCycleTimesByCycleTimeEndBetween(
 			LocalDateTime.now().minusDays(7), LocalDateTime.now());
-		Map<String, Long> averageCycleTime = getAverageCycleTime(targetCycleTimes);
+		Map<String, Long> averageCycleTime = getAverageCycleTimeFromCycleTimeDto(targetCycleTimes);
 		return new MainCycleTimeResponseDto(averageCycleTime);
 	}
 
-	private Map<String, Long> getAverageCycleTime(List<CycleTime> cycleTimes) {
+	private Map<String, Long> getAverageCycleTimeFromCycleTimeDto(List<CycleTimeDto> cycleTimes) {
+		int cycleTimeSize = cycleTimes.size();
+		Long totalCodingTime = 0L;
+		Long totalPickupTime = 0L;
+		Long totalReviewTime = 0L;
+		Long totalDeploymentTime = 0L;
+
+		for (CycleTimeDto cycleTime : cycleTimes) {
+			totalCodingTime += cycleTime.getCodingTime();
+			totalPickupTime += cycleTime.getPickupTime();
+			totalReviewTime += cycleTime.getReviewTime();
+			totalDeploymentTime += cycleTime.getDeploymentTime();
+		}
+
+		HashMap<String, Long> averageCycleTime = new HashMap<>();
+		averageCycleTime.put("codingTime", totalCodingTime / cycleTimeSize);
+		averageCycleTime.put("pickupTime", totalPickupTime / cycleTimeSize);
+		averageCycleTime.put("reviewTime", totalReviewTime / cycleTimeSize);
+		averageCycleTime.put("deploymentTime", totalDeploymentTime / cycleTimeSize);
+
+		return averageCycleTime;
+	}
+
+	private Map<String, Long> getAverageCycleTimeFromCycleTimes(List<CycleTime> cycleTimes) {
 		int cycleTimeSize = cycleTimes.size();
 		Long totalCodingTime = 0L;
 		Long totalPickupTime = 0L;
@@ -47,7 +71,6 @@ public class CycleTimeService {
 		averageCycleTime.put("pickupTime", totalPickupTime / cycleTimeSize);
 		averageCycleTime.put("reviewTime", totalReviewTime / cycleTimeSize);
 		averageCycleTime.put("deploymentTime", totalDeploymentTime / cycleTimeSize);
-		averageCycleTime.put("total", totalDeploymentTime / cycleTimeSize);
 
 		return averageCycleTime;
 	}

@@ -1,4 +1,4 @@
-package com.rainmaker.rainmakerwebserver.domain;
+package com.rainmaker.rainmakerwebserver.domain.jpadomain;
 
 import java.time.LocalDateTime;
 

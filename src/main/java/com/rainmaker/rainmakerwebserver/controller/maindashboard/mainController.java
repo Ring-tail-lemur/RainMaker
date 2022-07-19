@@ -18,14 +18,13 @@ public class mainController {
 
 	@ResponseBody
 	@GetMapping("/api/cycletime")
-	public MainCycleTimeResponseDto mainDashboardCycleTimeApi() {
+	public MainCycleTimeResponseDto mainDashboardCycleTimeApi() throws InterruptedException {
 		return cycleTimeService.getMainCycleTimeResponse();
 	}
 
 	@GetMapping("/cycletime")
-	public String mainDashboardCycleTimeThymeleaf(Model model) {
+	public String mainDashboardCycleTimeThymeleaf(Model model) throws InterruptedException {
 		model.addAttribute("mainCycleTimeResponse", cycleTimeService.getMainCycleTimeResponse());
 		return "cycletime";
 	}
-
 }
