@@ -32,10 +32,10 @@ public class BigqueryCycleTimeRepository {
 	}
 
 	private List<CycleTimeDto> getCycleTimeDtoList(TableResult tableResult) {
-		long resultSize = tableResult.getTotalRows();
 		ArrayList<CycleTimeDto> cycleTimeDtoList = new ArrayList<>();
 		Iterable<FieldValueList> values = tableResult.getValues();
 		values.iterator().forEachRemaining(value -> cycleTimeDtoList.add(new CycleTimeDto(value)));
+		log.info(cycleTimeDtoList.toString());
 		return cycleTimeDtoList;
 	}
 }
