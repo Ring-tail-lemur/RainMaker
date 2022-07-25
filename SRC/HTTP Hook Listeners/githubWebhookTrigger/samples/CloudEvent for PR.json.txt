@@ -1,0 +1,13 @@
+{
+    "source" : "github", <- 깃허브용 function에서 모으기 때문
+    "action" : "opened", <- "action" 가져오기
+    "source" : "https://api.github.com/repos/Ring-tail-lemur/test-for-fake-project/pulls/3", <- "pull_request/url"
+    "actor_id" : "108933006", <- "sender/id"
+    "action_id" : "992132244", <- pull_request/id
+    "repo_id" : "511865227", <- repo/id
+    "org_id" : "107110653", <- repo/owner/id
+    "time" : "2018-04-05T17:31:00Z", <- pull_request/created
+    "commits_url" : "https://api.github.com/repos/Ring-tail-lemur/test-for-fake-project/pulls/3/commits", <- pull_request/commits_url
+    "commits_cnt" : 4, <- pull_request/commits
+    "datacontenttype" : "text/xml"
+}
