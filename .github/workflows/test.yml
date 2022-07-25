@@ -5,7 +5,7 @@
         branches: 
           - main 
         paths: 
-          - "./SRC/HTTP Hook Listeners/githubWebhookTrigger/**"
+          - "SRC/HTTP Hook Listeners/githubWebhookTrigger/**"
         # paths:
         #   - "./SRC/HTTP Hook Listeners/githubWebhookTrigger/**"
         
