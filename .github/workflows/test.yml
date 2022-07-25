@@ -3,8 +3,8 @@
     on:
       push:
         branches: [ main ]
-        paths:
-          - "./SRC/HTTP Hook Listeners/githubWebhookTrigger/**"
+        # paths:
+        #   - "./SRC/HTTP Hook Listeners/githubWebhookTrigger/**"
         
     env:
       AZURE_FUNCTION_APP_NAME: swm-project-github-webhook    # set this to your application's name
