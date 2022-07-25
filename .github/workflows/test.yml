@@ -2,7 +2,10 @@
     
     on:
       push:
-        branches: [ main ]
+        branches: 
+          - main 
+        paths: 
+          - "./SRC/HTTP Hook Listeners/githubWebhookTrigger/**"
         # paths:
         #   - "./SRC/HTTP Hook Listeners/githubWebhookTrigger/**"
         
