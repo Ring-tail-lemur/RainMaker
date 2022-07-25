@@ -5,7 +5,7 @@
         branches: 
           - main 
         paths: 
-          - "SRC/HTTP Hook Listeners/jiraWebhookTrigger/**"
+          - "SRC/HTTP Hook Listeners/jiraWebhookTrigger/jiratrigger1/**"
         
     env:
       AZURE_FUNCTION_APP_NAME: jira-listener-nodejs    # set this to your application's name
