@@ -1,0 +1,9 @@
+{
+    "azureFunctions.deploySubpath": "SRC/HTTP Hook Listeners/githubWebhookTrigger",
+    "azureFunctions.postDeployTask": "npm install (functions)",
+    "azureFunctions.projectLanguage": "JavaScript",
+    "azureFunctions.projectRuntime": "~4",
+    "debug.internalConsoleOptions": "neverOpen",
+    "azureFunctions.projectSubpath": "SRC/HTTP Hook Listeners/githubWebhookTrigger",
+    "azureFunctions.preDeployTask": "npm prune (functions)"
+}
