@@ -1,0 +1,143 @@
+import { Connection } from "./connection";
+import { Receiver, ReceiverOptions } from "./receiver";
+import { Sender, SenderOptions } from "./sender";
+import { SessionEvents, AmqpError, Session as RheaSession } from "rhea";
+import { AbortSignalLike } from "./util/utils";
+import { OnAmqpEvent } from "./eventContext";
+import { Entity } from "./entity";
+import { AwaitableSender, AwaitableSenderOptions } from "./awaitableSender";
+/**
+ * Describes the event listeners that can be added to the Session.
+ * @interface Session
+ */
+export declare interface Session {
+    on(event: SessionEvents, listener: OnAmqpEvent): this;
+}
+/**
+ * Set of options to use when running session.close()
+ */
+export interface SessionCloseOptions {
+    abortSignal?: AbortSignalLike;
+}
+/**
+ * Describes the session that wraps the rhea session.
+ * @class Session
+ */
+export declare class Session extends Entity {
+    private _session;
+    private _connection;
+    constructor(connection: Connection, session: RheaSession);
+    /**
+     * @property {Connection} connection The underlying AMQP connection.
+     * @readonly
+     */
+    readonly connection: Connection;
+    readonly incoming: {
+        deliveries: {
+            size: number;
+            capacity: number;
+        };
+    };
+    readonly outgoing: any;
+    readonly error: AmqpError | Error | undefined;
+    /**
+     * Returns the unique identifier for the session in the format:
+     * "local_<number>-remote_<number>-<connection-id>" or an empty string if the local channel or
+     * remote channel are not yet defined.
+     */
+    readonly id: string;
+    /**
+     * Determines whether the session and the underlying connection is open.
+     * @returns {boolean} result `true` - is open; `false` otherwise.
+     */
+    isOpen(): boolean;
+    /**
+     * Determines whether the close from the peer is a response to a locally initiated close request.
+     * @returns {boolean} `true` if close was locally initiated, `false` otherwise.
+     */
+    isClosed(): boolean;
+    /**
+     * Determines whether both local and remote endpoint for just the session itself are closed.
+     * Within the "session_close" event handler, if this method returns `false` it means that
+     * the local end is still open. It can be useful to determine whether the close
+     * was initiated locally under such circumstances.
+     *
+     * @returns {boolean} `true` - closed, `false` otherwise.
+     */
+    isItselfClosed(): boolean;
+    /**
+     * Removes the underlying amqp session from the internal map in rhea.
+     * Also removes all the event handlers added in the rhea-promise library on the session.
+     */
+    remove(): void;
+    begin(): void;
+    /**
+     * Closes the underlying amqp session in rhea if open. Also removes all the event
+     * handlers added in the rhea-promise library on the session
+     * @param options A set of options including a signal used to cancel the operation.
+     * When the abort signal in the options is fired, the local endpoint is closed.
+     * This does not guarantee that the remote has closed as well. It only stops listening for
+     * an acknowledgement that the remote endpoint is closed as well.
+     * @return {Promise<void>} Promise<void>
+     * - **Resolves** the promise when rhea emits the "session_close" event.
+     * - **Rejects** the promise with an AmqpError when rhea emits the "session_error" event while trying
+     * to close an amqp session or with an AbortError if the operation was cancelled.
+     */
+    close(options?: SessionCloseOptions): Promise<void>;
+    /**
+     * Creates an amqp receiver on this session.
+     * @param session The amqp session object on which the receiver link needs to be established.
+     * @param options Options that can be provided while creating an amqp receiver.
+     * @return Promise<Receiver>
+     * - **Resolves** the promise with the Receiver object when rhea emits the "receiver_open" event.
+     * - **Rejects** the promise with an AmqpError when rhea emits the "receiver_close" event while trying
+     * to create an amqp receiver or the operation timeout occurs.
+     */
+    createReceiver(options?: ReceiverOptions & {
+        abortSignal?: AbortSignalLike;
+    }): Promise<Receiver>;
+    /**
+     * Creates an amqp sender on this session.
+     * @param options Options that can be provided while creating an amqp sender.
+     * @return Promise<Sender>
+     * - **Resolves** the promise with the Sender object when rhea emits the "sender_open" event.
+     * - **Rejects** the promise with an AmqpError when rhea emits the "sender_close" event while trying
+     * to create an amqp sender or the operation timeout occurs.
+     */
+    createSender(options?: SenderOptions & {
+        abortSignal?: AbortSignalLike;
+    }): Promise<Sender>;
+    /**
+     * Creates an awaitable amqp sender on this session.
+     * @param options Options that can be provided while creating an async amqp sender.
+     * - If `onError` and `onSessionError` handlers are not provided then the `AwaitableSender` will
+     * clear the timer and reject the Promise for all the entries of inflight send operation in its
+     * `deliveryDispositionMap`.
+     * - If the user is handling the reconnection of sender link or the underlying connection in it's
+     * app, then the `onError` and `onSessionError` handlers must be provided by the user and (s)he
+     * shall be responsible of clearing the `deliveryDispotionMap` of inflight `send()` operation.
+     *
+     * @return Promise<AwaitableSender>
+     * - **Resolves** the promise with the Sender object when rhea emits the "sender_open" event.
+     * - **Rejects** the promise with an AmqpError when rhea emits the "sender_close" event while trying
+     * to create an amqp sender or the operation timeout occurs.
+     */
+    createAwaitableSender(options?: AwaitableSenderOptions & {
+        abortSignal?: AbortSignalLike;
+    }): Promise<AwaitableSender>;
+    /**
+     * Creates the Sender based on the provided type.
+     * @internal
+     * @param type The type of sender
+     * @param options Options to be provided while creating the sender.
+     */
+    private _createSender;
+    /**
+     * Adds event listeners for the possible events that can occur on the session object and
+     * re-emits the same event back with the received arguments from rhea's event emitter.
+     * @private
+     * @returns {void} void
+     */
+    private _initializeEventListeners;
+}
+//# sourceMappingURL=session.d.ts.map
