@@ -41,7 +41,7 @@ public class HttpTriggerFunction {
         tx.begin(); // 트랜잭션 시작
 
         Commit commit = new Commit();
-        commit.setCommit_id(4L);
+        commit.setCommit_id(6L);
         commit.setCommit_num(289345798L);
         em.persist(commit);
 
