@@ -1,5 +1,5 @@
 const send = require("./send.js");
-// test 1
+// test 12
 
 module.exports = async function (context, req) {
     context.log('JavaScript HTTP trigger function processed a request.');
