@@ -26,7 +26,7 @@ azurefunctions {
     pricingTier = 'Consumption' // refers https://github.com/microsoft/azure-maven-plugins/tree/develop/azure-functions-maven-plugin#supported-pricing-tiers for all valid values
     region = 'westus'
     runtime {
-      os = 'windows'
+      os = 'linux'
     }
     // appSettings {
     //    key = 'value'
