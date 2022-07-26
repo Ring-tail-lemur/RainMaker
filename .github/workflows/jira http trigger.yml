@@ -1,15 +1,15 @@
-    name: github trigger 
+    name: jira trigger
     
     on:
       push:
         branches: 
           - main 
         paths: 
-          - "SRC/HTTP Hook Listeners/jiraWebhookTrigger/jiratrigger1/**"
+          - "SRC/HTTP Hook Listeners/jiraWebhookTrigger/**"
         
     env:
       AZURE_FUNCTION_APP_NAME: jira-listener-nodejs    # set this to your application's name
-      AZURE_FUNCTION_APP_PACKAGE_PATH: './SRC/HTTP Hook Listeners/jiraWebhookTrigger/jiratrigger1/'      # set this to the path to your web app project, defaults to the repository root
+      AZURE_FUNCTION_APP_PACKAGE_PATH: './SRC/HTTP Hook Listeners/jiraWebhookTrigger/'      # set this to the path to your web app project, defaults to the repository root
       NODE_VERSION: '16.x'                     # set this to the node version to use (supports 8.x, 10.x, 12.x, 14.x)
 
     jobs:
