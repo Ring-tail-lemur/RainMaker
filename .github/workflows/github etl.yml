@@ -11,6 +11,7 @@ env:
   AZURE_FUNCTION_APP_NAME: rainmaker-mariadb-extracts-result      # set this to your function app name on Azure
   POM_XML_DIRECTORY: 'SRC/ETLs/ETL_function_raw_to_usable'                     # set this to the directory which contains pom.xml file
   POM_FUNCTION_APP_NAME: ETL_function_raw_to_usable        # set this to the function app name in your local development environment
+  AZURE_FUNCTION_APP_PACKAGE_PATH : './SRC/ETLs/ETL_function_raw_to_usable/'
   JAVA_VERSION: '1.8.x'                      # set this to the java version to use
 
 jobs:
@@ -45,6 +46,6 @@ jobs:
       uses: Azure/functions-action@v1
       with:
         app-name: ${{ env.AZURE_FUNCTION_APP_NAME }}
-        package: './rainmaker-mariadb-extracts-result/target/azure-functions/HttpExample'
-        # package: './${{ env.POM_XML_DIRECTORY }}'
+        # package: './rainmaker-mariadb-extracts-result/target/azure-functions/HttpExample'
+        package: './${{ env.AZURE_FUNCTION_APP_PACKAGE_PATH }}'
         publish-profile: ${{ secrets.AZURE_FUNCTION_APP_PUBLISH_PROFILE }}
