@@ -25,13 +25,20 @@ jobs:
       with:
         java-version: ${{ env.JAVA_VERSION }}
 
-    - name: 'Restore Project Dependencies Using Mvn'
+    - name: Build with Gradle
       shell: bash
       run: |
         pushd './${{ env.POM_XML_DIRECTORY }}'
-        mvn clean package
-        mvn azure-functions:package
+        chmod +x gradlew
+        ./gradlew build
         popd
+    # - name: 'Restore Project Dependencies Using Mvn'
+    #   shell: bash
+    #   run: |
+    #     pushd './${{ env.POM_XML_DIRECTORY }}'
+    #     mvn clean package
+    #     mvn azure-functions:package
+    #     popd
     - name: 'Run Azure Functions Action'
       uses: Azure/functions-action@v1
       with:
