@@ -1,6 +1,6 @@
 package org.example.functions;
 
-// github action test 6
+// github action test 7
 import javax.persistence.Entity;
 import javax.persistence.Id;
 
