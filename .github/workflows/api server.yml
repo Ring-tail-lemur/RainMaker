@@ -1,4 +1,10 @@
-on: [push]
+
+on:
+  push:
+    branches: 
+      - main 
+    paths: 
+      - "SRC/BackEnd API/**"
 
 name: Create Custom VM Image
 
