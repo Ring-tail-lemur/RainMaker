@@ -47,5 +47,5 @@ jobs:
       with:
         app-name: ${{ env.AZURE_FUNCTION_APP_NAME }}
         # package: './rainmaker-mariadb-extracts-result/target/azure-functions/HttpExample'
-        package: './${{ env.POM_XML_DIRECTORY }}/azurefunctions/appName'
+        package: './${{ env.POM_XML_DIRECTORY }}/build.gradle/azurefunctions/appName'
         publish-profile: ${{ secrets.AZURE_FUNCTION_APP_PUBLISH_PROFILE }}
