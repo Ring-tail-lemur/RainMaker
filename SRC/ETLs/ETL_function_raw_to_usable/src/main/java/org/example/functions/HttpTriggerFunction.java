@@ -55,24 +55,4 @@ public class HttpTriggerFunction {
         return request.createResponseBuilder(HttpStatus.OK).body("Hello, ").build();
     }
 
-
-    public void jdbc_Connection (){
-        Connection conn = null;
-        ResultSet rs = null;
-        try {
-            Class.forName("com.mysql.jdbc.Driver");
-            String url = "jdbc:mysql://rainmaker-analytics-logic-mariadb.mariadb.database.azure.com:3306/rainmaker-mariadb-schema";
-            conn = DriverManager.getConnection(url, "rainmaker@rainmaker-analytics-logic-mariadb", "dkffkrRhfldudndnjstnddl!");
-            Statement stmt = conn.createStatement();
-            String sql = "INSERT INTO commit_copy (commit_copy_num) SELECT commit_copy_num FROM commit;";
-            boolean execute = stmt.execute(sql);
-        } catch (ClassNotFoundException e) {
-            throw new RuntimeException(e);
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-
-
 }
