@@ -5,11 +5,11 @@
     <persistence-unit name="hello">
         <properties>
             <!-- 필수 속성 -->
-            <property name="javax.persistence.jdbc.driver" value="com.mysql.cj.jdbc.Driver"/>
-            <property name="javax.persistence.jdbc.user" value="rainmaker@rainmaker-analytics-logic-mariadb"/>
+            <property name="javax.persistence.jdbc.driver" value="com.microsoft.sqlserver.jdbc.SQLServerDriver"/>
+            <property name="javax.persistence.jdbc.user" value="rainmaker"/>
             <property name="javax.persistence.jdbc.password" value="dkffkrRhfldudndnjstnddl!"/>
-            <property name="javax.persistence.jdbc.url" value="jdbc:mysql://rainmaker-analytics-logic-mariadb.mariadb.database.azure.com:3306/rainmaker-mariadb-schema"/>
-            <property name="hibernate.dialect" value="org.hibernate.dialect.MySQL5Dialect"/>
+            <property name="javax.persistence.jdbc.url" value="jdbc:sqlserver://rainmaker-azure-sql-server.database.windows.net:1433;databaseName=rainmaker-azure-sql-database"/>
+            <property name="hibernate.dialect" value="org.hibernate.dialect.SQLServer2012Dialect"/>
 
             <!-- 옵션 -->
             <property name="hibernate.show_sql" value="true"/>

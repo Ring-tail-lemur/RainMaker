@@ -40,10 +40,11 @@ public class HttpTriggerFunction {
 
         tx.begin(); // 트랜잭션 시작
 
-        Commit commit = new Commit();
-        commit.setCommit_id(6L);
-        commit.setCommit_num(289345798L);
-        em.persist(commit);
+        Git_organization git_organization = new Git_organization();
+//        git_organization.setGit_organization_id(3L);
+        git_organization.setRemote_identifier(828954);
+        git_organization.setName("jonghyun");
+        em.persist(git_organization);
 
         tx.commit();
 
