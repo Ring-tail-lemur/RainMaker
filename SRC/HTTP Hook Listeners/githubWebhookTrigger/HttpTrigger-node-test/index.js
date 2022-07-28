@@ -1,5 +1,6 @@
 const send = require("./send.js");
-// test
+// test 12
+// test for github action-PR mapping
 
 module.exports = async function (context, req) {
     context.log('JavaScript HTTP trigger function processed a request.');
