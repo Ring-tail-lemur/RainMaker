@@ -123,12 +123,12 @@ CREATE TABLE pull_request_comment
 DROP TABLE branch;
 CREATE TABLE branch
 (
-    branch_id                 int          NOT NULL PRIMARY KEY,
-    [name]                    varchar(255) NOT NULL,
-    repository_owner_table_id int          NOT NULL,
-    git_user_id               int          NOT NULL,
-    create_time               datetime     Not Null,
-    modified_time             datetime     Not Null
+    branch_id     int          NOT NULL PRIMARY KEY,
+    [name]        varchar(255) NOT NULL,
+    repository_id int          NOT NULL,
+    git_user_id   int          NOT NULL,
+    create_time   datetime     Not Null,
+    modified_time datetime     Not Null
 );
 
 DROP TABLE lead_time_for_change;
@@ -145,6 +145,21 @@ CREATE TABLE lead_time_for_change
     modified_time           datetime Not Null
 );
 
+DROP TABLE pull_request_direction;
+CREATE TABLE pull_request_direction
+(
+    pull_request_direction_id int NOT NULL PRIMARY KEY,
+    source_pull_request_id    int NOT NULL,
+    outgoing_pull_request_id  int NOT NULL
+);
+
+ALTER TABLE pull_request_direction
+    ADD CONSTRAINT FK_pull_request_TO_pull_request_direction_1 FOREIGN KEY (source_pull_request_id)
+        REFERENCES pull_request (pull_request_id);
+
+ALTER TABLE pull_request_direction
+    ADD CONSTRAINT FK_pull_request_TO_pull_request_direction_2 FOREIGN KEY (outgoing_pull_request_id)
+        REFERENCES pull_request (pull_request_id);
 
 ALTER TABLE repository
     ADD CONSTRAINT FK_repository_owner_table_TO_repository_1 FOREIGN KEY (repository_owner_table_id)
@@ -215,7 +230,7 @@ ALTER TABLE pull_request_comment
         REFERENCES git_user (git_user_id);
 
 ALTER TABLE branch
-    ADD CONSTRAINT FK_repository_owner_table_TO_branch_1 FOREIGN KEY (repository_owner_table_id)
+    ADD CONSTRAINT FK_repository_owner_table_TO_branch_1 FOREIGN KEY (repository_id)
         REFERENCES repository_owner_table (repository_owner_table_id);
 
 ALTER TABLE branch
