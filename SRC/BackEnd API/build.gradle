@@ -23,14 +23,11 @@ dependencies {
 	compileOnly 'org.projectlombok:lombok'
 	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
 	implementation('nz.net.ultraq.thymeleaf:thymeleaf-layout-dialect')
-	runtimeOnly 'org.mariadb.jdbc:mariadb-java-client'
 	annotationProcessor 'org.projectlombok:lombok'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
-	implementation 'com.h2database:h2'
 	implementation platform('com.google.cloud:libraries-bom:26.0.0')
-	implementation 'com.google.cloud:google-cloud-bigquery'
-	implementation 'com.google.cloud:google-cloud-bigquery:2.13.8'
+	implementation group: 'com.microsoft.sqlserver', name: 'mssql-jdbc', version: '6.1.0.jre7'
 }
 
 tasks.named('test') {
