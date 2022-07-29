@@ -2,24 +2,30 @@
 CREATE TABLE git_organization
 (
     git_organization_id int          NOT NULL PRIMARY KEY,
-    [name]                varchar(255) NOT NULL,
-    remote_identifier   int          NOT NULL
+    [name]              varchar(255) NOT NULL,
+    remote_identifier   int          NOT NULL,
+    create_time         datetime     Not Null,
+    modified_time       datetime     Not Null
 );
 
 DROP TABLE repository;
 CREATE TABLE repository
 (
     repository_id             int          NOT NULL PRIMARY KEY,
-    [name]                      varchar(255) NOT NULL,
-    repository_owner_table_id int          NOT NULL
+    [name]                    varchar(255) NOT NULL,
+    repository_owner_table_id int          NOT NULL,
+    create_time               datetime     Not Null,
+    modified_time             datetime     Not Null
 );
 
 DROP TABLE git_user;
 CREATE TABLE git_user
 (
     git_user_id       int          NOT NULL PRIMARY KEY,
-    [name]              varchar(255) NOT NULL,
-    remote_identifier int          NOT NULL
+    [name]            varchar(255) NOT NULL,
+    remote_identifier int          NOT NULL,
+    create_time       datetime     Not Null,
+    modified_time     datetime     Not Null
 );
 
 DROP TABLE repository_owner_table;
@@ -28,19 +34,23 @@ CREATE TABLE repository_owner_table
     repository_owner_table_id int         NOT NULL PRIMARY KEY,
     owner_type                varchar(20) NOT NULL,
     owner_user_id             int         NULL,
-    git_organization_id       int         NULL
+    git_organization_id       int         NULL,
+    create_time               datetime    Not Null,
+    modified_time             datetime    Not Null
 );
 
 DROP TABLE pull_request;
 CREATE TABLE pull_request
 (
-    pull_request_id              int NOT NULL PRIMARY KEY,
-    remote_identifier            int NOT NULL,
-    pull_request_number          int NOT NULL,
-    repository_id                int NOT NULL,
-    parent_pull_request_id       int NOT NULL,
-    pull_request_open_branch_id  int NOT NULL,
-    pull_request_close_branch_id int NOT NULL
+    pull_request_id              int      NOT NULL PRIMARY KEY,
+    remote_identifier            int      NOT NULL,
+    pull_request_number          int      NOT NULL,
+    repository_id                int      NOT NULL,
+    parent_pull_request_id       int      NOT NULL,
+    pull_request_open_branch_id  int      NOT NULL,
+    pull_request_close_branch_id int      NOT NULL,
+    create_time                  datetime Not Null,
+    modified_time                datetime Not Null
 );
 
 DROP TABLE pull_request_event;
@@ -50,7 +60,9 @@ CREATE TABLE pull_request_event
     event_type            varchar(50) NOT NULL,
     event_time            datetime    NOT NULL,
     pull_request_id       int         NOT NULL,
-    event_sender_id       int         NOT NULL
+    event_sender_id       int         NOT NULL,
+    create_time           datetime    Not Null,
+    modified_time         datetime    Not Null
 );
 
 DROP TABLE deployment_event;
@@ -59,33 +71,41 @@ CREATE TABLE deployment_event
     deployment_event_id     int      NOT NULL PRIMARY KEY,
     remote_identifier       int      NULL,
     deployment_success_time datetime NULL,
-    pull_request_id         int      NOT NULL
+    pull_request_id         int      NOT NULL,
+    create_time             datetime Not Null,
+    modified_time           datetime Not Null
 );
 
 DROP TABLE user_organization_table;
 CREATE TABLE user_organization_table
 (
-    user_organization_table_id int NOT NULL PRIMARY KEY,
-    git_user_id                int NOT NULL,
-    git_organization_id        int NOT NULL
+    user_organization_table_id int      NOT NULL PRIMARY KEY,
+    git_user_id                int      NOT NULL,
+    git_organization_id        int      NOT NULL,
+    create_time                datetime Not Null,
+    modified_time              datetime Not Null
 );
 
 DROP TABLE [commit];
 CREATE TABLE [commit]
 (
-    commit_id int           NOT NULL PRIMARY KEY,
-    sha       char(40)      NOT NULL,
-    author_id int           NOT NULL,
-    [message]   varchar(1000) NOT NULL
+    commit_id     int           NOT NULL PRIMARY KEY,
+    sha           char(40)      NOT NULL,
+    author_id     int           NOT NULL,
+    [message]     varchar(1000) NOT NULL,
+    create_time   datetime      Not Null,
+    modified_time datetime      Not Null
 );
 
 DROP TABLE pull_request_commit_table;
 CREATE TABLE pull_request_commit_table
 (
-    pull_request_commit_table_id int NOT NULL PRIMARY KEY,
-    pull_request_id              int NOT NULL,
-    commit_id                    int NOT NULL,
-    first_commit                 bit NOT NULL
+    pull_request_commit_table_id int      NOT NULL PRIMARY KEY,
+    pull_request_id              int      NOT NULL,
+    commit_id                    int      NOT NULL,
+    first_commit                 bit      NOT NULL,
+    create_time                  datetime Not Null,
+    modified_time                datetime Not Null
 );
 
 DROP TABLE pull_request_comment;
@@ -95,28 +115,34 @@ CREATE TABLE pull_request_comment
     event_time              datetime    NOT NULL,
     pull_request_id         int         NOT NULL,
     git_user_id             int         NOT NULL,
-    comment_type            varchar(50) NOT NULL
+    comment_type            varchar(50) NOT NULL,
+    create_time             datetime    Not Null,
+    modified_time           datetime    Not Null
 );
 
 DROP TABLE branch;
 CREATE TABLE branch
 (
     branch_id                 int          NOT NULL PRIMARY KEY,
-    [name]                      varchar(255) NOT NULL,
+    [name]                    varchar(255) NOT NULL,
     repository_owner_table_id int          NOT NULL,
-    git_user_id               int          NOT NULL
+    git_user_id               int          NOT NULL,
+    create_time               datetime     Not Null,
+    modified_time             datetime     Not Null
 );
 
 DROP TABLE lead_time_for_change;
 CREATE TABLE lead_time_for_change
 (
-    lead_time_for_change_id int NOT NULL PRIMARY KEY,
-    total_time              int NOT NULL DEFAULT 0,
-    coding_time             int NOT NULL DEFAULT 0,
-    pickup_time             int NOT NULL DEFAULT 0,
-    review_time             int NOT NULL DEFAULT 0,
-    deploy_time             int NOT NULL DEFAULT 0,
-    pull_request_id         int NOT NULL
+    lead_time_for_change_id int      NOT NULL PRIMARY KEY,
+    total_time              int      NOT NULL DEFAULT 0,
+    coding_time             int      NOT NULL DEFAULT 0,
+    pickup_time             int      NOT NULL DEFAULT 0,
+    review_time             int      NOT NULL DEFAULT 0,
+    deploy_time             int      NOT NULL DEFAULT 0,
+    pull_request_id         int      NOT NULL,
+    create_time             datetime Not Null,
+    modified_time           datetime Not Null
 );
 
 
