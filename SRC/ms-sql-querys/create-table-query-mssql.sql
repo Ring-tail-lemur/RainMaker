@@ -2,7 +2,7 @@
 CREATE TABLE git_organization
 (
     git_organization_id int          NOT NULL PRIMARY KEY,
-    name                varchar(255) NOT NULL,
+    [name]                varchar(255) NOT NULL,
     remote_identifier   int          NOT NULL
 );
 
@@ -10,7 +10,7 @@ DROP TABLE repository;
 CREATE TABLE repository
 (
     repository_id             int          NOT NULL PRIMARY KEY,
-    name                      varchar(255) NOT NULL,
+    [name]                      varchar(255) NOT NULL,
     repository_owner_table_id int          NOT NULL
 );
 
@@ -18,7 +18,7 @@ DROP TABLE git_user;
 CREATE TABLE git_user
 (
     git_user_id       int          NOT NULL PRIMARY KEY,
-    name              varchar(255) NOT NULL,
+    [name]              varchar(255) NOT NULL,
     remote_identifier int          NOT NULL
 );
 
@@ -76,7 +76,7 @@ CREATE TABLE [commit]
     commit_id int           NOT NULL PRIMARY KEY,
     sha       char(40)      NOT NULL,
     author_id int           NOT NULL,
-    message   varchar(1000) NOT NULL
+    [message]   varchar(1000) NOT NULL
 );
 
 DROP TABLE pull_request_commit_table;
@@ -102,7 +102,7 @@ DROP TABLE branch;
 CREATE TABLE branch
 (
     branch_id                 int          NOT NULL PRIMARY KEY,
-    name                      varchar(255) NOT NULL,
+    [name]                      varchar(255) NOT NULL,
     repository_owner_table_id int          NOT NULL,
     git_user_id               int          NOT NULL
 );
