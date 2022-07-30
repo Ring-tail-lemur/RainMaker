@@ -19,12 +19,12 @@ module.exports ={
             context.log("commits Body : "+ JSON.stringify(parsedCommitList));
             const commitsCount = parsedCommitList.length;
             for(let commitObjIndex = 0; commitObjIndex < commitsCount; commitObjIndex++){
-                const eventHubCommitObject = parsingCommit(parsedCommits[commitObjIndex], pull_request_remote_identifier);
+                const eventHubCommitObject = parsingCommit(parsedCommitList[commitObjIndex], pull_request_remote_identifier);
                 context.log(JSON.stringify(eventHubCommitObject));
                 send_module.sender(eventHubCommitObject);
             }
+            return commitsCount;
         }
-
     },
 
     parsingCommit(context, commitObj, parent_pull_request_remote_identifier){
