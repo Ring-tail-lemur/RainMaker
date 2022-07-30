@@ -33,9 +33,9 @@ module.exports ={
             return JSON.parse(body);
         }
         });
-    }
+    
+  }
 }
-
 /*
 예시코드... 곧 지울 예정
 console.log("hi");
