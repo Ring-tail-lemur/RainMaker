@@ -16,11 +16,13 @@ module.exports ={
         });
     },
 
-    async getCommitsAnyToken(context, commitsUri){
+    async getCommitsAnyToken(context, commits_uri){
+        context.log(commits_uri);
         const options = {
-        uri: commitsUri,
+        uri: commits_uri,
         headers: {'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_5_2) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/32.webkit'}
         };
+        context.log("왜 그러는거야");
         await request(options, function(err,response,body){
         if(err){
             context.log(err);

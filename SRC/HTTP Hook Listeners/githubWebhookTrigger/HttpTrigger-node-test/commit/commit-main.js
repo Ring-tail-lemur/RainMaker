@@ -14,7 +14,7 @@ module.exports ={
                 send_module.sender(eventHubCommitObject);
             }
         }else{
-            context.log("commits_url : " + commits_url);
+            // context.log("commits_url : " + commits_url);
             let parsedCommitList = await getter.getCommitsAnyToken(context, commits_url);
             context.log("commits Body : "+ JSON.stringify(parsedCommitList));
             const commitsCount = parsedCommitList.length;
