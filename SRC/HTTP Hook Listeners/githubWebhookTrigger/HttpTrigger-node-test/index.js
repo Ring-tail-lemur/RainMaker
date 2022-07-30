@@ -1,4 +1,4 @@
-const { sender } = require("./event-hub/send.js");
+const send_module  = require("./event-hub/send.js");
 const pull_request_module = require("./pull-request/pull-request-main.js");
 // test 12
 // test for github action-PR mapping
@@ -20,7 +20,7 @@ module.exports = async function (context, req) {
     if(cloudEventObj.hook_event == 'pull_request'){
         context.log('pull_request event occur');
         const resultObj = await pull_request_module.pullRequestMain(context,hookBody,cloudEventObj);
-        sender.sender(resultObj);
+        send_module.sender(resultObj);
     }else if(cloudEventObj.hook_event == 'pull_request_review'){
         context.log("pull_request_review! not yet!");
     }else if(cloudEventObj.hook_event == 'pull_request_review_comment'){
