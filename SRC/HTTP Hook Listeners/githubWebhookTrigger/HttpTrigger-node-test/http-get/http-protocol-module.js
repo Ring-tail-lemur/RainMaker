@@ -21,7 +21,7 @@ module.exports =  {
         }).then(function(response){
             context.log("response : " + response);
         }).catch(function(err){
-            context.log(error);
+            context.log(err);
         });
     }
 }   
