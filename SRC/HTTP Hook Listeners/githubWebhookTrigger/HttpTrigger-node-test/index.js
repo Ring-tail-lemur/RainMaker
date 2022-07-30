@@ -1,5 +1,5 @@
 const { sender } = require("./event-hub/send.js");
-const pull_requst_module = require("./pull-request/pull-request-main.js");
+const pull_request_module = require("./pull-request/pull-request-main.js");
 // test 12
 // test for github action-PR mapping
 
@@ -17,16 +17,16 @@ module.exports = async function (context, req) {
     // 상황에 따른 비동기 모듈 분리로 scaleable하게 갈 것.
     if(cloudEventObj.hook_event == 'pull_request'){
         context.log('pull_request event occur');
-        var resultObj = await pull_requst_module.pull_request(context,hookBody,cloudEventObj);
+        const resultObj = await pull_request_module.pull_request(context,hookBody,cloudEventObj);
         sender.sender(resultObj);
     }else if(cloudEventObj.hook_event == 'pull_request_review'){
-
+        context.log("pull_request_review! not yet!");
     }else if(cloudEventObj.hook_event == 'pull_request_review_comment'){
-
+        context.log("pull_request_review_comment not yet!");
     }
 
     context.res ={
-        body : "실패"
+        body : cloudEventObj
     }
 }
 
