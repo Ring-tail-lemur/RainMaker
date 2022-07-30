@@ -15,7 +15,7 @@ module.exports ={
             }
         }else{
             context.log("commits_url : " + commits_url);
-            const commits = await getter.getCommitsAnyToken(commits_url);
+            const commits = await getter.getCommitsAnyToken(context, commits_url);
             context.log("commits Body : "+commits);
             let parsedCommitList = JSON.parse(commits);
             const commitsCount = parsedCommitList.length;
@@ -28,7 +28,7 @@ module.exports ={
 
     },
 
-    async parsingCommit(commitObj, parent_pull_request_remote_identifier){
+    async parsingCommit(context, commitObj, parent_pull_request_remote_identifier){
         const eventHubCommitObj = new Object();
         eventHubCommitObj.source = 'github';
         eventHubCommitObj.parent_pull_request_remote_identifier = parent_pull_request_remote_identifier;
