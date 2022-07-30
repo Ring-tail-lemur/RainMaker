@@ -23,7 +23,7 @@ module.exports ={
         headers: {'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_5_2) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/32.webkit'}
         };
         context.log("왜 그러는거야");
-        await request(options, function(err,response,body){
+        await request(options).then(function(err,response,body){
           context.log("왜???? 여기 들어오긴 해????");
         if(err){
             context.log(err);
