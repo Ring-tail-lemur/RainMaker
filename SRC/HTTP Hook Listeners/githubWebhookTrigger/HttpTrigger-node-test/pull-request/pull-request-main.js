@@ -3,7 +3,7 @@ const open_module = require('./open.js');
 const close_module = require('./close.js');
 module.exports = {
     async pullRequestMain(context, hookBody, cloudEventObj){
-        const resultObj = new Object();
+        let resultObj = new Object();
         cloudEventObj.action = JSON.stringify(hookBody["action"]).replace(/['"]+/g, '');
         cloudEventObj.pull_request_remote_identifier = JSON.stringify(hookBody.pull_request.id).replace(/['"]]+/g, '');
         cloudEventObj.repository_name = JSON.stringify(hookBody.repository.name).replace(/['"]+/g, ''); 
