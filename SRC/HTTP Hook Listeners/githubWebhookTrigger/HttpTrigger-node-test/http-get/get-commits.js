@@ -21,7 +21,7 @@ module.exports ={
         uri: uri,
         headers: {'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_5_2) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/32.webkit'}
         };
-        await request(options, function(err,response,body){
+        await request(options, await function(err,response,body){
         if(err){
             context.log(err);
         }else{
