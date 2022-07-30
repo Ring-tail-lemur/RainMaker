@@ -1,4 +1,4 @@
-package com.ringtaillemur.rainmaker.domain.jpadomain;
+package com.ringtaillemur.rainmaker.domain;
 
 import java.time.LocalDateTime;
 
@@ -10,7 +10,7 @@ import org.springframework.data.annotation.LastModifiedDate;
 @MappedSuperclass
 public class BaseEntity {
 	@CreatedDate
-	private LocalDateTime creatTime;
+	private LocalDateTime createTime;
 
 	@LastModifiedDate
 	private LocalDateTime modifiedDate;
