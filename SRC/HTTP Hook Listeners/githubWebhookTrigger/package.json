@@ -1,5 +1,5 @@
 {
-  "name": "swm-monkey-github-webhook-trigger",
+  "name": "HttpTrigger-node-test",
   "version": "1.0.0",
   "description": "",
   "scripts": {
