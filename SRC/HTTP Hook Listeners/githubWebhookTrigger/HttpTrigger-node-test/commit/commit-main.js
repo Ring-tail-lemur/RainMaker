@@ -20,6 +20,7 @@ module.exports ={
             const commitsCount = parsedCommitList.length;
             for(let commitObjIndex = 0; commitObjIndex < commitsCount; commitObjIndex++){
                 const eventHubCommitObject = await parsingCommit(parsedCommits[commitObjIndex], pull_request_remote_identifier);
+                context.log(JSON.stringify(eventHubCommitObject));
                 send_module.sender(eventHubCommitObject);
             }
         }
