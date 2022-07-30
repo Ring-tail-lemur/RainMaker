@@ -11,7 +11,7 @@ module.exports = async function (context, req) {
 
     // .replace(/['"]+/g, '') <- double quote problem solve (e.g. "\"hi\"")
     cloudEventObj.hook_event = JSON.stringify(hookHeaders["X-GitHub-Event"]).replace(/['"]+/g, '');
-    cloudEventObj.source = 'github'.replace(/['"]+/g, '');
+    cloudEventObj.source = 'github';
 
     // 분기, pull_request || pull_request_review || fork || release || issue_comment || create(branch)
     // 상황에 따른 비동기 모듈 분리로 scaleable하게 갈 것.
