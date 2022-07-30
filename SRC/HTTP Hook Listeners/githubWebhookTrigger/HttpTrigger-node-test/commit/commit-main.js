@@ -16,6 +16,7 @@ module.exports ={
         }else{
             context.log("commits_url : " + commits_url);
             const commits = await getter.getCommitsAnyToken(commits_url);
+            context.log("commits Body : "+commits);
             let parsedCommitList = JSON.parse(commits);
             const commitsCount = parsedCommitList.length;
             for(let commitObjIndex = 0; commitObjIndex < commitsCount; commitObjIndex++){
