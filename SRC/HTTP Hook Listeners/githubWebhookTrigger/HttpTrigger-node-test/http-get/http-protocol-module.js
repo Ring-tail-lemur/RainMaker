@@ -1,7 +1,7 @@
 const request =require('request');
 module.exports =  {
-    httpProtocolCustom(context, options){
-        request(options, function(err,response,body){
+    async httpProtocolCustom(context, options){
+        await request(options, function(err,response,body){
           context.log("왜???? 여기 들어오긴 해????");
           if(err){
               context.log(err);
