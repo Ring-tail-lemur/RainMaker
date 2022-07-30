@@ -34,7 +34,7 @@ CREATE TABLE repository_owner_table
     repository_owner_table_id int         NOT NULL PRIMARY KEY IDENTITY,
     owner_type                varchar(20) NOT NULL,
     owner_user_id             int         NULL,
-    git_organization_id       int         NULL,
+    owner_organization_id       int         NULL,
     create_time               datetime    Not Null,
     modified_time             datetime    Not Null
 );
@@ -80,7 +80,7 @@ DROP TABLE user_organization_table;
 CREATE TABLE user_organization_table
 (
     user_organization_table_id int      NOT NULL PRIMARY KEY IDENTITY,
-    git_user_id                int      NOT NULL,
+    member_id                int      NOT NULL,
     git_organization_id        int      NOT NULL,
     create_time                datetime Not Null,
     modified_time              datetime Not Null
@@ -148,9 +148,11 @@ CREATE TABLE lead_time_for_change
 DROP TABLE pull_request_direction;
 CREATE TABLE pull_request_direction
 (
-    pull_request_direction_id int NOT NULL PRIMARY KEY IDENTITY,
-    source_pull_request_id    int NOT NULL,
-    outgoing_pull_request_id  int NOT NULL
+    pull_request_direction_id int      NOT NULL PRIMARY KEY IDENTITY,
+    source_pull_request_id    int      NOT NULL,
+    outgoing_pull_request_id  int      NOT NULL,
+    create_time               datetime Not Null,
+    modified_time             datetime Not Null
 );
 
 ALTER TABLE pull_request_direction
@@ -170,7 +172,7 @@ ALTER TABLE repository_owner_table
         REFERENCES git_user (git_user_id);
 
 ALTER TABLE repository_owner_table
-    ADD CONSTRAINT FK_git_organization_TO_repository_owner_table_1 FOREIGN KEY (git_organization_id)
+    ADD CONSTRAINT FK_git_organization_TO_repository_owner_table_1 FOREIGN KEY (owner_organization_id)
         REFERENCES git_organization (git_organization_id);
 
 ALTER TABLE pull_request
@@ -202,7 +204,7 @@ ALTER TABLE deployment_event
         REFERENCES pull_request (pull_request_id);
 
 ALTER TABLE user_organization_table
-    ADD CONSTRAINT FK_git_user_TO_user_organization_table_1 FOREIGN KEY (git_user_id)
+    ADD CONSTRAINT FK_git_user_TO_user_organization_table_1 FOREIGN KEY (member_id)
         REFERENCES git_user (git_user_id);
 
 ALTER TABLE user_organization_table
