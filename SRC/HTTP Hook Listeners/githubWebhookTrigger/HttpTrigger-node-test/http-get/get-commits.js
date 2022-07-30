@@ -1,8 +1,7 @@
 const request =require('request');
-var bodyPaser = require('body-parser');
 
 module.exports ={
-    async getCommitsWithToken(uri, token){
+    async getCommitsWithToken(uri, gitHubtokenP){
         const githubToken = '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';
         const options = {
         uri: uri,
