@@ -24,8 +24,8 @@ module.exports ={
         };
         context.log("왜 그러는거야");
         await request(options, function(err,response,body){
+          context.log("왜???? 여기 들어오긴 해????");
         if(err){
-            context.log("왜????");
             context.log(err);
         }else{
             context.log("response : "  + response);
