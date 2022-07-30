@@ -10,6 +10,7 @@ module.exports = async function (context, req) {
     const hookHeaders = req.headers;
 
     // .replace(/['"]+/g, '') <- double quote problem solve (e.g. "\"hi\"")
+    context.log(JSON.stringify(hookHeaders["X-GitHub-Event"]));
     cloudEventObj.hook_event = JSON.stringify(hookHeaders["X-GitHub-Event"]);
     cloudEventObj.source = 'github';
 
@@ -24,6 +25,10 @@ module.exports = async function (context, req) {
         context.log("pull_request_review! not yet!");
     }else if(cloudEventObj.hook_event == 'pull_request_review_comment'){
         context.log("pull_request_review_comment not yet!");
+    }else{
+        context.res = {
+            body : JSON.stringify(hookHeaders);
+        }
     }
 
     context.res ={
