@@ -2,7 +2,7 @@ const getter = require('../http-get/get-commits.js');
 const send_module = require('../event-hub/send.js');
 
 module.exports ={
-    async commitMain(commits_url, isPrivate, pull_request_remote_identifier){
+    async commitMain(context, commits_url, isPrivate, pull_request_remote_identifier){
         let parsedCommitList = new Object();
         if(isPrivate == 'true'){
             //사용자 개인 token 받아오는 logic 필요
@@ -10,6 +10,7 @@ module.exports ={
             const commits = await getter.getCommitsWithToken(commits_url, token);
             parsedCommitList = JSON.parse(commits);
         }else{
+            context.log("commits_url : " + commits_url);
             const commits = await getter.getCommitsAnyToken(commits_url);
             parsedCommitList = JSON.parse(commits);
         }

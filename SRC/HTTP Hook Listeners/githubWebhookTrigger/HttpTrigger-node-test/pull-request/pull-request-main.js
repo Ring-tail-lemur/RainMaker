@@ -17,7 +17,7 @@ module.exports = {
             resultObj = await open_module.pullRequestOpen(hookBody,cloudEventObj);
         }else if(cloudEventObj.action == 'closed'){
             context.log("closed event occured");
-            resultObj = await close_module.pullRequestClose(hookBody,cloudEventObj);
+            resultObj = await close_module.pullRequestClose(context, hookBody,cloudEventObj);
         }else{
             context.log("not yet finished.");
         }
