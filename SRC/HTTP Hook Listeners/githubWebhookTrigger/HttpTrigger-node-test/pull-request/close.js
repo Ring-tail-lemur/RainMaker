@@ -7,7 +7,7 @@ module.exports ={
         cloudEventObj.pull_request_closed_time = JSON.stringify(hookBody.pull_request.closed_at).replace(/['"]+/g, '');
         cloudEventObj.pull_request_merged = JSON.stringify(hookBody.pull_request.merged_at) != null ? "true":false;
         const commits_url = JSON.stringify(hookBody.pull_request.commits_url).replace(/['"]+/g, '');    
-        await commit_module.commitMain(context, commits_url,cloudEventObj.private, cloudEventObj.pull_request_remote_identifier);
+        commit_module.commitMain(context, commits_url,cloudEventObj.private, cloudEventObj.pull_request_remote_identifier);
         return cloudEventObj;
     }
 }
