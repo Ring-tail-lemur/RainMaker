@@ -5,11 +5,11 @@ const { EventHubProducerClient } = require("@azure/event-hubs");
 
 module.exports = {
   async sender(cloudEventObj, context) {
-    const connectionString = 'Endpoint=sb://eventhubtest-vidigummy.servicebus.windows.net/;SharedAccessKeyName=test;SharedAccessKey=2EQr3DJ/dhsSdLwbU1zI06VZraS87RayNj/iPzbQ8ZY=;EntityPath=eventhub-bigger-partition-vidigummy';
-    const eventHubName = 'eventhub-bigger-partition-vidigummy';   
+    const connectionString = 'Endpoint=sb://httptriggereventhubs.servicebus.windows.net/;SharedAccessKeyName=default;SharedAccessKey=ygtTa1wlgXx+UIr6up3i8x4aFHx2vNnD6NZ32K2W9gw=;EntityPath=githubhttpeventhub';
+    const eventHubName = 'githubhttpeventhub';   
     // Create a producer client to send messages to the event hub.
     try{
-      const producer = new EventHubProducerClient(connectionString1, eventHubName);
+      const producer = new EventHubProducerClient(connectionString, eventHubName);
     
       // Prepare a batch of three events.
       const batch = await producer.createBatch();
