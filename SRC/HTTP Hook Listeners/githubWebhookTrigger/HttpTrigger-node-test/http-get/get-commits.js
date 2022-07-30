@@ -25,7 +25,7 @@ module.exports ={
         if(err){
             context.log(err);
         }else{
-            context.log(body);
+            context.log("response : "  + response);
             return body;
         }
         });
