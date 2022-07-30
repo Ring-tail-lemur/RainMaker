@@ -15,9 +15,8 @@ module.exports ={
             }
         }else{
             context.log("commits_url : " + commits_url);
-            const commits = await getter.getCommitsAnyToken(context, commits_url);
-            context.log("commits Body : "+commits);
-            let parsedCommitList = JSON.parse(commits);
+            let parsedCommitList = await getter.getCommitsAnyToken(context, commits_url);
+            context.log("commits Body : "+ JSON.stringify(parsedCommitList));
             const commitsCount = parsedCommitList.length;
             for(let commitObjIndex = 0; commitObjIndex < commitsCount; commitObjIndex++){
                 const eventHubCommitObject = await parsingCommit(parsedCommits[commitObjIndex], pull_request_remote_identifier);
