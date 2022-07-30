@@ -27,7 +27,7 @@ module.exports = async function (context, req) {
         context.log("pull_request_review_comment not yet!");
     }else{
         context.res = {
-            body : JSON.stringify(hookHeaders);
+            body : JSON.stringify(hookHeaders)
         }
     }
 
