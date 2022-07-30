@@ -10,7 +10,7 @@ module.exports = async function (context, req) {
     const hookHeaders = req.headers;
 
     // .replace(/['"]+/g, '') <- double quote problem solve (e.g. "\"hi\"")
-    cloudEventObj.hook_event = JSON.stringify(hookHeaders["X-GitHub-Event"]).replace(/['"]+/g, '');
+    cloudEventObj.hook_event = JSON.stringify(hookHeaders["X-GitHub-Event"]);
     cloudEventObj.source = 'github';
 
     // 분기, pull_request || pull_request_review || fork || release || issue_comment || create(branch)
