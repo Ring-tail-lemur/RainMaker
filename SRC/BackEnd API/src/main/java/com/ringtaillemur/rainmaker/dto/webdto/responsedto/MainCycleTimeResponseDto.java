@@ -7,8 +7,10 @@ import com.ringtaillemur.rainmaker.util.enumtype.ProductivityLevel;
 
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
+@NoArgsConstructor
 public class MainCycleTimeResponseDto {
 
 	private Long totalCycleTime;

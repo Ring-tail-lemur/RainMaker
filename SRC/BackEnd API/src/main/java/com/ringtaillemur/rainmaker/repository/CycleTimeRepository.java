@@ -5,10 +5,10 @@ import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import com.ringtaillemur.rainmaker.domain.jpadomain.analysis.delivery.CycleTime;
+import com.ringtaillemur.rainmaker.domain.LeadTimeForChange;
 
-public interface CycleTimeRepository extends JpaRepository<CycleTime, Long> {
+public interface CycleTimeRepository extends JpaRepository<LeadTimeForChange, Long> {
 
-	List<CycleTime> findCycleTimesByCycleTimeEndBetween(LocalDateTime measurementStartTime,
+	List<LeadTimeForChange> findCycleTimesByCycleTimeEndBetween(LocalDateTime measurementStartTime,
 		LocalDateTime measurementEndTime);
 }
