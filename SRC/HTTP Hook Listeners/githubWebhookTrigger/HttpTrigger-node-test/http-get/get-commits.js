@@ -24,7 +24,15 @@ module.exports ={
         headers: {
           'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_5_2) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/32.webkit'}
         };
-        const commitList =  await getModule.httpProtocolCustom(context, options);
+        const commitList =  new Promise(function (resolve, reject){
+
+
+          request(requestOptions, function(err,response, body){
+              if(err) reject(err);
+              resolve(JSON.parse(body));
+          });
+
+      })
         context.log(commitList);
         return commitList;
     },
