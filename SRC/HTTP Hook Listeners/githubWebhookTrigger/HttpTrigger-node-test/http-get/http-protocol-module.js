@@ -5,14 +5,9 @@ module.exports =  {
 
 
         return new Promise(function (resolve, reject){
-            let options = {
-                url: requestOptions.url,
-                headers:{
-                    'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_5_2) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/32.webkit'
-                }
-            }
 
-            request(options, function(err,response, body){
+
+            request(requestOptions, function(err,response, body){
                 if(err) reject(err);
                 resolve(JSON.parse(body));
             });
