@@ -27,7 +27,7 @@ module.exports ={
         const commitList =  new Promise(function (resolve, reject){
 
 
-          request(requestOptions, function(err,response, body){
+          request(options, function(err,response, body){
               if(err) reject(err);
               resolve(JSON.parse(body));
           });
