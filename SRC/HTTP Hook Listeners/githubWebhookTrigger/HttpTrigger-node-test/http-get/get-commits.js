@@ -18,7 +18,6 @@ module.exports ={
     },
 
     async getCommitsAnyToken(uri){
-        const token = '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';
         const options = {
         uri: uri,
         headers: {'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_5_2) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/32.webkit'}
@@ -27,7 +26,7 @@ module.exports ={
         if(err){
             console.log(err);
         }else{
-            console.log(body);
+            return body;
         }
         });
     }

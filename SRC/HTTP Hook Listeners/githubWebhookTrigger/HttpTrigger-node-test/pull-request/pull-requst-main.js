@@ -1,6 +1,6 @@
 const { ConnectionContextBase } = require('@azure/core-amqp');
-const open_module = require('./oen.js');
-
+const open_module = require('.open.js');
+const close_module = require('./close.js');
 module.exports = {
     async pullRequestMain(context, hookBody, cloudEventObj){
         const resultObj = new Object();
@@ -17,6 +17,7 @@ module.exports = {
             resultObj = await open_module.pullRequestOpen(hookBody,cloudEventObj);
         }else if(cloudEventObj.action == 'closed'){
             context.log("closed event occured");
+            resultObj = await close_module.pullRequestClose(hookBody,cloudEventObj);
         }else{
             context.log("not yet finished.");
         }

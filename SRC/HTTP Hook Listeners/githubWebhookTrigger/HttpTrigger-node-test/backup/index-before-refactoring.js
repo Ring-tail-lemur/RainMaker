@@ -1,4 +1,4 @@
-const send = require("./send.js");
+const send = require("../event-hub/send.js");
 // test 12
 // test for github action-PR mapping
 

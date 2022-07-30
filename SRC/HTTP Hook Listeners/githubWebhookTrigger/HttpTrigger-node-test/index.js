@@ -1,4 +1,4 @@
-const { sender } = require("./send.js");
+const { sender } = require("./event-hub/send.js");
 const pull_requst_module = require("./pull-request/pull-request-main.js");
 // test 12
 // test for github action-PR mapping
