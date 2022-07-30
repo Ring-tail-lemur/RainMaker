@@ -26,7 +26,7 @@ module.exports = async function (context, req) {
     }
 
     context.res ={
-        body : cloudEventObj
+        body : JSON.stringify(cloudEventObj)
     }
 }
 
