@@ -1,5 +1,5 @@
 const { ConnectionContextBase } = require('@azure/core-amqp');
-const open_module = require('.open.js');
+const open_module = require('./open.js');
 const close_module = require('./close.js');
 module.exports = {
     async pullRequestMain(context, hookBody, cloudEventObj){
