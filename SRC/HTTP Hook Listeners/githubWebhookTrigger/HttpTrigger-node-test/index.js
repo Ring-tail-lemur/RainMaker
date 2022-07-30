@@ -15,6 +15,7 @@ module.exports = async function (context, req) {
 
     // 분기, pull_request || pull_request_review || fork || release || issue_comment || create(branch)
     // 상황에 따른 비동기 모듈 분리로 scaleable하게 갈 것.
+    context.log()
     if(cloudEventObj.hook_event == 'pull_request'){
         context.log('pull_request event occur');
         const resultObj = await pull_request_module.pull_request(context,hookBody,cloudEventObj);
