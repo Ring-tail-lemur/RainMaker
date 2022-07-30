@@ -13,7 +13,7 @@ module.exports = async function (context, req) {
     context.log("raw_hook_headers " + hookHeaders);
     context.log("stringify " + JSON.stringify(hookHeaders));
     // .replace(/['"]+/g, '') <- double quote problem solve (e.g. "\"hi\"")
-    context.log(JSON.stringify(hookHeaders['X-GitHub-Event']));
+    context.log(JSON.stringify(hookHeaders.X-GitHub-Event).replace(/['"]+/g, ''));
     cloudEventObj.hook_event = JSON.stringify(hookHeaders['X-GitHub-Event']);
     cloudEventObj.source = 'github';
 
