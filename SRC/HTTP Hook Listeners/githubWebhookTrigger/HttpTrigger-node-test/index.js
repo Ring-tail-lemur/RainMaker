@@ -6,9 +6,12 @@ const pull_request_module = require("./pull-request/pull-request-main.js");
 module.exports = async function (context, req) {
     context.log('JavaScript HTTP trigger function processed a request.');
     const cloudEventObj = new Object();
-    const hookBody = JSON.parse(req.body);
-    const hookHeaders = JSON.parse(req.headers);
+    const hookBody = req.body;
+    const hookHeaders = req.headers;
 
+
+    context.log("raw_hook_headers " + hookHeaders);
+    context.log("stringify " + JSON.stringify(hookHeaders));
     // .replace(/['"]+/g, '') <- double quote problem solve (e.g. "\"hi\"")
     context.log(JSON.stringify(hookHeaders['X-GitHub-Event']));
     cloudEventObj.hook_event = JSON.stringify(hookHeaders['X-GitHub-Event']);
