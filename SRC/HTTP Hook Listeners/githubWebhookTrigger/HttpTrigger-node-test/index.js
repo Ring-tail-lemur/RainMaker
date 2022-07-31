@@ -1,6 +1,6 @@
 const send_module  = require("./event-hub/send.js");
 const pull_request_module = require("./pull-request/pull-request-main.js");
-const issueCommentModule = require("./issue-comment/issue-comment-main.js");
+const issueCommentModule = require("./issue-comment/issue-comment-module.js");
 // test 12
 // test for github action-PR mapping
 
@@ -28,7 +28,7 @@ module.exports = async function (context, req) {
         context.log("pull_request_review_comment not yet!");
     }else if(cloudEventObj.hook_event == 'issue_comment'){
         context.log("issue_comment event occur");
-        const resultObj = await issue_comment_module.issueCommentMain(context,hookBody,cloudEventObj);
+        const resultObj = await issueCommentModule.issueCommentMain(context,hookBody,cloudEventObj);
         send_module.sender(resultObj);
     }else if(cloudEventObj.hook_event == 'issues'){
 
