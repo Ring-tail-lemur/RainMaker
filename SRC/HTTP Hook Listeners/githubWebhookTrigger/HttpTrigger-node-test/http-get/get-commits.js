@@ -28,6 +28,7 @@ async function getCommitsAnyToken(context, commits_uri){
   };
 
   resultCommitList = await getModule.httpProtocolCustom(context, options);
+  return resultCommitList;
 }
 
 module.exports.getCommitsWithToken = getCommitsWithToken;
