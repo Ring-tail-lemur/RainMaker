@@ -13,25 +13,25 @@ async function parsingCommit(context, commitObj, parent_pull_request_remote_iden
     eventHubCommitObj.commit_author_email = JSON.stringify(commitObj.commit.author.email).replace(/['"]+/g, '');
     eventHubCommitObj.commit_message = JSON.stringify(commitObj.message);
     
-    let remote_id = '';
-    const url = 'https://api.github.com/users/'+eventHubCommitObj.commit_author_name;
-    context.log(url);
-    options = {
-        uri: url,
-        headers: {'User-Agent':'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_5_2) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/32.webkit'}
-    }
-    await axios({
-        method: 'GET',
-        url: options.uri,
-        headers: options.headers,
-        }).then(function (response) {
-                const nameData = response.data;
-                remote_id = JSON.stringify(nameData.id).replace(/['"]+/g, '');
-                context.log(remote_id);
-            }).catch(function(err){
-            context.log(err);
-    });
-    eventHubCommitObj.commit_author_remote_id = remote_id;
+    // let remote_id = '';
+    // const url = 'https://api.github.com/users/'+eventHubCommitObj.commit_author_name;
+    // context.log(url);
+    // options = {
+    //     uri: url,
+    //     headers: {'User-Agent':'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_5_2) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/32.webkit'}
+    // }
+    // await axios({
+    //     method: 'GET',
+    //     url: options.uri,
+    //     headers: options.headers,
+    //     }).then(function (response) {
+    //             const nameData = response.data;
+    //             remote_id = JSON.stringify(nameData.id).replace(/['"]+/g, '');
+    //             context.log(remote_id);
+    //         }).catch(function(err){
+    //         context.log(err);
+    // });
+    // eventHubCommitObj.commit_author_remote_id = remote_id;
     context.log(JSON.stringify(eventHubCommitObj));
     sendModule.sender(eventHubCommitObj);
 }
