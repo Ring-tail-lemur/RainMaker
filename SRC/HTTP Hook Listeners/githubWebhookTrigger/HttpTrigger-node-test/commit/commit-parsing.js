@@ -12,7 +12,7 @@ async function parsingCommit(context, commitObj, parent_pull_request_remote_iden
     eventHubCommitObj.commit_message = JSON.stringify(commitObj.message);
     
     let remote_id = '';
-    const url = 'https://api.github.com/users/'+name;
+    const url = 'https://api.github.com/users/'+eventHubCommitObj.commit_author_name;
     context.log(url);
     options = {
         uri: url,
