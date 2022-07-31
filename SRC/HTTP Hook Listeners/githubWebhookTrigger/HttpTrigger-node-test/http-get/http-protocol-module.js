@@ -13,7 +13,7 @@ async function httpProtocolCustom(context, options) {
         const commitList = response.data;
         const commitListLength = commitList.length;
         for(i = 0; i < commitListLength; i++){
-            console.log(JSON.stringify(jsoned[i]));
+            console.log(JSON.stringify(commitList[i]));
         }
     }).catch(function(err){
         context.log(err);
