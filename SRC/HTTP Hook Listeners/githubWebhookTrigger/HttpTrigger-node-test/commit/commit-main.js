@@ -5,41 +5,11 @@ async function commitMain(context, commits_url, isPrivate, pull_request_remote_i
     if(isPrivate == 'true'){
         //사용자 개인 token 받아오는 logic 필요
         const token = '자신의 토큰을 넣도록 하자. 우리는 척척척 스스로 어린이.';
-        const commits = getter.getCommitsWithToken(commits_url, token);
-        let parsedCommitList = JSON.parse(commits);
-        const commitsCount = parsedCommitList.length;
-        for(let commitObjIndex = 0; commitObjIndex < commitsCount; commitObjIndex++){
-            const eventHubCommitObject = parsingCommit(parsedCommits[commitObjIndex], pull_request_remote_identifier);
-            send_module.sender(eventHubCommitObject);
-        }
+        await getter.getCommitsWithToken(commits_url, token);
     }else{
         // context.log("commits_url : " + commits_url);
-        let stringCommitList = await getter.getCommitsWithoutToken(context, commits_url);
-        context.log("now commitMain : " + stringCommitList);
-        context.log("여기까진 끝남");
-        const commitsCount = JSON.parse(stringCommitList).length;
-        for(let commitObjIndex = 0; commitObjIndex < commitsCount; commitObjIndex++){
-            const eventHubCommitObject = await parsingCommit(parsedCommitList[commitObjIndex], pull_request_remote_identifier);
-            context.log(JSON.stringify(eventHubCommitObject));
-            send_module.sender(eventHubCommitObject);
-        }
-        return commitsCount;
+        await getter.getCommitsWithoutToken(context, commits_url);
     }
 }
 
-async function parsingCommit(context, commitObj, parent_pull_request_remote_identifier){
-    const eventHubCommitObj = new Object();
-    eventHubCommitObj.source = 'github';
-    eventHubCommitObj.parent_pull_request_remote_identifier = parent_pull_request_remote_identifier;
-    eventHubCommitObj.commit_sha = JSON.stringify(commitObj.sha).replace(/['"]+/g, '');
-    eventHubCommitObj.parent_commit_sha = JSON.stringify(commitObj.parents.sha).replace(/['"]+/g, '');
-    eventHubCommitObj.commit_author_name = JSON.stringify(commitObj.commit.author.name);
-    eventHubCommitObj.commit_author_email = JSON.stringify(commitObj.commit.author.email);
-    eventHubCommitObj.commit_message = JSON.stringify(commitObj.message);
-
-    context.log(JSON.stringify(eventHubCommitObj));
-    return eventHubCommitObj;
-}
-
 module.exports.commitMain = commitMain;
-module.exports.parsingCommit = parsingCommit;
