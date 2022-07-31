@@ -25,6 +25,11 @@ module.exports = async function (context, req) {
         context.log("pull_request_review! not yet!");
     }else if(cloudEventObj.hook_event == 'pull_request_review_comment'){
         context.log("pull_request_review_comment not yet!");
+    }else if(cloudEventObj.hook_event == 'issue_comment'){
+        context.log("issue_comment event occur");
+
+    }else if(cloudEventObj.hook_event == 'issues'){
+
     }else{
         context.res = {
             body : JSON.stringify(hookHeaders)
