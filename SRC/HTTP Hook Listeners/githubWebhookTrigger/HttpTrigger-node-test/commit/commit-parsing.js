@@ -10,7 +10,25 @@ async function parsingCommit(context, commitObj, parent_pull_request_remote_iden
     eventHubCommitObj.commit_author_name = JSON.stringify(commitObj.commit.author.name).replace(/['"]+/g, '');
     eventHubCommitObj.commit_author_email = JSON.stringify(commitObj.commit.author.email).replace(/['"]+/g, '');
     eventHubCommitObj.commit_message = JSON.stringify(commitObj.message);
-    eventHubCommitObj.commit_author_remote_id = await getNameFromCommit(context, eventHubCommitObj.commit_author_name);
+    
+    let remote_id = '';
+    const url = 'https://api.github.com/users/'+name;
+    context.log(url);
+    options = {
+        uri: url,
+        headers: {'User-Agent':  'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_5_2) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/32.webkit'}
+    }
+    await request(options, await function(err,response,body){
+        if(err){
+            context.log(err);
+        }else{
+            const jsoned = JSON.parse(body);
+            remote_id = JSON.stringify(jsoned.id).replace(/['"]+/g, '');
+        }
+    });
+    eventHubCommitObj.commit_author_remote_id = remote_id;
+    
+    
     context.log(JSON.stringify(eventHubCommitObj));
     sendModule.sender(eventHubCommitObj);
 }
