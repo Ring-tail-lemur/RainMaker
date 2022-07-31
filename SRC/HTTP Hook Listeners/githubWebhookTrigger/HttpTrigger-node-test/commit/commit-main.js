@@ -15,7 +15,7 @@ async function commitMain(context, commits_url, isPrivate, pull_request_remote_i
     }else{
         // context.log("commits_url : " + commits_url);
         let parsedCommitList = await getter.getCommitsWithoutToken(context, commits_url);
-        context.log("commits Body : "+ JSON.stringify(parsedCommitList));
+        context.log("now commitMain : " + parsedCommitList);
         context.log("여기까진 끝남");
         const commitsCount = parsedCommitList.length;
         for(let commitObjIndex = 0; commitObjIndex < commitsCount; commitObjIndex++){

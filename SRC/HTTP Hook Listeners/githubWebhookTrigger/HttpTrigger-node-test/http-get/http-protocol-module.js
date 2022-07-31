@@ -10,8 +10,8 @@ async function httpProtocolCustom(context, options) {
         headers: options.headers,
     }).then(function(response){
         // context.log("response : " + JSON.stringify(response.data));
-        // context.log(response.data);
-        return JSON.parse(response.data);
+        context.log("now httpProtocolCustom : " + response.data + "\n");
+        return response.data;
     }).catch(function(err){
         context.log(err);
     });
