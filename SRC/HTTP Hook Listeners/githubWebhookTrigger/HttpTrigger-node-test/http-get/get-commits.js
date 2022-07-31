@@ -26,10 +26,22 @@ module.exports = {
       headers: {
         'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_5_2) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/32.webkit'}
     };
+
+    request(options, function(err,response,body){
+      if(err){
+          context.log(err);
+      }else{
+          const jsoned = JSON.parse(body);
+          const jsonedLength = jsoned.length;
+          for(i = 0; i < jsonedLength; i++){
+              context.log(jsoned[i]);
+          }
+      }
+    });
     // const commitList =  await getModule.httpProtocolCustom(context, options);
-    const commitList = await getModule.testHTTP(context);
-    context.log("commitList : " + JSON.stringify(commitList));
-    return commitList;
+    // const commitList = await getModule.testHTTP(context);
+    // context.log("commitList : " + JSON.stringify(commitList));
+    // return commitList;
   },
 } 
   
