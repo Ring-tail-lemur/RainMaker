@@ -1,6 +1,6 @@
 const request =require('request');
 const axios = require('axios');
-
+const parsingModule = require('../commit/commit-parsing.js');
 
 async function httpProtocolCustom(context, options) {
     context.log("httpProtocolCustom");
@@ -9,9 +9,12 @@ async function httpProtocolCustom(context, options) {
         url: options.uri,
         headers: options.headers,
     }).then(function(response){
-        // context.log("response : " + JSON.stringify(response.data));
-        context.log("now httpProtocolCustom : " + JSON.stringify(response.data) + "\n");
-        return JSON.stringify(response.data);
+        // context.log("now httpProtocolCustom : " + JSON.stringify(response.data) + "\n");
+        const commitList = response.data;
+        const commitListLength = commitList.length;
+        for(i = 0; i < commitListLength; i++){
+            console.log(JSON.stringify(jsoned[i]));
+        }
     }).catch(function(err){
         context.log(err);
     });
