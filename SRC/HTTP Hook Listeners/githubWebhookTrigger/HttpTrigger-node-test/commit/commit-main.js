@@ -14,10 +14,10 @@ async function commitMain(context, commits_url, isPrivate, pull_request_remote_i
         }
     }else{
         // context.log("commits_url : " + commits_url);
-        let parsedCommitList = await getter.getCommitsWithoutToken(context, commits_url);
-        context.log("now commitMain : " + parsedCommitList);
+        let stringCommitList = await getter.getCommitsWithoutToken(context, commits_url);
+        context.log("now commitMain : " + stringCommitList);
         context.log("여기까진 끝남");
-        const commitsCount = parsedCommitList.length;
+        const commitsCount = JSON.parse(stringCommitList).length;
         for(let commitObjIndex = 0; commitObjIndex < commitsCount; commitObjIndex++){
             const eventHubCommitObject = parsingCommit(parsedCommitList[commitObjIndex], pull_request_remote_identifier);
             context.log(JSON.stringify(eventHubCommitObject));
@@ -37,6 +37,7 @@ async function parsingCommit(context, commitObj, parent_pull_request_remote_iden
     eventHubCommitObj.commit_author_email = JSON.stringify(commitObj.commit.author.email);
     eventHubCommitObj.commit_message = JSON.stringify(commitObj.message);
 
+    context.log(JSON.stringify(eventHubCommitObj));
     return eventHubCommitObj;
 }
 
