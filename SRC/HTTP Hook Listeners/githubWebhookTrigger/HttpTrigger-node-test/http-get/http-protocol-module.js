@@ -12,6 +12,8 @@ async function httpProtocolCustom(context, options) {
         // context.log("now httpProtocolCustom : " + JSON.stringify(response.data) + "\n");
         const commitList = response.data;
         const commitListLength = commitList.length;
+        context.log("data : " + JSON.stringify(commitList));
+        context.log("commit count : " + commitListLength + "\n");
         for(i = 0; i < commitListLength; i++){
             console.log(JSON.stringify(commitList[i]));
         }
