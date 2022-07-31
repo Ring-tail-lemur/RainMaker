@@ -1,4 +1,4 @@
-async function fullRequestReviewMain(context, hookBody, cloudEventObj){
+async function pullRequestReviewMain(context, hookBody, cloudEventObj){
     cloudEventObj.action = JSON.stringify(hookBody.action).replace(/['"]+/g, '');
     cloudEventObj.event_time = JSON.stringify(hookBody.review.submitted_at);
     cloudEventObj.actor_remote_id = JSON.stringify(hookBody.sender.id);
@@ -6,3 +6,4 @@ async function fullRequestReviewMain(context, hookBody, cloudEventObj){
     cloudEventObj.review_state = JSON.stringify(hookBody.review.state);
     return cloudEventObj;
 }
+module.exports.pullRequestReviewMain = pullRequestReviewMain;
