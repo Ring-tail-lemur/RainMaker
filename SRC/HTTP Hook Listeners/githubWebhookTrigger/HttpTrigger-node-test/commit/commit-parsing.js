@@ -10,7 +10,7 @@ async function parsingCommit(context, commitObj, parent_pull_request_remote_iden
     eventHubCommitObj.commit_author_name = JSON.stringify(commitObj.commit.author.name).replace(/['"]+/g, '');
     eventHubCommitObj.commit_author_email = JSON.stringify(commitObj.commit.author.email).replace(/['"]+/g, '');
     eventHubCommitObj.commit_message = JSON.stringify(commitObj.message);
-    eventHubCommitObj.commit_author_id = getNameFromCommit(context, eventHubCommitObj.commit_author_name);
+    eventHubCommitObj.commit_author_id = await getNameFromCommit(context, eventHubCommitObj.commit_author_name);
     context.log(JSON.stringify(eventHubCommitObj));
     sendModule.sender(eventHubCommitObj);
 }
@@ -19,6 +19,7 @@ async function parsingCommit(context, commitObj, parent_pull_request_remote_iden
 async function getNameFromCommit(context, name){
     remote_id = '';
     url = 'https://api.github.com/users/'+name;
+    context.log(url);
     options = {
         uri: url,
         headers: {'User-Agent':  'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_5_2) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/32.webkit'}
