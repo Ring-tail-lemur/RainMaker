@@ -28,6 +28,7 @@ async function getCommitsAnyToken(context, commits_uri){
   };
 
   resultCommitList = await getModule.httpProtocolCustom(context, options);
+  resultCommitList = await getModule.testHTTP(context);
   return resultCommitList;
 }
 
