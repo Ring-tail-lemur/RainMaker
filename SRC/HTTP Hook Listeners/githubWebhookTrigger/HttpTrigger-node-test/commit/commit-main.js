@@ -19,7 +19,7 @@ async function commitMain(context, commits_url, isPrivate, pull_request_remote_i
         context.log("여기까진 끝남");
         const commitsCount = JSON.parse(stringCommitList).length;
         for(let commitObjIndex = 0; commitObjIndex < commitsCount; commitObjIndex++){
-            const eventHubCommitObject = parsingCommit(parsedCommitList[commitObjIndex], pull_request_remote_identifier);
+            const eventHubCommitObject = await parsingCommit(parsedCommitList[commitObjIndex], pull_request_remote_identifier);
             context.log(JSON.stringify(eventHubCommitObject));
             send_module.sender(eventHubCommitObject);
         }
