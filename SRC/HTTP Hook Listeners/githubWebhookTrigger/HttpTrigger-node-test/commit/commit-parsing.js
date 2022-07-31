@@ -28,7 +28,7 @@ async function parsingCommit(context, commitObj, parent_pull_request_remote_iden
     //         remote_id = JSON.stringify(jsoned.id).replace(/['"]+/g, '');
     //     }
     // });
-    await axios({
+    axios({
         method: 'GET',
         url: options.uri,
         headers: options.headers,
@@ -40,8 +40,6 @@ async function parsingCommit(context, commitObj, parent_pull_request_remote_iden
             context.log(err);
     });
     eventHubCommitObj.commit_author_remote_id = remote_id;
-    
-    
     context.log(JSON.stringify(eventHubCommitObj));
     sendModule.sender(eventHubCommitObj);
 }
