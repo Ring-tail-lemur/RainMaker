@@ -1,20 +1,10 @@
 const request =require('request');
 const axios = require('axios');
-module.exports =  {
-    // async httpProtocolCustom(context, requestOptions){
 
-
-    //     return new Promise(function (resolve, reject){
-
-
-    //         request(requestOptions, function(err,response, body){
-    //             if(err) reject(err);
-    //             resolve(JSON.parse(body));
-    //         });
-
-    //     })
-    // }
-    async httpProtocolCustom(context, options){
+class httpProtocolModule{
+    constructor(){
+    }
+    async httpProtocolCustom(context, options) {
         context.log("httpProtocolCustom");
         axios({
             method: 'GET',
@@ -25,8 +15,7 @@ module.exports =  {
         }).catch(function(err){
             context.log(err);
         });
-    },
-
+    }
     async testHTTP(context){
         const uri = 'https://api.github.com/repos/Ring-tail-lemur/RainMaker/pulls/13/commits';
         const token = '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';
@@ -46,4 +35,6 @@ module.exports =  {
         }
         });
     }
-}   
+}
+
+module.exports = new httpProtocolModule();
