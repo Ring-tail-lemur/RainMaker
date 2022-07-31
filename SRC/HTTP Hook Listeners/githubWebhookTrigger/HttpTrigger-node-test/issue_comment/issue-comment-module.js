@@ -12,7 +12,7 @@ async function issueCommentMain(context, hookBody, cloudEventObj){
     }else{
         cloudEventObj.pull_request_remote_id = await issuePullRequest.getPullRequestIdWithoutToken(context, pull_request_url);
     }
-    
+    return cloudEventObj;
 
 }
 
