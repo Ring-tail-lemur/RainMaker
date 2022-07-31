@@ -18,21 +18,13 @@ async function parsingCommit(context, commitObj, parent_pull_request_remote_iden
     context.log(url);
     options = {
         uri: url,
-        headers: {'User-Agent':  'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_5_2) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/32.webkit'}
+        headers: {'User-Agent':'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_5_2) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/32.webkit'}
     }
-    // await request(options, await function(err,response,body){
-    //     if(err){
-    //         context.log(err);
-    //     }else{
-    //         const jsoned = JSON.parse(body);
-    //         remote_id = JSON.stringify(jsoned.id).replace(/['"]+/g, '');
-    //     }
-    // });
     await axios({
         method: 'GET',
         url: options.uri,
         headers: options.headers,
-        }).then( await function(response){
+        }).then(await function(response){
             const nameData = response.data;
             remote_id = JSON.stringify(nameData.id).replace(/['"]+/g, '');
             
