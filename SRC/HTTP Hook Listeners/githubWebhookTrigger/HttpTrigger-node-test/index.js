@@ -1,6 +1,8 @@
 const send_module  = require("./event-hub/send.js");
 const pull_request_module = require("./pull-request/pull-request-main.js");
 const issueCommentModule = require("./issue-comment/issue-comment-module.js");
+const pullRequestReviewModule = require("./pull-request-review/pull-request-review-module.js");
+const pullRequestReviewCommentModule = require("./pull-request-review-comment/pull-request-review-comment-module.js");
 // test 12
 // test for github action-PR mapping
 
@@ -23,15 +25,17 @@ module.exports = async function (context, req) {
         const resultObj = await pull_request_module.pullRequestMain(context,hookBody,cloudEventObj);
         send_module.sender(resultObj);
     }else if(cloudEventObj.hook_event == 'pull_request_review'){
-        context.log("pull_request_review! not yet!");
+        context.log("pull_request_review!");
+        const resultObj = await pullRequestReviewModule.pullRequestReviewMain(context,hookBody,cloudEventObj);
+        send_module.sender(resultObj);
     }else if(cloudEventObj.hook_event == 'pull_request_review_comment'){
         context.log("pull_request_review_comment not yet!");
+        const resultObj = await pullRequestReviewCommentModule.pullRequestReviewCommentMain(context,hookBody,cloudEventObj);
+        send_module.sender(resultObj);
     }else if(cloudEventObj.hook_event == 'issue_comment'){
         context.log("issue_comment event occur");
         const resultObj = await issueCommentModule.issueCommentMain(context,hookBody,cloudEventObj);
         send_module.sender(resultObj);
-    }else if(cloudEventObj.hook_event == 'issues'){
-
     }else{
         context.res = {
             body : JSON.stringify(hookHeaders)
