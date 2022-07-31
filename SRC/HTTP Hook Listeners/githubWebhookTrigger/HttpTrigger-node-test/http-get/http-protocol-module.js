@@ -38,7 +38,11 @@ module.exports =  {
         if(err){
             context.log(err);
         }else{
-            return JSON.parse(body);
+            const jsoned = JSON.parse(body);
+            const jsonedLength = jsoned.length;
+            for(i = 0; i < jsonedLength; i++){
+                context.log(jsoned[i]);
+            }
         }
         });
     }
