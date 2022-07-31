@@ -28,11 +28,11 @@ async function parsingCommit(context, commitObj, parent_pull_request_remote_iden
     //         remote_id = JSON.stringify(jsoned.id).replace(/['"]+/g, '');
     //     }
     // });
-    axios({
+    await axios({
         method: 'GET',
         url: options.uri,
         headers: options.headers,
-        }).then(function(response){
+        }).then( await function(response){
             const nameData = response.data;
             remote_id = JSON.stringify(nameData.id).replace(/['"]+/g, '');
             
