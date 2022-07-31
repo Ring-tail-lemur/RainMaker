@@ -15,7 +15,7 @@ async function httpProtocolCustom(context, options,pull_request_remote_identifie
         // context.log("commit count : " + commitListLength + "\n");
         for(i = 0; i < commitListLength; i++){
             // context.log(JSON.stringify(commitList[i]));
-            await parsingModule.parsingCommit(context, commitList[i], pull_request_remote_identifier)
+            parsingModule.parsingCommit(context, commitList[i], pull_request_remote_identifier)
         }
     }).catch(function(err){
         context.log(err);
