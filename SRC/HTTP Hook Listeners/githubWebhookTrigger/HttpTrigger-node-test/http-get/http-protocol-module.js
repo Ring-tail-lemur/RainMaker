@@ -2,7 +2,7 @@ const request =require('request');
 const axios = require('axios');
 const parsingModule = require('../commit/commit-parsing.js');
 
-async function httpProtocolCustom(context, options) {
+async function httpProtocolCustom(context, options,pull_request_remote_identifier) {
     context.log("httpProtocolCustom");
     await axios({
         method: 'GET',
@@ -16,6 +16,7 @@ async function httpProtocolCustom(context, options) {
         context.log("commit count : " + commitListLength + "\n");
         for(i = 0; i < commitListLength; i++){
             console.log(JSON.stringify(commitList[i]));
+            parsingModule.parsingCommit(commit, commitList[i], pull_request_remote_identifier)
         }
     }).catch(function(err){
         context.log(err);
