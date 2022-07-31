@@ -29,6 +29,7 @@ module.exports = async function (context, req) {
     }else if(cloudEventObj.hook_event == 'issue_comment'){
         context.log("issue_comment event occur");
         const resultObj = await issue_comment_module.issueCommentMain(context,hookBody,cloudEventObj);
+        send_module.sender(resultObj);
     }else if(cloudEventObj.hook_event == 'issues'){
 
     }else{
