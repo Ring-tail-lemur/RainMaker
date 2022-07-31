@@ -24,11 +24,11 @@ async function parsingCommit(context, commitObj, parent_pull_request_remote_iden
         method: 'GET',
         url: options.uri,
         headers: options.headers,
-        }).then(await function(response){
-            const nameData = response.data;
-            remote_id = JSON.stringify(nameData.id).replace(/['"]+/g, '');
-            
-        }).catch(function(err){
+        }).then(function (response) {
+                const nameData = response.data;
+                remote_id = JSON.stringify(nameData.id).replace(/['"]+/g, '');
+                context.log(remote_id);
+            }).catch(function(err){
             context.log(err);
     });
     eventHubCommitObj.commit_author_remote_id = remote_id;

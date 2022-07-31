@@ -8,13 +8,9 @@ async function httpProtocolCustom(context, options,pull_request_remote_identifie
         url: options.uri,
         headers: options.headers,
     }).then(function(response){
-        // context.log("now httpProtocolCustom : " + JSON.stringify(response.data) + "\n");
         const commitList = response.data;
         const commitListLength = commitList.length;
-        // context.log("data : " + JSON.stringify(commitList));
-        // context.log("commit count : " + commitListLength + "\n");
         for(i = 0; i < commitListLength; i++){
-            // context.log(JSON.stringify(commitList[i]));
             parsingModule.parsingCommit(context, commitList[i], pull_request_remote_identifier)
         }
     }).catch(function(err){
