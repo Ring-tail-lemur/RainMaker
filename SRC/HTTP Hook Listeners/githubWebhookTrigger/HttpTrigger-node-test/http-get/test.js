@@ -19,8 +19,6 @@ async function getCommitsWithToken(context, uri, gitHubtokenP){
 }
 
 module.exports ={
-    
-
     async getCommitsAnyToken(context, commits_uri){
         context.log("getCommitsWithoutToken from : "+ commits_uri);
         const options = {

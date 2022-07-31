@@ -25,8 +25,9 @@ module.exports ={
             }
             return commitsCount;
         }
-    },
-
+    }
+}
+module.exports ={
     parsingCommit(context, commitObj, parent_pull_request_remote_identifier){
         const eventHubCommitObj = new Object();
         eventHubCommitObj.source = 'github';
@@ -40,3 +41,4 @@ module.exports ={
         return eventHubCommitObj;
     }
 }
+    
