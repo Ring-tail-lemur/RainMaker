@@ -1,5 +1,5 @@
 const sendModule = require('../event-hub/send.js');
-const request = require(request);
+const request = require('request');
 
 async function parsingCommit(context, commitObj, parent_pull_request_remote_identifier){
     const eventHubCommitObj = new Object();
