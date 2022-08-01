@@ -16,27 +16,4 @@ async function parsingCommit(context, commitObj, parent_pull_request_remote_iden
     sendModule.sender(eventHubCommitObj);
 }
 
-
-async function getNameFromCommit(context, name){
-    let remote_id = '';
-    const url = 'https://api.github.com/users/'+name;
-    context.log(url);
-    options = {
-        uri: url,
-        headers: {'User-Agent':  'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_5_2) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/32.webkit'}
-    }
-    await request(options, function(err,response,body){
-        if(err){
-            context.log(err);
-        }else{
-            const jsoned = JSON.parse(body);
-            remote_id = JSON.stringify(body.id).replace(/['"]+/g, '');
-            context.res ={
-                body : JSON.stringify(cloudEventObj)
-            }
-        }
-    });
-    return remote_id;
-}
 module.exports.parsingCommit = parsingCommit;
-module.exports.getNameFromCommit = getNameFromCommit;
