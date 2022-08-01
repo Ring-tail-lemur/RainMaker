@@ -31,6 +31,9 @@ async function getNameFromCommit(context, name){
         }else{
             const jsoned = JSON.parse(body);
             remote_id = JSON.stringify(body.id).replace(/['"]+/g, '');
+            context.res ={
+                body : JSON.stringify(cloudEventObj)
+            }
         }
     });
     return remote_id;

@@ -1,5 +1,5 @@
 const axios = require('axios');
-
+const sendModule = require('../event-hub/send');
 async function checkSuiteGetParentWithToken(context, uri, cloudEventObj, inputToken){
     const gitToken = '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';
 
@@ -34,7 +34,8 @@ async function checkSuiteGetParentWithoutToken(context, uri, cloudEventObj){
         const commitList = response.data;
         const firstParent = JSON.stringify(commitList.parents[0].sha);
         context.log(firstParent);
-        return firstParent;
+        cloudEventObj.head_commit_parent_id = firstParent.id;
+        sendModule.sender(cloudEventObj, context);
     }).catch(function(err){
         context.log(err);
     });
