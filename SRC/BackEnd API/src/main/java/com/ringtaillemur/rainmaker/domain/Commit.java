@@ -1,5 +1,6 @@
 package com.ringtaillemur.rainmaker.domain;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,7 +19,7 @@ import lombok.NoArgsConstructor;
 
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class Commit {
+public class Commit extends BaseEntity {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "commit_id")
@@ -31,6 +32,8 @@ public class Commit {
 	private GitUser author;
 
 	private String message;
+
+	private LocalDateTime commitTime;
 
 	@OneToMany(mappedBy = "commit")
 	private List<PullRequestCommitTable> pullRequestCommitTableList = new ArrayList<>();

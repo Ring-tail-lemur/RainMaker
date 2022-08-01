@@ -18,7 +18,7 @@ import lombok.NoArgsConstructor;
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
-public class DeploymentEvent {
+public class DeploymentEvent extends BaseEntity {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -28,6 +28,8 @@ public class DeploymentEvent {
 	private Long remoteIdentifier;
 
 	private LocalDateTime deploymentSuccessTime;
+
+	private Boolean process_end;
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "pull_request_id")

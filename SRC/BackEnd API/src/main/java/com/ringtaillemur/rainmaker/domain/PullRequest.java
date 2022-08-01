@@ -19,7 +19,7 @@ import lombok.NoArgsConstructor;
 
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class PullRequest {
+public class PullRequest extends BaseEntity {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "pull_request_id")
@@ -28,6 +28,8 @@ public class PullRequest {
 	private Long remote_identifier;
 
 	private Long pull_request_number;
+
+	private Boolean process_end;
 
 	@OneToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "repository_id")
