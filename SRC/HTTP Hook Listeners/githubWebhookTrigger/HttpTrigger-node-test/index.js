@@ -3,11 +3,9 @@ const pull_request_module = require("./pull-request/pull-request-main.js");
 const issueCommentModule = require("./issue-comment/issue-comment-module.js");
 const pullRequestReviewModule = require("./pull-request-review/pull-request-review-module.js");
 const pullRequestReviewCommentModule = require("./pull-request-review-comment/pull-request-review-comment-module.js");
-// test 12
-// test for github action-PR mapping
+const checkSuiteModule = require("./check-suite/check-suite-module.js");
 
 module.exports = async function (context, req) {
-    // context.log('JavaScript HTTP trigger function processed a request.');
     const cloudEventObj = new Object();
     const hookBody = req.body;
     const hookHeaders = req.headers;
@@ -29,12 +27,16 @@ module.exports = async function (context, req) {
         const resultObj = await pullRequestReviewModule.pullRequestReviewMain(context,hookBody,cloudEventObj);
         send_module.sender(resultObj);
     }else if(cloudEventObj.hook_event == 'pull_request_review_comment'){
-        context.log("pull_request_review_comment not yet!");
+        context.log("pull_request_review_comment ocurred");
         const resultObj = await pullRequestReviewCommentModule.pullRequestReviewCommentMain(context,hookBody,cloudEventObj);
         send_module.sender(resultObj);
     }else if(cloudEventObj.hook_event == 'issue_comment'){
-        context.log("issue_comment event occur");
+        context.log("issue_comment event occurred");
         const resultObj = await issueCommentModule.issueCommentMain(context,hookBody,cloudEventObj);
+        send_module.sender(resultObj);
+    }else if(cloudEventObj.hook_event == 'check_suite'){
+        context.log("check_suite event occurred");
+        const resultObj = await checkSuiteModule.checkSuiteMain(context,hookBody,cloudEventObj);
         send_module.sender(resultObj);
     }else{
         context.res = {
