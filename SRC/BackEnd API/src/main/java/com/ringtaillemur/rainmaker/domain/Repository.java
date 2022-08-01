@@ -10,6 +10,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
@@ -34,7 +35,11 @@ public class Repository {
 
 	private String name;
 
-	@OneToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "repository_owner_table_id")
-	private RepositoryOwnerTable repositoryOwnerTable;
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "owner_organization_id")
+	private GitOrganization ownerOrganization;
+
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "owner_user_name")
+	private GitUser ownerUser;
 }

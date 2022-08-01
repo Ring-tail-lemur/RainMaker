@@ -39,9 +39,9 @@ public class GitUser {
 	@OneToMany(mappedBy = "eventSender")
 	private List<PullRequestEvent> pullRequestEventList = new ArrayList<>();
 
-	@OneToMany(mappedBy = "ownerUser")
-	private List<RepositoryOwnerTable> repositoryOwnerTableList = new ArrayList<>();
-
 	@OneToMany(mappedBy = "member")
 	private List<UserOrganizationTable> userOrganizationTableList = new ArrayList<>();
+
+	@OneToMany(mappedBy = "ownerUser")
+	private List<Repository> repositoryList = new ArrayList<>();
 }

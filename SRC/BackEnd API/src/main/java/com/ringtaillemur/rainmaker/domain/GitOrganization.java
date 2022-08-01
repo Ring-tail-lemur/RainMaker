@@ -10,6 +10,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 
+import com.ringtaillemur.rainmaker.service.OrganizationService;
 import com.ringtaillemur.rainmaker.util.enumtype.RemoteRepositoryType;
 
 import lombok.AccessLevel;
@@ -28,9 +29,9 @@ public class GitOrganization extends BaseEntity {
 
 	private Long remoteIdentifier;
 
-	@OneToMany(mappedBy = "ownerOrganization")
-	private List<RepositoryOwnerTable> repositoryOwnerTableList = new ArrayList<>();
-
 	@OneToMany(mappedBy = "gitOrganization")
 	private List<UserOrganizationTable> userOrganizationTableList = new ArrayList<>();
+
+	@OneToMany(mappedBy = "ownerOrganization")
+	private List<GitOrganization> gitOrganizationList = new ArrayList<>();
 }
