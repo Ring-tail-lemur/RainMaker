@@ -19,7 +19,7 @@ import lombok.NoArgsConstructor;
 
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class Commit extends BaseEntity {
+public class Commits extends BaseEntity {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "commit_id")
@@ -35,6 +35,6 @@ public class Commit extends BaseEntity {
 
 	private LocalDateTime commitTime;
 
-	@OneToMany(mappedBy = "commit")
+	@OneToMany(mappedBy = "commits")
 	private List<PullRequestCommitTable> pullRequestCommitTableList = new ArrayList<>();
 }

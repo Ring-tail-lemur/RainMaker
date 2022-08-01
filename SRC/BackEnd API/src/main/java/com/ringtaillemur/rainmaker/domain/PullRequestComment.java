@@ -21,7 +21,7 @@ import lombok.NoArgsConstructor;
 public class PullRequestComment extends BaseEntity {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "pull_reqeust_comment_id")
+	@Column(name = "pull_request_comment_id")
 	private Long id;
 
 	private LocalDateTime eventTime;
@@ -29,7 +29,7 @@ public class PullRequestComment extends BaseEntity {
 	private String commentType;
 
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "pull_reqeust_id")
+	@JoinColumn(name = "pull_request_id")
 	private PullRequest pullRequest;
 
 	@ManyToOne(fetch = FetchType.LAZY)

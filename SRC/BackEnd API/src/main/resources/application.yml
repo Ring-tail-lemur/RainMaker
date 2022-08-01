@@ -1,12 +1,13 @@
 spring:
   datasource:
     driver-class-name: com.microsoft.sqlserver.jdbc.SQLServerDriver
-    url: jdbc:sqlserver://rainmaker-azure-sql-server.database.windows.net:1433
+    url: jdbc:sqlserver://rainmaker-azure-sql-server.database.windows.net:1433;databaseName=rainmaker-azure-sql-database
     username: rainmaker
     password: dkffkrRhfldudndnjstnddl!
   jpa:
+    show-sql: true
     hibernate:
-      ddl-auto:validate
+      ddl-auto: validate
     properties:
       hibernate:
         format_sql: true

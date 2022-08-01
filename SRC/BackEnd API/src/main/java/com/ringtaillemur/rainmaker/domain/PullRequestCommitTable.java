@@ -31,5 +31,5 @@ public class PullRequestCommitTable extends BaseEntity {
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "commit_id")
-	private Commit commit;
+	private Commits commits;
 }

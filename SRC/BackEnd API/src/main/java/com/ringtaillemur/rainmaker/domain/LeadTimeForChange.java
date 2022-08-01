@@ -21,7 +21,7 @@ public class LeadTimeForChange extends BaseEntity {
 
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Id
-	@Column(name = "lead_time_for_change")
+	@Column(name = "lead_time_for_change_id")
 	private Long id;
 
 	private Long totalTime;
@@ -32,7 +32,7 @@ public class LeadTimeForChange extends BaseEntity {
 
 	private Long reviewTime;
 
-	private Long deploymentTime;
+	private Long deployTime;
 
 	@OneToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "pull_request_id")

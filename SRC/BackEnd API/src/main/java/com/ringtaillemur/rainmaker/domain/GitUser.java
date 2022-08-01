@@ -31,7 +31,7 @@ public class GitUser extends BaseEntity {
 	private List<Branch> branchList = new ArrayList<>();
 
 	@OneToMany(mappedBy = "author")
-	private List<Commit> commitList = new ArrayList<>();
+	private List<Commits> commitsList = new ArrayList<>();
 
 	@OneToMany(mappedBy = "gitUser")
 	private List<PullRequestComment> pullRequestCommentList = new ArrayList<>();

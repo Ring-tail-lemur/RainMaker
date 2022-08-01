@@ -40,6 +40,6 @@ public class Repository extends BaseEntity {
 	private GitOrganization ownerOrganization;
 
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "owner_user_name")
+	@JoinColumn(name = "owner_user_id")
 	private GitUser ownerUser;
 }

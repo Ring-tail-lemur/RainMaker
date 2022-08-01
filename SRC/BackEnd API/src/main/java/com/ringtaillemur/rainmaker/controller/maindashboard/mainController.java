@@ -19,7 +19,7 @@ public class mainController {
 	@ResponseBody
 	@GetMapping("/api/cycletime")
 	public MainCycleTimeResponseDto mainDashboardCycleTimeApi() throws InterruptedException {
-		// return cycleTimeService.getMainCycleTimeResponse();
+		cycleTimeService.test();
 		return new MainCycleTimeResponseDto();
 	}
 
