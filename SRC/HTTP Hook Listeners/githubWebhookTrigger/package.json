@@ -1,5 +1,5 @@
 {
-  "name": "swm-monkey-github-webhook-trigger",
+  "name": "HttpTrigger-node-test",
   "version": "1.0.0",
   "description": "",
   "scripts": {
@@ -13,6 +13,7 @@
     "@azure/event-hubs": "^5.8.0",
     "@azure/eventhubs-checkpointstore-blob": "^1.0.1",
     "@azure/storage-blob": "^12.11.0",
+    "axios": "^0.27.2",
     "request": "^2.88.2",
     "request-promise-native": "^1.0.9"
   }
