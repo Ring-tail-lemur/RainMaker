@@ -4,6 +4,8 @@ const parsingModule = require('./commit-parsing.js');
 
 async function commitMain(context, commits_url, isPrivate, pull_request_remote_identifier){
     let commitList = new Object();
+    context.log("isPrivate? : " + isPrivate);
+
     if(isPrivate == 'true'){
         //사용자 개인 token 받아오는 logic 필요
         const token = '자신의 토큰을 넣도록 하자. 우리는 척척척 스스로 어린이.';
