@@ -32,8 +32,8 @@ async function checkSuiteGetParentWithoutToken(context, uri, cloudEventObj){
         url: uri,
         headers: options.headers,
     })
-    const firstParent = JSON.stringify(resultObj.parents[0].sha);
-    cloudEventObj.head_commit_parent_id = firstParent.id;
+    const firstParentSHA = JSON.stringify(resultObj.data.parents[0].sha);
+    cloudEventObj.head_commit_parent_id = firstParentSHA;
     return cloudEventObj;
 }
 
