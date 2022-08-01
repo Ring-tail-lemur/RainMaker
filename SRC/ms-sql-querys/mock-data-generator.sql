@@ -211,46 +211,46 @@ VALUES (DATEADD(DAY, -1, GETDATE()), 8, 2, 'idontknow', GETDATE(), GETDATE());
 
 
 
-INSERT INTO [commit](sha, author_id, message, created_date, modified_date, commit_time)
+INSERT INTO commits(sha, author_id, message, created_date, modified_date, commit_time)
 VALUES ('ASDFWQA23', 1, 'ASDFASDF', GETDATE(), GETDATE(), DATEADD(DAY, -10, GETDATE()));
 
-INSERT INTO [commit](sha, author_id, message, created_date, modified_date, commit_time)
+INSERT INTO commits(sha, author_id, message, created_date, modified_date, commit_time)
 VALUES ('ASDFWQA23', 1, 'ASDFASDF', GETDATE(), GETDATE(), DATEADD(DAY, -10, GETDATE()));
 
-INSERT INTO [commit](sha, author_id, message, created_date, modified_date, commit_time)
+INSERT INTO commits(sha, author_id, message, created_date, modified_date, commit_time)
 VALUES ('ASDFWQA23', 1, 'ASDFASDF', GETDATE(), GETDATE(), DATEADD(DAY, -9, GETDATE()));
 
-INSERT INTO [commit](sha, author_id, message, created_date, modified_date, commit_time)
+INSERT INTO commits(sha, author_id, message, created_date, modified_date, commit_time)
 VALUES ('ASDFWQA23', 1, 'ASDFASDF', GETDATE(), GETDATE(), DATEADD(DAY, -9, GETDATE()));
 
-INSERT INTO [commit](sha, author_id, message, created_date, modified_date, commit_time)
+INSERT INTO commits(sha, author_id, message, created_date, modified_date, commit_time)
 VALUES ('ASDFWQA23', 1, 'ASDFASDF', GETDATE(), GETDATE(), DATEADD(DAY, -8, GETDATE()));
 
-INSERT INTO [commit](sha, author_id, message, created_date, modified_date, commit_time)
+INSERT INTO commits(sha, author_id, message, created_date, modified_date, commit_time)
 VALUES ('ASDFWQA23', 1, 'ASDFASDF', GETDATE(), GETDATE(), DATEADD(DAY, -8, GETDATE()));
 
-INSERT INTO [commit](sha, author_id, message, created_date, modified_date, commit_time)
+INSERT INTO commits(sha, author_id, message, created_date, modified_date, commit_time)
 VALUES ('ASDFWQA23', 1, 'ASDFASDF', GETDATE(), GETDATE(), DATEADD(DAY, -7, GETDATE()));
 
-INSERT INTO [commit](sha, author_id, message, created_date, modified_date, commit_time)
+INSERT INTO commits(sha, author_id, message, created_date, modified_date, commit_time)
 VALUES ('ASDFWQA23', 1, 'ASDFASDF', GETDATE(), GETDATE(), DATEADD(DAY, -7, GETDATE()));
 
-INSERT INTO [commit](sha, author_id, message, created_date, modified_date, commit_time)
+INSERT INTO commits(sha, author_id, message, created_date, modified_date, commit_time)
 VALUES ('ASDFWQA23', 1, 'ASDFASDF', GETDATE(), GETDATE(), DATEADD(DAY, -6, GETDATE()));
 
-INSERT INTO [commit](sha, author_id, message, created_date, modified_date, commit_time)
+INSERT INTO commits(sha, author_id, message, created_date, modified_date, commit_time)
 VALUES ('ASDFWQA23', 1, 'ASDFASDF', GETDATE(), GETDATE(), DATEADD(DAY, -6, GETDATE()));
 
-INSERT INTO [commit](sha, author_id, message, created_date, modified_date, commit_time)
+INSERT INTO commits(sha, author_id, message, created_date, modified_date, commit_time)
 VALUES ('ASDFWQA23', 1, 'ASDFASDF', GETDATE(), GETDATE(), DATEADD(DAY, -5, GETDATE()));
 
-INSERT INTO [commit](sha, author_id, message, created_date, modified_date, commit_time)
+INSERT INTO commits(sha, author_id, message, created_date, modified_date, commit_time)
 VALUES ('ASDFWQA23', 1, 'ASDFASDF', GETDATE(), GETDATE(), DATEADD(DAY, -5, GETDATE()));
 
-INSERT INTO [commit](sha, author_id, message, created_date, modified_date, commit_time)
+INSERT INTO commits(sha, author_id, message, created_date, modified_date, commit_time)
 VALUES ('ASDFWQA23', 1, 'ASDFASDF', GETDATE(), GETDATE(), DATEADD(DAY, -4, GETDATE()));
 
-INSERT INTO [commit](sha, author_id, message, created_date, modified_date, commit_time)
+INSERT INTO commits(sha, author_id, message, created_date, modified_date, commit_time)
 VALUES ('ASDFWQA23', 1, 'ASDFASDF', GETDATE(), GETDATE(), DATEADD(DAY, -4, GETDATE()));
 
 

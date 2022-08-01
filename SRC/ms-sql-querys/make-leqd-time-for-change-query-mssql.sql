@@ -20,6 +20,6 @@ from (select pr.pull_request_id  as pr_id,
                group by pull_request_id) review on target_pr.pr_id = review.pr_id
          join (select pr_commit_table.pull_request_id as pr_id, c.commit_time as first_commit_time
                from pull_request_commit_table pr_commit_table
-                        join [commit] c
+                        join commits c
                              on pr_commit_table.commit_id = c.commit_id
                where pr_commit_table.first_commit = 1) commits on target_pr.pr_id = commits.pr_id
