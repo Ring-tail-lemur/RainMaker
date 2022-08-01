@@ -4,7 +4,16 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="d3f6751b-8737-4082-bbed-1df2a677f94a" name="Changes" comment="" />
+    <list default="true" id="d3f6751b-8737-4082-bbed-1df2a677f94a" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/make-leqd-time-for-change-query-mssql.sql" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/mock-data-generator.sql" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources.local.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.local.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/ef8f6b6c-3eac-4f6e-a713-0ec0f4e934da.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/ef8f6b6c-3eac-4f6e-a713-0ec0f4e934da.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/ef8f6b6c-3eac-4f6e-a713-0ec0f4e934da/storage_v2/_src_/database/rainmaker-azure-sql-database.1Zj3NA/schema/dbo.sYMBAA.meta" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/ef8f6b6c-3eac-4f6e-a713-0ec0f4e934da/storage_v2/_src_/database/rainmaker-azure-sql-database.1Zj3NA/schema/dbo.sYMBAA.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/sqldialects.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/sqldialects.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/create-table-query-mssql.sql" beforeDir="false" afterPath="$PROJECT_DIR$/create-table-query-mssql.sql" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
