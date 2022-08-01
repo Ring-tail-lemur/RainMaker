@@ -27,21 +27,15 @@ async function checkSuiteGetParentWithoutToken(context, uri, cloudEventObj){
         uri: uri,
         headers: {'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_5_2) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/32.webkit'}
         };
-    await axios({
+    const resultObj = await axios({
         method: 'GET',
         url: uri,
         headers: options.headers,
-    }).then(function(response){
-        const commitList = response.data;
-        const firstParent = JSON.stringify(commitList.parents[0].sha);
-        context.log("response(parent commit) :"+ firstParent);
-        cloudEventObj.head_commit_parent_id = firstParent.id;
-        return cloudEventObj;
-    }).catch(function(err){
-        context.log(err);
-    });
+    })
+    const firstParent = JSON.stringify(resultObj.parents[0].sha);
+    cloudEventObj.head_commit_parent_id = firstParent.id;
+    return cloudEventObj;
 }
-
 
 module.exports.checkSuiteGetParentWithToken = checkSuiteGetParentWithToken;
 module.exports.checkSuiteGetParentWithoutToken = checkSuiteGetParentWithoutToken;
