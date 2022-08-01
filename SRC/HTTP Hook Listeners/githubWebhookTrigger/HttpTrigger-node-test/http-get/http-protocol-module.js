@@ -8,6 +8,7 @@ async function httpProtocolCustom(context, options,pull_request_remote_identifie
         url: options.uri,
         headers: options.headers,
     });
+    return commitsList;
 }
 
 module.exports.httpProtocolCustom = httpProtocolCustom;
