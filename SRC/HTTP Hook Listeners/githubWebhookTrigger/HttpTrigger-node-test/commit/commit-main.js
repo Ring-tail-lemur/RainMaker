@@ -10,9 +10,11 @@ async function commitMain(context, commits_url, isPrivate, pull_request_remote_i
         //사용자 개인 token 받아오는 logic 필요
         const token = '자신의 토큰을 넣도록 하자. 우리는 척척척 스스로 어린이.';
         commitList = await getter.getCommitsWithToken(context, commits_url, token,pull_request_remote_identifier);
+        context.log("commitList : " + commitList);
     }else{
         // context.log("commits_url : " + commits_url);
         commitList = await getter.getCommitsWithoutToken(context, commits_url,pull_request_remote_identifier);
+        context.log("commitList : " + commitList);
     }
     context.log("commitList : " + commitList);
     commit_cnt = commitList.length;
