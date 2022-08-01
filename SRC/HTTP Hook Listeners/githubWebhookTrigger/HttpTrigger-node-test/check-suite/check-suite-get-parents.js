@@ -14,12 +14,9 @@ async function checkSuiteGetParentWithToken(context, uri, cloudEventObj, inputTo
     }).then(function(response){
         const commitList = response.data;
         const firstParent = JSON.stringify(commitList.parents[0].sha);
-        context.log(firstParent);
+        context.log("response(parent commit) :"+ firstParent);
         cloudEventObj.head_commit_parent_id = firstParent.id;
-        sendModule.sender(cloudEventObj, context);
-        context.res ={
-            body : JSON.stringify(cloudEventObj)
-        }
+        return cloudEventObj;
     }).catch(function(err){
         context.log(err);
     });
@@ -39,10 +36,7 @@ async function checkSuiteGetParentWithoutToken(context, uri, cloudEventObj){
         const firstParent = JSON.stringify(commitList.parents[0].sha);
         context.log("response(parent commit) :"+ firstParent);
         cloudEventObj.head_commit_parent_id = firstParent.id;
-        sendModule.sender(cloudEventObj, context);
-        context.res ={
-            body : JSON.stringify(cloudEventObj)
-        }
+        return cloudEventObj;
     }).catch(function(err){
         context.log(err);
     });

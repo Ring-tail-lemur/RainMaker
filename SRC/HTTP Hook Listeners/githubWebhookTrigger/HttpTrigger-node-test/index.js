@@ -37,6 +37,10 @@ module.exports = async function (context, req) {
     }else if(cloudEventObj.hook_event == 'check_suite'){
         context.log("check_suite event occurred");
         const resultObj = await checkSuiteModule.checkSuiteMain(context,hookBody,cloudEventObj);
+        send_module.sender(resultObj);
+        context.res ={
+            body : JSON.stringify(resultObj)
+        }
     }else{
         context.res = {
             body : JSON.stringify(hookHeaders)

@@ -14,13 +14,11 @@ async function checkSuiteMain(context, hookBody, cloudEventObj){
     context.log(commit_url);
 
     if(isPrivateRepo == 'true'){
-        let parent_commit_id = await checkSuiteParents.checkSuiteGetParentWithToken(context,commit_url,cloudEventObj, 'private_token');
-        cloudEventObj.parent_commit_id = parent_commit_id;
+        return(await checkSuiteParents.checkSuiteGetParentWithToken(context,commit_url,cloudEventObj, 'private_token')); 
+       
     }else{
-        let parent_commit_id = await checkSuiteParents.checkSuiteGetParentWithoutToken(context, commit_url, cloudEventObj);
-        cloudEventObj.parent_commit_id = parent_commit_id;
+        return (await checkSuiteParents.checkSuiteGetParentWithoutToken(context, commit_url, cloudEventObj));
     }
-    return cloudEventObj;
 
 }
 
