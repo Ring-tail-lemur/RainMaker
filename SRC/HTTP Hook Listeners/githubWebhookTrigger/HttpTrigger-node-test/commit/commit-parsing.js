@@ -1,6 +1,5 @@
 const sendModule = require('../event-hub/send.js');
-const request = require('request');
-const axios = require('axios');
+const getIdFromNameModule = require('../http-get/from-name-get-id.js');
 
 
 async function parsingCommit(context, commitObj, parent_pull_request_remote_identifier){
@@ -14,7 +13,7 @@ async function parsingCommit(context, commitObj, parent_pull_request_remote_iden
     eventHubCommitObj.commit_author_name = JSON.stringify(commitObj.commit.author.name).replace(/['"]+/g, '');
     eventHubCommitObj.commit_author_email = JSON.stringify(commitObj.commit.author.email).replace(/['"]+/g, '');
     eventHubCommitObj.commit_message = JSON.stringify(commitObj.message);
-    // context.log(JSON.stringify(eventHubCommitObj));
+    eventHubCommitObj.commit_author_id = await getIdFromNameModule.getUserId(eventHubCommitObj.commit_author_name);
 
     return eventHubCommitObj;
 }
