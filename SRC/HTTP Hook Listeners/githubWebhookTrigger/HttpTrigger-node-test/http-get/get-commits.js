@@ -8,7 +8,7 @@ async function getCommitsWithToken(context, uri, gitHubtokenP,pull_request_remot
   uri: uri,
   headers: {'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_5_2) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/32.webkit', 'Authorization': 'Bearer ' + githubToken}
   };
-  return (await getModule.httpProtocolCustom(context, options,pull_request_remote_identifier));
+  return await getModule.httpProtocolCustom(context, options,pull_request_remote_identifier);
 }
 
 async function getCommitsAnyToken(context, commits_uri,pull_request_remote_identifier){
@@ -17,7 +17,7 @@ async function getCommitsAnyToken(context, commits_uri,pull_request_remote_ident
     headers: {
       'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_5_2) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/32.webkit'}
   };
-  return (await getModule.httpProtocolCustom(context, options,pull_request_remote_identifier));
+  return await getModule.httpProtocolCustom(context, options,pull_request_remote_identifier);
 }
 
 module.exports.getCommitsWithToken = getCommitsWithToken;
