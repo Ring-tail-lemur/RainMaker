@@ -37,7 +37,6 @@ CREATE TABLE pull_request
     remote_identifier            int      NOT NULL,
     pull_request_number          int      NOT NULL,
     repository_id                int      NOT NULL,
-    parent_pull_request_id       int      NOT NULL,
     pull_request_open_branch_id  int      NOT NULL,
     pull_request_close_branch_id int      NOT NULL,
     created_date                 datetime Not Null,
@@ -169,9 +168,6 @@ ALTER TABLE pull_request
     ADD CONSTRAINT FK_repository_TO_pull_request_1 FOREIGN KEY (repository_id)
         REFERENCES repository (repository_id);
 
-ALTER TABLE pull_request
-    ADD CONSTRAINT FK_pull_request_TO_pull_request_1 FOREIGN KEY (parent_pull_request_id)
-        REFERENCES pull_request (pull_request_id);
 
 ALTER TABLE pull_request
     ADD CONSTRAINT FK_branch_TO_pull_request_1 FOREIGN KEY (pull_request_open_branch_id)
