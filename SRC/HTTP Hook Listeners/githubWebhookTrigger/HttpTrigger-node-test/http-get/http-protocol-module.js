@@ -11,4 +11,3 @@ async function httpProtocolCustom(context, options,pull_request_remote_identifie
 }
 
 module.exports.httpProtocolCustom = httpProtocolCustom;
-module.exports.testHTTP = testHTTP;
