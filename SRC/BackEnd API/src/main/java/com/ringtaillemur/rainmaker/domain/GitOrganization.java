@@ -33,5 +33,5 @@ public class GitOrganization extends BaseEntity {
 	private List<UserOrganizationTable> userOrganizationTableList = new ArrayList<>();
 
 	@OneToMany(mappedBy = "ownerOrganization")
-	private List<GitOrganization> gitOrganizationList = new ArrayList<>();
+	private List<Repository> RepositoryList = new ArrayList<>();
 }

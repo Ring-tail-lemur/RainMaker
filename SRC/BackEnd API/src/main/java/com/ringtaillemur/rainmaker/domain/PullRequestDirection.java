@@ -24,10 +24,10 @@ public class PullRequestDirection extends BaseEntity {
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "source_pull_request_id")
-	private PullRequest sourcePullRequestId;
+	private PullRequest sourcePullRequest;
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "outgoing_pull_request_id")
-	private PullRequest outgoingPullRequestId;
+	private PullRequest outgoingPullRequest;
 
 }
