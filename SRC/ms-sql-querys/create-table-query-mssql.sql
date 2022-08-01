@@ -11,11 +11,13 @@ CREATE TABLE git_organization
 DROP TABLE repository;
 CREATE TABLE repository
 (
-    repository_id             int          NOT NULL PRIMARY KEY IDENTITY,
-    [name]                    varchar(255) NOT NULL,
-    repository_owner_table_id int          NOT NULL,
-    create_time               datetime     Not Null,
-    modified_time             datetime     Not Null
+    repository_id         int          NOT NULL PRIMARY KEY IDENTITY,
+    [name]                varchar(255) NOT NULL,
+    owner_type            varchar(20)  NOT NULL,
+    create_time           datetime     Not Null,
+    modified_time         datetime     Not Null,
+    owner_user_id         int,
+    owner_organization_id int
 );
 
 DROP TABLE git_user;
@@ -26,17 +28,6 @@ CREATE TABLE git_user
     remote_identifier int          NOT NULL,
     create_time       datetime     Not Null,
     modified_time     datetime     Not Null
-);
-
-DROP TABLE repository_owner_table;
-CREATE TABLE repository_owner_table
-(
-    repository_owner_table_id int         NOT NULL PRIMARY KEY IDENTITY,
-    owner_type                varchar(20) NOT NULL,
-    owner_user_id             int         NULL,
-    owner_organization_id       int         NULL,
-    create_time               datetime    Not Null,
-    modified_time             datetime    Not Null
 );
 
 DROP TABLE pull_request;
@@ -80,7 +71,7 @@ DROP TABLE user_organization_table;
 CREATE TABLE user_organization_table
 (
     user_organization_table_id int      NOT NULL PRIMARY KEY IDENTITY,
-    member_id                int      NOT NULL,
+    member_id                  int      NOT NULL,
     git_organization_id        int      NOT NULL,
     create_time                datetime Not Null,
     modified_time              datetime Not Null
@@ -164,16 +155,12 @@ ALTER TABLE pull_request_direction
         REFERENCES pull_request (pull_request_id);
 
 ALTER TABLE repository
-    ADD CONSTRAINT FK_repository_owner_table_TO_repository_1 FOREIGN KEY (repository_owner_table_id)
-        REFERENCES repository_owner_table (repository_owner_table_id);
-
-ALTER TABLE repository_owner_table
-    ADD CONSTRAINT FK_git_user_TO_repository_owner_table_1 FOREIGN KEY (owner_user_id)
-        REFERENCES git_user (git_user_id);
-
-ALTER TABLE repository_owner_table
-    ADD CONSTRAINT FK_git_organization_TO_repository_owner_table_1 FOREIGN KEY (owner_organization_id)
+    ADD CONSTRAINT FK_git_organization_TO_repository_1 FOREIGN KEY (owner_organization_id)
         REFERENCES git_organization (git_organization_id);
+
+ALTER TABLE repository
+    ADD CONSTRAINT FK_git_user_TO_repository_1 FOREIGN KEY (owner_user_id)
+        REFERENCES git_user (git_user_id);
 
 ALTER TABLE pull_request
     ADD CONSTRAINT FK_repository_TO_pull_request_1 FOREIGN KEY (repository_id)
@@ -232,13 +219,13 @@ ALTER TABLE pull_request_comment
         REFERENCES git_user (git_user_id);
 
 ALTER TABLE branch
-    ADD CONSTRAINT FK_repository_owner_table_TO_branch_1 FOREIGN KEY (repository_id)
-        REFERENCES repository_owner_table (repository_owner_table_id);
-
-ALTER TABLE branch
     ADD CONSTRAINT FK_git_user_TO_branch_1 FOREIGN KEY (git_user_id)
         REFERENCES git_user (git_user_id);
 
 ALTER TABLE lead_time_for_change
     ADD CONSTRAINT FK_pull_request_TO_lead_time_for_change_1 FOREIGN KEY (pull_request_id)
         REFERENCES pull_request (pull_request_id);
+
+ALTER TABLE branch
+    ADD CONSTRAINT FK_branch_TO_repository_1 FOREIGN KEY (repository_id)
+        REFERENCES repository (repository_id);
