@@ -11,7 +11,7 @@ async function commitMain(context, commits_url, isPrivate, pull_request_remote_i
         // context.log("--------- commit main ---------\n"+commitList+"\n--------- commit main ---------\n");
         const commit_cnt = commitList.length;
         for(let i = 0; i < commit_cnt; i++){
-            const resultObj = await parsingModule.parsingCommit(context,commitList[i],pull_request_remote_remote_remote);
+            const resultObj = await parsingModule.parsingCommit(context,commitList[i],pull_request_remote_identifier);
             await sendModule.sender(resultObj,context);
         }
         return commit_cnt;
@@ -20,7 +20,7 @@ async function commitMain(context, commits_url, isPrivate, pull_request_remote_i
         context.log("--------- commit main ---------\n"+commitList+"\n--------- commit main ---------\n");
         const commit_cnt = commitList.length;
         for(let i = 0; i < commit_cnt; i++){
-            const resultObj = await parsingModule.parsingCommit(context,commitList[i],pull_request_remote_remote_remote);
+            const resultObj = await parsingModule.parsingCommit(context,commitList[i],pull_request_remote_identifier);
             await sendModule.sender(resultObj,context);
         }
         return commit_cnt;
