@@ -11,12 +11,6 @@ module.exports = async function (context, req) {
     const hookBody = req.body;
     const hookHeaders = req.headers;
 
-    // let cipherText = JSON.stringify(hookHeaders['X-Hub-Signature-256']);
-    // const decodeBytes = crypto.SHA256.decode(cipherText);
-    // const decryptedData = JSON.parse(decodeBytes.toString(crypto.enc.Utf8));
-
-    context.log("Token : " + decryptedData);
-
     // .replace(/['"]+/g, '') <- double quote problem solve (e.g. "\"hi\"")
     context.log("now : " + JSON.stringify(hookHeaders['x-github-event']));
     cloudEventObj.hook_event = JSON.stringify(hookHeaders['x-github-event']).replace(/['"]+/g, '');
