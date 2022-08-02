@@ -20,21 +20,21 @@ module.exports = async function (context, req) {
     // 상황에 따른 비동기 모듈 분리로 scaleable하게 갈 것.
     if(cloudEventObj.hook_event == 'pull_request'){
         context.log('pull_request event occur');
-        const resultObj = await pull_request_module.pullRequestMain(context,hookBody,cloudEventObj);
+        const resultObj = await pull_request_module.pullRequestMain(hookBody,cloudEventObj);
         send_module.sender(resultObj,context);
         context.res ={
             body : JSON.stringify(resultObj)
         }
     }else if(cloudEventObj.hook_event == 'pull_request_review'){
         context.log("pull_request_review!");
-        const resultObj = await pullRequestReviewModule.pullRequestReviewMain(context,hookBody,cloudEventObj);
+        const resultObj = await pullRequestReviewModule.pullRequestReviewMain(hookBody,cloudEventObj);
         send_module.sender(resultObj,context);
         context.res ={
             body : JSON.stringify(resultObj)
         }
     }else if(cloudEventObj.hook_event == 'pull_request_review_comment'){
         context.log("pull_request_review_comment ocurred");
-        const resultObj = await pullRequestReviewCommentModule.pullRequestReviewCommentMain(context,hookBody,cloudEventObj);
+        const resultObj = await pullRequestReviewCommentModule.pullRequestReviewCommentMain(hookBody,cloudEventObj);
         send_module.sender(resultObj,context);
         context.res ={
             body : JSON.stringify(resultObj)
@@ -56,14 +56,14 @@ module.exports = async function (context, req) {
         }
     }else if(cloudEventObj.hook_event == 'repository' ){
         context.log("repository event ocurred");
-        const resultObj = await repositoryModule.repositoryMain(context,hookBody,cloudEventObj);
+        const resultObj = await repositoryModule.repositoryMain(hookBody,cloudEventObj);
         send_module.sender(resultObj,context);
         context.res = {
             body : JSON.stringify(cloudEventObj)
         }
     }else if(cloudEventObj.hook_event == 'create'){
         context.log("create branch/tag event ocurred.");
-        const resultObj = createModule.createMain(context,hookBody,cloudEventObj);
+        const resultObj = await createModule.createMain(hookBody,cloudEventObj);
         send_module.sender(resultObj,context);
         context.res = {
             body : JSON.stringify(cloudEventObj)
