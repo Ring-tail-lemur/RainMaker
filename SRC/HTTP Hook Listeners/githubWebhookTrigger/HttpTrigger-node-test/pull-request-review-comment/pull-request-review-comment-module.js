@@ -1,4 +1,4 @@
-async function pullRequestReviewCommentMain(context, hookBody, cloudEventObj){
+async function pullRequestReviewCommentMain(hookBody, cloudEventObj){
     cloudEventObj.action = JSON.stringify(hookBody.action).replace(/['"]+/g, '');
     cloudEventObj.event_time = JSON.stringify(hookBody.comment.created_at).replace(/['"]+/g, '');
     cloudEventObj.action_id = JSON.stringify(hookBody.comment.id);
