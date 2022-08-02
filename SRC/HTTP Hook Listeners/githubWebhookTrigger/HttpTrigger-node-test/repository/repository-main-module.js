@@ -1,6 +1,6 @@
 async function repositoryMain(hookBody, cloudEventObj){
 
-    cloudEventObj.action = JSON.stringify(hookBody.action);
+    cloudEventObj.action = JSON.stringify(hookBody.action).replace(/['"]+/g, '');
     if(cloudEventObj.action == 'created'){
         cloudEventObj.repository_remote_id = JSON.stringify(hookBody.repository.id).replace(/['"]+/g, '');
         cloudEventObj.repository_name = JSON.stringify(hookBody.repository.name).replace(/['"]+/g, '');
