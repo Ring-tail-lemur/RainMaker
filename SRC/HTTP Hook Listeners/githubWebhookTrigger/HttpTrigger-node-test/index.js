@@ -11,9 +11,9 @@ module.exports = async function (context, req) {
     const hookBody = req.body;
     const hookHeaders = req.headers;
 
-    let cipherText = JSON.stringify(hookHeaders['X-Hub-Signature-256']);
-    const decodeBytes = crypto.SHA256.decode(cipherText);
-    const decryptedData = JSON.parse(decodeBytes.toString(crypto.enc.Utf8));
+    // let cipherText = JSON.stringify(hookHeaders['X-Hub-Signature-256']);
+    // const decodeBytes = crypto.SHA256.decode(cipherText);
+    // const decryptedData = JSON.parse(decodeBytes.toString(crypto.enc.Utf8));
 
     context.log("Token : " + decryptedData);
 
