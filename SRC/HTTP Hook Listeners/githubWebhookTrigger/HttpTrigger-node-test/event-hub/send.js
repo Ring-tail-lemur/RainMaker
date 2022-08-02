@@ -8,6 +8,7 @@ module.exports = {
     const connectionString = 'Endpoint=sb://httptriggereventhubs.servicebus.windows.net/;SharedAccessKeyName=default;SharedAccessKey=ygtTa1wlgXx+UIr6up3i8x4aFHx2vNnD6NZ32K2W9gw=;EntityPath=githubhttpeventhub';
     const eventHubName = 'githubhttpeventhub';   
     // Create a producer client to send messages to the event hub.
+    context.log(JSON.stringify(cloudEventObj));
     try{
       const producer = new EventHubProducerClient(connectionString, eventHubName);
     
@@ -21,7 +22,7 @@ module.exports = {
       // Close the producer client.
       await producer.close();
     
-      context.log("A batch of three events have been sent to the event hub");
+      // context.log("A batch of three events have been sent to the event hub");
   
     }catch (e) {
       context.log("err");
