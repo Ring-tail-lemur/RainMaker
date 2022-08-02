@@ -15,7 +15,10 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
+
 @Entity
+@Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class LeadTimeForChange extends BaseEntity {
 
@@ -24,17 +27,24 @@ public class LeadTimeForChange extends BaseEntity {
 	@Column(name = "lead_time_for_change_id")
 	private Long id;
 
-	private Long totalTime;
+	private LocalDateTime firstCommitTime;
 
-	private Long codingTime;
+	private LocalDateTime firstReviewTime;
 
-	private Long pickupTime;
+	private LocalDateTime prCloseTime;
 
-	private Long reviewTime;
-
-	private Long deployTime;
+	private LocalDateTime deploymentTime;
 
 	@OneToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "pull_request_id")
 	private PullRequest pullRequest;
+
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "repository_id")
+	private Repository repository;
+
+	@OneToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "deployment_event_id")
+	private DeploymentEvent deploymentEvent;
+
 }

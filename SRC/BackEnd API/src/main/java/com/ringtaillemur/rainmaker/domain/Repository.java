@@ -30,8 +30,8 @@ public class Repository extends BaseEntity {
 	@OneToMany(mappedBy = "repository")
 	private List<Branch> branchList = new ArrayList<>();
 
-	@OneToOne(fetch = FetchType.LAZY, mappedBy = "repository")
-	private PullRequest PullRequest;
+	@OneToMany(mappedBy = "repository")
+	private List<PullRequest> pullRequestList = new ArrayList<>();
 
 	private String name;
 
@@ -42,4 +42,7 @@ public class Repository extends BaseEntity {
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "owner_user_id")
 	private GitUser ownerUser;
+
+	@OneToMany(mappedBy = "repository")
+	private List<LeadTimeForChange> leadTimeForChangeList = new ArrayList<>();
 }

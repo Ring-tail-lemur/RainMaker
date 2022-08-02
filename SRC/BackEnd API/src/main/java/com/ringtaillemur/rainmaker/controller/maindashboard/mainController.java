@@ -1,5 +1,6 @@
 package com.ringtaillemur.rainmaker.controller.maindashboard;
 
+import com.ringtaillemur.rainmaker.dto.webdto.responsedto.leadTimeForChangeByTimeDto;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,13 +20,15 @@ public class mainController {
 	@ResponseBody
 	@GetMapping("/api/cycletime")
 	public MainCycleTimeResponseDto mainDashboardCycleTimeApi() throws InterruptedException {
-		cycleTimeService.test();
+//		cycleTimeService.test();
 		return new MainCycleTimeResponseDto();
 	}
 
-	@GetMapping("/cycletime")
-	public String mainDashboardCycleTimeThymeleaf(Model model) throws InterruptedException {
+	@ResponseBody
+	@GetMapping("/frontfor/cycletime")
+	public leadTimeForChangeByTimeDto mainDashboardCycleTimeThymeleaf(Model model) throws InterruptedException {
+		leadTimeForChangeByTimeDto leadTimeForChangeByTime = cycleTimeService.getLeadTimeForChangeByTime();
 		// model.addAttribute("mainCycleTimeResponse", cycleTimeService.getMainCycleTimeResponse());
-		return "cycletime";
+		return leadTimeForChangeByTime;
 	}
 }
