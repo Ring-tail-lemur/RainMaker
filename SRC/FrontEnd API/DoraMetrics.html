@@ -92,39 +92,44 @@
                 responseType: 'stream'
             });
             console.log("================================== \n", Message.data);
+            console.log("================================== \n", Message.data.leadTimeForChangeAverageMap);
+            let info = Message.data.leadTimeForChangeAverageMap;
             
+            
+
+            const sort = Object.entries(info).sort();
+            console.log("*****************", sort[0][0], sort[0][1]);
+            let lead_time_for_change_arr = [];
+            let date_arr = [];
+            for(var i =0; i< sort.length; i++){
+                lead_time_for_change_arr.push(sort[i][1]);
+                date_arr.push(sort[i][0]);
+            }
+            
+            
+
             testMessage = 
                 [
                     {
-                        start_time : "2022-07-24",
-                        end_time : "2022-08-01",
-                        level : "GOOD",
-                        lead_time_for_change : [
-                            10,
-                            17,
-                            0,
-                            4,
-                            7,
-                            49,
-                            3,
-                            10,
-                            13
-                        ]
+                        start_time : Message.data.start_time,
+                        end_time : Message.data.end_time,
+                        level : Message.data.level,
+                        lead_time_for_change : lead_time_for_change_arr
                     }
                 ]
             
-            let st_date = new Date(testMessage[0].start_time);
-            const en_date = new Date(testMessage[0].end_time);
+            // let st_date = new Date(testMessage[0].start_time);
+            // const en_date = new Date(testMessage[0].end_time);
             
-            console.log("date_arr : " , st_date, en_date);
+            // console.log("date_arr : " , st_date, en_date);
             
-            let date_arr = [];
+            // let date_arr = [];
 
-            while(st_date <= en_date) {
-                console.log("st_Date : ", st_date);
-                date_arr.push(st_date.getMonth() + "." + st_date.getDate());
-                st_date.setDate(st_date.getDate() +1);
-            }
+            // while(st_date <= en_date) {
+            //     console.log("st_Date : ", st_date);
+            //     date_arr.push(st_date.getMonth()+1 + "." + st_date.getDate());
+            //     st_date.setDate(st_date.getDate() +1);
+            // }
 
             // const daytime = st_date.getMonth() + "-"+ st_date.getDate(); 
             
