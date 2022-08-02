@@ -36,47 +36,54 @@ public class CycleTimeService {
 	private final EntityManagerFactory entityManagerFactory;
 
 
-	public leadTimeForChangeByTimeDto getLeadTimeForChangeByTime(LocalDateTime start_time, LocalDateTime end_time) {
+	public leadTimeForChangeByTimeDto getLeadTimeForChangeByTime(int repo_id, LocalDateTime start_time, LocalDateTime end_time) {
 
-
-		Optional<Repository> targetRepository = repositoryRepository.findById(1L);
-		List<LeadTimeForChange> leadTimeForChangeList = targetRepository.get().getLeadTimeForChangeList();
-		// todo 문제. 여기서 WHERE문을 사용하지 않고 가져오게 되면 전부 다가져오게 됨.
+		Repository repo = repositoryRepository.findById(1L).get();
+		System.out.println("===========" + start_time + end_time);
+		List<LeadTimeForChange> leadTimeForChangeList = leadTimeForChangeRepository.findByRepoIdAndTime(repo, start_time, end_time);
 
 		List<Integer> AverageTimeList = new ArrayList<>();
+		Duration totalTime = Duration.between(start_time, end_time);
+		long leadTimeForChangeDays = totalTime.getSeconds() / 3600 / 24 + 1;
+
+
+//		int[] arr = new int[];
 		for(LeadTimeForChange leadTimeForChange : leadTimeForChangeList) {
-			// todo modified_time 기준으로 처리하였음. 더좋은 방향이 있을까
-			if(  leadTimeForChange.getModifiedDate().compareTo(start_time) == 1
+
+			for(int i = 0; i <leadTimeForChangeDays; i++) {
+				LocalDateTime localDateTime = start_time.plusDays(i);
+
+				if(leadTimeForChange.getModifiedDate().compareTo(localDateTime)
+				&& ) {
+
+				}
+			}
+
+			System.out.println("LEADTIME : ================ " + leadTimeForChange.getDeploymentTime());
+/*			if(  leadTimeForChange.getModifiedDate().compareTo(start_time) == 1
 					&& leadTimeForChange.getModifiedDate().compareTo(end_time) == -1) {
-
+				// 시간안에 들어있다면,
+				if(start_time )
 				LocalDateTime firstCommitTime = leadTimeForChange.getFirstCommitTime();
-				LocalDateTime firstReviewTime = leadTimeForChange.getFirstReviewTime();
-				LocalDateTime Time = leadTimeForChange.getFirstReviewTime();
-				LocalDateTime prCloseTime = leadTimeForChange.getPrCloseTime();
 				LocalDateTime deploymentTime = leadTimeForChange.getDeploymentTime();
-				System.out.println(firstCommitTime);
-				System.out.println(firstReviewTime);
-
-				Duration coding_time = Duration.between(firstCommitTime, firstReviewTime);
-				Duration pickUp_time = Duration.between(firstReviewTime, firstReviewTime);
-				Duration review_time = Duration.between(firstCommitTime, firstReviewTime);
-				Duration deployment_time = Duration.between(firstCommitTime, firstReviewTime);
 
 				Duration totalTime = Duration.between(firstCommitTime, deploymentTime);
 				long leadTimeForChangeHours = totalTime.getSeconds() / 3600;
 				AverageTimeList.add((int) leadTimeForChangeHours);
-			}
+			} */
+
 		}
 
-		LocalDateTime now = LocalDateTime.now();
-		List<Integer> list = new ArrayList<>();
-		list.add(24);
+		AverageTimeList.add(10);
+		for(Integer timehours : AverageTimeList) {
+
+		}
 
 		leadTimeForChangeByTimeDto dto = new leadTimeForChangeByTimeDto();
-		dto.setStart_time(now);
-		dto.setEnd_time(now);
+		dto.setStart_time(start_time);
+		dto.setEnd_time(end_time);
 		dto.setLevel(ProductivityLevel.FRUIT);
-		dto.setLeadTimeForChangeAverage(list);
+		dto.setLeadTimeForChangeAverage(AverageTimeList);
 
 		return dto;
 	}
