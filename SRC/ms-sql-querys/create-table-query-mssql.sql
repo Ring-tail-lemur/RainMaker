@@ -1,9 +1,9 @@
-﻿    DROP TABLE git_organization;
+﻿DROP TABLE git_organization;
 CREATE TABLE git_organization
 (
-    git_organization_id bigint          NOT NULL PRIMARY KEY IDENTITY,
+    git_organization_id bigint       NOT NULL PRIMARY KEY IDENTITY,
     [name]              varchar(255) NOT NULL,
-    remote_identifier   bigint          NOT NULL,
+    remote_identifier   bigint       NOT NULL,
     created_date        datetime2    Not Null,
     modified_date       datetime2    Not Null
 );
@@ -11,7 +11,7 @@ CREATE TABLE git_organization
 DROP TABLE repository;
 CREATE TABLE repository
 (
-    repository_id         bigint          NOT NULL PRIMARY KEY IDENTITY,
+    repository_id         bigint       NOT NULL PRIMARY KEY IDENTITY,
     [name]                varchar(255) NOT NULL,
     owner_type            varchar(20)  NOT NULL,
     created_date          datetime2    Not Null,
@@ -23,9 +23,9 @@ CREATE TABLE repository
 DROP TABLE git_user;
 CREATE TABLE git_user
 (
-    git_user_id       bigint          NOT NULL PRIMARY KEY IDENTITY,
+    git_user_id       bigint       NOT NULL PRIMARY KEY IDENTITY,
     [name]            varchar(255) NOT NULL,
-    remote_identifier bigint          NOT NULL,
+    remote_identifier bigint       NOT NULL,
     created_date      datetime2    Not Null,
     modified_date     datetime2    Not Null
 );
@@ -33,12 +33,12 @@ CREATE TABLE git_user
 DROP TABLE pull_request;
 CREATE TABLE pull_request
 (
-    pull_request_id              bigint       NOT NULL PRIMARY KEY IDENTITY,
-    remote_identifier            bigint       NOT NULL,
-    pull_request_number          bigint       NOT NULL,
-    repository_id                bigint       NOT NULL,
-    pull_request_open_branch_id  bigint       NOT NULL,
-    pull_request_close_branch_id bigint       NOT NULL,
+    pull_request_id              bigint    NOT NULL PRIMARY KEY IDENTITY,
+    remote_identifier            bigint    NOT NULL,
+    pull_request_number          bigint    NOT NULL,
+    repository_id                bigint    NOT NULL,
+    pull_request_open_branch_id  bigint    NOT NULL,
+    pull_request_close_branch_id bigint    NOT NULL,
     created_date                 datetime2 Not Null,
     modified_date                datetime2 Not Null,
     process_end                  bit       NOT NULL DEFAULT 0
@@ -47,11 +47,11 @@ CREATE TABLE pull_request
 DROP TABLE pull_request_event;
 CREATE TABLE pull_request_event
 (
-    pull_request_event_id bigint         NOT NULL PRIMARY KEY IDENTITY,
+    pull_request_event_id bigint      NOT NULL PRIMARY KEY IDENTITY,
     event_type            varchar(50) NOT NULL,
     event_time            datetime2   NOT NULL,
-    pull_request_id       bigint         NOT NULL,
-    event_sender_id       bigint         NOT NULL,
+    pull_request_id       bigint      NOT NULL,
+    event_sender_id       bigint      NOT NULL,
     created_date          datetime2   Not Null,
     modified_date         datetime2   Not Null
 );
@@ -59,10 +59,10 @@ CREATE TABLE pull_request_event
 DROP TABLE deployment_event;
 CREATE TABLE deployment_event
 (
-    deployment_event_id     bigint       NOT NULL PRIMARY KEY IDENTITY,
-    remote_identifier       bigint       NULL,
+    deployment_event_id     bigint    NOT NULL PRIMARY KEY IDENTITY,
+    remote_identifier       bigint    NULL,
     deployment_success_time datetime2 NULL,
-    pull_request_id         bigint       NOT NULL,
+    pull_request_id         bigint    NOT NULL,
     created_date            datetime2 Not Null,
     modified_date           datetime2 Not Null,
     process_end             bit       NOT NULL DEFAULT 0
@@ -71,9 +71,9 @@ CREATE TABLE deployment_event
 DROP TABLE user_organization_table;
 CREATE TABLE user_organization_table
 (
-    user_organization_table_id bigint       NOT NULL PRIMARY KEY IDENTITY,
-    member_id                  bigint       NOT NULL,
-    git_organization_id        bigint       NOT NULL,
+    user_organization_table_id bigint    NOT NULL PRIMARY KEY IDENTITY,
+    member_id                  bigint    NOT NULL,
+    git_organization_id        bigint    NOT NULL,
     created_date               datetime2 Not Null,
     modified_date              datetime2 Not Null
 );
@@ -81,9 +81,9 @@ CREATE TABLE user_organization_table
 DROP TABLE [commits];
 CREATE TABLE [commits]
 (
-    commit_id     bigint           NOT NULL PRIMARY KEY IDENTITY,
-    sha           varchar(40)      NOT NULL,
-    author_id     bigint           NOT NULL,
+    commit_id     bigint        NOT NULL PRIMARY KEY IDENTITY,
+    sha           varchar(40)   NOT NULL,
+    author_id     bigint        NOT NULL,
     [message]     varchar(1000) NOT NULL,
     created_date  datetime2     Not Null,
     modified_date datetime2     Not Null,
@@ -93,9 +93,9 @@ CREATE TABLE [commits]
 DROP TABLE pull_request_commit_table;
 CREATE TABLE pull_request_commit_table
 (
-    pull_request_commit_table_id bigint       NOT NULL PRIMARY KEY IDENTITY,
-    pull_request_id              bigint       NOT NULL,
-    commit_id                    bigint       NOT NULL,
+    pull_request_commit_table_id bigint    NOT NULL PRIMARY KEY IDENTITY,
+    pull_request_id              bigint    NOT NULL,
+    commit_id                    bigint    NOT NULL,
     first_commit                 bit       NOT NULL,
     created_date                 datetime2 Not Null,
     modified_date                datetime2 Not Null
@@ -104,10 +104,10 @@ CREATE TABLE pull_request_commit_table
 DROP TABLE pull_request_comment;
 CREATE TABLE pull_request_comment
 (
-    pull_request_comment_id bigint         NOT NULL PRIMARY KEY IDENTITY,
+    pull_request_comment_id bigint      NOT NULL PRIMARY KEY IDENTITY,
     event_time              datetime2   NOT NULL,
-    pull_request_id         bigint         NOT NULL,
-    git_user_id             bigint         NOT NULL,
+    pull_request_id         bigint      NOT NULL,
+    git_user_id             bigint      NOT NULL,
     comment_type            varchar(50) NOT NULL,
     created_date            datetime2   Not Null,
     modified_date           datetime2   Not Null
@@ -116,10 +116,10 @@ CREATE TABLE pull_request_comment
 DROP TABLE branch;
 CREATE TABLE branch
 (
-    branch_id     bigint          NOT NULL PRIMARY KEY IDENTITY,
+    branch_id     bigint       NOT NULL PRIMARY KEY IDENTITY,
     [name]        varchar(255) NOT NULL,
-    repository_id bigint          NOT NULL,
-    git_user_id   bigint          NOT NULL,
+    repository_id bigint       NOT NULL,
+    git_user_id   bigint       NOT NULL,
     created_date  datetime2    Not Null,
     modified_date datetime2    Not Null
 );
@@ -127,25 +127,27 @@ CREATE TABLE branch
 DROP TABLE lead_time_for_change;
 CREATE TABLE lead_time_for_change
 (
-    lead_time_for_change_id bigint       NOT NULL PRIMARY KEY IDENTITY,
-    total_time              bigint       NOT NULL DEFAULT 0,
-    coding_time             bigint       NOT NULL DEFAULT 0,
-    pickup_time             bigint       NOT NULL DEFAULT 0,
-    review_time             bigint       NOT NULL DEFAULT 0,
-    deploy_time             bigint       NOT NULL DEFAULT 0,
-    pull_request_id         bigint       NOT NULL,
+    lead_time_for_change_id bigint    NOT NULL PRIMARY KEY IDENTITY,
+    first_commit_time       datetime2,
+    first_review_time       datetime2,
+    pr_close_time           datetime2,
+    deployment_time         datetime2,
+    pull_request_id         bigint    NOT NULL,
     created_date            datetime2 Not Null,
-    modified_date           datetime2 Not Null
+    modified_date           datetime2 Not Null,
+    repository_id           bigint    Not Null,
+    deployment_event_id     bigint    Not Null
 );
 
 DROP TABLE pull_request_direction;
 CREATE TABLE pull_request_direction
 (
-    pull_request_direction_id bigint       NOT NULL PRIMARY KEY IDENTITY,
+    pull_request_direction_id bigint    NOT NULL PRIMARY KEY IDENTITY,
     source_pull_request_id    bigint,
     outgoing_pull_request_id  bigint,
     created_date              datetime2 Not Null,
-    modified_date             datetime2 Not Null
+    modified_date             datetime2 Not Null,
+    process_end               bit       NOT NULL DEFAULT 0
 );
 
 ALTER TABLE pull_request_direction
@@ -224,6 +226,14 @@ ALTER TABLE branch
 ALTER TABLE lead_time_for_change
     ADD CONSTRAINT FK_pull_request_TO_lead_time_for_change_1 FOREIGN KEY (pull_request_id)
         REFERENCES pull_request (pull_request_id);
+
+ALTER TABLE lead_time_for_change
+    ADD CONSTRAINT FK_deployment_TO_lead_time_for_change_1 FOREIGN KEY (deployment_event_id)
+        REFERENCES deployment_event (deployment_event_id);
+
+ALTER TABLE lead_time_for_change
+    ADD CONSTRAINT FK_repository_TO_lead_time_for_change_1 FOREIGN KEY (repository_id)
+        REFERENCES repository (repository_id);
 
 ALTER TABLE branch
     ADD CONSTRAINT FK_branch_TO_repository_1 FOREIGN KEY (repository_id)

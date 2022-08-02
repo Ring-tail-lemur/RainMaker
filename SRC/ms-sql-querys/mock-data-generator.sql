@@ -184,6 +184,30 @@ VALUES ('CLOSED', DATEADD(DAY, -1, GETDATE()), 7, 1, GETDATE(), GETDATE())
 INSERT INTO pull_request_event(event_type, event_time, pull_request_id, event_sender_id, created_date, modified_date)
 VALUES ('CLOSED', GETDATE(), 8, 1, GETDATE(), GETDATE())
 
+INSERT INTO pull_request_event(event_type, event_time, pull_request_id, event_sender_id, created_date, modified_date)
+VALUES ('OPENED', DATEADD(DAY, -17, GETDATE()), 1, 1, GETDATE(), GETDATE())
+
+INSERT INTO pull_request_event(event_type, event_time, pull_request_id, event_sender_id, created_date, modified_date)
+VALUES ('OPENED', DATEADD(DAY, -16, GETDATE()), 2, 1, GETDATE(), GETDATE())
+
+INSERT INTO pull_request_event(event_type, event_time, pull_request_id, event_sender_id, created_date, modified_date)
+VALUES ('OPENED', DATEADD(DAY, -15, GETDATE()), 3, 1, GETDATE(), GETDATE())
+
+INSERT INTO pull_request_event(event_type, event_time, pull_request_id, event_sender_id, created_date, modified_date)
+VALUES ('OPENED', DATEADD(DAY, -14, GETDATE()), 4, 1, GETDATE(), GETDATE())
+
+INSERT INTO pull_request_event(event_type, event_time, pull_request_id, event_sender_id, created_date, modified_date)
+VALUES ('OPENED', DATEADD(DAY, -13, GETDATE()), 5, 1, GETDATE(), GETDATE())
+
+INSERT INTO pull_request_event(event_type, event_time, pull_request_id, event_sender_id, created_date, modified_date)
+VALUES ('OPENED', DATEADD(DAY, -12, GETDATE()), 6, 1, GETDATE(), GETDATE())
+
+INSERT INTO pull_request_event(event_type, event_time, pull_request_id, event_sender_id, created_date, modified_date)
+VALUES ('OPENED', DATEADD(DAY, -11, GETDATE()), 7, 1, GETDATE(), GETDATE())
+
+INSERT INTO pull_request_event(event_type, event_time, pull_request_id, event_sender_id, created_date, modified_date)
+VALUES ('OPENED', DATEADD(DAY, -10, GETDATE()), 8, 1, GETDATE(), GETDATE())
+
 
 INSERT INTO pull_request_comment(event_time, pull_request_id, git_user_id, comment_type, created_date, modified_date)
 VALUES (DATEADD(DAY, -8, GETDATE()), 1, 2, 'idontknow', GETDATE(), GETDATE());
