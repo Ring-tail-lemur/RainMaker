@@ -63,7 +63,7 @@ module.exports = async function (context, req) {
         }
     }else if(cloudEventObj.hook_event == 'create'){
         context.log("create branch/tag event ocurred.");
-        const resultObj = await createModule.createMain(hookBody,cloudEventObj);
+        const resultObj = await createModule.createMain(context, hookBody,cloudEventObj);
         send_module.sender(resultObj,context);
         context.res = {
             body : JSON.stringify(cloudEventObj)
