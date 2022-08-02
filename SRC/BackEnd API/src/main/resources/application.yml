@@ -1,0 +1,22 @@
+spring:
+  datasource:
+    driver-class-name: com.microsoft.sqlserver.jdbc.SQLServerDriver
+    url: jdbc:sqlserver://rainmaker-azure-sql-server.database.windows.net:1433;databaseName=rainmaker-azure-sql-database
+    username: rainmaker
+    password: dkffkrRhfldudndnjstnddl!
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: validate
+    properties:
+      hibernate:
+        format_sql: true
+  h2:
+    console:
+      enabled: true
+      path: /h2
+  thymeleaf:
+    cache: false
+    check-template-location: true
+    prefix: classpath:/templates/
+    suffix: .html
