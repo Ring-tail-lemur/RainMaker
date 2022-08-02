@@ -33,7 +33,7 @@ public class mainController {
 	public leadTimeForChangeByTimeDto mainDashboardCycleTimeThymeleaf(Model model) throws InterruptedException {
 
 		LocalDateTime start_time = LocalDateTime.now();
-		LocalDateTime end_time = LocalDateTime.parse("2022-08-03 22:59:59",
+		LocalDateTime end_time = LocalDateTime.parse("2022-08-07 22:59:59",
 				DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
 
 
