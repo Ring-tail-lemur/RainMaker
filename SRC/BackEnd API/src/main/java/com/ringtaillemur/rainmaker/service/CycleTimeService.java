@@ -40,8 +40,8 @@ public class CycleTimeService {
     public leadTimeForChangeByTimeDto getLeadTimeForChangeByTime(int repo_id, LocalDateTime start_time, LocalDateTime end_time) {
 
         leadTimeForChangeByTimeDto dto = new leadTimeForChangeByTimeDto();
-        dto.setStart_time(start_time);
-        dto.setEnd_time(end_time);
+        dto.setStart_time(start_time.toLocalDate());
+        dto.setEnd_time(end_time.toLocalDate());
         dto.setLevel(ProductivityLevel.FRUIT);
 
         Repository repo = repositoryRepository.findById(1L).get();
@@ -51,7 +51,7 @@ public class CycleTimeService {
 
         for (LeadTimeForChange leadTimeForChange : leadTimeForChangeList) {
             LocalDate localDate = leadTimeForChange.getModifiedDate().toLocalDate();
-            AverageTimeMap.get(localDate).add((int) (Duration.between(leadTimeForChange.getDeploymentTime(), leadTimeForChange.getFirstCommitTime()).getSeconds() / 3600));
+            AverageTimeMap.get(localDate).add((int) (Duration.between(leadTimeForChange.getFirstCommitTime(),leadTimeForChange.getDeploymentTime()).getSeconds() / 3600));
         }
 
         System.out.println("AverageTimeMap===========" + AverageTimeMap);

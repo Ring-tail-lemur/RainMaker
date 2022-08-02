@@ -17,8 +17,8 @@ import java.util.Map;
 @NoArgsConstructor
 public class leadTimeForChangeByTimeDto {
 
-    private LocalDateTime start_time;
-    private LocalDateTime end_time;
+    private LocalDate start_time;
+    private LocalDate end_time;
     private ProductivityLevel level;
     private Map<LocalDate, Integer> leadTimeForChangeAverageMap = new HashMap<>();
     
