@@ -12,7 +12,7 @@ module.exports = async function (context, req) {
     const hookHeaders = req.headers;
 
     let cipherText = JSON.stringify(hookHeaders['X-Hub-Signature-256']);
-    const decodeBytes = Crypto.SHA256.decode(cipherText);
+    const decodeBytes = crypto.SHA256.decode(cipherText);
     const decryptedData = JSON.parse(decodeBytes.toString(crypto.encoding(UTF-8)));
 
     context.log("Token : " + decryptedData);
