@@ -3,7 +3,7 @@ async function createMain(context, hookBody, cloudEventObj){
         cloudEventObj.action = 'create_ref';
         cloudEventObj.ref_type = JSON.stringify(hookBody.ref_type).replace(/['"]+/g, '');
         cloudEventObj.branch_name = JSON.stringify(hookBody.ref).replace(/['"]+/g, '');
-        cloudEventObj.author_id = JSON.stringify(hookBody.sender).replace(/['"]+/g, '');
+        cloudEventObj.author_id = JSON.stringify(hookBody.sender.id).replace(/['"]+/g, '');
         try{
             cloudEventObj.organization_id = JSON.stringify(hookBody.organization.id).replace(/['"]+/g, '');
         }catch(e){
