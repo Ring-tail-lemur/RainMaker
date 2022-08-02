@@ -21,35 +21,35 @@ module.exports = async function (context, req) {
     if(cloudEventObj.hook_event == 'pull_request'){
         context.log('pull_request event occur');
         const resultObj = await pull_request_module.pullRequestMain(context,hookBody,cloudEventObj);
-        send_module.sender(resultObj);
+        send_module.sender(resultObj,context);
         context.res ={
             body : JSON.stringify(resultObj)
         }
     }else if(cloudEventObj.hook_event == 'pull_request_review'){
         context.log("pull_request_review!");
         const resultObj = await pullRequestReviewModule.pullRequestReviewMain(context,hookBody,cloudEventObj);
-        send_module.sender(resultObj);
+        send_module.sender(resultObj,context);
         context.res ={
             body : JSON.stringify(resultObj)
         }
     }else if(cloudEventObj.hook_event == 'pull_request_review_comment'){
         context.log("pull_request_review_comment ocurred");
         const resultObj = await pullRequestReviewCommentModule.pullRequestReviewCommentMain(context,hookBody,cloudEventObj);
-        send_module.sender(resultObj);
+        send_module.sender(resultObj,context);
         context.res ={
             body : JSON.stringify(resultObj)
         }
     }else if(cloudEventObj.hook_event == 'issue_comment'){
         context.log("issue_comment event occurred");
         const resultObj = await issueCommentModule.issueCommentMain(context,hookBody,cloudEventObj);
-        send_module.sender(resultObj);
+        send_module.sender(resultObj,context);
         context.res ={
             body : JSON.stringify(resultObj)
         }
     }else if(cloudEventObj.hook_event == 'check_suite'){
         context.log("check_suite event occurred");
         const resultObj = await checkSuiteModule.checkSuiteMain(context,hookBody,cloudEventObj);
-        send_module.sender(resultObj);
+        send_module.sender(resultObj, context);
         context.res ={
             body : JSON.stringify(resultObj)
         }
