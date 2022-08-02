@@ -3,7 +3,11 @@ const open_module = require('./open.js');
 const close_module = require('./close.js');
 async function pullRequestMain(context, hookBody, cloudEventObj){
     let resultObj = new Object();
-    cloudEventObj.action = JSON.stringify(hookBody["action"]).replace(/['"]+/g, '');
+    try{
+        cloudEventObj.action = JSON.stringify(hookBody["action"]).replace(/['"]+/g, '');
+    }catch(e){
+        cloudEventObj.action = JSON.stringify(hookBody["action"]);
+    }
     cloudEventObj.pull_request_remote_identifier = JSON.stringify(hookBody.pull_request.id).replace(/['"]]+/g, '');
     cloudEventObj.repository_name = JSON.stringify(hookBody.repository.name).replace(/['"]+/g, ''); 
     cloudEventObj.repository_identifier = JSON.stringify(hookBody.repository.id).replace(/['"]+/g, '');
