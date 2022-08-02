@@ -10,12 +10,12 @@ module.exports = async function (context, req) {
     const cloudEventObj = new Object();
     const hookBody = req.body;
     const hookHeaders = req.headers;
-
+// 
     // .replace(/['"]+/g, '') <- double quote problem solve (e.g. "\"hi\"")
     context.log("now : " + JSON.stringify(hookHeaders['x-github-event']));
     cloudEventObj.hook_event = JSON.stringify(hookHeaders['x-github-event']).replace(/['"]+/g, '');
     cloudEventObj.source = 'github';
-
+// 
     // 분기, pull_request || pull_request_review || fork || release || issue_comment || create(branch)
     // 상황에 따른 비동기 모듈 분리로 scaleable하게 갈 것.
     if(cloudEventObj.hook_event == 'pull_request'){
