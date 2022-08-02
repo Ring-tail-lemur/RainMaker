@@ -26,6 +26,7 @@
 
 
     <script>
+        
 
         function initChart(chartname, xValues, yValues, barColors) {
             console.log("chartName ==== ", chartname)
@@ -70,6 +71,11 @@
 
         async function chartChange(){
 
+            
+            
+
+
+
             const start_time = document.getElementById('start_time').value;
             const end_time = document.getElementById('end_time').value;
             const repo = document.getElementById('repo').value;
@@ -79,16 +85,13 @@
 
             console.log("Day, repo : ", start_time, end_time, repo);
 
-            /*
-            axios({
+            
+            const Message = await axios({
                 method: 'get',
-                url: 'http://bit.ly/2mTM3nY',
+                url: 'http://localhost:8080/frontfor/cycletime',
                 responseType: 'stream'
-            })
-            .then(function (response) {
-                response.data.pipe(fs.createWriteStream('ada_lovelace.jpg'))
             });
-            */
+            console.log("================================== \n", Message.data);
             
             testMessage = 
                 [
