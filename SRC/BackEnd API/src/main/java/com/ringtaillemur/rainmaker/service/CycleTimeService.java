@@ -5,6 +5,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.Period;
 import java.util.*;
+import java.util.stream.Collectors;
 
 import com.ringtaillemur.rainmaker.domain.GitOrganization;
 import com.ringtaillemur.rainmaker.domain.PullRequest;
@@ -31,61 +32,59 @@ import javax.persistence.EntityTransaction;
 @RequiredArgsConstructor
 public class CycleTimeService {
 
-	private final RepositoryRepository repositoryRepository;
-	private final LeadTimeForChangeRepository leadTimeForChangeRepository;
-	private final EntityManagerFactory entityManagerFactory;
+    private final RepositoryRepository repositoryRepository;
+    private final LeadTimeForChangeRepository leadTimeForChangeRepository;
+    private final EntityManagerFactory entityManagerFactory;
 
 
-	public leadTimeForChangeByTimeDto getLeadTimeForChangeByTime(int repo_id, LocalDateTime start_time, LocalDateTime end_time) {
+    public leadTimeForChangeByTimeDto getLeadTimeForChangeByTime(int repo_id, LocalDateTime start_time, LocalDateTime end_time) {
 
-		Repository repo = repositoryRepository.findById(1L).get();
-		System.out.println("===========" + start_time + end_time);
-		List<LeadTimeForChange> leadTimeForChangeList = leadTimeForChangeRepository.findByRepoIdAndTime(repo, start_time, end_time);
+        leadTimeForChangeByTimeDto dto = new leadTimeForChangeByTimeDto();
+        dto.setStart_time(start_time);
+        dto.setEnd_time(end_time);
+        dto.setLevel(ProductivityLevel.FRUIT);
 
-		List<Integer> AverageTimeList = new ArrayList<>();
-		Duration totalTime = Duration.between(start_time, end_time);
-		long leadTimeForChangeDays = totalTime.getSeconds() / 3600 / 24 + 1;
+        Repository repo = repositoryRepository.findById(1L).get();
 
+        List<LeadTimeForChange> leadTimeForChangeList = leadTimeForChangeRepository.findByRepoIdAndTime(repo, start_time, end_time);
+        Map<LocalDate, List<Integer>> AverageTimeMap = makeHashMap(start_time, end_time);
 
-//		int[] arr = new int[];
-		for(LeadTimeForChange leadTimeForChange : leadTimeForChangeList) {
+        for (LeadTimeForChange leadTimeForChange : leadTimeForChangeList) {
+            LocalDate localDate = leadTimeForChange.getModifiedDate().toLocalDate();
+            AverageTimeMap.get(localDate).add((int) (Duration.between(leadTimeForChange.getDeploymentTime(), leadTimeForChange.getFirstCommitTime()).getSeconds() / 3600));
+        }
 
-			for(int i = 0; i <leadTimeForChangeDays; i++) {
-				LocalDateTime localDateTime = start_time.plusDays(i);
+        System.out.println("AverageTimeMap===========" + AverageTimeMap);
+        Map<LocalDate, Integer> leadTimeForChangeAverageMap = new HashMap<>();
 
-				if(leadTimeForChange.getModifiedDate().compareTo(localDateTime)
-				&& ) {
+        for(Map.Entry<LocalDate, List<Integer>> entry : AverageTimeMap.entrySet()) {
+            LocalDate key = entry.getKey();
+            List<Integer> value = entry.getValue();
+            leadTimeForChangeAverageMap.put(key, (int) getAverage(value));
+        }
 
-				}
-			}
+        dto.setLeadTimeForChangeAverageMap(leadTimeForChangeAverageMap);
+//		dto.setLeadTimeForChangeAverage(collect);
 
-			System.out.println("LEADTIME : ================ " + leadTimeForChange.getDeploymentTime());
-/*			if(  leadTimeForChange.getModifiedDate().compareTo(start_time) == 1
-					&& leadTimeForChange.getModifiedDate().compareTo(end_time) == -1) {
-				// 시간안에 들어있다면,
-				if(start_time )
-				LocalDateTime firstCommitTime = leadTimeForChange.getFirstCommitTime();
-				LocalDateTime deploymentTime = leadTimeForChange.getDeploymentTime();
+        return dto;
+    }
 
-				Duration totalTime = Duration.between(firstCommitTime, deploymentTime);
-				long leadTimeForChangeHours = totalTime.getSeconds() / 3600;
-				AverageTimeList.add((int) leadTimeForChangeHours);
-			} */
+    private Map<LocalDate, List<Integer>> makeHashMap(LocalDateTime start_time, LocalDateTime end_time) {
+        Map<LocalDate, List<Integer>> AverageTimeMap = new HashMap<>();
+        Duration totalTime = Duration.between(start_time, end_time);
+        long leadTimeForChangeDays = totalTime.getSeconds() / 3600 / 24 + 1;
+        for (int i = 0; i < leadTimeForChangeDays; i++) {
+            AverageTimeMap.put(start_time.toLocalDate(), new ArrayList<Integer>());
+            start_time = start_time.plusDays(1);
+        }
+        return AverageTimeMap;
+    }
 
-		}
-
-		AverageTimeList.add(10);
-		for(Integer timehours : AverageTimeList) {
-
-		}
-
-		leadTimeForChangeByTimeDto dto = new leadTimeForChangeByTimeDto();
-		dto.setStart_time(start_time);
-		dto.setEnd_time(end_time);
-		dto.setLevel(ProductivityLevel.FRUIT);
-		dto.setLeadTimeForChangeAverage(AverageTimeList);
-
-		return dto;
-	}
+    private static double getAverage(List<Integer> list) {
+        IntSummaryStatistics stats = list.stream()
+                .mapToInt(Integer::intValue)
+                .summaryStatistics();
+        return stats.getAverage();
+    }
 
 }

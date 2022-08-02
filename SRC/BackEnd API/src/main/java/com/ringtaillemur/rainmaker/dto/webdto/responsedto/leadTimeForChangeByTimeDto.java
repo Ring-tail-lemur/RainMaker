@@ -5,9 +5,13 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Data
 @NoArgsConstructor
@@ -16,6 +20,6 @@ public class leadTimeForChangeByTimeDto {
     private LocalDateTime start_time;
     private LocalDateTime end_time;
     private ProductivityLevel level;
-    private List<Integer> leadTimeForChangeAverage = new ArrayList<>();
+    private Map<LocalDate, Integer> leadTimeForChangeAverageMap = new HashMap<>();
     
 }
