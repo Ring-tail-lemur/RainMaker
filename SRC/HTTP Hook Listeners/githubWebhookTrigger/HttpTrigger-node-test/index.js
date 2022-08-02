@@ -4,12 +4,18 @@ const issueCommentModule = require("./issue-comment/issue-comment-module.js");
 const pullRequestReviewModule = require("./pull-request-review/pull-request-review-module.js");
 const pullRequestReviewCommentModule = require("./pull-request-review-comment/pull-request-review-comment-module.js");
 const checkSuiteModule = require("./check-suite/check-suite-module.js");
+const crypto = require("crypto");
 
 module.exports = async function (context, req) {
     const cloudEventObj = new Object();
     const hookBody = req.body;
     const hookHeaders = req.headers;
 
+    let cipherText = JSON.stringify(hookHeaders['X-Hub-Signature-256']);
+    const decodeBytes = Crypto.SHA256.decode(cipherText);
+    const decryptedData = JSON.parse(decodeBytes.toString(crypto.encoding(UTF-8)));
+
+    context.log("Token : " + decryptedData);
 
     // .replace(/['"]+/g, '') <- double quote problem solve (e.g. "\"hi\"")
     context.log("now : " + JSON.stringify(hookHeaders['x-github-event']));
