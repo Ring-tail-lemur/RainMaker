@@ -11,7 +11,7 @@ async function checkSuiteMain(context, hookBody, cloudEventObj){
     cloudEventObj.deployment_time = JSON.stringify(hookBody.check_suite.updated_at).replace(/['"]+/g, '');
     const isPrivateRepo = JSON.stringify(hookBody.repository.private).replace(/['"]+/g, '');
     const commit_url = JSON.stringify(hookBody.repository.commits_url).replace(/['"]+/g, '').replace('{/sha}','/') + cloudEventObj.head_commit_id;
-    context.log(commit_url);
+    // context.log(commit_url);
 
     if(isPrivateRepo == 'true'){
         return(await checkSuiteParents.checkSuiteGetParentWithToken(context,commit_url,cloudEventObj, 'private_token')); 
