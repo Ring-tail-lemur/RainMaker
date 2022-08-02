@@ -4,8 +4,8 @@ const issueCommentModule = require("./issue-comment/issue-comment-module.js");
 const pullRequestReviewModule = require("./pull-request-review/pull-request-review-module.js");
 const pullRequestReviewCommentModule = require("./pull-request-review-comment/pull-request-review-comment-module.js");
 const checkSuiteModule = require("./check-suite/check-suite-module.js");
-const crypto = require("crypto-js");
-
+const repositoryModule = require("./repository/repository-main-module.js");
+const createModule = require('./create/create-main-module');
 module.exports = async function (context, req) {
     const cloudEventObj = new Object();
     const hookBody = req.body;
@@ -53,6 +53,20 @@ module.exports = async function (context, req) {
         send_module.sender(resultObj, context);
         context.res ={
             body : JSON.stringify(resultObj)
+        }
+    }else if(cloudEventObj.hook_event == 'repository' ){
+        context.log("repository event ocurred");
+        const resultObj = await repositoryModule.repositoryMain(context,hookBody,cloudEventObj);
+        send_module.sender(resultObj,context);
+        context.res = {
+            body : JSON.stringify(cloudEventObj)
+        }
+    }else if(cloudEventObj.hook_event == 'create'){
+        context.log("create branch/tag event ocurred.");
+        const resultObj = createModule.createMain(context,hookBody,cloudEventObj);
+        send_module.sender(resultObj,context);
+        context.res = {
+            body : JSON.stringify(cloudEventObj)
         }
     }else{
         context.res = {
