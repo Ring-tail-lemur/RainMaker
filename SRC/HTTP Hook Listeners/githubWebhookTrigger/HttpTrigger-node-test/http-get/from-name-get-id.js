@@ -1,7 +1,6 @@
 const axios = require('axios');
 async function getUserIdFromName(name,context){
     const uri = 'https://api.github.com/users/'+name;
-    // console.log(uri);
     const headers = {
         'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_5_2) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/32.webkit'
     }
@@ -16,8 +15,6 @@ async function getUserIdFromName(name,context){
         context.log(e);
     }
     
-    // console.log(JSON.stringify(body.data.id));
     
 }
-// getUserIdFromName("vidigummy");
 module.exports.getUserId = getUserIdFromName;
