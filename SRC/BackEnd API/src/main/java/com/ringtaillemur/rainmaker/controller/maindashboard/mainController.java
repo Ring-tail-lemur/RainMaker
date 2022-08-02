@@ -12,6 +12,8 @@ import com.ringtaillemur.rainmaker.service.CycleTimeService;
 
 import lombok.RequiredArgsConstructor;
 
+import javax.servlet.http.HttpServletRequest;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
@@ -30,11 +32,17 @@ public class mainController {
 
 	@ResponseBody
 	@GetMapping("/frontfor/cycletime")
-	public leadTimeForChangeByTimeDto mainDashboardCycleTimeThymeleaf(Model model) throws InterruptedException {
+	public leadTimeForChangeByTimeDto mainDashboardCycleTimeThymeleaf(HttpServletRequest request) throws InterruptedException {
 
-		LocalDateTime start_time = LocalDateTime.now();
-		LocalDateTime end_time = LocalDateTime.parse("2022-08-07 22:59:59",
-				DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+		String start_time1 = request.getParameter("start_time");
+		String end_time1 = request.getParameter("end_time");
+
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+		LocalDate startTimeLocalDate = LocalDate.parse(start_time1, formatter);
+		LocalDate endTimeLocalDate = LocalDate.parse(end_time1, formatter);
+
+		LocalDateTime start_time = startTimeLocalDate.atStartOfDay();
+		LocalDateTime end_time = endTimeLocalDate.atStartOfDay();
 
 
 		leadTimeForChangeByTimeDto leadTimeForChangeByTime =

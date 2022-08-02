@@ -86,11 +86,24 @@
             console.log("Day, repo : ", start_time, end_time, repo);
 
             
-            const Message = await axios({
-                method: 'get',
-                url: 'http://localhost:8080/frontfor/cycletime',
-                responseType: 'stream'
-            });
+            const Message = await axios.get('http://localhost:8080/frontfor/cycletime', {
+                params : {
+                    start_time : start_time,
+                    end_time : end_time,
+                    repo : repo
+                }
+            })
+
+            // const Message = await axios({
+            //     method: 'get',
+            //     url: 'http://localhost:8080/frontfor/cycletime',
+            //     data : {
+
+            //     },
+            //     responseType: 'stream'
+            // });
+
+
             console.log("================================== \n", Message.data);
             console.log("================================== \n", Message.data.leadTimeForChangeAverageMap);
             let info = Message.data.leadTimeForChangeAverageMap;

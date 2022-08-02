@@ -5,7 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="9bbc5d8c-3963-47f4-9af7-2a9b08b128ae" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/SRC/ms-sql-querys/RainMaker-SourceDB.sql" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SRC/FrontEnd API/DoraMetrics.html" beforeDir="false" afterPath="$PROJECT_DIR$/SRC/FrontEnd API/DoraMetrics.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -52,20 +52,11 @@
   <component name="ProjectViewState">
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "WebServerToolWindowFactoryState": "false",
-    "com.google.cloudcode.ide_session_index": "20220729_0000",
-    "last_opened_file_path": "C:/Users/인혁/projects/RainMaker",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "spring.configuration.checksum": "35355805b7344a2b25a371213f03fe07"
-  }
-}]]></component>
+  <component name="PropertiesComponent">
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/SRC/BackEnd API" />
+  </component>
   <component name="RunManager">
     <configuration default="true" type="JetRunConfigurationType">
       <module name="RainMaker" />
