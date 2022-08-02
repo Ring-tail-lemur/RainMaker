@@ -8,6 +8,7 @@ async function httpProtocolCustom(context, options) {
         url: options.uri,
         headers: options.headers,
     });
+    context.log("--------- httpModule ---------\n"+commitList+"\n--------- httpModule ---------\n");
     return commitsList;
 }
 
