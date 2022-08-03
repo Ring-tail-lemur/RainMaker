@@ -7,3 +7,5 @@ async function pullRequestReviewCommentMain(context, hookBody, cloudEventObj){
     cloudEventObj.pull_request_remote_id = JSON.stringify(hookBody.pull_request.id);
     return cloudEventObj;
 }
+
+module.exports.pullRequestReviewCommentMain = pullRequestReviewCommentMain;

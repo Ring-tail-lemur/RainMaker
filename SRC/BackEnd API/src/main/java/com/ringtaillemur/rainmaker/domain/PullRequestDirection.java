@@ -30,4 +30,5 @@ public class PullRequestDirection extends BaseEntity {
 	@JoinColumn(name = "outgoing_pull_request_id")
 	private PullRequest outgoingPullRequest;
 
+	private Boolean processEnd;
 }

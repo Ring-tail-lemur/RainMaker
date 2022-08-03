@@ -5,6 +5,7 @@ spring:
     username: rainmaker
     password: dkffkrRhfldudndnjstnddl!
   jpa:
+    database: sql-server
     show-sql: true
     hibernate:
       ddl-auto: validate
