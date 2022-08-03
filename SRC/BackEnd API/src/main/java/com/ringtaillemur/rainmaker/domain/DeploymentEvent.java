@@ -22,7 +22,7 @@ public class DeploymentEvent extends BaseEntity {
 
 	private LocalDateTime deploymentSuccessTime;
 
-	private Boolean process_end;
+	private Boolean processEnd;
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "pull_request_id")
@@ -30,4 +30,8 @@ public class DeploymentEvent extends BaseEntity {
 
 	@OneToOne(fetch = FetchType.LAZY, mappedBy = "deploymentEvent")
 	private LeadTimeForChange leadTimeForChange;
+
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "repository_id")
+	private Repository repository;
 }

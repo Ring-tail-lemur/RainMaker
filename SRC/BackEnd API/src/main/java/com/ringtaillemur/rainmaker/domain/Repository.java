@@ -45,4 +45,7 @@ public class Repository extends BaseEntity {
 
 	@OneToMany(mappedBy = "repository")
 	private List<LeadTimeForChange> leadTimeForChangeList = new ArrayList<>();
+
+	@OneToMany(mappedBy = "repository")
+	private List<DeploymentEvent> deploymentEventList = new ArrayList<>();
 }
