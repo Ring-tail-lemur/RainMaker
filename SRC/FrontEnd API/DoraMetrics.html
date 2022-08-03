@@ -36,18 +36,20 @@
             data: {
                 labels: xValues,
                 datasets: [{
-                backgroundColor: barColors,
+                backgroundColor: '#CCDDEA',
                 data: yValues
                 }]
             },
             options: {
                 scales : {
                     y: {
+                        
                         beginAtZero: true
                     },
                     yAxes: 
                     [{
                             ticks: {
+                                suggestedMax: 5,
                                 min: 0,
                                 // fontSize : 14,
                             }
