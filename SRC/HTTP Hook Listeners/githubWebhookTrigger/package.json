@@ -14,6 +14,8 @@
     "@azure/eventhubs-checkpointstore-blob": "^1.0.1",
     "@azure/storage-blob": "^12.11.0",
     "axios": "^0.27.2",
+    "crypto": "^1.0.1",
+    "crypto-js": "^4.1.1",
     "request": "^2.88.2",
     "request-promise-native": "^1.0.9"
   }

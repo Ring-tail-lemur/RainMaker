@@ -1,0 +1,12 @@
+{
+    "hook_event": "pull_request_review_comment", 
+    "source": "github", 
+    "action": "created", 
+    "event_time": "2022-08-02T07:46:40Z", 
+    "action_id": "33488236", 
+    "review_id": "1058272775", 
+    "pull_request_remote_id": "1014736314", 
+    "EventProcessedUtcTime": "2022-08-02T07:46:45.5451905Z",
+    "PartitionId": 0, 
+    "EventEnqueuedUtcTime": "2022-08-02T07:46:45.341Z"
+}
