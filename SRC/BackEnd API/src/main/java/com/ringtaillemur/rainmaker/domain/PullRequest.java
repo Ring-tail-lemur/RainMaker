@@ -31,7 +31,7 @@ public class PullRequest extends BaseEntity {
 
 	private Boolean process_end;
 
-	@OneToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "repository_id")
 	private Repository repository;
 

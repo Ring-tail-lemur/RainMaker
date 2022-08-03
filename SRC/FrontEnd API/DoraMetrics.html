@@ -26,8 +26,9 @@
 
 
     <script>
+        
 
-        function initChart(chartname, xValues, yValues, barColors) {
+        async function initChart(chartname, xValues, yValues, barColors) {
             console.log("chartName ==== ", chartname)
             
             new Chart(chartname, {
@@ -68,79 +69,40 @@
         );
 
 
-        async function chartChange(){
+        async   function chartChange(){
 
             const start_time = document.getElementById('start_time').value;
             const end_time = document.getElementById('end_time').value;
             const repo = document.getElementById('repo').value;
             
-            console.log("Day, repo : ", start_time, end_time, repo);    
             if(!start_time || !end_time) return;
 
-            console.log("Day, repo : ", start_time, end_time, repo);
 
-            /*
-            axios({
-                method: 'get',
-                url: 'http://bit.ly/2mTM3nY',
-                responseType: 'stream'
-            })
-            .then(function (response) {
-                response.data.pipe(fs.createWriteStream('ada_lovelace.jpg'))
-            });
-            */
             
-            testMessage = 
-                [
-                    {
-                        start_time : "2022-07-24",
-                        end_time : "2022-08-01",
-                        level : "GOOD",
-                        lead_time_for_change : [
-                            10,
-                            17,
-                            0,
-                            4,
-                            7,
-                            49,
-                            3,
-                            10,
-                            13
-                        ]
-                    }
-                ]
-            
-            let st_date = new Date(testMessage[0].start_time);
-            const en_date = new Date(testMessage[0].end_time);
-            
-            console.log("date_arr : " , st_date, en_date);
-            
-            let date_arr = [];
+            let returnVal1 = await getDoraMetricsbyAxios(start_time, end_time, repo, 'http://localhost:8080/dorametric/lead-time-for-change');
+            let leadTimeForChange = returnVal1[0];
+            let date_arr = returnVal1[1];
 
-            while(st_date <= en_date) {
-                console.log("st_Date : ", st_date);
-                date_arr.push(st_date.getMonth() + "." + st_date.getDate());
-                st_date.setDate(st_date.getDate() +1);
-            }
-
-            // const daytime = st_date.getMonth() + "-"+ st_date.getDate(); 
-            
-            console.log("date_arr : " , date_arr);
-            
+            console.log("kkkkkkkkkkkkkkkkkkkkkkkkkkkkk\n", 
+            leadTimeForChange[0].average_time_data, "\n==",
+            date_arr);
 
             window.onload = initChart(
                 "LeadTimeForChange",
                 date_arr,
-                testMessage[0].lead_time_for_change,
-                // ["red", "green","blue","orange","brown"],
+                leadTimeForChange[0].average_time_data,
+                ["blue"],
                 // "Elite",
             );
 
+            let returnVal2 = await getDoraMetricsbyAxios(start_time, end_time, repo, 'http://localhost:8080/dorametric/deployment-frequency');
+            let deploymentFrequency = returnVal2[0];
+
             window.onload = initChart(
                 "DeploymentFrequency",
-                ["1week", "2week", "3week", "4week", "5week"],
-                [55, 49, 44, 24, 30],
-                ["red", "green","blue","orange","brown"]
+                date_arr,
+                deploymentFrequency[0].average_time_data,
+                ["red"],
             );
 
             window.onload = initChart(
@@ -156,6 +118,47 @@
                 [55, 49, 44, 24, 30],
                 ["red", "green","blue","orange","brown"]
             );
+        }
+
+        async function getDoraMetricsbyAxios(start_time, end_time, repo, url, name) {
+            const Message = await axios.get(url, {
+                params : {
+                    start_time : start_time,
+                    end_time : end_time,
+                    repo : repo
+                }
+            })
+
+            console.log("================================== Message\n", Message.data);
+            
+
+            let info;
+            if (Message.data.leadTimeForChangeAverageMap) info = Message.data.leadTimeForChangeAverageMap;
+            if (Message.data.deploymentFrequencyMap) info = Message.data.deploymentFrequencyMap;
+
+            console.log("================================== Map\n", info);
+
+            const sort = Object.entries(info).sort();
+            console.log("*****************", sort[0][0], sort[0][1]);
+            let average_time = [];
+            let date_arr = [];
+            for(var i =0; i< sort.length; i++){
+                average_time.push(sort[i][1]);
+                date_arr.push(sort[i][0]);
+            }
+
+            testMessage = 
+                [
+                    {
+                        start_time : Message.data.start_time,
+                        end_time : Message.data.end_time,
+                        level : Message.data.level,
+                        average_time_data : average_time
+                    }
+                ]
+                
+            console.log("111111111111111111111111 testMsg : " , testMessage, date_arr);
+            return [testMessage, date_arr];
         }
 
     </script>
