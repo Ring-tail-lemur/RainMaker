@@ -24,6 +24,7 @@ public class CycleTimeService {
 
 	private final PullRequestRepository pullRequestRepository;
 
+
 	public void test() {
 		List<GitOrganization> all = pullRequestRepository.findAll();
 		for (GitOrganization gitOrganization : all) {
