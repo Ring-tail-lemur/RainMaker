@@ -1,5 +1,9 @@
 module.exports = async function (context, documents) {
     if (!!documents && documents.length > 0) {
-        context.log('Document Id: ', documents[0].id);
+        for(let i = 0; i < documents.length; i++) {
+            context.log('Document Id: ', documents[i]);
+            
+        }
+            
     }
 }
