@@ -9,26 +9,25 @@ module.exports = {
     const eventHubName = 'githubhttpeventhub';   
     // Create a producer client to send messages to the event hub.
     context.log(JSON.stringify(cloudEventObj));
-    for(let i = 0; i < 10; i++){
-      try{
-        const producer = new EventHubProducerClient(connectionString, eventHubName);
-      
-        // Prepare a batch of three events.
-        const batch = await producer.createBatch();
-        batch.tryAdd({ body: cloudEventObj});
-      
-        // Send the batch to the event hub.
-        await producer.sendBatch(batch);
-      
-        // Close the producer client.
-        await producer.close();
+    try{
+      const producer = new EventHubProducerClient(connectionString, eventHubName);
     
-      }catch (e) {
-        context.log("err");
-        context.log(e);
-        // test
-      }
+      // Prepare a batch of three events.
+      const batch = await producer.createBatch();
+      batch.tryAdd({ body: cloudEventObj});
+    
+      // Send the batch to the event hub.
+      await producer.sendBatch(batch);
+    
+      // Close the producer client.
+      await producer.close();
+  
+    }catch (e) {
+      context.log("err");
+      context.log(e);
+      // test
     }
+    
     
   }
 };

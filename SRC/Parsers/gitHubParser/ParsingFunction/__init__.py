@@ -5,10 +5,11 @@ import azure.functions as func
 
 def main(req: func.HttpRequest) -> func.HttpResponse:
     logging.info('Python HTTP trigger function processed a request.')
+    eventDict = dict()
     try:
         request_json = req.get_json()
         for json in request_json:
-            logging.info(json)
+            eventDict['hook_event'] = json['hook_event']
     except Exception:
         try:
             logging.info(dir(req))

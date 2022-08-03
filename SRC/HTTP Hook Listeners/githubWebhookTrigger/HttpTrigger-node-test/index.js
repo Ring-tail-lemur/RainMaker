@@ -21,28 +21,28 @@ module.exports = async function (context, req) {
     if(cloudEventObj.hook_event == 'pull_request'){
         context.log('pull_request event occur');
         const resultObj = await pull_request_module.pullRequestMain(context, hookBody,cloudEventObj);
-        send_module.sender(resultObj,context);
+        await send_module.sender(resultObj,context);
         context.res ={
             body : JSON.stringify(resultObj)
         }
     }else if(cloudEventObj.hook_event == 'pull_request_review'){
         context.log("pull_request_review!");
         const resultObj = await pullRequestReviewModule.pullRequestReviewMain(hookBody,cloudEventObj);
-        send_module.sender(resultObj,context);
+        await send_module.sender(resultObj,context);
         context.res ={
             body : JSON.stringify(resultObj)
         }
     }else if(cloudEventObj.hook_event == 'pull_request_review_comment'){
         context.log("pull_request_review_comment ocurred");
         const resultObj = await pullRequestReviewCommentModule.pullRequestReviewCommentMain(hookBody,cloudEventObj);
-        send_module.sender(resultObj,context);
+        await send_module.sender(resultObj,context);
         context.res ={
             body : JSON.stringify(resultObj)
         }
     }else if(cloudEventObj.hook_event == 'issue_comment'){
         context.log("issue_comment event occurred");
         const resultObj = await issueCommentModule.issueCommentMain(context,hookBody,cloudEventObj);
-        send_module.sender(resultObj,context);
+        await send_module.sender(resultObj,context);
         context.res ={
             body : JSON.stringify(resultObj)
         }
@@ -50,21 +50,21 @@ module.exports = async function (context, req) {
         context.log("check_suite event occurred");
         cloudEventObj.source = 'github-action';
         const resultObj = await checkSuiteModule.checkSuiteMain(context,hookBody,cloudEventObj);
-        send_module.sender(resultObj, context);
+        await send_module.sender(resultObj, context);
         context.res ={
             body : JSON.stringify(resultObj)
         }
     }else if(cloudEventObj.hook_event == 'repository' ){
         context.log("repository event ocurred");
         const resultObj = await repositoryModule.repositoryMain(hookBody,cloudEventObj);
-        send_module.sender(resultObj,context);
+        await send_module.sender(resultObj,context);
         context.res = {
             body : JSON.stringify(cloudEventObj)
         }
     }else if(cloudEventObj.hook_event == 'create'){
         context.log("create branch/tag event ocurred.");
         const resultObj = await createModule.createMain(context, hookBody,cloudEventObj);
-        send_module.sender(resultObj,context);
+        await send_module.sender(resultObj,context);
         context.res = {
             body : JSON.stringify(cloudEventObj)
         }
