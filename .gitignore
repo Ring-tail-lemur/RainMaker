@@ -2,6 +2,8 @@
 # Azure Functions localsettings file
 local.settings.json
 
+.idea/
+
 **/.idea/
 !**/.idea/codeStyles
 !**/.idea/runConfigurations
