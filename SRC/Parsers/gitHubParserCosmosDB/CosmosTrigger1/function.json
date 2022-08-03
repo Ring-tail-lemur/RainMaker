@@ -1,0 +1,14 @@
+{
+  "bindings": [
+    {
+      "type": "cosmosDBTrigger",
+      "name": "documents",
+      "direction": "in",
+      "leaseCollectionName": "leases",
+      "connectionStringSetting": "maincosmosdb_DOCUMENTDB",
+      "databaseName": "githubEventDB",
+      "collectionName": "Items",
+      "createLeaseCollectionIfNotExists": true
+    }
+  ]
+}
