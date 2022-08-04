@@ -11,8 +11,8 @@
     "action":"created",
     "repository_remote_id":"520479928",
     "repository_name":"dfsasdfsf",
-    "repository_owner_type":"Organization",
-    "repository_owner_id":"107110653",
+    "repository_owner_type":"User",
+    "repository_owner_id":"123456",
 
 
     "EventProcessedUtcTime": "2022-08-03T10'51'49.5033842Z",
