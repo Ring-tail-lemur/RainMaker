@@ -1,6 +1,15 @@
+const pool = require('../ms-sql/msSQLPool');
+
 async function repositoryCreateMain(eventObject, context){
     //repository entity 생성 및 삽입
-    console.log("REHI")
+    console.log("eventObject : \n", eventObject);
+    const dbpool = await pool;
+    const result = await dbpool.request()
+        .query(`SELECT * FROM dbo.commits where commit_id = ${1}`)
+
+    console.log("result", result);
+
+    await dbpool.close();
 }
 module.exports.repositoryCreateMain = repositoryCreateMain;
 
