@@ -1,0 +1,33 @@
+### AzureFunctions ###
+# Azure Functions localsettings file
+local.settings.json
+
+.idea/
+
+**/.idea/
+!**/.idea/codeStyles
+!**/.idea/runConfigurations
+**/out/
+!**/gradle/wrapper/gradle-wrapper.jar
+!SRC/"BackEnd API"/src/main/**/build/
+!SRC/"BackEnd API"/src/test/**/build/
+
+
+**/.gradle
+**/build/
+
+*.hprof
+*.iws
+*.iml
+*.ipr
+*.icloud
+*.vsix
+*.stackdump
+*.code-workspace
+*.cab
+*.msi
+*.msix
+*.msm
+*.msp
+*.lnk
+._*
