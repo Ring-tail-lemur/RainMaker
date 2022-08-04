@@ -2,6 +2,10 @@
 async function pullRequestOpenMain(eventObject, context) {
      
     //pull_request entity 생성 및 삽입
+    let pullRequestEntity = new Object();
+    pullRequestEntity.remote_identifier = NUMBER(eventObject.pull_request_remote_identifier);
+    pullRequestEntity.pull_request_number = NUMBER(eventObject.pull_request_remote_identifier);
+    
 
     //pull_request_direction entity 생성 및 삽입
 
