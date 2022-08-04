@@ -1,0 +1,12 @@
+{
+    "source" : "github", <- 깃허브용 function에서 모으기 때문 ㅇㅋ
+    "action" : "created", <- "action" 가져오기 ㅇㅋ
+    "action_type" : "comment", <- created, comment 
+    "action_id" : "1179520995", <- comment/id
+    "actor_id" : "33488236", <- sender/id
+    "action_time" : "2022-07-09T10:37:47Z", <- comment/created_at
+    "org_id" : "107110653", <- organization/id      ㅇㅋ
+    "repo_id" : "511865227", <- repository/id   ㅇㅋ
+    "pr_url" : "https://api.github.com/repos/Ring-tail-lemur/test-for-fake-project/pulls/5/commits", <- pull_request/url
+    "datacontenttype" : "text/xml"
+}

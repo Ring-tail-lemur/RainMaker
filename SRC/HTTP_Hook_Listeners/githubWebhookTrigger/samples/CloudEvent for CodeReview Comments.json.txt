@@ -1,0 +1,13 @@
+{
+    "source" : "github", <- 깃허브용 function에서 모으기 때문
+    "action" : "submitted", <- "action" 가져오기
+    "source" : "https://github.com/Ring-tail-lemur/test-for-fake-project/pull/3#pullrequestreview-1033473162", <- "review/html_url"
+    "actor_id" : "33488236", <- "review/user/id"
+    "action_id" : "1033473162", <- review/id
+    "action_type" : "commented", <- review/state
+    "repo_id" : "511865227", <- pull_request/repo/id
+    "org_id" : "107110653", <- pull_request/repo/owner/id
+    "time" : "2022-07-09T03:07:31Z", <- review/submitted_at
+    "commit_id" : "caf0ca81e12b9c01d92df17df82ff53b76ae856e", <- review/commit_id
+    "datacontenttype" : "text/xml"
+}
