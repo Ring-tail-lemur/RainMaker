@@ -1,4 +1,4 @@
-const issuePullRequest = require('./issue-pull-request.js');
+
 async function issueCommentMain(context, hookBody, cloudEventObj){
     cloudEventObj.action = JSON.stringify(hookBody.action).replace(/['"]+/g, '');
     cloudEventObj.issue_comment_remote_id = JSON.stringify(hookBody.issue.id);

@@ -1,4 +1,4 @@
-async function pullRequestReviewMain(context, hookBody, cloudEventObj){
+async function pullRequestReviewMain(hookBody, cloudEventObj){
     cloudEventObj.action = JSON.stringify(hookBody.action).replace(/['"]+/g, '');
     cloudEventObj.event_time = JSON.stringify(hookBody.review.submitted_at).replace(/['"]+/g, '');
     cloudEventObj.actor_remote_id = JSON.stringify(hookBody.sender.id);

@@ -21,14 +21,14 @@ module.exports = {
     
       // Close the producer client.
       await producer.close();
-    
-      // context.log("A batch of three events have been sent to the event hub");
   
     }catch (e) {
       context.log("err");
       context.log(e);
       // test
     }
+    
+    
   }
 };
 
