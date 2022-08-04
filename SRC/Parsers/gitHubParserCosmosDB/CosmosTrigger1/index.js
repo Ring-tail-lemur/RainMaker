@@ -1,8 +1,10 @@
 const controllerModule = require('./controllerModule.js');
+
 module.exports = async function (context, documents) {
+    
     if (!!documents && documents.length > 0) {
-        for(const element of documents) {
-            await controllerModule.controllerMain(element, context);
+        for(let i = 0; i < documents.length; i++) {
+            await controllerModule.controllerMain(documents[i], context);
         }
         context.res ={
             body : "ok"

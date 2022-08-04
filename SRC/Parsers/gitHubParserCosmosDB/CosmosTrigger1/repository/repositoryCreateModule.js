@@ -1,5 +1,6 @@
 async function repositoryCreateMain(eventObject, context){
     //repository entity 생성 및 삽입
+    console.log("REHI")
 }
 module.exports.repositoryCreateMain = repositoryCreateMain;
 
