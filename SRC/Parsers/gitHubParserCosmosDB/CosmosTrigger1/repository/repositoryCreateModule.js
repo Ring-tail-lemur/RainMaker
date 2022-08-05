@@ -8,8 +8,8 @@ async function repositoryCreateMain(eventObject, context){
     if(eventObject.repository_owner_type == "Organization") {
         
         const sqlQuery = `
-        INSERT INTO repository (name, owner_type, owner_organization_id)
-        VALUES ('${eventObject.repository_name}', 'ORGANIZATION', 
+        INSERT INTO repository (name, owner_type, remote_identifier, owner_organization_id)
+        VALUES ('${eventObject.repository_name}', 'ORGANIZATION', ${eventObject.repository_remote_id}
         (
             SELECT git_organization_id 
             FROM git_organization 
@@ -24,8 +24,8 @@ async function repositoryCreateMain(eventObject, context){
     } else if (eventObject.repository_owner_type == "User") {
         
         const sqlQuery = `
-        INSERT INTO repository (name, owner_type, owner_user_id)
-        VALUES ('${eventObject.repository_name}', 'USER',
+        INSERT INTO repository (name, owner_type, owner_user_id, owner_organization_id)
+        VALUES ('${eventObject.repository_name}', 'USER', ${eventObject.repository_remote_id}
         (
             SELECT git_user_id
             FROM git_user

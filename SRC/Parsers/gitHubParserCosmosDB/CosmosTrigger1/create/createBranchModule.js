@@ -1,9 +1,31 @@
 const pool = require('../ms-sql/msSQLPool');
 
 async function createBranchMain(eventObject, context) {
-    console.log("HIYO")
-    
     // branch entity 생성 및 삽입
+
+    const dbConnectionPool = await pool;
+
+    const sqlQuery = `
+        INSERT INTO branch (name, repository_id, git_user_id)
+        VALUES ( '${eventObject.branch_name}', 
+        (
+            SELECT repository_id
+            FROM repository
+            WHERE remote_identifier = ${eventObject.repository_id}
+        ),
+        (
+            SELECT git_user_id
+            FROM git_user
+            WHERE remote_identifier = ${eventObject.author_id}
+        ));
+        `;
+    
+    console.log(sqlQuery);
+        
+    await dbConnectionPool.request()
+        .query(sqlQuery);
+
+    await dbConnectionPool.close();
 }
 module.exports.createBranchMain = createBranchMain;
 
@@ -15,8 +37,9 @@ module.exports.createBranchMain = createBranchMain;
     "source":"github",
     "action":"create_ref",
     "ref_type":"branch",
-    "branch_name":"ㅁㄴㅇㄹㅁㄴㅇㄹㅁㄴㄹ",
-    "author_id":"33488236",
-    "organization_id":"107110653"
+    "branch_name":"hhhhhhhhhhhhhhhhhhh",
+    "author_id":"81180977",
+    "repository_id":"510731046",
+    "organization_id":"107110653",
 }
 */
