@@ -6,6 +6,7 @@ async function createMain(context, hookBody, cloudEventObj){
         cloudEventObj.author_id = JSON.stringify(hookBody.sender.id).replace(/['"]+/g, '');
         try{
             cloudEventObj.organization_id = JSON.stringify(hookBody.organization.id).replace(/['"]+/g, '');
+            cloudEventObj.repository_id = JSON.stringify(hookBody.repository.id).replace(/['"]+/g, '');
         }catch(e){
             context.log("not a organization repo");
         }
