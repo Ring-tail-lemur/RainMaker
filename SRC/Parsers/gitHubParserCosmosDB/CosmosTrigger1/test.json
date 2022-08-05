@@ -6,13 +6,13 @@
     "_etag":"0000a400-0000-2500-0000-62ea53460000",
 
     
-    "hook_event":"repository",
+    "hook_event":"create",
     "source":"github",
-    "action":"created",
-    "repository_remote_id":"520479928",
-    "repository_name":"dfsasdfsf",
-    "repository_owner_type":"User",
-    "repository_owner_id":"123456",
+    "action":"create_ref",
+    "ref_type":"branch",
+    "branch_name":"ㅁㄴㅇㄹㅁㄴㅇㄹㅁㄴㄹ",
+    "author_id":"33488236",
+    "organization_id":"107110653",
 
 
     "EventProcessedUtcTime": "2022-08-03T10'51'49.5033842Z",
