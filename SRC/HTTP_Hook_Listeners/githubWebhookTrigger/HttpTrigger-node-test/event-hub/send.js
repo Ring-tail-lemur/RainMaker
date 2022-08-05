@@ -1,8 +1,5 @@
 const { EventHubProducerClient } = require("@azure/event-hubs");
 
-
-// /
-
 module.exports = {
   async sender(cloudEventObj, context) {
     const connectionString = 'Endpoint=sb://httptriggereventhubs.servicebus.windows.net/;SharedAccessKeyName=default;SharedAccessKey=ygtTa1wlgXx+UIr6up3i8x4aFHx2vNnD6NZ32K2W9gw=;EntityPath=githubhttpeventhub';
