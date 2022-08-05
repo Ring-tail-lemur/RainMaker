@@ -18,5 +18,6 @@ public class TimerTriggerFunction {
 		final ExecutionContext context
 	) throws IOException {
 		doraMetric.calculateLeadTimeForChange();
+		doraMetric.calculateDeploymentTime();
 	}
 }

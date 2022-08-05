@@ -41,4 +41,17 @@ public class DoraMetric {
 
 		entityManager.close();
 	}
+
+	public void calculateDeploymentTime() {
+
+		EntityManager entityManager = getEntityManager();
+		EntityTransaction transaction = entityManager.getTransaction();
+		transaction.begin();
+
+		entityManager.createNativeQuery(OlapQuery.MAKE_DEPLOY_TIME, LeadTimeForChange.class).executeUpdate();
+
+		transaction.commit();
+
+		entityManager.close();
+	}
 }
