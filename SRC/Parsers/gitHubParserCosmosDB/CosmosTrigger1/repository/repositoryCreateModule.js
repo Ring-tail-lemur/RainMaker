@@ -7,41 +7,35 @@ async function repositoryCreateMain(eventObject, context){
 
     if(eventObject.repository_owner_type == "Organization") {
         
-        const result = await dbConnectionPool.request()
-            .query(`
+        const sqlQuery = `
+        INSERT INTO repository (name, owner_type, owner_organization_id)
+        VALUES ('${eventObject.repository_name}', 'ORGANIZATION', 
+        (
             SELECT git_organization_id 
             FROM git_organization 
-            WHERE remote_identifier = ${eventObject.repository_owner_id}`
-            );
+            WHERE remote_identifier = ${eventObject.repository_owner_id}
+        ))
+        `;
+        console.log(sqlQuery);
         
-        const gitOrganizationId = result.recordset[0].git_organization_id;
-        
-        const repositoryInsertQuery = await dbConnectionPool.request()
-            .query(`
-            INSERT INTO repository (name, owner_type, owner_organization_id)
-            VALUES ('${eventObject.repository_name}', 'ORGANIZATION', ${gitOrganizationId});
-            `);
-        
-        console.log(repositoryInsertQuery);
+        await dbConnectionPool.request()
+            .query(sqlQuery);
         
     } else if (eventObject.repository_owner_type == "User") {
         
-        const result = await dbConnectionPool.request()
-            .query(`
+        const sqlQuery = `
+        INSERT INTO repository (name, owner_type, owner_user_id)
+        VALUES ('${eventObject.repository_name}', 'USER',
+        (
             SELECT git_user_id
-            FROM git_user 
-            WHERE remote_identifier = ${eventObject.repository_owner_id}`
-            );
-        
-        const gitUserId = result.recordset[0].git_user_id;
+            FROM git_user
+            WHERE remote_identifier = ${eventObject.repository_owner_id}
+        ))
+        `;
+        console.log(sqlQuery);
 
-        const repositoryInsertQuery = await dbConnectionPool.request()
-            .query(`
-            INSERT INTO repository (name, owner_type, owner_user_id)
-            VALUES ('${eventObject.repository_name}', 'USER', ${gitUserId});
-            `);
-
-        console.log(repositoryInsertQuery);
+        await dbConnectionPool.request()
+            .query(sqlQuery);
     }
     // console.log("eventObject : \n", eventObject);
 
