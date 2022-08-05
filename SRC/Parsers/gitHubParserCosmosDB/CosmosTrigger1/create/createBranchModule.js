@@ -2,6 +2,7 @@ const pool = require('../ms-sql/msSQLPool');
 
 async function createBranchMain(eventObject, context) {
     console.log("HIYO")
+    
     // branch entity 생성 및 삽입
 }
 module.exports.createBranchMain = createBranchMain;
