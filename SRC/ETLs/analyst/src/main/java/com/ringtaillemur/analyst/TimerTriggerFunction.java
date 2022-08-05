@@ -1,23 +1,22 @@
 package com.ringtaillemur.analyst;
 
-import java.time.*;
-import com.microsoft.azure.functions.annotation.*;
-import com.microsoft.azure.functions.*;
+import java.io.IOException;
 
-/**
- * Azure Functions with Timer trigger.
- */
+import com.microsoft.azure.functions.ExecutionContext;
+import com.microsoft.azure.functions.annotation.FunctionName;
+import com.microsoft.azure.functions.annotation.TimerTrigger;
+import com.ringtaillemur.analyst.analysislogic.DoraMetric;
+
 public class TimerTriggerFunction {
-    /**
-     * This function will be invoked periodically according to the specified schedule.
-     */
-    @FunctionName("TimerTrigger-Java")
-    public void run(
-        @TimerTrigger(name = "timerInfo", schedule = "1-59 * * * * *") String timerInfo,
-        final ExecutionContext context
-    ) {
-        System.out.println(timerInfo);
-        context.getLogger().info("Java Timer trigger function executed at: " + LocalDateTime.now());
-        System.out.println("hello");
-    }
+
+
+	DoraMetric doraMetric = DoraMetric.getDoraMetric();
+
+	@FunctionName("TimerTrigger-Java")
+	public void run(
+		@TimerTrigger(name = "timerInfo", schedule = "1-59/5 * * * * *") String timerInfo,
+		final ExecutionContext context
+	) throws IOException {
+		doraMetric.calculateLeadTimeForChange();
+	}
 }
