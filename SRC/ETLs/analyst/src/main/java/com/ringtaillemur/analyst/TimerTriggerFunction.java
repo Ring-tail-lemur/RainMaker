@@ -1,6 +1,8 @@
 package com.ringtaillemur.analyst;
 
 import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import com.microsoft.azure.functions.ExecutionContext;
 import com.microsoft.azure.functions.annotation.FunctionName;
@@ -14,7 +16,7 @@ public class TimerTriggerFunction {
 
 	@FunctionName("TimerTrigger-Java")
 	public void run(
-		@TimerTrigger(name = "timerInfo", schedule = "1-59/5 * * * * *") String timerInfo,
+		@TimerTrigger(name = "timerInfo", schedule = "0 */10 * * * *") String timerInfo,
 		final ExecutionContext context
 	) throws IOException {
 		doraMetric.calculateLeadTimeForChange();
