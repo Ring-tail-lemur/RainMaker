@@ -17,7 +17,8 @@ CREATE TABLE repository
     created_date          datetime2    Not Null default GETDATE(),
     modified_date         datetime2    Not Null default GETDATE(),
     owner_user_id         bigint,
-    owner_organization_id bigint
+    owner_organization_id bigint,
+    remote_identifier     bigint       NOT NULL
 );
 
 DROP TABLE git_user;
