@@ -52,38 +52,38 @@ INSERT INTO user_organization_table (member_id, git_organization_id)
 VALUES (4, 2);
 
 
-INSERT INTO repository (name, owner_type, owner_user_id, owner_organization_id)
-VALUES ('repo1', 'ORGANIZATION', NULL, 1);
+INSERT INTO repository (name, owner_type, owner_user_id,  owner_organization_id, remote_identifier)
+VALUES ('repo1', 'ORGANIZATION', NULL, 1, 23565432);
 
-INSERT INTO repository (name, owner_type, owner_user_id, owner_organization_id)
-VALUES ('repo2', 'ORGANIZATION', NULL, 1);
+INSERT INTO repository (name, owner_type, owner_user_id,  owner_organization_id, remote_identifier)
+VALUES ('repo2', 'ORGANIZATION', NULL, 1, 23565432);
 
-INSERT INTO repository (name, owner_type, owner_user_id, owner_organization_id)
-VALUES ('repo3', 'ORGANIZATION', NULL, 1);
+INSERT INTO repository (name, owner_type, owner_user_id,  owner_organization_id, remote_identifier)
+VALUES ('repo3', 'ORGANIZATION', NULL, 1, 23565432);
 
-INSERT INTO repository (name, owner_type, owner_user_id, owner_organization_id)
-VALUES ('repo4', 'ORGANIZATION', NULL, 2);
+INSERT INTO repository (name, owner_type, owner_user_id,  owner_organization_id, remote_identifier)
+VALUES ('repo4', 'ORGANIZATION', NULL, 2, 23565432);
 
-INSERT INTO repository (name, owner_type, owner_user_id, owner_organization_id)
-VALUES ('repo5', 'ORGANIZATION', NULL, 2);
+INSERT INTO repository (name, owner_type, owner_user_id,  owner_organization_id, remote_identifier)
+VALUES ('repo5', 'ORGANIZATION', NULL, 2, 23565432);
 
-INSERT INTO repository (name, owner_type, owner_user_id, owner_organization_id)
-VALUES ('repo6', 'ORGANIZATION', NULL, 2);
+INSERT INTO repository (name, owner_type, owner_user_id,  owner_organization_id, remote_identifier)
+VALUES ('repo6', 'ORGANIZATION', NULL, 2, 23565432);
 
-INSERT INTO repository (name, owner_type, owner_user_id, owner_organization_id)
-VALUES ('repo7', 'USER', 1, NULL);
+INSERT INTO repository (name, owner_type, owner_user_id,  owner_organization_id, remote_identifier)
+VALUES ('repo7', 'USER', 1, NULL, 23565432);
 
-INSERT INTO repository (name, owner_type, owner_user_id, owner_organization_id)
-VALUES ('repo8', 'USER', 2, NULL);
+INSERT INTO repository (name, owner_type, owner_user_id,  owner_organization_id, remote_identifier)
+VALUES ('repo8', 'USER', 2, NULL, 23565432);
 
-INSERT INTO repository (name, owner_type, owner_user_id, owner_organization_id)
-VALUES ('repo10', 'USER', 3, NULL);
+INSERT INTO repository (name, owner_type, owner_user_id,  owner_organization_id, remote_identifier)
+VALUES ('repo10', 'USER', 3, NULL, 23565432);
 
-INSERT INTO repository (name, owner_type, owner_user_id, owner_organization_id)
-VALUES ('repo11', 'USER', 4, NULL);
+INSERT INTO repository (name, owner_type, owner_user_id,  owner_organization_id, remote_identifier)
+VALUES ('repo11', 'USER', 4, NULL, 23565432);
 
-INSERT INTO repository (name, owner_type, owner_user_id, owner_organization_id)
-VALUES ('repo12', 'USER', 5, NULL);
+INSERT INTO repository (name, owner_type, owner_user_id,  owner_organization_id, remote_identifier)
+VALUES ('repo12', 'USER', 5, NULL, 23565432);
 
 
 INSERT INTO branch (name, repository_id, git_user_id)
