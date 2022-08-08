@@ -21,10 +21,14 @@ async function createBranchMain(eventObject, context) {
         `;
     
     console.log(sqlQuery);
-        
+    
+    try{
     await dbConnectionPool.request()
         .query(sqlQuery);
-
+    } catch (err) {
+        
+        console.error("============ ERROR ==========\n", err.name, err.message);
+    }
     await dbConnectionPool.close();
 }
 module.exports.createBranchMain = createBranchMain;
