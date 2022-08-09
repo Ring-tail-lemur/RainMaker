@@ -14,6 +14,7 @@ async function issuesMain(hookBody, cloudEventObj, context){
     }else if(cloudEventObj.action == 'edited'){
 
     }else if(cloudEventObj.action == 'opened'){
+        
     }else if(cloudEventObj.action == 'closed'){
 
     }else{
