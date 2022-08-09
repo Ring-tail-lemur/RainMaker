@@ -1,4 +1,3 @@
-
 const labellingModule = require('./issueLabeledModule.js');
 async function openedMain(hookBody, cloudEventObj, context){
     cloudEventObj.action_time = JSON.stringify(hookBody.issue.created_at).replace(/['"]+/g, '');
