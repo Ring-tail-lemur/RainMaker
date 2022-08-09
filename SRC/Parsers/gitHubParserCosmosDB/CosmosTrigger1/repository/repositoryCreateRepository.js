@@ -6,7 +6,7 @@ async function insertRepoByUserId(repository_name, repository_remote_id, reposit
     const dbConnectionPool = await pool;
     
     const sqlQuery = `
-    INSERT INTO repository (name, owner_type, owner_user_id, owner_organization_id)
+    INSERT INTO repository (name, owner_type, remote_identifier, owner_organization_id)
     VALUES ('${repository_name}', 'USER', ${repository_remote_id},
     (
         SELECT git_user_id
@@ -52,7 +52,7 @@ async function insertRepoByOrganizationId(repository_name, repository_remote_id,
     
     await transaction.commit();
     
-    dbConnectionPool.close();
+    await dbConnectionPool.close();
     return repoId.recordset[0].id;
 }
 

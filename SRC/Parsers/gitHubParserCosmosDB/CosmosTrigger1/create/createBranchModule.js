@@ -23,24 +23,19 @@ async function createBranchMain(eventObject, context) {
         .query(sqlRepoQuery);
     
     
-    try {
-        if(!repository_id.recordset[0]) { 
-            // 만약 가져온 repo가 없다면
-            const ownerAndRepo = eventObject.repository_full_name.split('/');    
-            console.log("owner, repo", ownerAndRepo);
-            const owner = ownerAndRepo[0];
-            const repo = ownerAndRepo[1];
-            const repo_id = repoCheckModule.repoCheckAndInsert(owner, repo); 
-            console.log("================repoid=================\n ", repo_id);
-            createBranchRepository.insertBranchByRepoIdAndUserId(eventObject.branch_name, repo_id, eventObject.author_id);
-        } else {
-            createBranchRepository.insertBranchByRepoIdAndUserId(eventObject.branch_name, eventObject.repository_id, eventObject.author_id);
-        }
-    } catch (err) {
-        console.error(err);
-    } 
+    if(!repository_id.recordset[0]) { 
+        // 만약 가져온 repo가 없다면
+        const ownerAndRepo = eventObject.repository_full_name.split('/');    
+        console.log("owner, repo", ownerAndRepo);
+        const owner = ownerAndRepo[0];
+        const repo = ownerAndRepo[1];
+        const repo_id = await repoCheckModule.repoCheckAndInsert(owner, repo); 
+        console.log("================repoid=================\n ", repo_id);
+        await createBranchRepository.insertBranchByRepoIdAndUserId(eventObject.branch_name, repo_id, eventObject.author_id);
+    } else {
+        await createBranchRepository.insertBranchByRepoIdAndUserId(eventObject.branch_name, eventObject.repository_id, eventObject.author_id);
+    }
     
-    console.log(sqlQuery);
 
     await dbConnectionPool.close();
 }

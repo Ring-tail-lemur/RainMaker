@@ -23,7 +23,7 @@ async function insertBranchByRepoIdAndUserId(branch_name, repository_id, author_
     await dbConnectionPool.request()
         .query(sqlQuery);
 
-    dbConnectionPool.close();
+    await dbConnectionPool.close();
 }
 
 module.exports.insertBranchByRepoIdAndUserId = insertBranchByRepoIdAndUserId;
