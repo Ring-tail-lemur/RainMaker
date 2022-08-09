@@ -4,11 +4,10 @@ async function repositoryCreateMain(eventObject, context){
     //repository entity 생성 및 삽입
 
     if(eventObject.repository_owner_type == "Organization") {
-        repositoryCreateRepository.insertRepoByOrganizationId(eventObject.repository_name, eventObject.repository_remote_id, eventObject.repository_owner_id);
+        await repositoryCreateRepository.insertRepoByOrganizationId(eventObject.repository_name, eventObject.repository_remote_id, eventObject.repository_owner_id);
     } else if (eventObject.repository_owner_type == "User") {
-        repositoryCreateRepository.insertRepoByUserId(eventObject.repository_name, eventObject.repository_remote_id, eventObject.repository_owner_id);
+        await repositoryCreateRepository.insertRepoByUserId(eventObject.repository_name, eventObject.repository_remote_id, eventObject.repository_owner_id);
     }
-    
 }
 module.exports.repositoryCreateMain = repositoryCreateMain;
 
