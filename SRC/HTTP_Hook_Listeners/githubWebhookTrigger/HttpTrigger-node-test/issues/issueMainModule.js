@@ -1,7 +1,7 @@
-const issueLabeledModule = require('./issuesLabeledModule.js');
-const issueOpenedModule = require('./issuesOpenedModule.js');
-const issueEdittedModule = require('./issuesEdittedModule.js');
-const issueClosedModule = require('./issuesClosedModule.js');
+const issueLabeledModule = require('./issueLabeledModule.js');
+const issueOpenedModule = require('./issueOpenedModule.js');
+const issueEdittedModule = require('./issueEdittedModule.js');
+const issueClosedModule = require('./issueClosedModule.js');
 async function issuesMain(hookBody, cloudEventObj, context){
     cloudEventObj.action = JSON.stringify(hookBody.action).replace(/['"]+/g, '');
     cloudEventObj.issue_number = JSON.stringify(hookBody.issue.number).replace(/['"]+/g, '');
