@@ -1,6 +1,6 @@
 const pool = require('../ms-sql/msSQLPool');
 
-async function insertCommitByUserId(commit_sha, author_id, message, commit_time) {
+async function insertPullRequestByUserId(commit_sha, author_id, message, commit_time) {
 
     const dbConnectionPool = await pool;
 
@@ -22,7 +22,7 @@ async function insertCommitByUserId(commit_sha, author_id, message, commit_time)
         console.error(e);
     }
 
-    dbConnectionPool
+
 }
 
-module.exports.insertCommitByUserId = insertCommitByUserId;
+module.exports.insertPullRequestByUserId = insertPullRequestByUserId;
