@@ -12,8 +12,8 @@ async function parsingCommit(context, commitObj, parent_pull_request_remote_iden
     eventHubCommitObj.parent_commit_sha = JSON.stringify(commitObj.parents.sha);
     eventHubCommitObj.commit_author_name = JSON.stringify(commitObj.commit.author.name).replace(/['"]+/g, '');
     eventHubCommitObj.commit_author_email = JSON.stringify(commitObj.commit.author.email).replace(/['"]+/g, '');
-    eventHubCommitObj.commit_message = JSON.stringify(commitObj.commit.message);
-    eventHubCommitObj.commit_time = JSON.stringify(commitObj.commit.committer.date);
+    eventHubCommitObj.commit_message = JSON.stringify(commitObj.commit.message).replace(/['"]+/g, '');
+    eventHubCommitObj.commit_time = JSON.stringify(commitObj.commit.committer.date).replace(/['"]+/g, '');
     eventHubCommitObj.commit_author_id = await getIdFromNameModule.getUserId(eventHubCommitObj.commit_author_name, context);
 
     return eventHubCommitObj;

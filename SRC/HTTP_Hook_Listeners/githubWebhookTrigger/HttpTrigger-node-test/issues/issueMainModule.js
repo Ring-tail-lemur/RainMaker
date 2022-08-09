@@ -2,7 +2,7 @@ const issueLabeledModule = require('./issueLabeledModule.js');
 const issueOpenedModule = require('./issueOpenedModule.js');
 const issueEdittedModule = require('./issueEdittedModule.js');
 const issueClosedModule = require('./issueClosedModule.js');
-async function issuesMain(hookBody, cloudEventObj, context){
+async function issueMain(hookBody, cloudEventObj, context){
     cloudEventObj.action = JSON.stringify(hookBody.action).replace(/['"]+/g, '');
     cloudEventObj.issue_number = JSON.stringify(hookBody.issue.number).replace(/['"]+/g, '');
     cloudEventObj.issue_remote_id = JSON.stringify(hookBody.issue.id).replace(/['"]+/g, '');
@@ -16,14 +16,14 @@ async function issuesMain(hookBody, cloudEventObj, context){
     if(cloudEventObj.action == 'labeled'){
         return await issueLabeledModule.issueLabledMain(hookBody, cloudEventObj, context);
     }else if(cloudEventObj.action == 'edited'){
-        return await issueEdittedModule.issueEditedMain(hookBody, cloudEventObj, context);
+        return await issueEdittedModule.issueEdittedMain(hookBody, cloudEventObj, context);
     }else if(cloudEventObj.action == 'opened'){
-        return await issueOpenedModule.issueOpened(hookBody, cloudEventObj, context);
+        return await issueOpenedModule.issueOpenedMain(hookBody, cloudEventObj, context);
     }else if(cloudEventObj.action == 'closed'){
-        return await issueClosedModule.issueClosed(hookBody, cloudEventObj, context);
+        return await issueClosedModule.issueClosedMain(hookBody, cloudEventObj, context);
     }else{
         return cloudEventObj;
     }
 }
 
-module.exports.issuesMain = issuesMain;
+module.exports.issueMain = issueMain;
