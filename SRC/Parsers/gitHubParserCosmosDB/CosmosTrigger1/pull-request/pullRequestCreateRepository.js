@@ -1,16 +1,35 @@
 const pool = require('../ms-sql/msSQLPool');
 
-async function insertPullRequestByRepoIdAndBranchId(remote_identifier, pull_request_number,process_end, repository_id, open_branch_id, close_branch_id) {
+async function insertPullRequestByRepoIdAndBranchId(remote_identifier, pull_request_number, repository_id, open_branch_name, close_branch_name) {
 
-    console.log(remote_identifier, pull_request_number,process_end, repository_id, open_branch_id, close_branch_id);
+    const dbConnectionPool = await pool;
+    console.log(remote_identifier, pull_request_number, repository_id, open_branch_name, close_branch_name);
 
     const sqlQuery = `
-    INSERT INTO commits (sha, message, commit_time, author_id)
-    VALUES ('${commit_sha}', '${message}', '${commit_time}',
+        WITH repo_id AS (
+            SELECT
+                TOP 1 repository_id
+            FROM repository
+            WHERE remote_identifier = ${repository_id}
+        )
+
+        INSERT INTO pull_request (remote_identifier, pull_request_number, repository_id, pull_request_open_branch_id, pull_request_close_branch_id)
+        VALUES (${remote_identifier}, ${pull_request_number}, 
             (
-                SELECT git_user_id
-                FROM git_user
-                WHERE git_user_id = ${author_id}
+            SELECT repository_id 
+            FROM repo_id
+            ),
+            (
+            SELECT branch_id
+            FROM branch B
+            WHERE B.repository_id = (SELECT repository_id FROM repo_id)
+              AND B.name = '${open_branch_name}'
+            ),
+            (
+            SELECT branch_id
+            FROM branch B
+            WHERE B.repository_id = (SELECT repository_id FROM repo_id)
+              AND B.name = '${close_branch_name}'
             ));
     `;
     console.log(sqlQuery);
