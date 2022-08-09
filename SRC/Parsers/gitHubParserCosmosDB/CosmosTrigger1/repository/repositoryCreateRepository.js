@@ -49,10 +49,10 @@ async function insertRepoByOrganizationId(repository_name, repository_remote_id,
         .query("SELECT @@identity AS id;");
         // 넣은 repository의 Id를 받아옴.
 
-    
+    console.log(repoId);
     await transaction.commit();
     
-    await dbConnectionPool.close();
+    // await dbConnectionPool.close();
     return repoId.recordset[0].id;
 }
 
