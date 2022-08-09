@@ -26,7 +26,7 @@ FROM lead_time_for_change,
                      where de.process_end = 0) target_commit
                     on my_table.commit_id = target_commit.commit_id
       where ranking = 1) as deployment_time
-where deployment_time.pr_id = lead_time_for_change.lead_time_for_change_id
+where deployment_time.pr_id = lead_time_for_change.pull_request_id
 
 
 -- UPDATE pull_request
