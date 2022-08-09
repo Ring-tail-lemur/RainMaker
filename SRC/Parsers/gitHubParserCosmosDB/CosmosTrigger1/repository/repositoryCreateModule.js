@@ -1,45 +1,14 @@
-const pool = require('../ms-sql/msSQLPool');
+const repositoryCreateRepository = require('./repositoryCreateRepository');
 
 async function repositoryCreateMain(eventObject, context){
     //repository entity 생성 및 삽입
 
-    const dbConnectionPool = await pool;
-
     if(eventObject.repository_owner_type == "Organization") {
-        
-        const sqlQuery = `
-        INSERT INTO repository (name, owner_type, remote_identifier, owner_organization_id)
-        VALUES ('${eventObject.repository_name}', 'ORGANIZATION', ${eventObject.repository_remote_id}
-        (
-            SELECT git_organization_id 
-            FROM git_organization 
-            WHERE remote_identifier = ${eventObject.repository_owner_id}
-        ))
-        `;
-        console.log(sqlQuery);
-        
-        await dbConnectionPool.request()
-            .query(sqlQuery);
-        
+        repositoryCreateRepository.insertRepoByOrganizationId(eventObject.repository_name, eventObject.repository_remote_id, eventObject.repository_owner_id);
     } else if (eventObject.repository_owner_type == "User") {
-        
-        const sqlQuery = `
-        INSERT INTO repository (name, owner_type, owner_user_id, owner_organization_id)
-        VALUES ('${eventObject.repository_name}', 'USER', ${eventObject.repository_remote_id}
-        (
-            SELECT git_user_id
-            FROM git_user
-            WHERE remote_identifier = ${eventObject.repository_owner_id}
-        ))
-        `;
-        console.log(sqlQuery);
-
-        await dbConnectionPool.request()
-            .query(sqlQuery);
+        repositoryCreateRepository.insertRepoByUserId(eventObject.repository_name, eventObject.repository_remote_id, eventObject.repository_owner_id);
     }
-    // console.log("eventObject : \n", eventObject);
-
-    await dbConnectionPool.close();
+    
 }
 module.exports.repositoryCreateMain = repositoryCreateMain;
 
