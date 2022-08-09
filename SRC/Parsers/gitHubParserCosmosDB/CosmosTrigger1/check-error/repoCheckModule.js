@@ -14,15 +14,12 @@ async function repoCheckAndInsert(owner, repo) {
 
     try {
         let repo_id;
-        
-        
-        console.log("******************", response.data.owner.id, response.data.owner.type, response.data.name, response.data.id);
+
         if(response.data.owner.type == "User"){
-            await repositoryCreateRepository.insertRepoByUserId(response.data.name, response.data.id, response.data.owner.id);
+            repo_id = await repositoryCreateRepository.insertRepoByUserId(response.data.name, response.data.id, response.data.owner.id);
         } else if(response.data.owner.type == "Organization") {
             repo_id = await repositoryCreateRepository.insertRepoByOrganizationId(response.data.name, response.data.id, response.data.owner.id);
         }
-        console.log("=====================", repo_id);
         return repo_id;
     } catch(err) {
         console.error(err);
@@ -30,6 +27,5 @@ async function repoCheckAndInsert(owner, repo) {
     }
 
 }
-console.log(repoCheckAndInsert(owner, repo));
 
 module.exports.repoCheckAndInsert = repoCheckAndInsert;

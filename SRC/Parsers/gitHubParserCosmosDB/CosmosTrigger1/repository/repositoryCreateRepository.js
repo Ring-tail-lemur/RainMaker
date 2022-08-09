@@ -4,7 +4,11 @@ const sql = require('mssql');
 async function insertRepoByUserId(repository_name, repository_remote_id, repository_owner_id){
 
     const dbConnectionPool = await pool;
-    
+
+    const transaction = await dbConnectionPool.transaction();
+
+    await transaction.begin();
+
     const sqlQuery = `
     INSERT INTO repository (name, owner_type, remote_identifier, owner_organization_id)
     VALUES ('${repository_name}', 'USER', ${repository_remote_id},
@@ -18,8 +22,15 @@ async function insertRepoByUserId(repository_name, repository_remote_id, reposit
 
     await dbConnectionPool.request()
         .query(sqlQuery);
-    
-    dbConnectionPool.close();
+
+    const repoId = await dbConnectionPool.request()
+        .query("SELECT @@identity AS id;");
+    // 넣은 repository의 Id를 받아옴.
+
+    console.log(repoId);
+
+    await transaction.commit();
+    return repoId.recordset[0].id;
 }
 
 
@@ -45,15 +56,14 @@ async function insertRepoByOrganizationId(repository_name, repository_remote_id,
     await dbConnectionPool.request()
         .query(sqlQuery);
     
-    const repoId = await dbConnectionPool.request()
+    const repoIdData = await dbConnectionPool.request()
         .query("SELECT @@identity AS id;");
         // 넣은 repository의 Id를 받아옴.
 
-    console.log(repoId);
+    const repoId = repoIdData.recordset[0].id;
+
     await transaction.commit();
-    
-    // await dbConnectionPool.close();
-    return repoId.recordset[0].id;
+    return repoId;
 }
 
 module.exports.insertRepoByUserId = insertRepoByUserId;
