@@ -7,7 +7,7 @@ async function commitMain(eventObject, context){
     //commit entity 생성 및 삽입
 
     //pull_request_commit_table 생성 및 삽입
-    await commitCreateRepository.insertCommitByUserId(eventObject.commit_sha, eventObject.commit_author_id, eventObject.commit_message);
+    await commitCreateRepository.insertCommitByUserId(eventObject.commit_sha, eventObject.commit_author_id, eventObject.commit_message, eventObject.commit_time);
 }
 
 module.exports.commitMain = commitMain;
@@ -20,12 +20,13 @@ commit 이벤트 sample
     "source":"github",
     "hook_event":"commit",
     "action":"commit",
-    "parent_pull_request_remote_identifier":"1021192604",
-    "commit_sha":"dc01869a2f1c3577bbb88311a1f8e680c640ecdd",
+    "parent_pull_request_remote_identifier":"1021251621",
+    "commit_sha":"612d31778aa006d1338f0ca2daec27e9171e0980",
     "commit_author_name":"jhbaik1501",
     "commit_author_email":"81180977+jhbaik1501@users.noreply.github.com",
-    "commit_message":"\"Merge branch 'main' into hahahahahaahahaha\"",
-    "commit_author_id":"81180977"
+    "commit_message":"테스트 메시지요",
+    "commit_time":"2022-08-09T09:11:45Z",
+    "commit_author_id":"81180977",
 
 }
 */
