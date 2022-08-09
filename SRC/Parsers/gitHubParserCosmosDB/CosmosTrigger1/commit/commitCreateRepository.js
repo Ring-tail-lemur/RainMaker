@@ -22,7 +22,7 @@ async function insertCommitByUserId(commit_sha, author_id, message, commit_time)
         console.error(e);
     }
 
-    dbConnectionPool
+    await dbConnectionPool.close();
 }
 
 module.exports.insertCommitByUserId = insertCommitByUserId;

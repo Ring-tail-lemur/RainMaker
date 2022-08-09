@@ -1,8 +1,9 @@
+const pullRequestCreateRepository = require('./pullRequestCreateRepository');
 
 async function pullRequestOpenMain(eventObject, context) {
-     
-    //pull_request entity 생성 및 삽입
 
+    //pull_request entity 생성 및 삽입
+    await pullRequestCreateRepository.insertPullRequestByRepoIdAndBranchId(eventObject.pull_request_remote_identifier, eventObject.pull_request_opened_number, 'end', eventObject.repository_identifier, eventObject.pull_request_open_branch);
     //pull_request_direction entity 생성 및 삽입
 
     //pull_request_event entity 생성 및 삽입
