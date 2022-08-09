@@ -16,11 +16,11 @@ async function issueMain(hookBody, cloudEventObj, context){
     if(cloudEventObj.action == 'labeled'){
         return await issueLabeledModule.issueLabledMain(hookBody, cloudEventObj, context);
     }else if(cloudEventObj.action == 'edited'){
-        return await issueEdittedModule.issueEditedMain(hookBody, cloudEventObj, context);
+        return await issueEdittedModule.issueEdittedMain(hookBody, cloudEventObj, context);
     }else if(cloudEventObj.action == 'opened'){
-        return await issueOpenedModule.issueOpened(hookBody, cloudEventObj, context);
+        return await issueOpenedModule.issueOpenedMain(hookBody, cloudEventObj, context);
     }else if(cloudEventObj.action == 'closed'){
-        return await issueClosedModule.issueClosed(hookBody, cloudEventObj, context);
+        return await issueClosedModule.issueClosedMain(hookBody, cloudEventObj, context);
     }else{
         return cloudEventObj;
     }
