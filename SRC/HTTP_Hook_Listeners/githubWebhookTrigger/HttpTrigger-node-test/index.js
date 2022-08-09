@@ -69,7 +69,7 @@ module.exports = async function (context, req) {
         context.res = {
             body : JSON.stringify(cloudEventObj)
         }
-    }else if(cloudeEventObj.hook_event == 'issues'){
+    }else if(cloudEventObj.hook_event == 'issues'){
         // 레포지토리 안에서 런타임 issue를 남기는 경우, action : labeled를 봐야한다.
         // project 안에서 런타임 issue를 남기는 경우, action : edited를 봐야한다.
         context.log("create issue");
