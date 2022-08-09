@@ -1,3 +1,5 @@
+const pullRequestCreateRepository = require('./pullRequestCreateRepository');
+
 async function pullRequestCloseMain(eventObject, context) {
     //pull_request_event entity 생성 및 삽입
 

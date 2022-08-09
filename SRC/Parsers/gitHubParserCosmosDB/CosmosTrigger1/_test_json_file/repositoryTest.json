@@ -6,16 +6,13 @@
     "_etag":"0000a400-0000-2500-0000-62ea53460000",
 
 
+    "hook_event":"repository",
     "source":"github",
-    "hook_event":"commit",
-    "action":"commit",
-    "parent_pull_request_remote_identifier":"1021251621",
-    "commit_sha":"612d31778aa006d1338f0ca2daec27e9171e0980",
-    "commit_author_name":"jhbaik1501",
-    "commit_author_email":"81180977+jhbaik1501@users.noreply.github.com",
-    "commit_message":"테스트 메시지요",
-    "commit_time":"2022-08-09T09:11:45Z",
-    "commit_author_id":"81180977",
+    "action":"created",
+    "repository_remote_id":"520479928",
+    "repository_name":"dfsasdfsf",
+    "repository_owner_type":"Organization",
+    "repository_owner_id":"107110653",
 
     "EventProcessedUtcTime": "2022-08-03T10'51'49.5033842Z",
     "PartitionId": 2,
