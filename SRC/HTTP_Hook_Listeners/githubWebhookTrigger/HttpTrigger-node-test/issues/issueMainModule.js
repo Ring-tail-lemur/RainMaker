@@ -1,8 +1,16 @@
+<<<<<<<< HEAD:SRC/HTTP_Hook_Listeners/githubWebhookTrigger/HttpTrigger-node-test/issues/issueMainModule.js
 const issueLabeledModule = require('./issueLabeledModule.js');
 const issueOpenedModule = require('./issueOpenedModule.js');
 const issueEdittedModule = require('./issueEdittedModule.js');
 const issueClosedModule = require('./issueClosedModule.js');
 async function issuesMain(hookBody, cloudEventObj, context){
+========
+const issueLabeledModule = require('./issuesLabeledModule.js');
+const issueOpenedModule = require('./issuesOpenedModule.js');
+const issueEdittedModule = require('./issuesEdittedModule.js');
+const issueClosedModule = require('./issuesClosedModule.js');
+async function issueMain(hookBody, cloudEventObj, context){
+>>>>>>>> 43312b0d8a4ac1fa9fe03154f245f5be0d875c75:SRC/HTTP_Hook_Listeners/githubWebhookTrigger/HttpTrigger-node-test/issues/issuesMainModule.js
     cloudEventObj.action = JSON.stringify(hookBody.action).replace(/['"]+/g, '');
     cloudEventObj.issue_number = JSON.stringify(hookBody.issue.number).replace(/['"]+/g, '');
     cloudEventObj.issue_remote_id = JSON.stringify(hookBody.issue.id).replace(/['"]+/g, '');
@@ -26,4 +34,4 @@ async function issuesMain(hookBody, cloudEventObj, context){
     }
 }
 
-module.exports.issuesMain = issuesMain;
+module.exports.issueMain = issueMain;
