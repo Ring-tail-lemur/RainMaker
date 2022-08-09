@@ -1,7 +1,7 @@
 const pullRequestMainModule = require('./pull-request/pullRequestMainModule.js');
 const repositoryMainModule = require('./repository/repositoryMainModule.js');
-const createMainModule = require('./create/createMainModule.js')
-
+const createMainModule = require('./create/createMainModule.js');
+const commitMainModule = require('./commit/commitMainModule.js');
 
 async function controllerMain(eventObj, context){
 
@@ -11,7 +11,7 @@ async function controllerMain(eventObj, context){
     if(hook_event == 'pull_request'){
         await pullRequestMainModule.pullRequestMain(eventObj);
     }else if(hook_event == 'commit'){
-
+        await commitMainModule.commitMain(eventObj);
     }else if(hook_event == 'repository'){
         await repositoryMainModule.repositoryMain(eventObj);
     }else if(hook_event == 'create'){
