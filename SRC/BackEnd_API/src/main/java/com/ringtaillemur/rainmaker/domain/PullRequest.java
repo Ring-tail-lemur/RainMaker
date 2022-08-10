@@ -43,9 +43,6 @@ public class PullRequest extends BaseEntity {
 	@JoinColumn(name = "pull_request_close_branch_id")
 	private Branch pullRequestCloseBranch;
 
-	@OneToMany(mappedBy = "pullRequest")
-	private List<DeploymentEvent> deploymentEventList = new ArrayList<>();
-
 	@OneToOne(fetch = FetchType.LAZY, mappedBy = "pullRequest")
 	private LeadTimeForChange leadTimeForChange;
 
@@ -63,4 +60,7 @@ public class PullRequest extends BaseEntity {
 
 	@OneToMany(mappedBy = "pullRequest")
 	private List<PullRequestEvent> pullRequestEventList = new ArrayList<>();
+
+	@OneToOne(fetch = FetchType.LAZY, mappedBy = "pullRequest")
+	private WorkflowRun workflowRun;
 }
