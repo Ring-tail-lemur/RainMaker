@@ -26,7 +26,7 @@ async function insertBranchByRepoRemoteIdAndUserId(branch_name, repository_remot
         console.error(e);
     }
 
-    await dbConnectionPool.close();
+
 }
 
 
@@ -48,7 +48,7 @@ async function insertBranchByRepoIdAndUserId(branch_name, repository_id, author_
     await dbConnectionPool.request()
         .query(sqlQuery);
 
-    await dbConnectionPool.close();
+
 }
 
 module.exports.insertBranchByRepoIdAndUserId = insertBranchByRepoIdAndUserId;
