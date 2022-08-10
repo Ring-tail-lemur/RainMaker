@@ -117,3 +117,33 @@ AS
    FROM Inserted i
    WHERE dbo.user_organization_table.user_organization_table_id = i.user_organization_table_id;
 go
+
+CREATE TRIGGER updateIssueModified
+ON dbo.issue
+AFTER UPDATE
+AS
+   UPDATE dbo.issue
+   SET modified_date = SYSDATETIME()
+   FROM Inserted i
+   WHERE dbo.issue.issue_id = i.issue_id;
+go
+
+CREATE TRIGGER updateIssueEventModified
+ON dbo.issue_event
+AFTER UPDATE
+AS
+   UPDATE dbo.issue_event
+   SET modified_date = SYSDATETIME()
+   FROM Inserted i
+   WHERE dbo.issue_event.issue_event_id = i.issue_event_id;
+go
+
+CREATE TRIGGER updateIssue_labelModified
+ON dbo.issue_label
+AFTER UPDATE
+AS
+   UPDATE dbo.issue_label
+   SET modified_date = SYSDATETIME()
+   FROM Inserted i
+   WHERE dbo.issue_label.issue_label_id = i.issue_label_id;
+go

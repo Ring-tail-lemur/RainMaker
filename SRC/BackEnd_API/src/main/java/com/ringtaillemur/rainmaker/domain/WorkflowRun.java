@@ -1,7 +1,11 @@
 package com.ringtaillemur.rainmaker.domain;
 
+import java.time.LocalDateTime;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -11,33 +15,39 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 
 import lombok.AccessLevel;
-import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDateTime;
-
 @Entity
-@Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class LeadTimeForChange extends BaseEntity {
-
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+@Getter
+public class WorkflowRun extends BaseEntity {
 	@Id
-	@Column(name = "lead_time_for_change_id")
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "workflow_run_id")
 	private Long id;
 
-	private LocalDateTime firstCommitTime;
+	private Long remoteIdentifier;
 
-	private LocalDateTime firstReviewTime;
+	private Long runNumber;
 
-	private LocalDateTime prCloseTime;
+	@Enumerated(EnumType.STRING)
+	private TriggerEvent triggerEvent;
 
-	private LocalDateTime deploymentTime;
+	@Enumerated(EnumType.STRING)
+	private Conclusion conclusion;
+
+	private boolean processEnd;
+
+	private LocalDateTime workflowEndTime;
 
 	@OneToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "pull_request_id")
 	private PullRequest pullRequest;
+
+	@OneToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "deployment_workflow_id")
+	private DeploymentWorkflow deploymentWorkflow;
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "repository_id")

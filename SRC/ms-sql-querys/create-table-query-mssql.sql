@@ -61,8 +61,8 @@ DROP TABLE deployment_event;
 CREATE TABLE deployment_event
 (
     deployment_event_id     bigint    NOT NULL PRIMARY KEY IDENTITY,
-    remote_identifier       bigint    NULL,
-    deployment_success_time datetime2 NULL,
+    remote_identifier       bigint,
+    deployment_success_time datetime2,
     pull_request_id         bigint    NOT NULL,
     created_date            datetime2 Not Null default GETDATE(),
     modified_date           datetime2 Not Null default GETDATE(),
@@ -85,7 +85,7 @@ CREATE TABLE [commits]
 (
     commit_id     bigint        NOT NULL PRIMARY KEY IDENTITY,
     sha           varchar(40)   NOT NULL,
-    author_id     bigint        NOT NULL,
+    author_id     bigint,
     [message]     varchar(1000) NOT NULL,
     created_date  datetime2     Not Null default GETDATE(),
     modified_date datetime2     Not Null default GETDATE(),
@@ -109,7 +109,7 @@ CREATE TABLE pull_request_comment
     pull_request_comment_id bigint      NOT NULL PRIMARY KEY IDENTITY,
     event_time              datetime2   NOT NULL,
     pull_request_id         bigint      NOT NULL,
-    git_user_id             bigint      NOT NULL,
+    git_user_id             bigint,
     comment_type            varchar(50) NOT NULL,
     created_date            datetime2   Not Null default GETDATE(),
     modified_date           datetime2   Not Null default GETDATE()
@@ -121,7 +121,7 @@ CREATE TABLE branch
     branch_id     bigint       NOT NULL PRIMARY KEY IDENTITY,
     [name]        varchar(255) NOT NULL,
     repository_id bigint       NOT NULL,
-    git_user_id   bigint       NOT NULL,
+    git_user_id   bigint,
     created_date  datetime2    Not Null default GETDATE(),
     modified_date datetime2    Not Null default GETDATE()
 );
@@ -151,6 +151,40 @@ CREATE TABLE pull_request_direction
     created_date              datetime2 Not Null default GETDATE(),
     modified_date             datetime2 Not Null default GETDATE(),
     process_end               bit       NOT NULL DEFAULT 0
+);
+
+DROP TABLE issue;
+CREATE TABLE issue
+(
+    issue_id      bigint       NOT NULL PRIMARY KEY IDENTITY,
+    repository_id bigint       NOT NULL,
+    open_user_id  bigint       NOT NULL,
+    created_date  datetime2    NOT NULL default GETDATE(),
+    modified_date datetime2    NOT NULL default GETDATE(),
+    [state]       varchar(255) NOT NULL
+);
+
+DROP TABLE issue_event;
+CREATE TABLE issue_event
+(
+    issue_event_id    bigint       NOT NULL PRIMARY KEY IDENTITY,
+    event_type        varchar(255) NOT NULL,
+    event_time        datetime2    NOT NULL,
+    event_sender_id   bigint       NOT NULL,
+    issue_id          bigint       NOT NULL,
+    created_date      datetime2    NOT NULL default GETDATE(),
+    modified_date     datetime2    NOT NULL default GETDATE(),
+    remote_identifier bigint       NOT NULL
+);
+
+DROP TABLE issue_label;
+CREATE TABLE issue_label
+(
+    issue_label_id bigint       NOT NULL PRIMARY KEY IDENTITY,
+    [label]        varchar(255) NOT NULL,
+    issue_id       bigint       NOT NULL,
+    created_date   datetime2    Not Null default GETDATE(),
+    modified_date  datetime2    Not Null default GETDATE()
 );
 
 ALTER TABLE pull_request_direction
@@ -245,3 +279,23 @@ ALTER TABLE lead_time_for_change
 ALTER TABLE branch
     ADD CONSTRAINT FK_branch_TO_repository_1 FOREIGN KEY (repository_id)
         REFERENCES repository (repository_id);
+
+ALTER TABLE issue
+    ADD CONSTRAINT FK_repository_TO_issue_1 FOREIGN KEY (repository_id)
+        REFERENCES repository (repository_id);
+
+ALTER TABLE issue
+    ADD CONSTRAINT FK_git_user_TO_issue_1 FOREIGN KEY (open_user_id)
+        REFERENCES git_user (git_user_id);
+
+ALTER TABLE issue_event
+    ADD CONSTRAINT FK_git_user_TO_issue_event_1 FOREIGN KEY (event_sender_id)
+        REFERENCES git_user (git_user_id);
+
+ALTER TABLE issue_event
+    ADD CONSTRAINT FK_issue_TO_issue_event_1 FOREIGN KEY (issue_id)
+        REFERENCES issue (issue_id);
+
+ALTER TABLE issue_label
+    ADD CONSTRAINT FK_issue_TO_issue_label_1 FOREIGN KEY (issue_id)
+        REFERENCES issue (issue_id);
