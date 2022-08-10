@@ -79,7 +79,7 @@ module.exports = async function (context, req) {
         context.res = {
             body : JSON.stringify(cloudEventObj)
         }
-    }else if(cloudEventObj.hook_event == ''){
+    }else if(cloudEventObj.hook_event == 'workflow_run'){
         const resultObj = await workflowRunModule.workflowRunMain(hookBody,cloudEventObj,context);
         await send_module.sender(resultObj,context);
         context.res = {
