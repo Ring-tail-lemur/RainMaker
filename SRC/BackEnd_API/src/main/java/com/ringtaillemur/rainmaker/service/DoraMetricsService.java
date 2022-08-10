@@ -3,28 +3,19 @@ package com.ringtaillemur.rainmaker.service;
 import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.Period;
 import java.util.*;
-import java.util.stream.Collectors;
 
 import com.ringtaillemur.rainmaker.domain.*;
 import com.ringtaillemur.rainmaker.dto.webdto.responsedto.DeploymentFrequencyDto;
 import com.ringtaillemur.rainmaker.dto.webdto.responsedto.LeadTimeForChangeByTimeDto;
-import com.ringtaillemur.rainmaker.repository.DeploymentEventRepository;
 import com.ringtaillemur.rainmaker.repository.LeadTimeForChangeRepository;
 import com.ringtaillemur.rainmaker.repository.RepositoryRepository;
+import com.ringtaillemur.rainmaker.repository.WorkflowRunRepository;
 import com.ringtaillemur.rainmaker.util.enumtype.ProductivityLevel;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.ringtaillemur.rainmaker.dto.domaindto.CycleTimeDto;
-import com.ringtaillemur.rainmaker.repository.PullRequestRepository;
-
 import lombok.RequiredArgsConstructor;
-
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.EntityTransaction;
 
 @Service
 @Transactional(readOnly = true)
@@ -32,18 +23,21 @@ import javax.persistence.EntityTransaction;
 public class DoraMetricsService {
 
     private final RepositoryRepository repositoryRepository;
-    private final DeploymentEventRepository deploymentEventRepository;
+    private final WorkflowRunRepository workflowRunRepository;
     private final LeadTimeForChangeRepository leadTimeForChangeRepository;
 
 
-    public LeadTimeForChangeByTimeDto getLeadTimeForChangeByTime(int repo_id, LocalDateTime start_time, LocalDateTime end_time) {
+    public LeadTimeForChangeByTimeDto getLeadTimeForChangeByTime(Long repo_id, LocalDateTime start_time, LocalDateTime end_time) {
+
+        //test
+        repo_id = 1L;
 
         LeadTimeForChangeByTimeDto dto = new LeadTimeForChangeByTimeDto();
         dto.setStart_time(start_time.toLocalDate());
         dto.setEnd_time(end_time.toLocalDate());
         dto.setLevel(ProductivityLevel.FRUIT);
 
-        Repository repo = repositoryRepository.findById(1L).get();
+        Repository repo = repositoryRepository.findById(repo_id).get();
 
         List<LeadTimeForChange> leadTimeForChangeList = leadTimeForChangeRepository.findByRepoIdAndTime(repo, start_time, end_time);
         Map<LocalDate, List<Integer>> AverageTimeMap = makeHashMap(start_time, end_time);
@@ -70,14 +64,16 @@ public class DoraMetricsService {
         return dto;
     }
 
-    public DeploymentFrequencyDto getDeploymentFrequencyByTimeAndRepo(int repo_id, LocalDateTime start_time, LocalDateTime end_time) {
-        DeploymentFrequencyDto deploymentFrequencyDto = new DeploymentFrequencyDto();
-        deploymentFrequencyDto.setStart_time(start_time.toLocalDate());
-        deploymentFrequencyDto.setEnd_time(end_time.toLocalDate());
-        deploymentFrequencyDto.setLevel(ProductivityLevel.FRUIT);
+    public DeploymentFrequencyDto getDeploymentFrequencyByTimeAndRepo(Long repo_id, LocalDateTime start_time, LocalDateTime end_time) {
+
+        DeploymentFrequencyDto deploymentFrequencyDto = DeploymentFrequencyDto.builder()
+            .start_time(start_time.toLocalDate())
+            .end_time(end_time.toLocalDate())
+            .level(ProductivityLevel.FRUIT)
+            .build();
 
         Repository repo = repositoryRepository.findById(1L).get();
-        List<DeploymentEvent> deploymentEventList = deploymentEventRepository.findByRepoIdAndTime(repo, start_time, end_time);
+        List<WorkflowRun> workflowRunList= workflowRunRepository.findByRepoIdAndTime(repo, start_time, end_time);
 
         Map<LocalDate, Integer> AverageTimeMap = new HashMap<>();
         Duration totalTime = Duration.between(start_time, end_time);
@@ -88,8 +84,8 @@ public class DoraMetricsService {
         }
 
 
-        for (DeploymentEvent deploymentEvent : deploymentEventList) {
-            LocalDate localDate = deploymentEvent.getDeploymentSuccessTime().toLocalDate();
+        for (WorkflowRun workflowRun : workflowRunList) {
+            LocalDate localDate = workflowRun.getWorkflowEndTime().toLocalDate();
             AverageTimeMap.put(localDate,AverageTimeMap.get(localDate)+1);
         }
 

@@ -35,7 +35,7 @@ public class doraMetricsController {
 
 
 		LeadTimeForChangeByTimeDto leadTimeForChangeByTime =
-				doraMetricsService.getLeadTimeForChangeByTime(1, start_time, end_time);
+				doraMetricsService.getLeadTimeForChangeByTime(1L, start_time, end_time);
 		return leadTimeForChangeByTime;
 	}
 
@@ -53,7 +53,7 @@ public class doraMetricsController {
 		LocalDateTime start_time = startTimeLocalDate.atStartOfDay();
 		LocalDateTime end_time = endTimeLocalDate.atStartOfDay();
 
-		DeploymentFrequencyDto frequencyDto = doraMetricsService.getDeploymentFrequencyByTimeAndRepo(1, start_time, end_time);
+		DeploymentFrequencyDto frequencyDto = doraMetricsService.getDeploymentFrequencyByTimeAndRepo(1L, start_time, end_time);
 
 
 

@@ -1,4 +1,4 @@
-package com.ringtaillemur.analyst.domain;
+package com.ringtaillemur.rainmaker.domain;
 
 import java.time.LocalDateTime;
 
@@ -14,28 +14,28 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
 import lombok.AccessLevel;
-import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@Getter
-public class PullRequestEvent extends BaseEntity {
+public class IssueEvent {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "pull_request_event_id")
+	@Column(name = "issue_event_id")
 	private Long id;
 
 	@Enumerated(EnumType.STRING)
-	private PullRequestEventType eventType;
+	private IssueEventType eventType;
 
 	private LocalDateTime eventTime;
 
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "pull_request_id")
-	private PullRequest pullRequest;
-
-	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "event_sender_id")
 	private GitUser eventSender;
+
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "issue_id")
+	private Issue issue;
+
+	private Long remoteIdentifier;
 }

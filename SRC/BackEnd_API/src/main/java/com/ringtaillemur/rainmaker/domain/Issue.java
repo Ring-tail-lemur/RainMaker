@@ -1,6 +1,7 @@
-package com.ringtaillemur.analyst.domain;
+package com.ringtaillemur.rainmaker.domain;
 
-import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -12,30 +13,33 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 
 import lombok.AccessLevel;
-import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@Getter
-public class PullRequestEvent extends BaseEntity {
+public class Issue {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "pull_request_event_id")
+	@Column(name = "issue_id")
 	private Long id;
 
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "repository_id")
+	private Repository repository;
+
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "open_user_id")
+	private GitUser openUser;
+
 	@Enumerated(EnumType.STRING)
-	private PullRequestEventType eventType;
+	private IssueState state;
 
-	private LocalDateTime eventTime;
+	@OneToMany(mappedBy = "issue")
+	private List<IssueLabel> issueLabelList = new ArrayList<>();
 
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "pull_request_id")
-	private PullRequest pullRequest;
-
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "event_sender_id")
-	private GitUser eventSender;
+	@OneToMany(mappedBy = "issue")
+	private List<IssueEvent> issueEventList = new ArrayList<>();
 }

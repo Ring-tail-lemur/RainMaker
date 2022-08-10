@@ -42,9 +42,4 @@ public class LeadTimeForChange extends BaseEntity {
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "repository_id")
 	private Repository repository;
-
-	@OneToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "deployment_event_id")
-	private DeploymentEvent deploymentEvent;
-
 }
