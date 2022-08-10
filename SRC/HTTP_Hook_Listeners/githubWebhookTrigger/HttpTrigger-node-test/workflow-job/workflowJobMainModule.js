@@ -1,6 +1,6 @@
-const queueModule = require('./workflowJobQueueModule');
-const inProgressModule = require('./workflowJobInProgressModule');
-const completeModule = require('./workflowJobCompleteModule');
+const queueModule = require('./workflowJobQueueModule.js');
+const inProgressModule = require('./workflowJobCompleteModule.js');
+const completeModule = require('./workflowJobCompleteModule.js');
 async function workflowJobMain(hookBody, cloudEventObj, context) {
     cloudEventObj.action = JSON.stringify(hookBody.action).replace(/['"]+/g, '');
     cloudEventObj.workflow_run_remote_id = JSON.stringify(hookBody.workflow_job.run_id).replace(/['"]+/g, '');
