@@ -1,5 +1,5 @@
 const requestModule = require('./workflowRunRequestedModule.js');
-const completeModule = require('./workflowCompleteRequestedModule.js');
+const completeModule = require('./workflowCompletedModule.js');
 //
 async function workflowRunMain(hookBody, cloudEventObj, context){
     cloudEventObj.action = JSON.stringify(hookBody.action).replace(/['"]+/g, '');
