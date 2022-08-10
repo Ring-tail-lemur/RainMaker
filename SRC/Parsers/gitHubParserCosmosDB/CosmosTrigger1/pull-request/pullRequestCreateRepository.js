@@ -60,7 +60,12 @@ async function insertPullRequestEventByPullRequestIdAndUserId(event_type, event_
 
     const sqlQuery = `
     INSERT INTO pull_request_event (event_type, event_time, pull_request_id, event_sender_id)
-    VALUES (UPPER('${event_type}'), '${event_time}', ${pull_request_id},
+    VALUES (UPPER('${event_type}'), '${event_time}', 
+        (
+        SELECT pull_request_id
+        FROM pull_request
+        WHERE remote_identifier = ${pull_request_id}
+        ),
         (
         SELECT git_user_id
         FROM git_user

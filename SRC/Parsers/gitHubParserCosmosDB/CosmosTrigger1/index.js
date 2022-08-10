@@ -1,5 +1,4 @@
 const controllerModule = require('./controllerModule.js');
-const pool = require("./ms-sql/msSQLPool");
 
 module.exports = async function (context, documents) {
     
