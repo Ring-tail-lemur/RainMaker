@@ -25,20 +25,21 @@ async function createBranchMain(eventObject, context) {
     
     if(!repository_id.recordset[0]) { 
         // 만약 가져온 repo가 없다면
-        const ownerAndRepo = eventObject.repository_full_name.split('/');    
-        console.log("owner, repo", ownerAndRepo);
+        const ownerAndRepo = eventObject.repository_full_name.split('/');
         const owner = ownerAndRepo[0];
         const repo = ownerAndRepo[1];
-        const repo_id = await repoCheckModule.repoCheckAndInsert(owner, repo); 
-        console.log("================repoid=================\n ", repo_id);
-        await createBranchRepository.insertBranchByRepoIdAndUserId(eventObject.branch_name, repo_id, eventObject.author_id);
+        const repo_id = await repoCheckModule.repoCheckAndInsert(owner, repo);
+        // 리포가 진짜 존재하는지 체크하고 INSERT한다. INSERT한 리포의 repo_id를 반환
+        if(repo_id) await createBranchRepository.insertBranchByRepoIdAndUserId(eventObject.branch_name, repo_id, eventObject.author_id);
+
     } else {
-        await createBranchRepository.insertBranchByRepoIdAndUserId(eventObject.branch_name, eventObject.repository_id, eventObject.author_id);
+        await createBranchRepository.insertBranchByRepoRemoteIdAndUserId(eventObject.branch_name, eventObject.repository_id, eventObject.author_id);
     }
     
 
     await dbConnectionPool.close();
 }
+
 module.exports.createBranchMain = createBranchMain;
 
 
