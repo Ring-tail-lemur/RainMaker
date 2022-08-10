@@ -18,7 +18,7 @@ CREATE TABLE repository
     modified_date         datetime2    Not Null default GETDATE(),
     owner_user_id         bigint,
     owner_organization_id bigint,
-    remote_identifier     bigint       NOT NULL
+    remote_identifier     bigint       NOT NULL unique
 );
 
 DROP TABLE git_user;
@@ -26,7 +26,7 @@ CREATE TABLE git_user
 (
     git_user_id       bigint       NOT NULL PRIMARY KEY IDENTITY,
     [name]            varchar(255) NOT NULL,
-    remote_identifier bigint       NOT NULL,
+    remote_identifier bigint       NOT NULL unique,
     created_date      datetime2    Not Null default GETDATE(),
     modified_date     datetime2    Not Null default GETDATE()
 );
@@ -35,7 +35,7 @@ DROP TABLE pull_request;
 CREATE TABLE pull_request
 (
     pull_request_id              bigint    NOT NULL PRIMARY KEY IDENTITY,
-    remote_identifier            bigint    NOT NULL,
+    remote_identifier            bigint    NOT NULL unique,
     pull_request_number          bigint    NOT NULL,
     repository_id                bigint    NOT NULL,
     pull_request_open_branch_id  bigint    NOT NULL,
@@ -61,7 +61,7 @@ DROP TABLE deployment_event;
 CREATE TABLE deployment_event
 (
     deployment_event_id     bigint    NOT NULL PRIMARY KEY IDENTITY,
-    remote_identifier       bigint,
+    remote_identifier       bigint unique,
     deployment_success_time datetime2,
     pull_request_id         bigint    NOT NULL,
     created_date            datetime2 Not Null default GETDATE(),
@@ -174,7 +174,7 @@ CREATE TABLE issue_event
     issue_id          bigint       NOT NULL,
     created_date      datetime2    NOT NULL default GETDATE(),
     modified_date     datetime2    NOT NULL default GETDATE(),
-    remote_identifier bigint       NOT NULL
+    remote_identifier bigint       NOT NULL unique
 );
 
 DROP TABLE issue_label;
@@ -186,6 +186,47 @@ CREATE TABLE issue_label
     created_date   datetime2    Not Null default GETDATE(),
     modified_date  datetime2    Not Null default GETDATE()
 );
+
+DROP TABLE workflow_run;
+CREATE TABLE workflow_run
+(
+    workflow_run_id        bigint       NOT NULL PRIMARY KEY IDENTITY,
+    remote_identifier      bigint       NOT NULL unique,
+    deployment_workflow_id bigint       NOT NULL,
+    run_number             bigint       NOT NULL,
+    trigger_event          varchar(255) NOT NULL,
+    pull_request_id        bigint          NOT NULL,
+    conclusion             varchar(255) NOT NULL,
+    created_date           datetime2    NOT NULL DEFAULT GETDATE(),
+    modified_date          datetime2    NOT NULL DEFAULT GETDATE(),
+    process_end            bit          NOT NULL DEFAULT 0,
+    repository_id          bigint       not null,
+    workflow_end_time      datetime2    NOT NULL
+);
+
+DROP TABLE deployment_workflow;
+CREATE TABLE deployment_workflow
+(
+    deployment_workflow_id bigint       NOT NULL PRIMARY KEY IDENTITY,
+    [name]                 varchar(225) NOT NULL,
+    remote_identifier      bigint       NOT NULL unique,
+    [path]                 varchar(255) NOT NULL,
+    created_date           datetime2    NOT NULL DEFAULT GETDATE(),
+    modified_date          datetime2    NOT NULL DEFAULT GETDATE()
+);
+
+
+ALTER TABLE workflow_run
+    ADD CONSTRAINT FK_deployment_workflow_TO_workflow_run_1 FOREIGN KEY (deployment_workflow_id)
+        REFERENCES deployment_workflow (deployment_workflow_id);
+
+ALTER TABLE workflow_run
+    ADD CONSTRAINT FK_pull_request_TO_workflow_run_1 FOREIGN KEY (pull_request_id)
+        REFERENCES pull_request (pull_request_id);
+
+ALTER TABLE workflow_run
+    ADD CONSTRAINT FK_repository_TO_workflow_run_1 FOREIGN KEY (repository_id)
+        REFERENCES repository (repository_id);
 
 ALTER TABLE pull_request_direction
     ADD CONSTRAINT FK_pull_request_TO_pull_request_direction_1 FOREIGN KEY (source_pull_request_id)

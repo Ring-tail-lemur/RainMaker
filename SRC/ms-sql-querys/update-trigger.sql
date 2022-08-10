@@ -138,7 +138,7 @@ AS
    WHERE dbo.issue_event.issue_event_id = i.issue_event_id;
 go
 
-CREATE TRIGGER updateIssue_labelModified
+CREATE TRIGGER updateIssueLabelModified
 ON dbo.issue_label
 AFTER UPDATE
 AS
@@ -146,4 +146,24 @@ AS
    SET modified_date = SYSDATETIME()
    FROM Inserted i
    WHERE dbo.issue_label.issue_label_id = i.issue_label_id;
+go
+
+CREATE TRIGGER updateWorkflowRunModified
+ON dbo.workflow_run
+AFTER UPDATE
+AS
+   UPDATE dbo.workflow_run
+   SET modified_date = SYSDATETIME()
+   FROM Inserted i
+   WHERE dbo.workflow_run.workflow_run_id = i.workflow_run_id;
+go
+
+CREATE TRIGGER updateDeploymentWorkflowModified
+ON dbo.deployment_workflow
+AFTER UPDATE
+AS
+   UPDATE dbo.deployment_workflow
+   SET modified_date = SYSDATETIME()
+   FROM Inserted i
+   WHERE dbo.deployment_workflow.deployment_workflow_id = i.deployment_workflow_id;
 go

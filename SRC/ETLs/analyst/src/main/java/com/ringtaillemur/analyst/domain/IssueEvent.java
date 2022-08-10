@@ -4,42 +4,38 @@ import java.time.LocalDateTime;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
 
 import lombok.AccessLevel;
-import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@Getter
-public class DeploymentEvent extends BaseEntity {
-
+public class IssueEvent {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "deployment_event_id")
+	@Column(name = "issue_event_id")
 	private Long id;
 
+	@Enumerated(EnumType.STRING)
+	private IssueEventType eventType;
+
+	private LocalDateTime eventTime;
+
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "event_sender_id")
+	private GitUser eventSender;
+
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "issue_id")
+	private Issue issue;
+
 	private Long remoteIdentifier;
-
-	private LocalDateTime deploymentSuccessTime;
-
-	private Boolean processEnd;
-
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "pull_request_id")
-	private PullRequest pullRequest;
-
-	@OneToOne(fetch = FetchType.LAZY, mappedBy = "deploymentEvent")
-	private LeadTimeForChange leadTimeForChange;
-
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "repository_id")
-	private Repository repository;
 }
