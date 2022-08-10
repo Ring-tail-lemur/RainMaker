@@ -38,6 +38,8 @@ VALUES ('org5', 5256342);
 INSERT INTO git_organization (name, remote_identifier)
 VALUES ('org6', 6256342);
 
+INSERT INTO git_organization (name, remote_identifier)
+VALUES ('ring-tail', 107110653);
 
 INSERT INTO user_organization_table (member_id, git_organization_id)
 VALUES (1, 1);
@@ -377,3 +379,15 @@ VALUES (8, 9, 0);
 
 INSERT INTO deployment_event(remote_identifier, deployment_success_time, pull_request_id, repository_id)
 VALUES (13421234, DATEADD(DAY, 1, GETDATE()), 8, 1);
+
+
+INSERT INTO issue(repository_id, open_user_id, [state])
+VALUES (1, 1, 'open');
+
+
+INSERT INTO issue_event(event_type, event_time, event_sender_id, issue_id, remote_identifier)
+VALUES ('open', GETDATE(), 1, 1, 1213343);
+
+
+INSERT INTO issue_label([label], issue_id)
+VALUES ('deploy_bug', 1);
