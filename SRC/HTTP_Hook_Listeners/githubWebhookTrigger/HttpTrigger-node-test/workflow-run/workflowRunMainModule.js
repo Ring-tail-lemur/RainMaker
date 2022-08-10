@@ -13,13 +13,20 @@ async function workflowRunMain(hookBody, cloudEventObj, context){
     cloudEventObj.repository_private = JSON.stringify(hookBody.repository.private).replace(/['"]+/g, '');
     cloudEventObj.head_repository_id = JSON.stringify(hookBody.workflow_run.head_repository.id).replace(/['"]+/g, '');
     cloudEventObj.head_commit_id = JSON.stringify(hookBody.workflow_run.head_commit.id).replace(/['"]+/g, '');
-    if(cloudEventObj.action == 'requested'){
-        return await requestModule.workflowRunRequestMain(hookBody,cloudEventObj,context);
-    }else if(cloudEventObj.action == 'completed'){
+    if(cloudEventObj.action == 'completed'){
         return await completeModule.workflowRunCompleteMain(hookBody,cloudEventObj,context);
     }else{
         context.log(cloudEventObj.action + ' ' + "action is not yet checked&&developed!");
+        cloudEventObj.source = 'not yet';
         return cloudEventObj;
     }
+    // if(cloudEventObj.action == 'requested'){
+    //     return await requestModule.workflowRunRequestMain(hookBody,cloudEventObj,context);
+    // }else if(cloudEventObj.action == 'completed'){
+    //     return await completeModule.workflowRunCompleteMain(hookBody,cloudEventObj,context);
+    // }else{
+    //     context.log(cloudEventObj.action + ' ' + "action is not yet checked&&developed!");
+    //     return cloudEventObj;
+    // }
 }
 module.exports.workflowRunMain = workflowRunMain;

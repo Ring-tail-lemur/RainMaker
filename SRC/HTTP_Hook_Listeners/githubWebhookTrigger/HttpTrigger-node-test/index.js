@@ -7,6 +7,7 @@ const checkSuiteModule = require("./check-suite/check-suite-module.js");
 const repositoryModule = require("./repository/repository-main-module.js");
 const createModule = require('./create/create-main-module');
 const issuesModule = require('./issues/issueMainModule.js');
+const workflowRunModule = require('./workflow-run/workflowRunMainModule.js');
 module.exports = async function (context, req) {
     const cloudEventObj = new Object();
     const hookBody = req.body;
@@ -74,6 +75,12 @@ module.exports = async function (context, req) {
         // project 안에서 런타임 issue를 남기는 경우, action : edited를 봐야한다.
         context.log("create issue");
         const resultObj = await issuesModule.issueMain(hookBody,cloudEventObj,context);
+        await send_module.sender(resultObj,context);
+        context.res = {
+            body : JSON.stringify(cloudEventObj)
+        }
+    }else if(cloudEventObj.hook_event == ''){
+        const resultObj = await workflowRunModule.workflowRunMain(hookBody,cloudEventObj,context);
         await send_module.sender(resultObj,context);
         context.res = {
             body : JSON.stringify(cloudEventObj)
