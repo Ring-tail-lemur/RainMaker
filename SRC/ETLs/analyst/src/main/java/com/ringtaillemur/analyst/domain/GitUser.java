@@ -44,4 +44,10 @@ public class GitUser extends BaseEntity {
 
 	@OneToMany(mappedBy = "ownerUser")
 	private List<Repository> repositoryList = new ArrayList<>();
+
+	@OneToMany(mappedBy = "openUser")
+	private List<Issue> issueList = new ArrayList<>();
+
+	@OneToMany(mappedBy = "eventSender")
+	private List<IssueEvent> issueEventList = new ArrayList<>();
 }
