@@ -1,0 +1,14 @@
+{
+    "timestamp": 1659944447735,
+    "webhookEvent": "sprint_started",
+    "sprint": {
+        "id": 2,
+        "self": "https://vidigummy-life.atlassian.net/rest/agile/1.0/sprint/2",
+        "state": "active",
+        "name": "TPY 1 스프린트",
+        "startDate": "2022-08-08T07:40:47.720Z",
+        "endDate": "2022-08-21T19:40:00.000Z",
+        "originBoardId": 3,
+        "goal": ""
+    }
+}
