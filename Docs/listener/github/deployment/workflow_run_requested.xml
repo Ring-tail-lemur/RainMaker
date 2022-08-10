@@ -1,0 +1,10 @@
+Request URL: https://github-listener-nodejs.azurewebsites.net/api/HttpTrigger-node-test?code=y1p8UJy1YD72NWfl9qRICbmVpg3hVl504eHkagCkOCLzAzFuskuGXA==
+Request method: POST
+Accept: */*
+content-type: application/json
+User-Agent: GitHub-Hookshot/f00e6a3
+X-GitHub-Delivery: a305d150-17cf-11ed-9813-a3da4a2ba5e6
+X-GitHub-Event: workflow_run
+X-GitHub-Hook-ID: 368153637
+X-GitHub-Hook-Installation-Target-ID: 107110653
+X-GitHub-Hook-Installation-Target-Type: organization
