@@ -1,6 +1,5 @@
 const requestModule = require('./workflowRunRequestedModule.js');
 const completeModule = require('./workflowCompleteRequestedModule.js');
-//
 async function workflowRunMain(hookBody, cloudEventObj, context){
     cloudEventObj.action = JSON.stringify(hookBody.action).replace(/['"]+/g, '');
     cloudEventObj.workflow_run_remote_id = JSON.stringify(hookBody.workflow_run.id).replace(/['"]+/g, '');
