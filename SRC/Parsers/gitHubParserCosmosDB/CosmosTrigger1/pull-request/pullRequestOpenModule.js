@@ -3,10 +3,10 @@ const pullRequestCreateRepository = require('./pullRequestCreateRepository');
 async function pullRequestOpenMain(eventObject, context) {
 
     //pull_request entity 생성 및 삽입
-    await pullRequestCreateRepository.insertPullRequestByRepoIdAndBranchId(eventObject.pull_request_remote_identifier, eventObject.pull_request_opened_number, eventObject.repository_identifier, eventObject.pull_request_open_branch, eventObject.pull_request_close_branch);
-    //pull_request_direction entity 생성 및 삽입
-
+    const pullRequest_id = await pullRequestCreateRepository.insertPullRequestByRepoIdAndBranchId(eventObject.pull_request_remote_identifier, eventObject.pull_request_opened_number, eventObject.repository_identifier, eventObject.pull_request_open_branch, eventObject.pull_request_close_branch);
     //pull_request_event entity 생성 및 삽입
+    await pullRequestCreateRepository.insertPullRequestEventByPullRequestIdAndUserId(eventObject.action, eventObject.pull_request_open_time, pullRequest_id, eventObject.pull_request_user_id);
+
 }
 
 module.exports.pullRequestOpenMain = pullRequestOpenMain;
@@ -28,6 +28,7 @@ pullRequestOpen 이벤트 sample
     "pull_request_open_branch":"gggggggg",
     "pull_request_close_branch":"hahahahahaahahaha",
     "pull_request_open_time":"2022-08-09T11:44:45Z",
+    "pull_request_user_id" :"123456",
 
     "EventProcessedUtcTime": "2022-08-02T07:44:15.8134619Z",
     "PartitionId": 1,
