@@ -1,4 +1,4 @@
-    name: github trigger 
+    name: github trigger [Deploy]
     
     on:
       push:
