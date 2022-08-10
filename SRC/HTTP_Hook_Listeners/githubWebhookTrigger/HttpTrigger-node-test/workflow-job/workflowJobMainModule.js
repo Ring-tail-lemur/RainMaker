@@ -1,4 +1,3 @@
-
 const queueModule = require('./workflowJobQueueModule.js');
 const inProgressModule = require('./workflowJobCompleteModule.js');
 const completeModule = require('./workflowJobCompleteModule.js');
