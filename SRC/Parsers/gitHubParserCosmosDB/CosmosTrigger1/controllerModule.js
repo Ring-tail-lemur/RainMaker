@@ -11,14 +11,19 @@ async function controllerMain(eventObj, context){
 
     if(hook_event == 'pull_request'){
         await pullRequestMainModule.pullRequestMain(eventObj);
+        context.log("pull_request insert success");
     }else if(hook_event == 'commit'){
         await commitMainModule.commitMain(eventObj);
+        context.log("commit insert success");
     }else if(hook_event == 'repository'){
         await repositoryMainModule.repositoryMain(eventObj);
+        context.log("repository insert success");
     }else if(hook_event == 'create'){
         await createMainModule.createMain(eventObj);
+        context.log("create(branch making) insert success");
     }else if(hook_event == 'pull_request_review') {
         await pullRequestReviewMainModule.pullRequestReviewMain(eventObj);
+        context.log("pull_request_review insert success");
     }
 }
 
