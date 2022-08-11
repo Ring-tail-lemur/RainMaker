@@ -37,4 +37,4 @@
           with:
             app-name: ${{ env.AZURE_FUNCTION_APP_NAME }}
             package: ${{ env.AZURE_FUNCTION_APP_PACKAGE_PATH }}
-            publish-profile: ${{ secrets.AZURE_GITHUB_WEBHOOK_AUTH }}
+            publish-profile: ${{ secrets.AZURE_FUNCTION_GITHUB_PARSER }}
