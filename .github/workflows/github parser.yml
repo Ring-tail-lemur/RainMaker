@@ -3,7 +3,7 @@
     on:
       push:
         branches: 
-          - action-test
+          - main
         paths: 
           - "SRC/Parsers/gitHubParserCosmosDB/**"
         
