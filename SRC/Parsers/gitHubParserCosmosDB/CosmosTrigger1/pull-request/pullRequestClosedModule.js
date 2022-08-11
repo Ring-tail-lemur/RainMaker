@@ -2,7 +2,9 @@ const pullRequestCreateRepository = require('./pullRequestCreateRepository');
 
 async function pullRequestCloseMain(eventObject, context) {
     //pull_request_event entity 생성 및 삽입
-    await pullRequestCreateRepository.insertPullRequestEventByPullRequestIdAndUserId(eventObject.action, eventObject.pull_request_closed_time, eventObject.pull_request_remote_identifier, eventObject.pull_request_user_id);
+    await pullRequestCreateRepository.insertPullRequestEventClosedByPullRequestIdAndUserId(eventObject.action, eventObject.pull_request_closed_time, eventObject.pull_request_remote_identifier, eventObject.pull_request_user_id);
+    //pull_request_direction entity 생성 및 삽입
+    await pullRequestCreateRepository.insertPullRequestDirectionBySourcePullRequestId(eventObject.pull_request_remote_identifier);
 }
 
 module.exports.pullRequestCloseMain = pullRequestCloseMain;

@@ -54,7 +54,7 @@ async function insertPullRequestByRepoIdAndBranchId(remote_identifier, pull_requ
     return pullRequestId.recordset[0].id;
 }
 
-async function insertPullRequestEventByPullRequestIdAndUserId(event_type, event_time, pull_request_id, event_sender_id) {
+async function insertPullRequestEventClosedByPullRequestIdAndUserId(event_type, event_time, pull_request_id, event_sender_id) {
     const dbConnectionPool = await pool;
     console.log(event_type, event_time, pull_request_id, event_sender_id);
 
@@ -82,11 +82,20 @@ async function insertPullRequestEventByPullRequestIdAndUserId(event_type, event_
     }
 }
 
-async function insertPullRequestDirectionBySourcePullRequestId(event_type, event_time, pull_request_id, event_sender_id) {
-    const dbConnectionPool = await pool;
-    console.log(remote_identifier, pull_request_number, repository_id, open_branch_name, close_branch_name);
 
-    const sqlQuery = ``;
+async function insertPullRequestEventOpenByPullRequestIdAndUserId(event_type, event_time, pull_request_id, event_sender_id) {
+    const dbConnectionPool = await pool;
+    console.log(event_type, event_time, pull_request_id, event_sender_id);
+
+    const sqlQuery = `
+    INSERT INTO pull_request_event (event_type, event_time, pull_request_id, event_sender_id)
+    VALUES (UPPER('${event_type}'), '${event_time}',  ${pull_request_id},
+        (
+        SELECT git_user_id
+        FROM git_user
+        WHERE remote_identifier = ${event_sender_id}
+        ));
+    `;
     console.log(sqlQuery);
 
     try {
@@ -97,26 +106,38 @@ async function insertPullRequestDirectionBySourcePullRequestId(event_type, event
     }
 }
 
-async function b(event_type, event_time, pull_request_id, event_sender_id) {
+async function insertPullRequestDirectionBySourcePullRequestId(pull_request_remote_identifier) {
     const dbConnectionPool = await pool;
-    console.log(remote_identifier, pull_request_number, repository_id, open_branch_name, close_branch_name);
 
-    const sqlQuery = ``;
-    console.log(sqlQuery);
+    console.log(pull_request_remote_identifier);
 
-    try {
-        await dbConnectionPool.request()
-            .query(sqlQuery);
-    } catch (e) {
-        console.error(e);
-    }
-}
-
-async function c(event_type, event_time, pull_request_id, event_sender_id) {
-    const dbConnectionPool = await pool;
-    console.log(remote_identifier, pull_request_number, repository_id, open_branch_name, close_branch_name);
-
-    const sqlQuery = ``;
+    const sqlQuery = `
+    WITH out_going_pull_request_id AS (
+        SELECT TOP 1 pull_request_id AS out_going_pull_request_id
+        FROM pull_request
+        WHERE remote_identifier = ${pull_request_remote_identifier}
+    ),
+    source_commit_id AS (
+        SELECT commit_id
+        FROM pull_request_commit_table
+        WHERE pull_request_id = (SELECT out_going_pull_request_id FROM out_going_pull_request_id)
+    ),
+    source_pull_request_id AS (
+        SELECT DISTINCT pull_request_id AS source_pull_request_id
+        FROM pull_request_commit_table
+        WHERE commit_id IN (SELECT * FROM source_commit_id)
+        AND pull_request_id NOT IN (
+            SELECT source_pull_request_id
+            FROM pull_request_direction
+            )
+        AND pull_request_id != (SELECT out_going_pull_request_id FROM out_going_pull_request_id)
+    )
+    INSERT INTO pull_request_direction (source_pull_request_id, outgoing_pull_request_id)
+    SELECT *
+    FROM source_pull_request_id
+    CROSS JOIN out_going_pull_request_id
+    ;
+    `;
     console.log(sqlQuery);
 
     try {
@@ -128,4 +149,6 @@ async function c(event_type, event_time, pull_request_id, event_sender_id) {
 }
 
 module.exports.insertPullRequestByRepoIdAndBranchId = insertPullRequestByRepoIdAndBranchId;
-module.exports.insertPullRequestEventByPullRequestIdAndUserId = insertPullRequestEventByPullRequestIdAndUserId;
+module.exports.insertPullRequestEventOpenByPullRequestIdAndUserId = insertPullRequestEventOpenByPullRequestIdAndUserId;
+module.exports.insertPullRequestEventClosedByPullRequestIdAndUserId = insertPullRequestEventClosedByPullRequestIdAndUserId;
+module.exports.insertPullRequestDirectionBySourcePullRequestId = insertPullRequestDirectionBySourcePullRequestId;
