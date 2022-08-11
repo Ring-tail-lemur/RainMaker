@@ -1,14 +1,15 @@
-    name: github trigger [Deploy]
+    name: github parser [Deploy]
     
     on:
       push:
         branches: 
-          - main 
+          - main
         paths: 
-          - "SRC/HTTP_Hook_Listeners/githubWebhookTrigger/**"
+          - "SRC/Parsers/gitHubParserCosmosDB/**"
+        
     env:
-      AZURE_FUNCTION_APP_NAME: swm-project-github-webhook    # set this to your application's name
-      AZURE_FUNCTION_APP_PACKAGE_PATH: './SRC/HTTP_Hook_Listeners/githubWebhookTrigger/'      # set this to the path to your web app project, defaults to the repository root
+      AZURE_FUNCTION_APP_NAME: githubparserfromcosmosdb    # set this to your application's name
+      AZURE_FUNCTION_APP_PACKAGE_PATH: './SRC/Parsers/gitHubParserCosmosDB/'      # set this to the path to your web app project, defaults to the repository root
       NODE_VERSION: '18.x'                     # set this to the node version to use (supports 8.x, 10.x, 12.x, 14.x)
 
     jobs:
@@ -36,4 +37,4 @@
           with:
             app-name: ${{ env.AZURE_FUNCTION_APP_NAME }}
             package: ${{ env.AZURE_FUNCTION_APP_PACKAGE_PATH }}
-            publish-profile: ${{ secrets.AZURE_GITHUB_WEBHOOK_AUTH }}
+            publish-profile: ${{ secrets.AZURE_FUNCTION_GITHUB_PARSER }}

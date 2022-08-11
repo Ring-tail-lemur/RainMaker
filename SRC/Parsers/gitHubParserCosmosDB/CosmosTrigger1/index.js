@@ -1,7 +1,7 @@
 const controllerModule = require('./controllerModule.js');
-
+//ci test2
 module.exports = async function (context, documents) {
-    
+    /** */
     if (!!documents && documents.length > 0) {
         for(let i = 0; i < documents.length; i++) {
             await controllerModule.controllerMain(documents[i], context);
