@@ -377,12 +377,8 @@ INSERT INTO pull_request_commit_table(pull_request_id, commit_id, first_commit)
 VALUES (8, 9, 0);
 
 
-INSERT INTO deployment_event(remote_identifier, deployment_success_time, pull_request_id, repository_id)
-VALUES (13421234, DATEADD(DAY, 1, GETDATE()), 8, 1);
-
-
-INSERT INTO deployment_workflow(name, remote_identifier, path)
-VALUES ('deploy_workflow[deployment]', 1, '.github/workflow/deployment.yml')
+INSERT INTO deployment_workflow(name, remote_identifier, path, issue_label_id)
+VALUES ('deploy_workflow[deployment]', 1, '.github/workflow/deployment.yml', 1)
 
 
 INSERT INTO workflow_run(remote_identifier, deployment_workflow_id, run_number, trigger_event, pull_request_id, conclusion, repository_id, workflow_end_time)

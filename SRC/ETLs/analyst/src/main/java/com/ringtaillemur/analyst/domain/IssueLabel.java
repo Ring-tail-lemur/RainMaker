@@ -8,6 +8,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
@@ -25,4 +26,7 @@ public class IssueLabel {
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "issue_id")
 	private Issue issue;
+
+	@OneToOne(fetch = FetchType.LAZY, mappedBy = "issueLabel")
+	private DeploymentWorkflow deploymentWorkflow;
 }

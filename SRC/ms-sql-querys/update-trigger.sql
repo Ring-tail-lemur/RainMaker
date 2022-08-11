@@ -18,16 +18,6 @@ AS
    WHERE dbo.branch.branch_id = i.branch_id;
 go
 
-CREATE TRIGGER updateDeploymentEventModified
-ON dbo.deployment_event
-AFTER UPDATE
-AS
-   UPDATE dbo.deployment_event
-   SET modified_date = SYSDATETIME()
-   FROM Inserted i
-   WHERE dbo.deployment_event.deployment_event_id = i.deployment_event_id;
-go
-
 CREATE TRIGGER updateGitOrganizationModified
 ON dbo.git_organization
 AFTER UPDATE

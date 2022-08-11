@@ -57,19 +57,6 @@ CREATE TABLE pull_request_event
     modified_date         datetime2   Not Null default GETDATE()
 );
 
-DROP TABLE deployment_event;
-CREATE TABLE deployment_event
-(
-    deployment_event_id     bigint    NOT NULL PRIMARY KEY IDENTITY,
-    remote_identifier       bigint unique,
-    deployment_success_time datetime2,
-    pull_request_id         bigint    NOT NULL,
-    created_date            datetime2 Not Null default GETDATE(),
-    modified_date           datetime2 Not Null default GETDATE(),
-    repository_id           bigint    Not Null,
-    process_end             bit       NOT NULL DEFAULT 0
-);
-
 DROP TABLE user_organization_table;
 CREATE TABLE user_organization_table
 (
@@ -84,7 +71,7 @@ DROP TABLE [commits];
 CREATE TABLE [commits]
 (
     commit_id     bigint        NOT NULL PRIMARY KEY IDENTITY,
-    sha           varchar(40)   NOT NULL,
+    sha           varchar(40)   NOT NULL unique,
     author_id     bigint,
     [message]     varchar(1000) NOT NULL,
     created_date  datetime2     Not Null default GETDATE(),
@@ -195,7 +182,7 @@ CREATE TABLE workflow_run
     deployment_workflow_id bigint       NOT NULL,
     run_number             bigint       NOT NULL,
     trigger_event          varchar(255) NOT NULL,
-    pull_request_id        bigint          NOT NULL,
+    pull_request_id        bigint       NOT NULL,
     conclusion             varchar(255) NOT NULL,
     created_date           datetime2    NOT NULL DEFAULT GETDATE(),
     modified_date          datetime2    NOT NULL DEFAULT GETDATE(),
@@ -212,13 +199,18 @@ CREATE TABLE deployment_workflow
     remote_identifier      bigint       NOT NULL unique,
     [path]                 varchar(255) NOT NULL,
     created_date           datetime2    NOT NULL DEFAULT GETDATE(),
-    modified_date          datetime2    NOT NULL DEFAULT GETDATE()
+    modified_date          datetime2    NOT NULL DEFAULT GETDATE(),
+    issue_label_id         bigint       null
 );
 
 
 ALTER TABLE workflow_run
     ADD CONSTRAINT FK_deployment_workflow_TO_workflow_run_1 FOREIGN KEY (deployment_workflow_id)
         REFERENCES deployment_workflow (deployment_workflow_id);
+
+ALTER TABLE deployment_workflow
+    ADD CONSTRAINT FK_issue_TO_deployment_workflow_1 FOREIGN KEY (issue_label_id)
+        REFERENCES issue_label (issue_label_id);
 
 ALTER TABLE workflow_run
     ADD CONSTRAINT FK_pull_request_TO_workflow_run_1 FOREIGN KEY (pull_request_id)
@@ -265,14 +257,6 @@ ALTER TABLE pull_request_event
     ADD CONSTRAINT FK_git_user_TO_pull_request_event_1 FOREIGN KEY (event_sender_id)
         REFERENCES git_user (git_user_id);
 
-ALTER TABLE deployment_event
-    ADD CONSTRAINT FK_pull_request_TO_deployment_event_1 FOREIGN KEY (pull_request_id)
-        REFERENCES pull_request (pull_request_id);
-
-ALTER TABLE deployment_event
-    ADD CONSTRAINT FK_repository_TO_deployment_event_1 FOREIGN KEY (repository_id)
-        REFERENCES repository (repository_id);
-
 ALTER TABLE user_organization_table
     ADD CONSTRAINT FK_git_user_TO_user_organization_table_1 FOREIGN KEY (member_id)
         REFERENCES git_user (git_user_id);
@@ -308,10 +292,6 @@ ALTER TABLE branch
 ALTER TABLE lead_time_for_change
     ADD CONSTRAINT FK_pull_request_TO_lead_time_for_change_1 FOREIGN KEY (pull_request_id)
         REFERENCES pull_request (pull_request_id);
-
-ALTER TABLE lead_time_for_change
-    ADD CONSTRAINT FK_deployment_TO_lead_time_for_change_1 FOREIGN KEY (deployment_event_id)
-        REFERENCES deployment_event (deployment_event_id);
 
 ALTER TABLE lead_time_for_change
     ADD CONSTRAINT FK_repository_TO_lead_time_for_change_1 FOREIGN KEY (repository_id)
