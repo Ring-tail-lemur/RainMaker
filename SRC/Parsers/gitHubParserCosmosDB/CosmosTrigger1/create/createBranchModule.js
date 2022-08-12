@@ -30,6 +30,8 @@ async function createBranchMain(eventObject, context) {
     }
     context.log("repository_id ================\n", repository_id);
 
+    await dbConnectionPool.close();
+
     if(!repository_id.recordset[0]) {
         // 만약 가져온 repo가 없다면
         const ownerAndRepo = eventObject.repository_full_name.split('/');

@@ -29,7 +29,7 @@ async function insertBranchByRepoRemoteIdAndUserId(branch_name, repository_remot
         console.error(e);
     }
 
-
+    await dbConnectionPool.close();
 }
 
 
