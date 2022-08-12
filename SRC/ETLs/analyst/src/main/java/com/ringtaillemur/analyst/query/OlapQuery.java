@@ -1,5 +1,5 @@
 package com.ringtaillemur.analyst.query;
-
+//test 3
 public class OlapQuery {
 	public static final String MAKE_LEAD_TIME_FOR_CHANGE = "BEGIN TRAN\n"
 		+ "\n"

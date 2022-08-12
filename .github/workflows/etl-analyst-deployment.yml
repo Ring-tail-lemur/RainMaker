@@ -1,4 +1,4 @@
-name: Deploy Java project to Azure Function App
+name: ETL Deployment Pipeline
 
 on:
   push:
@@ -16,8 +16,8 @@ on:
 # 2. Change these variables for your configuration:
 env:
   AZURE_FUNCTIONAPP_NAME: github-analystics     # set this to your function app name on Azure
-  POM_XML_DIRECTORY: './SRC/ETLs/analyst'                     # set this to the directory which contains pom.xml file
-  POM_FUNCTIONAPP_NAME: analyst        # set this to the function app name in your local development environment
+  POM_XML_DIRECTORY: 'SRC/ETLs/analyst'                     # set this to the directory which contains pom.xml file
+  POM_FUNCTIONAPP_NAME: TimerTriggerFunction        # set this to the function app name in your local development environment
   JAVA_VERSION: '1.8.x'                      # set this to the java version to use
 
 jobs:
@@ -44,7 +44,7 @@ jobs:
       id: fa
       with:
         app-name: ${{ env.AZURE_FUNCTIONAPP_NAME }}
-        package: './${{ env.POM_XML_DIRECTORY }}/target/azure-functions/${{ env.POM_FUNCTIONAPP_NAME }}'
-        publish-profile: ${{ secrets.AZURE_FUNCTIONAPP_PUBLISH_PROFILE }}
-
+        package: './${{ env.POM_XML_DIRECTORY }}/src/main/java/com/ringtaillemur/analyst/${{ env.POM_FUNCTIONAPP_NAME }}'
+        publish-profile: ${{ secrets.AZURE_FUNCTIONAPP_PUBLISH_PROFILE_ETL }}
+        # package: './${{ env.POM_XML_DIRECTORY }}/target/azure-functions/${{ env.POM_FUNCTIONAPP_NAME }}'
 # For more samples to get started with GitHub Action workflows to deploy to Azure, refer to https://github.com/Azure/actions-workflow-samples
