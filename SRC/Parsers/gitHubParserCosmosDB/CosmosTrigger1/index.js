@@ -1,6 +1,6 @@
 const controllerModule = require('./controllerModule.js');
 const sql = require('mssql');
-const config = require('./msSQLConfig');
+const config = require('./ms-sql/msSQLConfig');
 
 //ci test2
 module.exports = async function (context, documents) {
@@ -18,17 +18,22 @@ module.exports = async function (context, documents) {
                 await controllerModule.controllerMain(documents[i], context, dbConnectionPool);
             }
 
-            context.log("Here !! ");
+            context.log("Here1 !! ");
             // 커넥션 끊기. 마지막에 끊어야함.
-
-            context.res = {
-                body: "ok"
-            }
         }
     } catch (e) {
         context.log(e);
     } finally {
-        await dbConnectionPool.close();
+        context.log("Here2 !! ");
+        context.log("DBConnection LAST ================\n", dbConnectionPool.pool);
+
+        dbConnectionPool.close();
+
+        context.log("Here 3!! ");
+
+        context.res = {
+            body: "ok"
+        }
     }
 
 
