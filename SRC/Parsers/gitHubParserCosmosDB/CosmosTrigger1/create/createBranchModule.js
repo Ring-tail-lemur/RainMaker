@@ -5,8 +5,8 @@ const createBranchRepository = require('./createBranchRepository');
 async function createBranchMain(eventObject, context) {
     // branch entity 생성 및 삽입
 
-    // const dbConnectionPool = await pool.poolGetFunction(context);
-    const dbConnectionPool = await pool;
+    const dbConnectionPool = await pool.poolGetFunction(context);
+    // const dbConnectionPool = await pool;
     context.log("DBConnection ================\n", dbConnectionPool);
     const sqlRepoQuery =
         `
@@ -40,7 +40,7 @@ async function createBranchMain(eventObject, context) {
         if(repo_id) await createBranchRepository.insertBranchByRepoIdAndUserId(eventObject.branch_name, repo_id, eventObject.author_id);
 
     } else {
-        await createBranchRepository.insertBranchByRepoRemoteIdAndUserId(eventObject.branch_name, eventObject.repository_id, eventObject.author_id);
+        await createBranchRepository.insertBranchByRepoRemoteIdAndUserId(eventObject.branch_name, eventObject.repository_id, eventObject.author_id, context);
     }
 
 }

@@ -10,7 +10,7 @@ module.exports = async function (context, documents) {
         context.log("Here !! ");
 
         const pool = require('./ms-sql/msSQLPool');
-        const dbConnectionPool = await pool;
+        const dbConnectionPool = await pool.poolGetFunction(context);
         await dbConnectionPool.close();
         // 커넥션 끊기. 마지막에 끊어야함.
 

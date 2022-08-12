@@ -16,7 +16,7 @@ async function poolGetFunction(context) {
     return pool;
 }
 
-const pool = poolGetFunction(console);
+// const pool = poolGetFunction(console);
 
 // const pool = new sql.ConnectionPool(config)
 //                     .connect()
@@ -27,4 +27,4 @@ const pool = poolGetFunction(console);
 //                     .catch(err => console.log('Database Connection Failed! Bad Config: ', err))
 
 // module.exports.poolGetFunction = poolGetFunction;
-module.exports = pool;
+module.exports.poolGetFunction = poolGetFunction;

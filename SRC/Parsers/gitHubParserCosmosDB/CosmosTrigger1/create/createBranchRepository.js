@@ -1,8 +1,8 @@
 const pool = require('../ms-sql/msSQLPool');
 
-async function insertBranchByRepoRemoteIdAndUserId(branch_name, repository_remote_id, author_id){
+async function insertBranchByRepoRemoteIdAndUserId(branch_name, repository_remote_id, author_id, context){
 
-    const dbConnectionPool = await pool;
+    const dbConnectionPool = await pool.poolGetFunction(context);
 
 
 
