@@ -1,4 +1,5 @@
 const controllerModule = require('./controllerModule.js');
+const pool = require('./ms-sql/msSQLPool');
 //ci test2
 module.exports = async function (context, documents) {
     /** */
@@ -10,8 +11,8 @@ module.exports = async function (context, documents) {
         context.log("Here !! ");
 
         // const pool = require('./ms-sql/msSQLPool');
-        // const dbConnectionPool = await pool.poolGetFunction(context);
-        // await dbConnectionPool.close();
+        const dbConnectionPool = await pool;
+        await dbConnectionPool.close();
         // 커넥션 끊기. 마지막에 끊어야함.
 
         context.res ={
