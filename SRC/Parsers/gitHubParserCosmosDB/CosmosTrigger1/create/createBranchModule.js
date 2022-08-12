@@ -35,9 +35,7 @@ async function createBranchMain(eventObject, context) {
     } else {
         await createBranchRepository.insertBranchByRepoRemoteIdAndUserId(eventObject.branch_name, eventObject.repository_id, eventObject.author_id);
     }
-    
 
-    await dbConnectionPool.close();
 }
 
 module.exports.createBranchMain = createBranchMain;

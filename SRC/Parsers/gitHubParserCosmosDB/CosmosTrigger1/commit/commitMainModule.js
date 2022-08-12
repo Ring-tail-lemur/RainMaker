@@ -8,6 +8,7 @@ async function commitMain(eventObject, context){
 
     //pull_request_commit_table 생성 및 삽입
     await commitCreateRepository.insertCommitByUserId(eventObject.commit_sha, eventObject.commit_author_id, eventObject.commit_message, eventObject.commit_time);
+    await commitCreateRepository.insertPullRequestCommitTableByPullRequestIdAndCommitId(eventObject.parent_pull_request_remote_identifier, eventObject.commit_sha, false);
 }
 
 module.exports.commitMain = commitMain;

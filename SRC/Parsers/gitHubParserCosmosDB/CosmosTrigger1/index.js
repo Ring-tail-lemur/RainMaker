@@ -6,6 +6,12 @@ module.exports = async function (context, documents) {
         for(let i = 0; i < documents.length; i++) {
             await controllerModule.controllerMain(documents[i], context);
         }
+
+        const pool = require('./ms-sql/msSQLPool');
+        const dbConnectionPool = await pool;
+        await dbConnectionPool.close();
+        // 커넥션 끊기. 마지막에 끊어야함.
+
         context.res ={
             body : "ok"
         }
