@@ -9,6 +9,8 @@ async function controllerMain(eventObj, context){
     
     const hook_event = eventObj.hook_event;
 
+    context.log(context);
+
     if(hook_event == 'pull_request'){
         await pullRequestMainModule.pullRequestMain(eventObj);
         context.log("pull_request insert success");
