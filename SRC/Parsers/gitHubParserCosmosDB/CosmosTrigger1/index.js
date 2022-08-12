@@ -6,7 +6,7 @@ module.exports = async function (context, documents) {
 
     // const dbConnectionPool = await pool;
 
-    context.log("DBConnection ================\n", dbConnectionPool.pool);
+    // context.log("DBConnection ================\n", dbConnectionPool.pool);
 
     if (!!documents && documents.length > 0) {
         for(let i = 0; i < documents.length; i++) {
