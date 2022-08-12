@@ -6,7 +6,7 @@ const pullRequestReviewMainModule = require('./review/pullRequestReviewMainModul
 const pool = require('./ms-sql/msSQLPool');
 const connectionClose = require('./connectionClose')
 
-async function controllerMain(eventObj, context, a){
+async function controllerMain(eventObj, context, pool){
 
     
     const hook_event = eventObj.hook_event;
@@ -23,20 +23,13 @@ async function controllerMain(eventObj, context, a){
         await repositoryMainModule.repositoryMain(eventObj);
         context.log("repository insert success");
     }else if(hook_event == 'create'){
-        await createMainModule.createMain(eventObj, context);
+        await createMainModule.createMain(pool, eventObj, context);
         context.log("create(branch making) insert success");
     }else if(hook_event == 'pull_request_review') {
         await pullRequestReviewMainModule.pullRequestReviewMain(eventObj);
         context.log("pull_request_review insert success");
     }
-    context.log("a === ", a);
-    if(a) {
-        context.log("true === ", a);
-        await connectionClose.close(context);
-    }
-    const dbConnectionPool = await pool;
-    context.log("DBConnection10 ================\n", dbConnectionPool.pool);
-    // await dbConnectionPool.close();
+
 }
 
 module.exports.controllerMain = controllerMain;

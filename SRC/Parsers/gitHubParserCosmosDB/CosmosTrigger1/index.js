@@ -1,29 +1,27 @@
 const controllerModule = require('./controllerModule.js');
-// const pool = require('./ms-sql/msSQLPool');
+ const pool = require('./ms-sql/msSQLPool');
 //ci test2
 module.exports = async function (context, documents) {
     /** */
 
-    // const dbConnectionPool = await pool;
+    const dbConnectionPool = await pool;
 
-    // context.log("DBConnection ================\n", dbConnectionPool.pool);
+    context.log("DBConnection ================\n", dbConnectionPool.pool);
 
     if (!!documents && documents.length > 0) {
         for(let i = 0; i < documents.length; i++) {
-            let a = false
-            if (i == documents.length - 1) a = true;
-            await controllerModule.controllerMain(documents[i], context, a);
+            await controllerModule.controllerMain(documents[i], context, dbConnectionPool);
         }
 
         context.log("Here !! ");
         // 커넥션 끊기. 마지막에 끊어야함.
 
-        context.res ={
+        context.res = {
             body : "ok"
         }
     }
-    // const dbConnectionPool = await pool;
-    // await dbConnectionPool.close();
+
+    await dbConnectionPool.close();
 }
 
 

@@ -2,14 +2,14 @@ const pool = require('../ms-sql/msSQLPool');
 const repoCheckModule = require('../check-error/repoCheckModule');
 const createBranchRepository = require('./createBranchRepository');
 
-async function createBranchMain(eventObject, context) {
+async function createBranchMain(dbConnectionPool, eventObject, context) {
     // branch entity 생성 및 삽입
 
 
     // const dbConnectionPool = await pool.poolGetFunction(context);
-    const dbConnectionPool = await pool;
+    // const dbConnectionPool = await pool;
 
-    context.log("DBConnection ================\n", dbConnectionPool.pool);
+    context.log("DBConnection createBranchMain ================\n", dbConnectionPool.pool);
 
 
 
