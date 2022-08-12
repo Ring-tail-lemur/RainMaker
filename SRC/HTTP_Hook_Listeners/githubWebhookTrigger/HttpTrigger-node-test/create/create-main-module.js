@@ -11,8 +11,6 @@ async function createMain(context, hookBody, cloudEventObj){
     }else{
         return new Object();
     }
-    
-
 }
 
 module.exports.createMain = createMain;
