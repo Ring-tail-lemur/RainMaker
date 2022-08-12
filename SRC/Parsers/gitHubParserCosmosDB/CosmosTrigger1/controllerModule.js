@@ -15,7 +15,7 @@ async function controllerMain(eventObj, context){
         await pullRequestMainModule.pullRequestMain(eventObj);
         context.log("pull_request insert success");
     }else if(hook_event == 'commit'){
-        await commitMainModule.commitMain(eventObj);
+        await commitMainModule.commitMain(eventObj, context);
         context.log("commit insert success");
     }else if(hook_event == 'repository'){
         await repositoryMainModule.repositoryMain(eventObj);

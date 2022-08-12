@@ -19,5 +19,5 @@ const a = []
  // a.push(jsonData5);
  // a.push(jsonData6);
 // a.push(jsonData7);
-
-index(console,a);
+const context = console
+index(context,a);

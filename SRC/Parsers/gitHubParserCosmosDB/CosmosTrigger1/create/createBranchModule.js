@@ -5,8 +5,8 @@ const createBranchRepository = require('./createBranchRepository');
 async function createBranchMain(eventObject, context) {
     // branch entity 생성 및 삽입
 
-
-    const dbConnectionPool = await pool;
+    const dbConnectionPool = await pool.poolGetFunction(context);
+    // const dbConnectionPool = await pool;
     context.log("DBConnection ================\n", dbConnectionPool);
     const sqlRepoQuery =
         `
@@ -18,7 +18,7 @@ async function createBranchMain(eventObject, context) {
     1. 처음에는 repo_id를 찾아오는 쿼리를 날린다.
     2. 만약 repo_id가 없다면, 진짜 repo_id가 없는지 token과 url를 통해 github에 정보를 요청한다.
     3-1. 만약 정말로 repo가 없는 경우라면, 이 요청을 버린다.
-    3-2. 만약 repo가 있는 경우는, repo 정보를 insert하고, 그 insert된 id값과 함께 INSERT 쿼리를 다시 날린다. 
+    3-2. 만약 repo가 있는 경우는, repo 정보를 insert하고, 그 insert된 id값과 함께 INSERT 쿼리를 다시 날린다.
     */
     let repository_id
     try {
@@ -30,7 +30,7 @@ async function createBranchMain(eventObject, context) {
     }
     context.log("repository_id ================\n", repository_id);
 
-    if(!repository_id.recordset[0]) { 
+    if(!repository_id.recordset[0]) {
         // 만약 가져온 repo가 없다면
         const ownerAndRepo = eventObject.repository_full_name.split('/');
         const owner = ownerAndRepo[0];

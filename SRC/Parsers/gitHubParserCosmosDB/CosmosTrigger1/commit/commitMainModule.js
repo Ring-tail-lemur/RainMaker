@@ -7,7 +7,11 @@ async function commitMain(eventObject, context){
     //commit entity 생성 및 삽입
 
     //pull_request_commit_table 생성 및 삽입
-    await commitCreateRepository.insertCommitByUserId(eventObject.commit_sha, eventObject.commit_author_id, eventObject.commit_message, eventObject.commit_time);
+    try {
+        await commitCreateRepository.insertCommitByUserId(eventObject.commit_sha, eventObject.commit_author_id, eventObject.commit_message, eventObject.commit_time);
+    } catch (e) {
+        context.log(e);
+    }
     await commitCreateRepository.insertPullRequestCommitTableByPullRequestIdAndCommitId(eventObject.parent_pull_request_remote_identifier, eventObject.commit_sha, false);
 }
 
