@@ -4,8 +4,9 @@ const createMainModule = require('./create/createMainModule.js');
 const commitMainModule = require('./commit/commitMainModule.js');
 const pullRequestReviewMainModule = require('./review/pullRequestReviewMainModule');
 const pool = require('./ms-sql/msSQLPool');
+const connectionClose = require('./connectionClose')
 
-async function controllerMain(eventObj, context){
+async function controllerMain(eventObj, context, a){
 
     
     const hook_event = eventObj.hook_event;
@@ -28,7 +29,11 @@ async function controllerMain(eventObj, context){
         await pullRequestReviewMainModule.pullRequestReviewMain(eventObj);
         context.log("pull_request_review insert success");
     }
-
+    context.log("a === ", a);
+    if(a) {
+        context.log("true === ", a);
+        await connectionClose.close(context);
+    }
     const dbConnectionPool = await pool;
     context.log("DBConnection10 ================\n", dbConnectionPool.pool);
     // await dbConnectionPool.close();

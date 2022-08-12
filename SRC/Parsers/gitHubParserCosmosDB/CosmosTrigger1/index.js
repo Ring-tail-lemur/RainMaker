@@ -10,7 +10,9 @@ module.exports = async function (context, documents) {
 
     if (!!documents && documents.length > 0) {
         for(let i = 0; i < documents.length; i++) {
-            await controllerModule.controllerMain(documents[i], context);
+            let a = false
+            if (i == documents.length - 1) a = true;
+            await controllerModule.controllerMain(documents[i], context, a);
         }
 
         context.log("Here !! ");
