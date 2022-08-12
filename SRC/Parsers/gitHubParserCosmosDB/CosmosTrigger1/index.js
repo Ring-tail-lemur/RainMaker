@@ -7,6 +7,8 @@ module.exports = async function (context, documents) {
             await controllerModule.controllerMain(documents[i], context);
         }
 
+        context.log("Here !! ");
+
         const pool = require('./ms-sql/msSQLPool');
         const dbConnectionPool = await pool;
         await dbConnectionPool.close();
