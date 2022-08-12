@@ -4,6 +4,9 @@ async function insertBranchByRepoRemoteIdAndUserId(branch_name, repository_remot
 
     const dbConnectionPool = await pool;
 
+
+
+
     const sqlQuery = `
     INSERT INTO branch (name, repository_id, git_user_id)
     VALUES ( '${branch_name}', 

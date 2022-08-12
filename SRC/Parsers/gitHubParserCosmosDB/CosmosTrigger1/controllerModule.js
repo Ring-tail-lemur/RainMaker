@@ -21,7 +21,7 @@ async function controllerMain(eventObj, context){
         await repositoryMainModule.repositoryMain(eventObj);
         context.log("repository insert success");
     }else if(hook_event == 'create'){
-        await createMainModule.createMain(eventObj);
+        await createMainModule.createMain(eventObj, context);
         context.log("create(branch making) insert success");
     }else if(hook_event == 'pull_request_review') {
         await pullRequestReviewMainModule.pullRequestReviewMain(eventObj);

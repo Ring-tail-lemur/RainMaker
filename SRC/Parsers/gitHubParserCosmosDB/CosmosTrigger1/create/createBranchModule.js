@@ -5,8 +5,9 @@ const createBranchRepository = require('./createBranchRepository');
 async function createBranchMain(eventObject, context) {
     // branch entity 생성 및 삽입
 
-    const dbConnectionPool = await pool;
 
+    const dbConnectionPool = await pool;
+    context.log("DBConnection ================\n", dbConnectionPool);
     const sqlRepoQuery = 
     `
     SELECT repository_id

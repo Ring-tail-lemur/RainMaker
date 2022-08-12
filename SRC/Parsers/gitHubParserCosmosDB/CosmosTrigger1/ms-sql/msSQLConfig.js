@@ -7,6 +7,6 @@ module.exports = {
     options: {
       encrypt: true, // Use this if you're on Windows Azure
     },
-    pool: { max: 10, min: 1, idleTimeoutMillis: 30000, },
+    pool: { max: 10, min: 0, idleTimeoutMillis: 30000, },
     trustServerCertificate: true
 }
