@@ -8,6 +8,7 @@ const repositoryModule = require("./repository/repository-main-module.js");
 const createModule = require('./create/create-main-module');
 const issuesModule = require('./issues/issueMainModule.js');
 const workflowRunModule = require('./workflow-run/workflowRunMainModule.js');
+const releaseModule = require('./release/releaseMainModule.js');
 module.exports = async function (context, req) {
     const cloudEventObj = new Object();
     const hookBody = req.body;
@@ -81,6 +82,12 @@ module.exports = async function (context, req) {
         }
     }else if(cloudEventObj.hook_event == 'workflow_run'){
         const resultObj = await workflowRunModule.workflowRunMain(hookBody,cloudEventObj,context);
+        await send_module.sender(resultObj,context);
+        context.res = {
+            body : JSON.stringify(cloudEventObj)
+        }
+    }else if(cloudEventObj.hook_event == 'release'){
+        const resultObj = await releaseModule.releaseMain(hookBody,cloudEventObj,context);
         await send_module.sender(resultObj,context);
         context.res = {
             body : JSON.stringify(cloudEventObj)
