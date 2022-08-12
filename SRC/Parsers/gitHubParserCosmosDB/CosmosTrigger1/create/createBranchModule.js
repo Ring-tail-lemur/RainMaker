@@ -7,6 +7,7 @@ async function createBranchMain(eventObject, context) {
 
 
     // const dbConnectionPool = await pool.poolGetFunction(context);
+    const dbConnectionPool = await pool;
     const dbConnectionPool1 = await pool;
     const dbConnectionPool2 = await pool;
     const dbConnectionPool3 = await pool;
@@ -14,7 +15,7 @@ async function createBranchMain(eventObject, context) {
     const dbConnectionPool5 = await pool;
     const dbConnectionPool6 = await pool;
 
-
+    context.log("DBConnection ================\n", dbConnectionPool.pool);
     context.log("DBConnection1 ================\n", dbConnectionPool1.pool);
     context.log("DBConnection2 ================\n", dbConnectionPool2.pool);
     context.log("DBConnection3 ================\n", dbConnectionPool3.pool);
@@ -45,7 +46,7 @@ async function createBranchMain(eventObject, context) {
     }
     context.log("repository_id ================\n", repository_id);
 
-    await dbConnectionPool.close();
+    // await dbConnectionPool.close();
 
     if(!repository_id.recordset[0]) {
         // 만약 가져온 repo가 없다면
