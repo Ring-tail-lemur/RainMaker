@@ -8,20 +8,9 @@ async function createBranchMain(eventObject, context) {
 
     // const dbConnectionPool = await pool.poolGetFunction(context);
     const dbConnectionPool = await pool;
-    const dbConnectionPool1 = await pool;
-    const dbConnectionPool2 = await pool;
-    const dbConnectionPool3 = await pool;
-    const dbConnectionPool4 = await pool;
-    const dbConnectionPool5 = await pool;
-    const dbConnectionPool6 = await pool;
 
     context.log("DBConnection ================\n", dbConnectionPool.pool);
-    context.log("DBConnection1 ================\n", dbConnectionPool1.pool);
-    context.log("DBConnection2 ================\n", dbConnectionPool2.pool);
-    context.log("DBConnection3 ================\n", dbConnectionPool3.pool);
-    context.log("DBConnection4 ================\n", dbConnectionPool4.pool);
-    context.log("DBConnection5 ================\n", dbConnectionPool5.pool);
-    context.log("DBConnection6 ================\n", dbConnectionPool6.pool);
+
 
 
     const sqlRepoQuery =
