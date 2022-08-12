@@ -31,7 +31,7 @@ async function controllerMain(eventObj, context){
 
     const dbConnectionPool = await pool;
     context.log("DBConnection10 ================\n", dbConnectionPool.pool);
-    await dbConnectionPool.close();
+    // await dbConnectionPool.close();
 }
 
 module.exports.controllerMain = controllerMain;
