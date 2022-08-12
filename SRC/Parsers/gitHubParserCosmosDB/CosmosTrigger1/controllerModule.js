@@ -3,6 +3,7 @@ const repositoryMainModule = require('./repository/repositoryMainModule.js');
 const createMainModule = require('./create/createMainModule.js');
 const commitMainModule = require('./commit/commitMainModule.js');
 const pullRequestReviewMainModule = require('./review/pullRequestReviewMainModule');
+const pool = require('./ms-sql/msSQLPool');
 
 async function controllerMain(eventObj, context){
 
@@ -27,6 +28,9 @@ async function controllerMain(eventObj, context){
         await pullRequestReviewMainModule.pullRequestReviewMain(eventObj);
         context.log("pull_request_review insert success");
     }
+
+    const dbConnectionPool = await pool;
+    await dbConnectionPool.close();
 }
 
 module.exports.controllerMain = controllerMain;
