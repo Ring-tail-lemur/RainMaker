@@ -16,13 +16,15 @@ async function poolGetFunction(context) {
     return pool;
 }
 
-const pool = new sql.ConnectionPool(config)
-                    .connect()
-                    .then(pool => {
-                        console.log('Connected to MSSQL')
-                        return pool
-                    })
-                    .catch(err => console.log('Database Connection Failed! Bad Config: ', err))
+const pool = poolGetFunction(console);
 
-module.exports.poolGetFunction = poolGetFunction;
-// module.exports = pool;
+// const pool = new sql.ConnectionPool(config)
+//                     .connect()
+//                     .then(pool => {
+//                         console.log('Connected to MSSQL')
+//                         return pool
+//                     })
+//                     .catch(err => console.log('Database Connection Failed! Bad Config: ', err))
+
+// module.exports.poolGetFunction = poolGetFunction;
+module.exports = pool;
