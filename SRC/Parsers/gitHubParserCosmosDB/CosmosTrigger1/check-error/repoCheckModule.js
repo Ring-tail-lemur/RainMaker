@@ -4,7 +4,7 @@ const repositoryCreateRepository = require('../repository/repositoryCreateReposi
 const owner = 'Ring-tail-lemur';
 const repo = 'test-for-fake-project';
 
-async function repoCheckAndInsert(owner, repo) {
+async function repoCheckAndInsert(pool, owner, repo) {
 
     // todo 여기에 자신의 팀의 토큰을 넣어야한다. 그래야 repo 확인 가능
     const octokit = new Octokit({
@@ -17,9 +17,9 @@ async function repoCheckAndInsert(owner, repo) {
         let repo_id;
 
         if(response.data.owner.type == "User"){
-            repo_id = await repositoryCreateRepository.insertRepoByUserId(response.data.name, response.data.id, response.data.owner.id);
+            repo_id = await repositoryCreateRepository.insertRepoByUserId(pool, response.data.name, response.data.id, response.data.owner.id);
         } else if(response.data.owner.type == "Organization") {
-            repo_id = await repositoryCreateRepository.insertRepoByOrganizationId(response.data.name, response.data.id, response.data.owner.id);
+            repo_id = await repositoryCreateRepository.insertRepoByOrganizationId(pool, response.data.name, response.data.id, response.data.owner.id);
         }
         return repo_id;
     } catch(err) {

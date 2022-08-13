@@ -5,14 +5,6 @@ const createBranchRepository = require('./createBranchRepository');
 async function createBranchMain(dbConnectionPool, eventObject, context) {
     // branch entity 생성 및 삽입
 
-
-    // const dbConnectionPool = await pool.poolGetFunction(context);
-    // const dbConnectionPool = await pool;
-
-    context.log("DBConnection createBranchMain ================\n", dbConnectionPool.pool);
-
-
-
     const sqlRepoQuery =
         `
             SELECT repository_id
@@ -42,12 +34,12 @@ async function createBranchMain(dbConnectionPool, eventObject, context) {
         const ownerAndRepo = eventObject.repository_full_name.split('/');
         const owner = ownerAndRepo[0];
         const repo = ownerAndRepo[1];
-        const repo_id = await repoCheckModule.repoCheckAndInsert(owner, repo);
+        const repo_id = await repoCheckModule.repoCheckAndInsert(dbConnectionPool, owner, repo);
         // 리포가 진짜 존재하는지 체크하고 INSERT한다. INSERT한 리포의 repo_id를 반환
-        if(repo_id) await createBranchRepository.insertBranchByRepoIdAndUserId(eventObject.branch_name, repo_id, eventObject.author_id);
+        if(repo_id) await createBranchRepository.insertBranchByRepoIdAndUserId(dbConnectionPool, eventObject.branch_name, repo_id, eventObject.author_id);
 
     } else {
-        await createBranchRepository.insertBranchByRepoRemoteIdAndUserId(eventObject.branch_name, eventObject.repository_id, eventObject.author_id, context);
+        await createBranchRepository.insertBranchByRepoRemoteIdAndUserId(dbConnectionPool, eventObject.branch_name, eventObject.repository_id, eventObject.author_id, context);
     }
 
 }
