@@ -2,7 +2,7 @@ const pullRequestReviewCreateRepository = require('./pullRequestReviewCreateRepo
 
 async function pullRequestSubmitModule(pool, eventObject, context){
     // pull_request_event entity 생성 및 삽입
-    await pullRequestReviewCreateRepository.insertPullRequestCommentByPullRequestIdAndUserId(pool, eventObject.event_time, eventObject.pull_request_remote_identifier, eventObject.actor_remote_id, eventObject.review_state);
+    await pullRequestReviewCreateRepository.insertPullRequestCommentByPullRequestIdAndUserId(pool, context, eventObject.event_time, eventObject.pull_request_remote_identifier, eventObject.actor_remote_id, eventObject.review_state);
 }
 
 module.exports.pullRequestSubmitModule = pullRequestSubmitModule;

@@ -6,31 +6,21 @@ const config = require('./ms-sql/msSQLConfig');
 module.exports = async function (context, documents) {
     /** */
 
-    // const dbConnectionPool = await pool;
     const dbConnectionPool = new sql.ConnectionPool(config);
     try {
         await dbConnectionPool.connect();
 
-        context.log("DBConnection ================\n", dbConnectionPool.pool);
+        context.log("DBConnection \n", dbConnectionPool.pool);
 
         if (!!documents && documents.length > 0) {
             for (let i = 0; i < documents.length; i++) {
                 await controllerModule.controllerMain(documents[i], context, dbConnectionPool);
             }
-
-            context.log("Here1 !! ");
-            // 커넥션 끊기. 마지막에 끊어야함.
         }
     } catch (e) {
         context.log(e);
     } finally {
-        context.log("Here2 !! ");
-        context.log("DBConnection LAST ================\n", dbConnectionPool.pool);
-
         dbConnectionPool.close();
-
-        context.log("Here 3!! ");
-
         context.res = {
             body: "ok"
         }

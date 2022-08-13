@@ -1,21 +1,22 @@
 {
-    "id": "a0c8e24e-978d-4cbf-a631-dc094a9e4101",
-    "_rid": "6LZfAJRxZZmbAAAAAAAAAA==",
-    "_self": "dbs/6LZfAA==/colls/6LZfAJRxZZk=/docs/6LZfAJRxZZmbAAAAAAAAAA==/",
-    "_ts": 1659523910,
-    "_etag":"0000a400-0000-2500-0000-62ea53460000",
+    "id": "1cccbe7f-dc9a-477a-bb95-f9919ecd4d86",
+    "_rid": "6LZfAJRxZZm5BAAAAAAAAA==",
+    "_self": "dbs/6LZfAA==/colls/6LZfAJRxZZk=/docs/6LZfAJRxZZm5BAAAAAAAAA==/",
+    "_ts": 1660351435,
+    "_etag": "\"0000c81d-0000-2500-0000-62f6f3cb0000\"",
 
-
-    "hook_event": "pull_request_review",
+    "hook_event": "issue_comment",
     "source": "github",
-    "action": "submitted",
-    "event_time": "2022-08-02T07:46:43Z",
-    "actor_remote_id": "33488236",
-    "pull_request_remote_identifier": "1021411142",
-    "review_state": "commented",
+    "action": "created",
+    "issue_comment_remote_id": "1337808240",
+    "issue_comment_repository_number": "227",
+    "git_user_remote_id": "81180977",
+    "event_time": "2022-08-13T00:43:32Z",
+    "repository_id": "510731046",
+    "isPrivate": "false",
 
-    "EventProcessedUtcTime": "2022-08-02T07:44:15.8134619Z",
+    "EventProcessedUtcTime": "2022-08-13T00:43:54.6283364Z",
     "PartitionId": 1,
-    "EventEnqueuedUtcTime": "2022-08-02T07:44:15.542Z",
-    "_lsn": 113
+    "EventEnqueuedUtcTime": "2022-08-13T00:43:54.496Z",
+    "_lsn": 804
 }

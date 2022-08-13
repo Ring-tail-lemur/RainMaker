@@ -4,7 +4,6 @@ const createMainModule = require('./create/createMainModule.js');
 const commitMainModule = require('./commit/commitMainModule.js');
 const pullRequestReviewMainModule = require('./review/pullRequestReviewMainModule');
 // const pool = require('./ms-sql/msSQLPool');
-const connectionClose = require('./connectionClose')
 
 async function controllerMain(eventObj, context, pool){
 
