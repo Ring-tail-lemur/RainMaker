@@ -1,7 +1,7 @@
 const pool = require('../ms-sql/msSQLPool');
 
-async function insertPullRequestCommentByPullRequestIdAndUserId(event_time, pull_request_id, git_user_id, comment_type) {
-    const dbConnectionPool = await pool;
+async function insertPullRequestCommentByPullRequestIdAndUserId(dbConnectionPool, context, event_time, pull_request_id, git_user_id, comment_type) {
+    // const dbConnectionPool = await pool;
     console.log(event_time, pull_request_id, git_user_id, comment_type);
 
     const sqlQuery = `
@@ -26,7 +26,7 @@ async function insertPullRequestCommentByPullRequestIdAndUserId(event_time, pull
         await dbConnectionPool.request()
             .query(sqlQuery);
     } catch (e) {
-        console.error(e);
+        context.error(e);
     }
 }
 

@@ -1,8 +1,8 @@
 const pool = require('../ms-sql/msSQLPool');
 
-async function insertCommitByUserId(commit_sha, author_id, message, commit_time) {
+async function insertCommitByUserId(dbConnectionPool, commit_sha, author_id, message, commit_time) {
 
-    const dbConnectionPool = await pool;
+    // const dbConnectionPool = await pool;
 
     const sqlQuery = `
     INSERT INTO commits (sha, message, commit_time, author_id)
@@ -23,11 +23,11 @@ async function insertCommitByUserId(commit_sha, author_id, message, commit_time)
     }
 }
 
-async function insertPullRequestCommitTableByPullRequestIdAndCommitId(pull_request_id, commit_id, first_commit) {
+async function insertPullRequestCommitTableByPullRequestIdAndCommitId(dbConnectionPool, pull_request_id, commit_id, first_commit) {
 
     console.log(pull_request_id, commit_id, first_commit);
 
-    const dbConnectionPool = await pool;
+    // const dbConnectionPool = await pool;
 
     const sqlQuery = `
     INSERT INTO pull_request_commit_table (pull_request_id, commit_id, first_commit)

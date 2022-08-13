@@ -1,9 +1,9 @@
 const pool = require('../ms-sql/msSQLPool');
 
-async function insertPullRequestByRepoIdAndBranchId(remote_identifier, pull_request_number, repository_id, open_branch_name, close_branch_name) {
+async function insertPullRequestByRepoIdAndBranchId(dbConnectionPool ,remote_identifier, pull_request_number, repository_id, open_branch_name, close_branch_name) {
 
     console.log(remote_identifier, pull_request_number, repository_id, open_branch_name, close_branch_name);
-    const dbConnectionPool = await pool;
+    // const dbConnectionPool = await pool;
     const transaction = await dbConnectionPool.transaction();
     await transaction.begin();
 
@@ -54,37 +54,38 @@ async function insertPullRequestByRepoIdAndBranchId(remote_identifier, pull_requ
     return pullRequestId.recordset[0].id;
 }
 
-async function insertPullRequestEventClosedByPullRequestIdAndUserId(event_type, event_time, pull_request_id, event_sender_id) {
-    const dbConnectionPool = await pool;
-    console.log(event_type, event_time, pull_request_id, event_sender_id);
+async function insertPullRequestEventClosedByPullRequestIdAndUserId(dbConnectionPool, context, event_type, event_time, pull_request_id, event_sender_id) {
+    // const dbConnectionPool = await pool;
+    context.log("****************** flag 3 *******************", );
+    context.log(event_type, event_time, pull_request_id, event_sender_id);
 
     const sqlQuery = `
     INSERT INTO pull_request_event (event_type, event_time, pull_request_id, event_sender_id)
     VALUES (UPPER('${event_type}'), '${event_time}', 
         (
-        SELECT pull_request_id
-        FROM pull_request
+        SELECT pull_request_id 
+        FROM pull_request 
         WHERE remote_identifier = ${pull_request_id}
         ),
         (
-        SELECT git_user_id
-        FROM git_user
+        SELECT git_user_id 
+        FROM git_user 
         WHERE remote_identifier = ${event_sender_id}
         ));
     `;
-    console.log(sqlQuery);
+    context.log(sqlQuery);
 
     try {
         await dbConnectionPool.request()
             .query(sqlQuery);
     } catch (e) {
-        console.error(e);
+        context.log(e);
     }
 }
 
 
-async function insertPullRequestEventOpenByPullRequestIdAndUserId(event_type, event_time, pull_request_id, event_sender_id) {
-    const dbConnectionPool = await pool;
+async function insertPullRequestEventOpenByPullRequestIdAndUserId(dbConnectionPool ,event_type, event_time, pull_request_id, event_sender_id) {
+    // const dbConnectionPool = await pool;
     console.log(event_type, event_time, pull_request_id, event_sender_id);
 
     const sqlQuery = `
@@ -106,8 +107,8 @@ async function insertPullRequestEventOpenByPullRequestIdAndUserId(event_type, ev
     }
 }
 
-async function insertPullRequestDirectionBySourcePullRequestId(pull_request_remote_identifier) {
-    const dbConnectionPool = await pool;
+async function insertPullRequestDirectionBySourcePullRequestId(dbConnectionPool, pull_request_remote_identifier) {
+    // const dbConnectionPool = await pool;
 
     console.log(pull_request_remote_identifier);
 

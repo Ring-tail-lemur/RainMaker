@@ -6,7 +6,7 @@ import com.microsoft.azure.functions.annotation.TimerTrigger;
 import com.ringtaillemur.analyst.analysislogic.dorametric.LeadTimeForChange;
 import java.io.IOException;
 
-// test3
+// test1
 public class TimerTriggerFunction {
 
   LeadTimeForChange leadTimeForChange = LeadTimeForChange.getLeadTimeForChange();

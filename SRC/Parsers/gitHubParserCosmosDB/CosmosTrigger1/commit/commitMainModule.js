@@ -1,14 +1,18 @@
 const commitCreateRepository = require('./commitCreateRepository.js');
 
-async function commitMain(eventObject, context){
+async function commitMain(pool, eventObject, context){
     //commit 에 대한 것. 내가 만든 것이므로 언젠가는 바뀔 수도 있다. action마저 commit으로, 분기될만한 것이 없음.
     //main에서 그냥 commits entity 생성 및 삽입해도 무방함
 
     //commit entity 생성 및 삽입
 
     //pull_request_commit_table 생성 및 삽입
-    await commitCreateRepository.insertCommitByUserId(eventObject.commit_sha, eventObject.commit_author_id, eventObject.commit_message, eventObject.commit_time);
-    await commitCreateRepository.insertPullRequestCommitTableByPullRequestIdAndCommitId(eventObject.parent_pull_request_remote_identifier, eventObject.commit_sha, false);
+    try {
+        await commitCreateRepository.insertCommitByUserId(pool, eventObject.commit_sha, eventObject.commit_author_id, eventObject.commit_message, eventObject.commit_time);
+    } catch (e) {
+        context.log(e);
+    }
+    await commitCreateRepository.insertPullRequestCommitTableByPullRequestIdAndCommitId(pool, eventObject.parent_pull_request_remote_identifier, eventObject.commit_sha, false);
 }
 
 module.exports.commitMain = commitMain;
