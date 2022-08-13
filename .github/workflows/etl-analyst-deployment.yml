@@ -16,8 +16,8 @@ on:
 # 2. Change these variables for your configuration:
 env:
   AZURE_FUNCTIONAPP_NAME: github-analystics     # set this to your function app name on Azure
-  POM_XML_DIRECTORY: 'SRC/ETLs/analyst'                     # set this to the directory which contains pom.xml file
-  POM_FUNCTIONAPP_NAME: analyst-1659606593521        # set this to the function app name in your local development environment
+  POM_XML_DIRECTORY: 'SRC/ETLs/analyst'
+  POM_FUNCTIONAPP_NAME: analyst-1659606593521
   JAVA_VERSION: '1.8.x'                      # set this to the java version to use
 
 jobs:
