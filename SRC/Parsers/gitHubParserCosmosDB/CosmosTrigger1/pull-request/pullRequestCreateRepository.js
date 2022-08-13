@@ -63,13 +63,13 @@ async function insertPullRequestEventClosedByPullRequestIdAndUserId(dbConnection
     INSERT INTO pull_request_event (event_type, event_time, pull_request_id, event_sender_id)
     VALUES (UPPER('${event_type}'), '${event_time}', 
         (
-        SELECT pull_request_id
-        FROM pull_request
+        SELECT pull_request_id 
+        FROM pull_request 
         WHERE remote_identifier = ${pull_request_id}
         ),
         (
-        SELECT git_user_id
-        FROM git_user
+        SELECT git_user_id 
+        FROM git_user 
         WHERE remote_identifier = ${event_sender_id}
         ));
     `;
@@ -79,7 +79,7 @@ async function insertPullRequestEventClosedByPullRequestIdAndUserId(dbConnection
         await dbConnectionPool.request()
             .query(sqlQuery);
     } catch (e) {
-        context.error(e);
+        context.log(e);
     }
 }
 
