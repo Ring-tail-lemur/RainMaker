@@ -3,7 +3,7 @@ name: ETL Deployment Pipeline
 on:
   push:
     branches:
-      - githubAction-ETL
+      - main
     paths:
       - "SRC/ETLs/analyst/**"
 
