@@ -162,52 +162,52 @@ INSERT INTO pull_request_direction(source_pull_request_id, outgoing_pull_request
 VALUES (5, 8)
 
 
-INSERT INTO pull_request_event(event_type, event_time, pull_request_id, event_sender_id)
+INSERT INTO pull_request_event(pull_request_event_type, event_time, pull_request_id, event_sender_id)
 VALUES ('CLOSED', DATEADD(DAY, -7, GETDATE()), 1, 1)
 
-INSERT INTO pull_request_event(event_type, event_time, pull_request_id, event_sender_id)
+INSERT INTO pull_request_event(pull_request_event_type, event_time, pull_request_id, event_sender_id)
 VALUES ('CLOSED', DATEADD(DAY, -6, GETDATE()), 2, 1)
 
-INSERT INTO pull_request_event(event_type, event_time, pull_request_id, event_sender_id)
+INSERT INTO pull_request_event(pull_request_event_type, event_time, pull_request_id, event_sender_id)
 VALUES ('CLOSED', DATEADD(DAY, -5, GETDATE()), 3, 1)
 
-INSERT INTO pull_request_event(event_type, event_time, pull_request_id, event_sender_id)
+INSERT INTO pull_request_event(pull_request_event_type, event_time, pull_request_id, event_sender_id)
 VALUES ('CLOSED', DATEADD(DAY, -4, GETDATE()), 4, 1)
 
-INSERT INTO pull_request_event(event_type, event_time, pull_request_id, event_sender_id)
+INSERT INTO pull_request_event(pull_request_event_type, event_time, pull_request_id, event_sender_id)
 VALUES ('CLOSED', DATEADD(DAY, -3, GETDATE()), 5, 1)
 
-INSERT INTO pull_request_event(event_type, event_time, pull_request_id, event_sender_id)
+INSERT INTO pull_request_event(pull_request_event_type, event_time, pull_request_id, event_sender_id)
 VALUES ('CLOSED', DATEADD(DAY, -2, GETDATE()), 6, 1)
 
-INSERT INTO pull_request_event(event_type, event_time, pull_request_id, event_sender_id)
+INSERT INTO pull_request_event(pull_request_event_type, event_time, pull_request_id, event_sender_id)
 VALUES ('CLOSED', DATEADD(DAY, -1, GETDATE()), 7, 1)
 
-INSERT INTO pull_request_event(event_type, event_time, pull_request_id, event_sender_id)
+INSERT INTO pull_request_event(pull_request_event_type, event_time, pull_request_id, event_sender_id)
 VALUES ('CLOSED', GETDATE(), 8, 1)
 
-INSERT INTO pull_request_event(event_type, event_time, pull_request_id, event_sender_id)
+INSERT INTO pull_request_event(pull_request_event_type, event_time, pull_request_id, event_sender_id)
 VALUES ('OPENED', DATEADD(DAY, -17, GETDATE()), 1, 1)
 
-INSERT INTO pull_request_event(event_type, event_time, pull_request_id, event_sender_id)
+INSERT INTO pull_request_event(pull_request_event_type, event_time, pull_request_id, event_sender_id)
 VALUES ('OPENED', DATEADD(DAY, -16, GETDATE()), 2, 1)
 
-INSERT INTO pull_request_event(event_type, event_time, pull_request_id, event_sender_id)
+INSERT INTO pull_request_event(pull_request_event_type, event_time, pull_request_id, event_sender_id)
 VALUES ('OPENED', DATEADD(DAY, -15, GETDATE()), 3, 1)
 
-INSERT INTO pull_request_event(event_type, event_time, pull_request_id, event_sender_id)
+INSERT INTO pull_request_event(pull_request_event_type, event_time, pull_request_id, event_sender_id)
 VALUES ('OPENED', DATEADD(DAY, -14, GETDATE()), 4, 1)
 
-INSERT INTO pull_request_event(event_type, event_time, pull_request_id, event_sender_id)
+INSERT INTO pull_request_event(pull_request_event_type, event_time, pull_request_id, event_sender_id)
 VALUES ('OPENED', DATEADD(DAY, -13, GETDATE()), 5, 1)
 
-INSERT INTO pull_request_event(event_type, event_time, pull_request_id, event_sender_id)
+INSERT INTO pull_request_event(pull_request_event_type, event_time, pull_request_id, event_sender_id)
 VALUES ('OPENED', DATEADD(DAY, -12, GETDATE()), 6, 1)
 
-INSERT INTO pull_request_event(event_type, event_time, pull_request_id, event_sender_id)
+INSERT INTO pull_request_event(pull_request_event_type, event_time, pull_request_id, event_sender_id)
 VALUES ('OPENED', DATEADD(DAY, -11, GETDATE()), 7, 1)
 
-INSERT INTO pull_request_event(event_type, event_time, pull_request_id, event_sender_id)
+INSERT INTO pull_request_event(pull_request_event_type, event_time, pull_request_id, event_sender_id)
 VALUES ('OPENED', DATEADD(DAY, -10, GETDATE()), 8, 1)
 
 
@@ -232,52 +232,52 @@ VALUES (DATEADD(DAY, -3, GETDATE()), 6, 2, 'idontknow');
 INSERT INTO pull_request_comment(event_time, pull_request_id, git_user_id, comment_type)
 VALUES (DATEADD(DAY, -2, GETDATE()), 7, 2, 'idontknow');
 
+
+INSERT INTO release(remote_identifier, pre_release, [name], author_id, tag_id, repository_id, published_at, draft)
+VALUES (1342431, 0, 'first_release', 1, 1, 1, GETDATE(), 0)
+
+
 INSERT INTO pull_request_comment(event_time, pull_request_id, git_user_id, comment_type)
 VALUES (DATEADD(DAY, -1, GETDATE()), 8, 2, 'idontknow');
 
+INSERT INTO commits(sha, author_id, message, commit_time, release_id)
+VALUES ('ASD124A23', 1, 'ASDFASDF', DATEADD(DAY, -10, GETDATE()), 1);
 
+INSERT INTO commits(sha, author_id, message, commit_time, release_id)
+VALUES ('ASasfgA23', 1, 'ASDFASDF', DATEADD(DAY, -10, GETDATE()), 1);
 
-INSERT INTO commits(sha, author_id, message, commit_time)
-VALUES ('ASDFWQA23', 1, 'ASDFASDF', DATEADD(DAY, -10, GETDATE()));
+INSERT INTO commits(sha, author_id, message, commit_time, release_id)
+VALUES ('ASasWQA23', 1, 'ASDFASDF', DATEADD(DAY, -9, GETDATE()), 1);
 
-INSERT INTO commits(sha, author_id, message, commit_time)
-VALUES ('ASDFWQA23', 1, 'ASDFASDF', DATEADD(DAY, -10, GETDATE()));
+INSERT INTO commits(sha, author_id, message, commit_time, release_id)
+VALUES ('ASD5Wga23', 1, 'ASDFASDF', DATEADD(DAY, -9, GETDATE()), 1);
 
-INSERT INTO commits(sha, author_id, message, commit_time)
-VALUES ('ASDFWQA23', 1, 'ASDFASDF', DATEADD(DAY, -9, GETDATE()));
+INSERT INTO commits(sha, author_id, message, commit_time, release_id)
+VALUES ('ASDF6QA23', 1, 'ASDFASDF', DATEADD(DAY, -8, GETDATE()), 1);
 
-INSERT INTO commits(sha, author_id, message, commit_time)
-VALUES ('ASDFWQA23', 1, 'ASDFASDF', DATEADD(DAY, -9, GETDATE()));
-
-INSERT INTO commits(sha, author_id, message, commit_time)
-VALUES ('ASDFWQA23', 1, 'ASDFASDF', DATEADD(DAY, -8, GETDATE()));
-
-INSERT INTO commits(sha, author_id, message, commit_time)
-VALUES ('ASDFWQA23', 1, 'ASDFASDF', DATEADD(DAY, -8, GETDATE()));
+INSERT INTO commits(sha, author_id, message, commit_time, release_id)
+VALUES ('AS3FWQbas', 1, 'ASDFASDF', DATEADD(DAY, -8, GETDATE()), 1);
 
 INSERT INTO commits(sha, author_id, message, commit_time)
-VALUES ('ASDFWQA23', 1, 'ASDFASDF', DATEADD(DAY, -7, GETDATE()));
+VALUES ('sSDFW2A23', 1, 'ASDFASDF', DATEADD(DAY, -7, GETDATE()));
+
+INSERT INTO commits(sha, author_id, message, commit_time, release_id)
+VALUES ('ASDF4QA23', 1, 'ASDFASDF', DATEADD(DAY, -7, GETDATE()), 1);
+
+INSERT INTO commits(sha, author_id, message, commit_time, release_id)
+VALUES ('ASD5WQA23', 1, 'ASDFASDF', DATEADD(DAY, -6, GETDATE()), 1);
 
 INSERT INTO commits(sha, author_id, message, commit_time)
-VALUES ('ASDFWQA23', 1, 'ASDFASDF', DATEADD(DAY, -7, GETDATE()));
+VALUES ('ASDF26A23', 1, 'ASDFASDF', DATEADD(DAY, -6, GETDATE()));
 
 INSERT INTO commits(sha, author_id, message, commit_time)
-VALUES ('ASDFWQA23', 1, 'ASDFASDF', DATEADD(DAY, -6, GETDATE()));
+VALUES ('AS234QA23', 1, 'ASDFASDF', DATEADD(DAY, -5, GETDATE()));
 
 INSERT INTO commits(sha, author_id, message, commit_time)
-VALUES ('ASDFWQA23', 1, 'ASDFASDF', DATEADD(DAY, -6, GETDATE()));
+VALUES ('ASg2WQA23', 1, 'ASDFASDF', DATEADD(DAY, -5, GETDATE()));
 
 INSERT INTO commits(sha, author_id, message, commit_time)
-VALUES ('ASDFWQA23', 1, 'ASDFASDF', DATEADD(DAY, -5, GETDATE()));
-
-INSERT INTO commits(sha, author_id, message, commit_time)
-VALUES ('ASDFWQA23', 1, 'ASDFASDF', DATEADD(DAY, -5, GETDATE()));
-
-INSERT INTO commits(sha, author_id, message, commit_time)
-VALUES ('ASDFWQA23', 1, 'ASDFASDF', DATEADD(DAY, -4, GETDATE()));
-
-INSERT INTO commits(sha, author_id, message, commit_time)
-VALUES ('ASDFWQA23', 1, 'ASDFASDF', DATEADD(DAY, -4, GETDATE()));
+VALUES ('ASD23sA23', 1, 'ASDFASDF', DATEADD(DAY, -4, GETDATE()));
 
 
 INSERT INTO pull_request_commit_table(pull_request_id, commit_id, first_commit)
@@ -373,25 +373,30 @@ VALUES (8, 6, 0);
 INSERT INTO pull_request_commit_table(pull_request_id, commit_id, first_commit)
 VALUES (8, 8, 0);
 
-INSERT INTO pull_request_commit_table(pull_request_id, commit_id, first_commit)
-VALUES (8, 9, 0);
+
+INSERT INTO issue(repository_id, open_user_id, [state])
+VALUES (1, 1, 'open');
+
+
+INSERT INTO issue_label([label], issue_id)
+VALUES ('deploy_bug', 1);
 
 
 INSERT INTO deployment_workflow(name, remote_identifier, path, issue_label_id)
-VALUES ('deploy_workflow[deployment]', 1, '.github/workflow/deployment.yml', 1)
+VALUES ('deploy_workflow[deployment]', 15343243, '.github/workflow/deployment.yml', 1)
+
+
+INSERT INTO pull_request_commit_table(pull_request_id, commit_id, first_commit)
+VALUES (8, 9, 0);
 
 
 INSERT INTO workflow_run(remote_identifier, deployment_workflow_id, run_number, trigger_event, pull_request_id, conclusion, repository_id, workflow_end_time)
 VALUES (2348934, 1, 32, 'push', 8, 'success',1, GETDATE())
 
 
-INSERT INTO issue(repository_id, open_user_id, [state])
-VALUES (1, 1, 'open');
+INSERT INTO release_event(release_event_type, release_id)
+VALUES ('publish', 1)
 
 
-INSERT INTO issue_event(event_type, event_time, event_sender_id, issue_id, remote_identifier)
+INSERT INTO issue_event(issue_event_type, event_time, event_sender_id, issue_id, remote_identifier)
 VALUES ('open', GETDATE(), 1, 1, 1213343);
-
-
-INSERT INTO issue_label([label], issue_id)
-VALUES ('deploy_bug', 1);

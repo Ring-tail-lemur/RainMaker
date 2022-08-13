@@ -157,3 +157,23 @@ AS
    FROM Inserted i
    WHERE dbo.deployment_workflow.deployment_workflow_id = i.deployment_workflow_id;
 go
+
+CREATE TRIGGER updateReleaseEventModified
+ON dbo.release_event
+AFTER UPDATE
+AS
+   UPDATE dbo.release_event
+   SET modified_date = SYSDATETIME()
+   FROM Inserted i
+   WHERE dbo.release_event.release_event_id = i.release_event_id;
+go
+
+CREATE TRIGGER updateReleaseModified
+ON dbo.release
+AFTER UPDATE
+AS
+   UPDATE dbo.release
+   SET modified_date = SYSDATETIME()
+   FROM Inserted i
+   WHERE dbo.release.release_id = i.release_id;
+go
