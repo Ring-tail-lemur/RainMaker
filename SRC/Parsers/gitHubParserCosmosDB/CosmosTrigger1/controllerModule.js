@@ -13,7 +13,7 @@ async function controllerMain(eventObj, context, pool){
     context.log("EventObj :", eventObj);
 
     if(hook_event == 'pull_request'){
-        await pullRequestMainModule.pullRequestMain(pool, eventObj);
+        await pullRequestMainModule.pullRequestMain(pool, eventObj, context);
         context.log("pull_request insert success");
     }else if(hook_event == 'commit'){
         await commitMainModule.commitMain(pool, eventObj, context);

@@ -3,7 +3,7 @@ const pullRequestClosedModule = require('./pullRequestClosedModule');
 
 async function pullRequestMain(pool, eventObject,context){
 
-    context.log("****************** flag 1 *******************", );
+    context.log("****************** flag 1 *******************");
     if(eventObject.action == 'opened'){
         await pullRequestOpenModule.pullRequestOpenMain(pool, eventObject, context);
     }else if(eventObject.action == 'closed'){
