@@ -1,9 +1,9 @@
-const httpModule = require('../http-get/http-protocol-module.js');
-
+const httpModule = require('../http-get\http-protocol-module.js');
 async function getPullRequestMain(inputUri, isPrivate, context){
     const tmpHeaders = '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'
     context.log("getPullRequestMain : "+inputUri+" "+isPrivate);
     if(isPrivate == "true"){
+        context.log("\ntrue!\n");
         const options = {
             uri: inputUri,
             headers: {
@@ -11,7 +11,7 @@ async function getPullRequestMain(inputUri, isPrivate, context){
                 'Authorization': 'Bearer '+tmpHeaders
             }
         }
-        const url_data = await httpModule.request(context,options);
+        const url_data = await httpModule.httpProtocolCustom(context,options);
         context.log(url_data);
         return JSON.stringify(url_data.id).replace(/['"]+/g, '');
     }else{
@@ -21,7 +21,7 @@ async function getPullRequestMain(inputUri, isPrivate, context){
                 'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_5_2) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/32.webkit',
             }
         }
-        const url_data = await httpModule.request(context,options);
+        const url_data = await httpModule.httpProtocolCustom(context,options);
         context.log(url_data);
         return JSON.stringify(url_data.id).replace(/['"]+/g, '');
     }
