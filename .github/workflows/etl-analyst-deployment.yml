@@ -17,7 +17,7 @@ on:
 env:
   AZURE_FUNCTIONAPP_NAME: github-analystics     # set this to your function app name on Azure
   POM_XML_DIRECTORY: 'SRC/ETLs/analyst'                     # set this to the directory which contains pom.xml file
-  POM_FUNCTIONAPP_NAME: TimeTrigger-Java        # set this to the function app name in your local development environment
+  POM_FUNCTIONAPP_NAME: analyst-1659606593521        # set this to the function app name in your local development environment
   JAVA_VERSION: '1.8.x'                      # set this to the java version to use
 
 jobs:
@@ -41,10 +41,9 @@ jobs:
         popd
     - name: 'Run Azure Functions Action'
       uses: Azure/functions-action@v1
-      id: fa
       with:
         app-name: ${{ env.AZURE_FUNCTIONAPP_NAME }}
-        package: './target/azure-functions/analyst-1659606593521/${{ env.POM_FUNCTIONAPP_NAME }}'
+        package: './${{ env.POM_XML_DIRECTORY }}/target/azure-functions/${{ env.POM_FUNCTIONAPP_NAME }}'
         publish-profile: ${{ secrets.AZURE_FUNCTIONAPP_PUBLISH_PROFILE_ETL }}
         # package: './${{ env.POM_XML_DIRECTORY }}/target/azure-functions/analyst-1659606593521/${{ env.POM_FUNCTIONAPP_NAME }}'
         # package: './${{ env.POM_XML_DIRECTORY }}/target/azure-functions/${{ env.POM_FUNCTIONAPP_NAME }}'
