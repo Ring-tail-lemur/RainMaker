@@ -1,9 +1,7 @@
 const httpModule = require('../http-get/http-protocol-module.js');
 async function getPullRequestMain(inputUri, isPrivate, context){
     const tmpHeaders = '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'
-    // context.log("getPullRequestMain : "+inputUri+" "+isPrivate);
     if(isPrivate == "true"){
-        // context.log("\ntrue!\n");
         const options = {
             uri: inputUri,
             headers: {
@@ -12,7 +10,6 @@ async function getPullRequestMain(inputUri, isPrivate, context){
             }
         }
         const url_data = await httpModule.httpProtocolCustom(context,options);
-        // context.log(url_data);
         return JSON.stringify(url_data.id).replace(/['"]+/g, '');
     }else{
         const options = {
@@ -22,7 +19,6 @@ async function getPullRequestMain(inputUri, isPrivate, context){
             }
         }
         const url_data = await httpModule.httpProtocolCustom(context,options);
-        // context.log(url_data);
         return JSON.stringify(url_data.id).replace(/['"]+/g, '');
     }
 }
