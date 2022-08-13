@@ -54,9 +54,10 @@ async function insertPullRequestByRepoIdAndBranchId(dbConnectionPool ,remote_ide
     return pullRequestId.recordset[0].id;
 }
 
-async function insertPullRequestEventClosedByPullRequestIdAndUserId(dbConnectionPool, event_type, event_time, pull_request_id, event_sender_id) {
+async function insertPullRequestEventClosedByPullRequestIdAndUserId(dbConnectionPool, context, event_type, event_time, pull_request_id, event_sender_id) {
     // const dbConnectionPool = await pool;
-    console.log(event_type, event_time, pull_request_id, event_sender_id);
+    context.log("****************** flag 3 *******************", );
+    context.log(event_type, event_time, pull_request_id, event_sender_id);
 
     const sqlQuery = `
     INSERT INTO pull_request_event (event_type, event_time, pull_request_id, event_sender_id)
@@ -72,13 +73,13 @@ async function insertPullRequestEventClosedByPullRequestIdAndUserId(dbConnection
         WHERE remote_identifier = ${event_sender_id}
         ));
     `;
-    console.log(sqlQuery);
+    context.log(sqlQuery);
 
     try {
         await dbConnectionPool.request()
             .query(sqlQuery);
     } catch (e) {
-        console.error(e);
+        context.error(e);
     }
 }
 
