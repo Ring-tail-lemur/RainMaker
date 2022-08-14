@@ -9,6 +9,7 @@ const createModule = require('./create/create-main-module');
 const issuesModule = require('./issues/issueMainModule.js');
 const workflowRunModule = require('./workflow-run/workflowRunMainModule.js');
 const releaseModule = require('./release/releaseMainModule.js');
+const deleteModule = require('./delete/deleteMainModule.js');
 module.exports = async function (context, req) {
     const cloudEventObj = new Object();
     const hookBody = req.body;
@@ -88,6 +89,12 @@ module.exports = async function (context, req) {
         }
     }else if(cloudEventObj.hook_event == 'release'){
         const resultObj = await releaseModule.releaseMain(hookBody,cloudEventObj,context);
+        await send_module.sender(resultObj,context);
+        context.res = {
+            body : JSON.stringify(cloudEventObj)
+        }
+    }else if(cloudEventObj.hook_event == 'delete'){
+        const resultObj = await deleteModule.deleteMain(hookBody,cloudEventObj,context);
         await send_module.sender(resultObj,context);
         context.res = {
             body : JSON.stringify(cloudEventObj)
