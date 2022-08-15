@@ -37,10 +37,14 @@ jobs:
 
 
       - name: Build and push
+        
         uses: docker/build-push-action@v3
         with:
+          context: .
           push: true
-          tags: swm/api-server:latest
+          tags: ${{ secrets.DOCKER_USERNAME }}/${{ secrets.DOCKER_REPO }}:latest
+          build-args: |
+            ADMIN_PASSWORD=${{secrets.DOCKERHUB_TOKEN}}
       # - name: web docker build and push
       #   run: |
       #     docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
