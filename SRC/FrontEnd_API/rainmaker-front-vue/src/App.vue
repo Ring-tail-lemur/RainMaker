@@ -64,11 +64,6 @@ button {
   box-shadow: 5px 10px 10px rgba(0,0,0,0.03);
 }
 
-canvas {
-  width:100%;
-  max-width:600px;
-}
-
 #mainArea {
   vertical-align: text-bottom;
   min-height: 100%;

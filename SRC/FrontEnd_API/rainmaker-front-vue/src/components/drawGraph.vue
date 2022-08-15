@@ -10,7 +10,7 @@
 </template>
 
 <script>
-import getDoragraphFunction from '@/chart/getDoragraphFunction';
+// import getDoragraphFunction from '@/chart/getDoragraphFunction';
 
 export default {
   name: "drawGraph",
@@ -30,7 +30,7 @@ export default {
 
   },
   mounted() {
-    getDoragraphFunction.initChart(this.name, [1,2,3,4,5], [1,2,3,4,5]);
+    // getDoragraphFunction.initChart(this.name, [1,2,3,4,5], [1,2,3,4,5]);
     // this.initChart(this.name, [1,2,3,4,5], [1,2,3,4,5]);
   }
 }
