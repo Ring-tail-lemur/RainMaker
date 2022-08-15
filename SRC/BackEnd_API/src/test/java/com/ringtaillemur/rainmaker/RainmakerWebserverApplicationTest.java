@@ -21,7 +21,7 @@ class RainmakerWebserverApplicationTest {
     List<GitUser> all = gitUserRepository.findAll();
     for (GitUser gitUser : all) {
       System.out.println("gitUser = " + gitUser);
-      //13
+      //14
     }
   }
 }
