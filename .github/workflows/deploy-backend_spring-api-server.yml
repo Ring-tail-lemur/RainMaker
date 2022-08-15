@@ -29,7 +29,9 @@ jobs:
         run: gradle build -x test
 
       - name: Deploy WebApp with Gradle
-        run: gradle azureWebAppDeploy         
+        run: gradle azureWebAppDeploy    
+        with: 
+          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_5ED9444999E9468D94694F36314A7977 }}     
       # - name: Upload artifact for deployment job
 
       #   uses: actions/upload-artifact@v2
