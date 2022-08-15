@@ -32,14 +32,14 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: java-app
-          path: 'SRC/BackEnd_API/build/libs/*.jar'
+          path: 'SRC/BackEnd_API/build/libs/'
 
       - name: Download artifact from build job
         uses: actions/download-artifact@v2
         with:
           name: java-app
 
-          
+
       - name: Deploy to Azure Web App
         id: deploy-to-webapp
         uses: azure/webapps-deploy@v2
