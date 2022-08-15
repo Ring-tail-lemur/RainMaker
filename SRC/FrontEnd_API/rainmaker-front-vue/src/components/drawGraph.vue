@@ -10,6 +10,8 @@
 </template>
 
 <script>
+import getDoragraphFunction from '@/chart/getDoragraphFunction';
+
 export default {
   name: "drawGraph",
   props : ['startTime', 'endTime', 'repoId', 'name'],
@@ -24,7 +26,12 @@ export default {
     },
     onEmit() {
       this.$emit("setInput", this.startTime, this.endTime, this.repoId);
-    }
+    },
+
+  },
+  mounted() {
+    getDoragraphFunction.initChart(this.name, [1,2,3,4,5], [1,2,3,4,5]);
+    // this.initChart(this.name, [1,2,3,4,5], [1,2,3,4,5]);
   }
 }
 </script>

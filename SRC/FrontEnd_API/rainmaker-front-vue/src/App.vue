@@ -1,10 +1,15 @@
 <template>
-  <GraphSelectInput v-bind:name="value" @setInput="setInput"></GraphSelectInput>
-  자식 데이터 {{value}}
-  <draw-graph v-bind:start-time="startTime" :end-time="endTime" :repo-id="repoId" name="LeadTimeForChange"></draw-graph>
-  <draw-graph v-bind:start-time="startTime" :end-time="endTime" :repo-id="repoId" name="DeploymentFrequency"></draw-graph>
-  <draw-graph v-bind:start-time="startTime" :end-time="endTime" :repo-id="repoId" name="ChangeFailureRate"></draw-graph>
-  <draw-graph v-bind:start-time="startTime" :end-time="endTime" :repo-id="repoId" name="MTTR"></draw-graph>
+  <div>
+    <GraphSelectInput v-bind:name="value" @setInput="setInput"></GraphSelectInput>
+    자식 데이터 {{value}}
+    <div id="mainArea">
+      <draw-graph v-bind:start-time="startTime" :end-time="endTime" :repo-id="repoId" name="LeadTimeForChange"></draw-graph>
+      <draw-graph v-bind:start-time="startTime" :end-time="endTime" :repo-id="repoId" name="DeploymentFrequency"></draw-graph>
+      <draw-graph v-bind:start-time="startTime" :end-time="endTime" :repo-id="repoId" name="ChangeFailureRate"></draw-graph>
+      <draw-graph v-bind:start-time="startTime" :end-time="endTime" :repo-id="repoId" name="MTTR"></draw-graph>
+    </div>
+  </div>
+
 </template>
 
 <script>
@@ -62,5 +67,13 @@ button {
 canvas {
   width:100%;
   max-width:600px;
+}
+
+#mainArea {
+  vertical-align: text-bottom;
+  min-height: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: row;
 }
 </style>
