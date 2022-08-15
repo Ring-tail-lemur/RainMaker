@@ -28,16 +28,18 @@ public class WorkflowRun extends BaseEntity {
 	private Long runNumber;
 	@Enumerated(EnumType.STRING)
 	private TriggerEvent triggerEvent;
-	private Conclusion
-		conclusion;
+	private Conclusion conclusion;
 	private boolean processEnd;
 	private LocalDateTime workflowEndTime;
+
 	@OneToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "pull_request_id")
 	private PullRequest pullRequest;
+
 	@OneToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "deployment_workflow_id")
 	private DeploymentWorkflow deploymentWorkflow;
+
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "repository_id")
 	private Repository repository;

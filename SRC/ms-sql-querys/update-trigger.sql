@@ -18,16 +18,6 @@ AS
    WHERE dbo.branch.branch_id = i.branch_id;
 go
 
-CREATE TRIGGER updateDeploymentEventModified
-ON dbo.deployment_event
-AFTER UPDATE
-AS
-   UPDATE dbo.deployment_event
-   SET modified_date = SYSDATETIME()
-   FROM Inserted i
-   WHERE dbo.deployment_event.deployment_event_id = i.deployment_event_id;
-go
-
 CREATE TRIGGER updateGitOrganizationModified
 ON dbo.git_organization
 AFTER UPDATE
@@ -166,4 +156,35 @@ AS
    SET modified_date = SYSDATETIME()
    FROM Inserted i
    WHERE dbo.deployment_workflow.deployment_workflow_id = i.deployment_workflow_id;
+go
+
+CREATE TRIGGER updateReleaseEventModified
+ON dbo.release_event
+AFTER UPDATE
+AS
+   UPDATE dbo.release_event
+   SET modified_date = SYSDATETIME()
+   FROM Inserted i
+   WHERE dbo.release_event.release_event_id = i.release_event_id;
+go
+
+CREATE TRIGGER updateReleaseModified
+ON dbo.release
+AFTER UPDATE
+AS
+   UPDATE dbo.release
+   SET modified_date = SYSDATETIME()
+   FROM Inserted i
+   WHERE dbo.release.release_id = i.release_id;
+go
+
+
+CREATE TRIGGER updateChangeFailureRateModified
+ON dbo.failed_change
+AFTER UPDATE
+AS
+   UPDATE dbo.failed_change
+   SET modified_date = SYSDATETIME()
+   FROM Inserted i
+   WHERE dbo.failed_change.failed_change_id = i.failed_change_id;
 go

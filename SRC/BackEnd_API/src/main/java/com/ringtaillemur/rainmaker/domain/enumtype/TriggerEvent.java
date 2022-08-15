@@ -1,4 +1,4 @@
-package com.ringtaillemur.rainmaker.domain;
+package com.ringtaillemur.rainmaker.domain.enumtype;
 
 public enum TriggerEvent {
 	BRANCH_PROTECTION_RULE,
