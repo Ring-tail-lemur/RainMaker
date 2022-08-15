@@ -19,11 +19,11 @@ FROM (SELECT pr.pull_request_id  AS pr_id,
            (SELECT prd.outgoing_pull_request_id      AS pr_id,
                    count(prd.source_pull_request_id) AS source_count
             FROM pull_request_direction prd
-            WHERE prd.process_end = 0
+            WHERE prd.lead_time_for_change_process_end = 0
             GROUP BY prd.outgoing_pull_request_id) pr_source
            ON pr_source.pr_id = pr.pull_request_id
       WHERE pr_event.pull_request_event_type = 'CLOSED'
-        AND pr.process_end = 0
+        AND pr.lead_time_for_change_process_end = 0
         AND pr_source.source_count IS NULL) target_pr
          JOIN
      (SELECT pull_request_id AS pr_id, MIN(pr_comment.event_time) first_review_time
@@ -41,8 +41,12 @@ FROM (SELECT pr.pull_request_id  AS pr_id,
      ON pre.pull_request_id = target_pr.pr_id and pre.pull_request_event_type = 'OPENED';
 
 UPDATE pull_request
-set process_end = 1
-where process_end = 0
+set lead_time_for_change_process_end = 1
+where lead_time_for_change_process_end = 0
+
+UPDATE pull_request_direction
+set lead_time_for_change_process_end = 1
+where lead_time_for_change_process_end = 0
 
 COMMIT TRAN
 

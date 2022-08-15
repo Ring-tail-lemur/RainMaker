@@ -177,3 +177,14 @@ AS
    FROM Inserted i
    WHERE dbo.release.release_id = i.release_id;
 go
+
+
+CREATE TRIGGER updateChangeFailureRateModified
+ON dbo.failed_change
+AFTER UPDATE
+AS
+   UPDATE dbo.failed_change
+   SET modified_date = SYSDATETIME()
+   FROM Inserted i
+   WHERE dbo.failed_change.failed_change_id = i.failed_change_id;
+go

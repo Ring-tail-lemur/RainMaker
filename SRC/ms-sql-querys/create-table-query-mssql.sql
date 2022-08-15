@@ -1,5 +1,4 @@
-﻿DROP TABLE git_organization;
-CREATE TABLE git_organization
+﻿CREATE TABLE git_organization
 (
     git_organization_id BIGINT       NOT NULL PRIMARY KEY IDENTITY,
     [name]              VARCHAR(255) NOT NULL,
@@ -8,7 +7,6 @@ CREATE TABLE git_organization
     modified_date       DATETIME2    NOT NULL DEFAULT GETDATE()
 );
 
-DROP TABLE repository;
 CREATE TABLE repository
 (
     repository_id         BIGINT       NOT NULL PRIMARY KEY IDENTITY,
@@ -21,7 +19,6 @@ CREATE TABLE repository
     remote_identifier     BIGINT       NOT NULL unique
 );
 
-DROP TABLE git_user;
 CREATE TABLE git_user
 (
     git_user_id       BIGINT       NOT NULL PRIMARY KEY IDENTITY,
@@ -31,21 +28,19 @@ CREATE TABLE git_user
     modified_date     DATETIME2    NOT NULL DEFAULT GETDATE()
 );
 
-DROP TABLE pull_request;
 CREATE TABLE pull_request
 (
-    pull_request_id              BIGINT    NOT NULL PRIMARY KEY IDENTITY,
-    remote_identifier            BIGINT    NOT NULL unique,
-    pull_request_number          BIGINT    NOT NULL,
-    repository_id                BIGINT    NOT NULL,
-    pull_request_open_branch_id  BIGINT    NOT NULL,
-    pull_request_close_branch_id BIGINT    NOT NULL,
-    created_date                 DATETIME2 NOT NULL DEFAULT GETDATE(),
-    modified_date                DATETIME2 NOT NULL DEFAULT GETDATE(),
-    process_end                  BIT       NOT NULL DEFAULT 0
+    pull_request_id                  BIGINT    NOT NULL PRIMARY KEY IDENTITY,
+    remote_identifier                BIGINT    NOT NULL unique,
+    pull_request_number              BIGINT    NOT NULL,
+    repository_id                    BIGINT    NOT NULL,
+    pull_request_open_branch_id      BIGINT    NOT NULL,
+    pull_request_close_branch_id     BIGINT    NOT NULL,
+    created_date                     DATETIME2 NOT NULL DEFAULT GETDATE(),
+    modified_date                    DATETIME2 NOT NULL DEFAULT GETDATE(),
+    lead_time_for_change_process_end BIT       NOT NULL DEFAULT 0
 );
 
-DROP TABLE pull_request_event;
 CREATE TABLE pull_request_event
 (
     pull_request_event_id   BIGINT      NOT NULL PRIMARY KEY IDENTITY,
@@ -57,7 +52,6 @@ CREATE TABLE pull_request_event
     modified_date           DATETIME2   NOT NULL DEFAULT GETDATE()
 );
 
-DROP TABLE user_organization_table;
 CREATE TABLE user_organization_table
 (
     user_organization_table_id BIGINT    NOT NULL PRIMARY KEY IDENTITY,
@@ -67,7 +61,6 @@ CREATE TABLE user_organization_table
     modified_date              DATETIME2 NOT NULL DEFAULT GETDATE()
 );
 
-DROP TABLE commits;
 CREATE TABLE commits
 (
     commit_id     BIGINT        NOT NULL PRIMARY KEY IDENTITY,
@@ -80,7 +73,6 @@ CREATE TABLE commits
     release_id    BIGINT
 );
 
-DROP TABLE pull_request_commit_table;
 CREATE TABLE pull_request_commit_table
 (
     pull_request_commit_table_id BIGINT    NOT NULL PRIMARY KEY IDENTITY,
@@ -91,7 +83,6 @@ CREATE TABLE pull_request_commit_table
     modified_date                DATETIME2 NOT NULL DEFAULT GETDATE()
 );
 
-DROP TABLE pull_request_comment;
 CREATE TABLE pull_request_comment
 (
     pull_request_comment_id BIGINT      NOT NULL PRIMARY KEY IDENTITY,
@@ -103,7 +94,6 @@ CREATE TABLE pull_request_comment
     modified_date           DATETIME2   NOT NULL DEFAULT GETDATE()
 );
 
-DROP TABLE branch;
 CREATE TABLE branch
 (
     branch_id     BIGINT       NOT NULL PRIMARY KEY IDENTITY,
@@ -114,7 +104,6 @@ CREATE TABLE branch
     modified_date DATETIME2    NOT NULL DEFAULT GETDATE()
 );
 
-DROP TABLE lead_time_for_change;
 CREATE TABLE lead_time_for_change
 (
     lead_time_for_change_id BIGINT    NOT NULL PRIMARY KEY IDENTITY,
@@ -127,32 +116,30 @@ CREATE TABLE lead_time_for_change
     created_date            DATETIME2 NOT NULL DEFAULT GETDATE(),
     modified_date           DATETIME2 NOT NULL DEFAULT GETDATE(),
     repository_id           BIGINT    NOT NULL,
-    release_id     BIGINT    NULL
+    release_id              BIGINT    NULL
 );
 
-DROP TABLE pull_request_direction;
 CREATE TABLE pull_request_direction
 (
-    pull_request_direction_id BIGINT    NOT NULL PRIMARY KEY IDENTITY,
-    source_pull_request_id    BIGINT,
-    outgoing_pull_request_id  BIGINT,
-    created_date              DATETIME2 NOT NULL DEFAULT GETDATE(),
-    modified_date             DATETIME2 NOT NULL DEFAULT GETDATE(),
-    process_end               BIT       NOT NULL DEFAULT 0
+    pull_request_direction_id        BIGINT    NOT NULL PRIMARY KEY IDENTITY,
+    source_pull_request_id           BIGINT,
+    outgoing_pull_request_id         BIGINT,
+    created_date                     DATETIME2 NOT NULL DEFAULT GETDATE(),
+    modified_date                    DATETIME2 NOT NULL DEFAULT GETDATE(),
+    lead_time_for_change_process_end BIT       NOT NULL DEFAULT 0
 );
 
-DROP TABLE issue;
 CREATE TABLE issue
 (
-    issue_id      BIGINT       NOT NULL PRIMARY KEY IDENTITY,
-    repository_id BIGINT       NOT NULL,
-    open_user_id  BIGINT       NOT NULL,
-    created_date  DATETIME2    NOT NULL DEFAULT GETDATE(),
-    modified_date DATETIME2    NOT NULL DEFAULT GETDATE(),
-    [state]       VARCHAR(255) NOT NULL
+    issue_id                  BIGINT       NOT NULL PRIMARY KEY IDENTITY,
+    repository_id             BIGINT       NOT NULL,
+    open_user_id              BIGINT       NOT NULL,
+    created_date              DATETIME2    NOT NULL DEFAULT GETDATE(),
+    modified_date             DATETIME2    NOT NULL DEFAULT GETDATE(),
+    [state]                   VARCHAR(255) NOT NULL,
+    failed_change_process_end BIT                   DEFAULT 0
 );
 
-DROP TABLE issue_event;
 CREATE TABLE issue_event
 (
     issue_event_id    BIGINT       NOT NULL PRIMARY KEY IDENTITY,
@@ -165,17 +152,16 @@ CREATE TABLE issue_event
     remote_identifier BIGINT       NOT NULL unique
 );
 
-DROP TABLE issue_label;
 CREATE TABLE issue_label
 (
     issue_label_id BIGINT       NOT NULL PRIMARY KEY IDENTITY,
     [label]        VARCHAR(255) NOT NULL,
     issue_id       BIGINT       NOT NULL,
     created_date   DATETIME2    NOT NULL DEFAULT GETDATE(),
-    modified_date  DATETIME2    NOT NULL DEFAULT GETDATE()
+    modified_date  DATETIME2    NOT NULL DEFAULT GETDATE(),
+    release_id     BIGINT
 );
 
-DROP TABLE workflow_run;
 CREATE TABLE workflow_run
 (
     workflow_run_id        BIGINT       NOT NULL PRIMARY KEY IDENTITY,
@@ -192,7 +178,6 @@ CREATE TABLE workflow_run
     workflow_end_time      DATETIME2    NOT NULL
 );
 
-DROP TABLE deployment_workflow;
 CREATE TABLE deployment_workflow
 (
     deployment_workflow_id BIGINT       NOT NULL PRIMARY KEY IDENTITY,
@@ -204,24 +189,22 @@ CREATE TABLE deployment_workflow
     issue_label_id         BIGINT       NULL
 );
 
-DROP TABLE release;
 CREATE TABLE release
 (
-    release_id        BIGINT       NOT NULL PRIMARY KEY IDENTITY,
-    remote_identifier BIGINT       NOT NULL UNIQUE,
-    pre_release       BIT          NOT NULL,
-    [name]            VARCHAR(255) NOT NULL,
-    author_id         BIGINT       NOT NULL,
-    tag_id            BIGINT       NOT NULL,
-    created_date      DATETIME2    NOT NULL DEFAULT GETDATE(),
-    modified_date     DATETIME2    NOT NULL DEFAULT GETDATE(),
-    repository_id     BIGINT       NOT NULL,
-    published_at      DATETIME2    NULL,
-    draft             BIT          NOT NULL,
-    process_end       BIT                   DEFAULT 0
+    release_id                       BIGINT       NOT NULL PRIMARY KEY IDENTITY,
+    remote_identifier                BIGINT       NOT NULL UNIQUE,
+    pre_release                      BIT          NOT NULL,
+    [name]                           VARCHAR(255) NOT NULL,
+    author_id                        BIGINT       NOT NULL,
+    tag_id                           BIGINT       NOT NULL,
+    created_date                     DATETIME2    NOT NULL DEFAULT GETDATE(),
+    modified_date                    DATETIME2    NOT NULL DEFAULT GETDATE(),
+    repository_id                    BIGINT       NOT NULL,
+    published_at                     DATETIME2    NULL,
+    draft                            BIT          NOT NULL,
+    lead_time_for_change_process_end BIT                   DEFAULT 0
 );
 
-DROP TABLE release_event;
 CREATE TABLE release_event
 (
     release_event_id   BIGINT       NOT NULL PRIMARY KEY IDENTITY,
@@ -231,6 +214,36 @@ CREATE TABLE release_event
     modified_date      DATETIME2    NOT NULL DEFAULT GETDATE()
 );
 
+CREATE TABLE failed_change
+(
+    failed_change_id                    BIGINT    NOT NULL PRIMARY KEY IDENTITY,
+    release_id                          BIGINT    NOT NULL,
+    created_date                        DATETIME2 NOT NULL DEFAULT GETDATE(),
+    modified_date                       DATETIME2 NOT NULL DEFAULT GETDATE(),
+    first_error_issue_id                BIGINT    NOT NULL,
+    time_to_restore_service_process_end BIGINT    NOT NULL DEFAULT 0
+);
+
+CREATE TABLE time_to_restore_service
+(
+    time_to_restore_service_id bigint    NOT NULL PRIMARY KEY IDENTITY,
+    restore_service_time       bigint    NOT NULL,
+    failed_change_id           bigint    NOT NULL,
+    created_date               DATETIME2 NOT NULL DEFAULT GETDATE(),
+    modified_date              DATETIME2 NOT NULL DEFAULT GETDATE()
+);
+
+ALTER TABLE time_to_restore_service
+    ADD CONSTRAINT FK_failed_change_TO_time_to_restore_service_1 FOREIGN KEY (failed_change_id)
+        REFERENCES failed_change (failed_change_id);
+
+ALTER TABLE failed_change
+    ADD CONSTRAINT FK_release_TO_failed_change_1 FOREIGN KEY (release_id)
+        REFERENCES release (release_id);
+
+ALTER TABLE failed_change
+    ADD CONSTRAINT FK_issue_TO_failed_change_1 FOREIGN KEY (first_error_issue_id)
+        REFERENCES issue (issue_id);
 
 ALTER TABLE release
     ADD CONSTRAINT FK_git_user_TO_release_1 FOREIGN KEY (author_id)
@@ -372,3 +385,7 @@ ALTER TABLE issue_event
 ALTER TABLE issue_label
     ADD CONSTRAINT FK_issue_TO_issue_label_1 FOREIGN KEY (issue_id)
         REFERENCES issue (issue_id);
+
+ALTER TABLE issue_label
+    ADD CONSTRAINT FK_release_TO_issue_label_1 FOREIGN KEY (release_id)
+        REFERENCES release (release_id);

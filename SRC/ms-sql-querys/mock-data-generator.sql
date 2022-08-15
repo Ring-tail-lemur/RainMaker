@@ -39,7 +39,7 @@ INSERT INTO git_organization (name, remote_identifier)
 VALUES ('org6', 6256342);
 
 INSERT INTO git_organization (name, remote_identifier)
-VALUES ('ring-tail', 107113653);
+VALUES ('Ring-tail-lemur', 107110653);
 
 INSERT INTO user_organization_table (member_id, git_organization_id)
 VALUES (1, 1);
@@ -54,22 +54,22 @@ INSERT INTO user_organization_table (member_id, git_organization_id)
 VALUES (4, 2);
 
 
-INSERT INTO repository (name, owner_type, owner_user_id, owner_organization_id, remote_identifier)
+INSERT INTO repository ([name], owner_type, owner_user_id, owner_organization_id, remote_identifier)
 VALUES ('repo1', 'ORGANIZATION', NULL, 1, 23564432);
 
-INSERT INTO repository (name, owner_type, owner_user_id, owner_organization_id, remote_identifier)
+INSERT INTO repository ([name], owner_type, owner_user_id, owner_organization_id, remote_identifier)
 VALUES ('repo2', 'ORGANIZATION', NULL, 1, 23541432);
 
-INSERT INTO repository (name, owner_type, owner_user_id, owner_organization_id, remote_identifier)
+INSERT INTO repository ([name], owner_type, owner_user_id, owner_organization_id, remote_identifier)
 VALUES ('repo3', 'ORGANIZATION', NULL, 1, 33565432);
 
-INSERT INTO repository (name, owner_type, owner_user_id, owner_organization_id, remote_identifier)
+INSERT INTO repository ([name], owner_type, owner_user_id, owner_organization_id, remote_identifier)
 VALUES ('repo4', 'ORGANIZATION', NULL, 2, 43565432);
 
-INSERT INTO repository (name, owner_type, owner_user_id, owner_organization_id, remote_identifier)
+INSERT INTO repository ([name], owner_type, owner_user_id, owner_organization_id, remote_identifier)
 VALUES ('repo5', 'ORGANIZATION', NULL, 2, 53565432);
 
-INSERT INTO repository (name, owner_type, owner_user_id, owner_organization_id, remote_identifier)
+INSERT INTO repository ([name], owner_type, owner_user_id, owner_organization_id, remote_identifier)
 VALUES ('repo6', 'ORGANIZATION', NULL, 2, 63565432);
 
 INSERT INTO repository (name, owner_type, owner_user_id, owner_organization_id, remote_identifier)
@@ -82,10 +82,10 @@ INSERT INTO repository (name, owner_type, owner_user_id, owner_organization_id, 
 VALUES ('repo10', 'USER', 3, NULL, 23562632);
 
 INSERT INTO repository (name, owner_type, owner_user_id, owner_organization_id, remote_identifier)
-VALUES ('repo11', 'USER', 4, NULL, 23565489);
+VALUES ('RainMaker', 'ORGANIZATION', 4, NULL, 517528822);
 
 INSERT INTO repository (name, owner_type, owner_user_id, owner_organization_id, remote_identifier)
-VALUES ('repo12', 'USER', 5, NULL, 23525332);
+VALUES ('test-for-fake-project', 'ORGANIZATION', 5, NULL, 510731046);
 
 
 INSERT INTO branch (name, repository_id, git_user_id)
@@ -110,7 +110,10 @@ INSERT INTO branch (name, repository_id, git_user_id)
 VALUES ('branch7', 1, 4);
 
 INSERT INTO branch (name, repository_id, git_user_id)
-VALUES ('main', 2, 3);
+VALUES ('main', 10, 1);
+
+INSERT INTO branch (name, repository_id, git_user_id)
+VALUES ('main', 11, 1);
 
 
 INSERT INTO pull_request (remote_identifier, pull_request_number, repository_id, pull_request_open_branch_id,
@@ -375,11 +378,11 @@ VALUES (8, 8, 0);
 
 
 INSERT INTO issue(repository_id, open_user_id, [state])
-VALUES (1, 1, 'open');
+VALUES (1, 1, 'OPEN');
 
 
-INSERT INTO issue_label([label], issue_id)
-VALUES ('deploy_bug', 1);
+INSERT INTO issue_label([label], issue_id, release_id)
+VALUES ('deploy_bug', 1, 1);
 
 
 INSERT INTO deployment_workflow(name, remote_identifier, path, issue_label_id)
@@ -391,12 +394,17 @@ VALUES (8, 9, 0);
 
 
 INSERT INTO workflow_run(remote_identifier, deployment_workflow_id, run_number, trigger_event, pull_request_id, conclusion, repository_id, workflow_end_time)
-VALUES (2348934, 1, 32, 'push', 8, 'success',1, GETDATE())
+VALUES (2348934, 1, 32, 'PUSH', 8, 'SUCCESS',1, GETDATE())
 
 
 INSERT INTO release_event(release_event_type, release_id)
-VALUES ('publish', 1)
+VALUES ('PUBLISH', 1)
 
 
 INSERT INTO issue_event(issue_event_type, event_time, event_sender_id, issue_id, remote_identifier)
-VALUES ('open', GETDATE(), 1, 1, 1213343);
+VALUES ('OPENED', GETDATE(), 1, 1, 1213343);
+
+
+INSERT INTO issue_event(issue_event_type, event_time, event_sender_id, issue_id, remote_identifier)
+VALUES ('CLOSED', DATEADD(day, 2, GETDATE()), 1, 1, 12113532);
+
