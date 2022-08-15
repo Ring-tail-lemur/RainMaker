@@ -66,7 +66,7 @@ public class LeadTimeForChangeService {
 		Map<LocalDate, List<Integer>> AverageTimeMap = new HashMap<>();
 		long leadTimeForChangeDays = ChronoUnit.DAYS.between(startTime, endTime);
 		for (int i = 0; i < leadTimeForChangeDays; i++) {
-			AverageTimeMap.put(startTime, new ArrayList<Integer>());
+			AverageTimeMap.put(startTime, new ArrayList<>());
 			startTime = startTime.plusDays(1);
 		}
 		return AverageTimeMap;
