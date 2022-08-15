@@ -30,4 +30,5 @@ local.settings.json
 *.msm
 *.msp
 *.lnk
+*./class
 ._*
