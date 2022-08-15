@@ -28,16 +28,16 @@ jobs:
       - name: Build with Gradle without test
         run: gradle build -x test
 
-      - name: upload .jar file
-        uses: actions/upload-artifact@v2
-        with:
-          name: java-app
-          path: 'SRC/BackEnd_API/build/libs/'
+      # - name: upload .jar file
+      #   uses: actions/upload-artifact@v2
+      #   with:
+      #     name: java-app
+      #     path: 'SRC/BackEnd_API/build/libs/'
 
-      - name: Download artifact from build job
-        uses: actions/download-artifact@v2
-        with:
-          name: java-app
+      # - name: Download artifact from build job
+      #   uses: actions/download-artifact@v2
+      #   with:
+      #     name: java-app
 
 
       - name: Deploy to Azure Web App
@@ -47,7 +47,7 @@ jobs:
           app-name: 'spring-api-server'
           slot-name: 'Production'
           publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_5ED9444999E9468D94694F36314A7977 }}
-          package: 'java-app/*.jar'
+          package: './SRC/BackEnd_API/build/libs/*.jar'
 
       # - name: Deploy WebApp with Gradle
       #   run: gradle azureWebAppDeploy    
