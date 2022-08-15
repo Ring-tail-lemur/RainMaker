@@ -53,5 +53,4 @@ public class DeploymentFrequencyService {
 		deploymentFrequencyDto.setDeploymentFrequencyMap(AverageTimeMap);
 		return deploymentFrequencyDto;
 	}
-
 }
