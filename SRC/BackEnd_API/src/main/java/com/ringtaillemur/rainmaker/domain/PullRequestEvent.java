@@ -26,8 +26,8 @@ public class PullRequestEvent extends BaseEntity {
 	@Column(name = "pull_request_event_id")
 	private Long id;
 
-	@Enumerated(EnumType.STRING)
-	private EventType eventType;
+//	@Enumerated(EnumType.STRING)
+//	private EventType eventType;
 
 	private LocalDateTime eventTime;
 

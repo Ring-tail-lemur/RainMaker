@@ -215,6 +215,14 @@ CREATE TABLE deployment_workflow
     modified_date          datetime2    NOT NULL DEFAULT GETDATE()
 );
 
+DROP TABLE deduplicated_check_table;
+CREATE TABLE deduplicated_check_table
+(
+    id                     bigint      NOT NULL PRIMARY KEY IDENTITY,
+    cosmosdbId             char(32)    NOT NULL unique,
+    created_date           datetime2   NOT NULL DEFAULT GETDATE(),
+);
+
 
 ALTER TABLE workflow_run
     ADD CONSTRAINT FK_deployment_workflow_TO_workflow_run_1 FOREIGN KEY (deployment_workflow_id)

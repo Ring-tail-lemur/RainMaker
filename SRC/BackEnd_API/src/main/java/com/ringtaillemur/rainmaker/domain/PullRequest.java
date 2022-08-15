@@ -29,7 +29,7 @@ public class PullRequest extends BaseEntity {
 
 	private Long pull_request_number;
 
-	private Boolean process_end;
+//	private Boolean process_end;
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "repository_id")
