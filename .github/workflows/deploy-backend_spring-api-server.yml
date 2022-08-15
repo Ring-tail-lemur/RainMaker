@@ -28,8 +28,17 @@ jobs:
       - name: Build with Gradle without test
         run: gradle build -x test
 
-      - name: Deploy WebApp with Gradle
-        run: gradle azureWebAppDeploy    
+      - name: Deploy to Azure Web App
+        id: deploy-to-webapp
+        uses: azure/webapps-deploy@v2
+        with:
+          app-name: 'spring-api-server'
+          slot-name: 'Production'
+          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_5ED9444999E9468D94694F36314A7977 }}
+          package: '*.jar'
+
+      # - name: Deploy WebApp with Gradle
+      #   run: gradle azureWebAppDeploy    
         # with: 
         #   publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_5ED9444999E9468D94694F36314A7977 }}     
       # - name: Upload artifact for deployment job
