@@ -28,12 +28,11 @@ public class DeploymentFrequencyService {
 
 	public DeploymentFrequencyDto getDeploymentFrequency(Long repo_id, LocalDate startTime, LocalDate endTime) {
 		DeploymentFrequencyDto deploymentFrequencyDto = DeploymentFrequencyDto.builder()
-			.start_time(startTime)
-			.end_time(endTime)
-			.level(ProductivityLevel.FRUIT)
+			.startTime(startTime)
+			.endTime(endTime)
 			.build();
 
-		Repository repo = repositoryRepository.findById(repo_id).get();
+		Repository repo = repositoryRepository.findById(repo_id).orElseThrow(() -> new NullPointerException("there is no repository which have this id"));
 		List<WorkflowRun> workflowRunList = workflowRunRepository.findByRepoIdAndTime(repo, startTime.atStartOfDay(),
 			endTime.plusDays(1).atStartOfDay());
 

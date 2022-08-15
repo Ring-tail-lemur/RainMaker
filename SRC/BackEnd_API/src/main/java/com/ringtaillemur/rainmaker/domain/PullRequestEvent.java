@@ -13,7 +13,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
-import com.ringtaillemur.rainmaker.domain.enumtype.EventType;
+import com.ringtaillemur.rainmaker.domain.enumtype.PullRequestEventType;
 
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -29,7 +29,7 @@ public class PullRequestEvent extends BaseEntity {
 	private Long id;
 
 	@Enumerated(EnumType.STRING)
-	private EventType pullRequestEventType;
+	private PullRequestEventType pullRequestEventType;
 
 	private LocalDateTime eventTime;
 

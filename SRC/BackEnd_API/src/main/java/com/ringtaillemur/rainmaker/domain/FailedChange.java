@@ -7,6 +7,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 
 import lombok.AccessLevel;
@@ -27,6 +28,10 @@ public class FailedChange extends BaseEntity {
 	private Release release;
 
 	@OneToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name= "first_error_issue_id")
+	@JoinColumn(name = "first_error_issue_id")
 	private Issue firstErrorIssue;
+
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "repository_id")
+	private Repository repository;
 }

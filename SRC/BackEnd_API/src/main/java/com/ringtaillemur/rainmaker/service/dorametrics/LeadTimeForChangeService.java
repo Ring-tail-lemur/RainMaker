@@ -17,7 +17,6 @@ import com.ringtaillemur.rainmaker.domain.Repository;
 import com.ringtaillemur.rainmaker.dto.webdto.responsedto.LeadTimeForChangeByTimeDto;
 import com.ringtaillemur.rainmaker.repository.LeadTimeForChangeRepository;
 import com.ringtaillemur.rainmaker.repository.RepositoryRepository;
-import com.ringtaillemur.rainmaker.util.enumtype.ProductivityLevel;
 
 import lombok.RequiredArgsConstructor;
 
@@ -30,18 +29,13 @@ public class LeadTimeForChangeService {
 	private final RepositoryRepository repositoryRepository;
 
 	public LeadTimeForChangeByTimeDto getLeadTimeForChangeByTime(Long repo_id, LocalDate startTime, LocalDate endTime) {
-
-		//test
-		repo_id = 1L;
-
 		LeadTimeForChangeByTimeDto dto = LeadTimeForChangeByTimeDto.builder()
-			.start_time(startTime)
-			.end_time(endTime)
-			.level(ProductivityLevel.FRUIT)
+			.startTime(startTime)
+			.endTime(endTime)
 			.build();
 
-		Repository repo = repositoryRepository.findById(repo_id).get();
-
+		Repository repo = repositoryRepository.findById(repo_id)
+			.orElseThrow(() -> new NullPointerException("there is no repository which have this id"));
 		List<LeadTimeForChange> leadTimeForChangeList = leadTimeForChangeRepository.findByRepoIdAndTime(repo,
 			startTime.atStartOfDay(), endTime.plusDays(1).atStartOfDay());
 		Map<LocalDate, List<Integer>> AverageTimeMap = makeHashMap(startTime, endTime);
@@ -71,12 +65,10 @@ public class LeadTimeForChangeService {
 	private Map<LocalDate, List<Integer>> makeHashMap(LocalDate startTime, LocalDate endTime) {
 		Map<LocalDate, List<Integer>> AverageTimeMap = new HashMap<>();
 		long leadTimeForChangeDays = ChronoUnit.DAYS.between(startTime, endTime);
-
 		for (int i = 0; i < leadTimeForChangeDays; i++) {
 			AverageTimeMap.put(startTime, new ArrayList<Integer>());
 			startTime = startTime.plusDays(1);
 		}
-
 		return AverageTimeMap;
 	}
 

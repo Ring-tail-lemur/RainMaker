@@ -10,21 +10,37 @@ import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.apache.commons.lang.NullArgumentException;
+
 @Data
-@NoArgsConstructor
 public class DeploymentFrequencyDto {
 
-    private LocalDate start_time;
-    private LocalDate end_time;
+    private LocalDate startTime;
+    private LocalDate endTime;
     private ProductivityLevel level;
     private Map<LocalDate, Integer> deploymentFrequencyMap = new HashMap<>();
 
     @Builder
-    public DeploymentFrequencyDto(LocalDate start_time, LocalDate end_time, ProductivityLevel level,
+    public DeploymentFrequencyDto(LocalDate startTime, LocalDate endTime,
         Map<LocalDate, Integer> deploymentFrequencyMap) {
-        this.start_time = start_time;
-        this.end_time = end_time;
-        this.level = level;
+        this.startTime = startTime;
+        this.endTime = endTime;
         this.deploymentFrequencyMap = deploymentFrequencyMap;
+        Integer averageDeploymentFrequency = getAverageDeploymentFrequency(deploymentFrequencyMap);
+        this.level = getDeploymentFrequencyProductivityLevel(averageDeploymentFrequency);
+    }
+
+    private ProductivityLevel getDeploymentFrequencyProductivityLevel(Integer deploymentFrequency) {
+        if(deploymentFrequency < 1440) return ProductivityLevel.FRUIT;
+        if(deploymentFrequency < 10080) return ProductivityLevel.FLOWER;
+        if(deploymentFrequency < 43200) return ProductivityLevel.FLOWER;
+        return ProductivityLevel.SEED;
+    }
+
+    private Integer getAverageDeploymentFrequency(Map<LocalDate, Integer> deploymentFrequencyMap){
+        return (int) deploymentFrequencyMap.values().stream()
+            .mapToInt(leadTimeForChange -> leadTimeForChange)
+            .average()
+            .orElseThrow(() -> new NullArgumentException("nothing to average operation values"));
     }
 }

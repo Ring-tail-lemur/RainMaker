@@ -54,4 +54,7 @@ public class Repository extends BaseEntity {
 
 	@OneToMany(mappedBy = "repository")
 	private List<Release> releaseList = new ArrayList<>();
+
+	@OneToMany(mappedBy = "repository")
+	private List<FailedChange> failedChangeList = new ArrayList<>();
 }
