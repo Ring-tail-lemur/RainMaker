@@ -7,6 +7,8 @@ on:
   push:
     branches:
       - deploy-backend
+    paths:
+      - "SRC/BackEnd_API/**"
   workflow_dispatch:
 
 jobs:
@@ -21,8 +23,8 @@ jobs:
         with:
           java-version: '17'
 
-      - name: Build with Maven
-        run: mvn clean install
+      - name: Build with Gradle
+        run: gradle clean install
 
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v2
