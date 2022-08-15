@@ -21,5 +21,13 @@ public class LeadTimeForChangeByTimeDto {
     private LocalDate end_time;
     private ProductivityLevel level;
     private Map<LocalDate, Integer> leadTimeForChangeAverageMap = new HashMap<>();
-    
+
+    @Builder
+    public LeadTimeForChangeByTimeDto(LocalDate start_time, LocalDate end_time, ProductivityLevel level,
+        Map<LocalDate, Integer> leadTimeForChangeAverageMap) {
+        this.start_time = start_time;
+        this.end_time = end_time;
+        this.level = level;
+        this.leadTimeForChangeAverageMap = leadTimeForChangeAverageMap;
+    }
 }

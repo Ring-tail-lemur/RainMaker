@@ -6,6 +6,7 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 
 import lombok.AccessLevel;
@@ -24,4 +25,8 @@ public class DeploymentWorkflow extends BaseEntity {
 	private String path;
 	@OneToOne(fetch = FetchType.LAZY, mappedBy = "deploymentWorkflow")
 	private WorkflowRun workflowRun;
+
+	@OneToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "issue_label_id")
+	private IssueLabel issueLabel;
 }

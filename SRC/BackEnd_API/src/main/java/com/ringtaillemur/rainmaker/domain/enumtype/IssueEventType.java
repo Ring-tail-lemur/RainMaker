@@ -1,4 +1,4 @@
-package com.ringtaillemur.rainmaker.domain;
+package com.ringtaillemur.rainmaker.domain.enumtype;
 
 public enum IssueEventType {
 	OPEN, EDITED, DELETED, PINNED, UNPINNED, CLOSED, REOPENED, ASSIGNED, UNASSIGNED, LABELED, UNLABELED, LOCKED, UNLOCKED, TRANSFERRED, MILESTONED, DEMILESTONED
