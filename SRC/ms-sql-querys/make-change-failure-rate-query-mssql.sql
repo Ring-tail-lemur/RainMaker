@@ -1,7 +1,4 @@
-select *
-from issue;
-
-INSERT INTO failed_change (release_id, first_error_issue_id)
+ INSERT INTO failed_change (release_id, first_error_issue_id)
 select issue_label.release_id,
        issue.issue_id
 from issue
