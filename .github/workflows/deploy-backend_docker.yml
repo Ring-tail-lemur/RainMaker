@@ -1,0 +1,23 @@
+name: Build and deploy Docker Image
+
+on:
+  push:
+    branches:
+      - deploy-backend
+    paths:
+      - "SRC/BackEnd_API/**"
+  workflow_dispatch:
+
+jobs:
+  build:
+    defaults:
+      run:
+        working-directory: "./SRC/BackEnd_API"
+    runs-on: windows-latest
+    
+    steps:
+      - uses: actions/checkout@v2
+      - name: Set up Java version
+        uses: actions/setup-java@v1
+        with:
+          java-version: '17'
