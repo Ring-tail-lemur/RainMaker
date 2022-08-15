@@ -6,7 +6,7 @@ import com.ringtaillemur.analyst.query.QueryRunner;
 public class ChangeFailureRate {
 
 	private static final ChangeFailureRate changeFailureRate = new ChangeFailureRate();
-	private QueryRunner queryRunner = QueryRunner.getQueryRunner();
+	private final QueryRunner queryRunner = QueryRunner.getQueryRunner();
 
 	private ChangeFailureRate() {
 	}

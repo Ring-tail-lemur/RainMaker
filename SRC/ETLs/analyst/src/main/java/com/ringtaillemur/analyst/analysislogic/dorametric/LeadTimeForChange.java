@@ -6,7 +6,7 @@ import com.ringtaillemur.analyst.query.QueryRunner;
 public class LeadTimeForChange {
 
 	private static final LeadTimeForChange leadTimeForChange = new LeadTimeForChange();
-	private QueryRunner queryRunner = QueryRunner.getQueryRunner();
+	private final QueryRunner queryRunner = QueryRunner.getQueryRunner();
 
 	private LeadTimeForChange() {
 	}

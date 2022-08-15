@@ -5,7 +5,7 @@ import com.ringtaillemur.analyst.query.QueryRunner;
 
 public class TimeToRestoreService {
 	private final static TimeToRestoreService timeToRestoreService = new TimeToRestoreService();
-	private QueryRunner queryRunner = QueryRunner.getQueryRunner();
+	private final QueryRunner queryRunner = QueryRunner.getQueryRunner();
 
 	private TimeToRestoreService() {
 	}
