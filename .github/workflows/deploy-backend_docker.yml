@@ -13,7 +13,7 @@ jobs:
     defaults:
       run:
         working-directory: "./SRC/BackEnd_API"
-    runs-on: windows-latest
+    runs-on: ubuntu-latest
     
     steps:
       - uses: actions/checkout@v2
@@ -21,3 +21,12 @@ jobs:
         uses: actions/setup-java@v1
         with:
           java-version: '17'
+
+      - name: build with gradle
+        run: ./gradlew bootJar
+      
+      - name: web docker build and push
+        run: |
+          docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
+          docker build -t ${{ secrets.DOCKER_REPO }}/backend_server .
+          docker push ${{ secrets.DOCKER_REPO }}/backend_server
