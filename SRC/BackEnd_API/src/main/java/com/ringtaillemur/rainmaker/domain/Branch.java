@@ -41,4 +41,6 @@ public class Branch extends BaseEntity {
 	@OneToMany(mappedBy = "pullRequestCloseBranch")
 	private List<PullRequest> pullRequestCloseList = new ArrayList<>();
 
+	@OneToOne(mappedBy = "tag")
+	private Release release;
 }

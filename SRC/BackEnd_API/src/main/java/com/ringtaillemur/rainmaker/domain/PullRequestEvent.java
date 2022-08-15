@@ -29,7 +29,7 @@ public class PullRequestEvent extends BaseEntity {
 	private Long id;
 
 	@Enumerated(EnumType.STRING)
-	private EventType eventType;
+	private EventType pullRequestEventType;
 
 	private LocalDateTime eventTime;
 

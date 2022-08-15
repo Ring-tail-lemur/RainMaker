@@ -51,4 +51,7 @@ public class Repository extends BaseEntity {
 
 	@OneToMany(mappedBy = "repository")
 	private List<WorkflowRun> workflowRuns = new ArrayList<>();
+
+	@OneToMany(mappedBy = "repository")
+	private List<Release> releaseList = new ArrayList<>();
 }
