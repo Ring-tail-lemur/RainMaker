@@ -6,7 +6,7 @@ name: Build and deploy JAR app to Azure Web App - spring-api-server
 on:
   push:
     branches:
-      - deploy-backend
+      - main
     paths:
       - "SRC/BackEnd_API/**"
   workflow_dispatch:
