@@ -2,6 +2,7 @@ plugins {
 	id 'org.springframework.boot' version '2.7.1'
 	id 'io.spring.dependency-management' version '1.0.11.RELEASE'
 	id 'java'
+	id "com.microsoft.azure.azurewebapp" version "1.1.0"
 }
 
 group = 'com.rainmaker'
@@ -32,4 +33,17 @@ dependencies {
 
 tasks.named('test') {
 	useJUnitPlatform()
+}
+
+azurewebapp {
+    subscription = '0d021892-6a06-4807-a518-9cea938b4dfd'
+    resourceGroup = 'MainProjectResourceGroup'
+    appName = 'spring-api-server'
+    pricingTier = 'F1' 
+    region = 'koreacentral' 
+    runtime {
+        os = 'Windows' 
+        webContainer = 'Java SE'
+        javaVersion = 'Java 17'
+    }
 }
