@@ -26,7 +26,10 @@ jobs:
           java-version: '17'
 
       - name: Build with Gradle without test
-        run: gradle build -x test
+        shell: pwsh
+        run: |
+          pwd
+          gradlew.bat clean build
 
       # - name: upload .jar file
       #   uses: actions/upload-artifact@v2
