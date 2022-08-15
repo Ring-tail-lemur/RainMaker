@@ -25,8 +25,8 @@ jobs:
         with:
           java-version: '17'
 
-      - name: Build with Gradle
-        run: gradle build
+      - name: Build with Gradle without test
+        run: gradle build -x test
             
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v2
