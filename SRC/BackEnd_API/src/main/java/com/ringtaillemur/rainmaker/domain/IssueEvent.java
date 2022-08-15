@@ -13,6 +13,8 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
+import com.ringtaillemur.rainmaker.domain.enumtype.IssueEventType;
+
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 

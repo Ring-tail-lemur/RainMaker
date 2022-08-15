@@ -15,6 +15,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
+import com.ringtaillemur.rainmaker.domain.enumtype.IssueState;
+
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 
