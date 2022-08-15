@@ -28,9 +28,7 @@ jobs:
       - name: Build with Gradle without test
         shell: pwsh
         run: |
-          pushd '.'
-          gradlew.bat clean build
-          popd
+          ./gradlew bootJar
 
       # - name: upload .jar file
       #   uses: actions/upload-artifact@v2
