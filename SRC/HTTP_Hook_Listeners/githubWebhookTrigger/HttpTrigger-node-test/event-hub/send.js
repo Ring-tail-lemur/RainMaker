@@ -1,5 +1,5 @@
 const { EventHubProducerClient } = require("@azure/event-hubs");
-
+const timeModule = require("../utils/getCurrentTimeModule.js");
 module.exports = {
   async sender(cloudEventObj, context) {
     const connectionString = 'Endpoint=sb://httptriggereventhubs.servicebus.windows.net/;SharedAccessKeyName=default;SharedAccessKey=ygtTa1wlgXx+UIr6up3i8x4aFHx2vNnD6NZ32K2W9gw=;EntityPath=githubhttpeventhub';
@@ -10,6 +10,7 @@ module.exports = {
       const producer = new EventHubProducerClient(connectionString, eventHubName);
     
       // Prepare a batch of three events.
+      cloudEventObj.sendingTimeInFunction = timeModule.getCurrentTime();
       const batch = await producer.createBatch();
       batch.tryAdd({ body: cloudEventObj});
     
