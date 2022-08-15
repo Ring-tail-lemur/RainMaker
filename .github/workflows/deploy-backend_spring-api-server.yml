@@ -13,11 +13,13 @@ on:
 
 jobs:
   build:
+    defaults:
+      run:
+        working-directory: "./SRC/BackEnd_API"
     runs-on: windows-latest
-
+    
     steps:
       - uses: actions/checkout@v2
-
       - name: Set up Java version
         uses: actions/setup-java@v1
         with:
@@ -25,7 +27,7 @@ jobs:
 
       - name: Build with Gradle
         run: gradle clean install
-
+            
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v2
         with:
