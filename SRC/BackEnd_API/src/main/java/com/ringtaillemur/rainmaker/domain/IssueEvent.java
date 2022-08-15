@@ -27,7 +27,7 @@ public class IssueEvent {
 	private Long id;
 
 	@Enumerated(EnumType.STRING)
-//	private IssueEventType eventType;
+	private IssueEventType issueEventType;
 
 //	private LocalDateTime eventTime;
 

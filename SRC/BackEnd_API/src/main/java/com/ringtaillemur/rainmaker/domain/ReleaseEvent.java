@@ -1,7 +1,5 @@
 package com.ringtaillemur.rainmaker.domain;
 
-import java.time.LocalDateTime;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -13,31 +11,23 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
-import com.ringtaillemur.rainmaker.domain.enumtype.EventType;
+import com.ringtaillemur.rainmaker.domain.enumtype.ReleaseEventType;
 
 import lombok.AccessLevel;
-import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@Getter
-public class PullRequestEvent extends BaseEntity {
+public class ReleaseEvent extends BaseEntity {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "pull_request_event_id")
+	@Column(name = "release_event_id")
 	private Long id;
 
 	@Enumerated(EnumType.STRING)
-	private EventType pullRequestEventType;
-
-	private LocalDateTime eventTime;
+	private ReleaseEventType releaseEventType;
 
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "pull_request_id")
-	private PullRequest pullRequest;
-
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "event_sender_id")
-	private GitUser eventSender;
+	@JoinColumn(name = "release_id")
+	private Release release;
 }
