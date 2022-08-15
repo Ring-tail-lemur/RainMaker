@@ -1,9 +1,9 @@
 const pool = require('../ms-sql/msSQLPool');
 const sql = require('mssql');
 
-async function insertRepoByUserId(repository_name, repository_remote_id, repository_owner_id){
+async function insertRepoByUserId(dbConnectionPool, repository_name, repository_remote_id, repository_owner_id){
 
-    const dbConnectionPool = await pool;
+    // const dbConnectionPool = await pool;
 
     const transaction = await dbConnectionPool.transaction();
 
@@ -34,9 +34,9 @@ async function insertRepoByUserId(repository_name, repository_remote_id, reposit
 }
 
 
-async function insertRepoByOrganizationId(repository_name, repository_remote_id, repository_owner_id){
+async function insertRepoByOrganizationId(dbConnectionPool, repository_name, repository_remote_id, repository_owner_id){
 
-    const dbConnectionPool = await pool;
+    // const dbConnectionPool = await pool;
 
     const transaction = await dbConnectionPool.transaction();
 

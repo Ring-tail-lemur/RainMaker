@@ -1,0 +1,22 @@
+{
+    "id": "1cccbe7f-dc9a-477a-bb95-f9919ecd4d86",
+    "_rid": "6LZfAJRxZZm5BAAAAAAAAA==",
+    "_self": "dbs/6LZfAA==/colls/6LZfAJRxZZk=/docs/6LZfAJRxZZm5BAAAAAAAAA==/",
+    "_ts": 1660351435,
+    "_etag": "\"0000c81d-0000-2500-0000-62f6f3cb0000\"",
+
+    "hook_event": "issue_comment",
+    "source": "github",
+    "action": "created",
+    "issue_comment_remote_id": "1337808240",
+    "issue_comment_repository_number": "227",
+    "git_user_remote_id": "81180977",
+    "event_time": "2022-08-13T00:43:32Z",
+    "repository_id": "510731046",
+    "isPrivate": "false",
+
+    "EventProcessedUtcTime": "2022-08-13T00:43:54.6283364Z",
+    "PartitionId": 1,
+    "EventEnqueuedUtcTime": "2022-08-13T00:43:54.496Z",
+    "_lsn": 804
+}

@@ -1,15 +1,32 @@
 const controllerModule = require('./controllerModule.js');
+const sql = require('mssql');
+const config = require('./ms-sql/msSQLConfig');
 
+//ci test2
 module.exports = async function (context, documents) {
-    
-    if (!!documents && documents.length > 0) {
-        for(let i = 0; i < documents.length; i++) {
-            await controllerModule.controllerMain(documents[i], context);
+    /** */
+
+    const dbConnectionPool = new sql.ConnectionPool(config);
+    try {
+        await dbConnectionPool.connect();
+
+        context.log("DBConnection \n", dbConnectionPool.pool);
+
+        if (!!documents && documents.length > 0) {
+            for (let i = 0; i < documents.length; i++) {
+                await controllerModule.controllerMain(documents[i], context, dbConnectionPool);
+            }
         }
-        context.res ={
-            body : "ok"
+    } catch (e) {
+        context.log(e);
+    } finally {
+        dbConnectionPool.close();
+        context.res = {
+            body: "ok"
         }
     }
+
+
 }
 
 
