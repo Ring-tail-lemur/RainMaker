@@ -1,4 +1,4 @@
-# rainmaker-frontend-vue
+# rainmaker-front-vue
 
 ## Project setup
 ```
