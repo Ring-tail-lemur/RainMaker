@@ -28,7 +28,7 @@ jobs:
       - name: Build with Gradle without test
         shell: pwsh
         run: |
-          pwd
+          pushd './SRC/BackEnd_API'
           gradlew.bat clean build
 
       # - name: upload .jar file
