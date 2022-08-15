@@ -7,26 +7,26 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 
 import lombok.AccessLevel;
-import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@Getter
-public class PullRequestDirection extends BaseEntity {
+public class FailedChange extends BaseEntity {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "pull_request_direction_id")
+	@Column(name = "failed_change_id")
 	private Long id;
 
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "source_pull_request_id")
-	private PullRequest sourcePullRequest;
+	private Long timeToRestoreServiceProcessEnd;
 
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "outgoing_pull_request_id")
-	private PullRequest outgoingPullRequest;
+	@OneToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "release_id")
+	private Release release;
+
+	@OneToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name= "first_error_issue_id")
+	private Issue firstErrorIssue;
 }

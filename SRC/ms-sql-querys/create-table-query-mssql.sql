@@ -2,7 +2,7 @@
 (
     git_organization_id BIGINT       NOT NULL PRIMARY KEY IDENTITY,
     [name]              VARCHAR(255) NOT NULL,
-    remote_identifier   BIGINT       NOT NULL,
+    remote_identifier   BIGINT       NOT NULL UNIQUE,
     created_date        DATETIME2    NOT NULL DEFAULT GETDATE(),
     modified_date       DATETIME2    NOT NULL DEFAULT GETDATE()
 );
@@ -16,14 +16,14 @@ CREATE TABLE repository
     modified_date         DATETIME2    NOT NULL DEFAULT GETDATE(),
     owner_user_id         BIGINT,
     owner_organization_id BIGINT,
-    remote_identifier     BIGINT       NOT NULL unique
+    remote_identifier     BIGINT       NOT NULL UNIQUE
 );
 
 CREATE TABLE git_user
 (
     git_user_id       BIGINT       NOT NULL PRIMARY KEY IDENTITY,
     [name]            VARCHAR(255) NOT NULL,
-    remote_identifier BIGINT       NOT NULL unique,
+    remote_identifier BIGINT       NOT NULL UNIQUE,
     created_date      DATETIME2    NOT NULL DEFAULT GETDATE(),
     modified_date     DATETIME2    NOT NULL DEFAULT GETDATE()
 );
@@ -31,7 +31,7 @@ CREATE TABLE git_user
 CREATE TABLE pull_request
 (
     pull_request_id                  BIGINT    NOT NULL PRIMARY KEY IDENTITY,
-    remote_identifier                BIGINT    NOT NULL unique,
+    remote_identifier                BIGINT    NOT NULL UNIQUE,
     pull_request_number              BIGINT    NOT NULL,
     repository_id                    BIGINT    NOT NULL,
     pull_request_open_branch_id      BIGINT    NOT NULL,
@@ -64,7 +64,7 @@ CREATE TABLE user_organization_table
 CREATE TABLE commits
 (
     commit_id     BIGINT        NOT NULL PRIMARY KEY IDENTITY,
-    sha           VARCHAR(40)   NOT NULL unique,
+    sha           VARCHAR(40)   NOT NULL UNIQUE,
     author_id     BIGINT,
     [message]     VARCHAR(1000) NOT NULL,
     created_date  DATETIME2     NOT NULL DEFAULT GETDATE(),
@@ -149,7 +149,7 @@ CREATE TABLE issue_event
     issue_id          BIGINT       NOT NULL,
     created_date      DATETIME2    NOT NULL DEFAULT GETDATE(),
     modified_date     DATETIME2    NOT NULL DEFAULT GETDATE(),
-    remote_identifier BIGINT       NOT NULL unique
+    remote_identifier BIGINT       NOT NULL UNIQUE
 );
 
 CREATE TABLE issue_label
@@ -165,7 +165,7 @@ CREATE TABLE issue_label
 CREATE TABLE workflow_run
 (
     workflow_run_id        BIGINT       NOT NULL PRIMARY KEY IDENTITY,
-    remote_identifier      BIGINT       NOT NULL unique,
+    remote_identifier      BIGINT       NOT NULL UNIQUE,
     deployment_workflow_id BIGINT       NOT NULL,
     run_number             BIGINT       NOT NULL,
     trigger_event          VARCHAR(255) NOT NULL,
@@ -182,7 +182,7 @@ CREATE TABLE deployment_workflow
 (
     deployment_workflow_id BIGINT       NOT NULL PRIMARY KEY IDENTITY,
     [name]                 VARCHAR(225) NOT NULL,
-    remote_identifier      BIGINT       NOT NULL unique,
+    remote_identifier      BIGINT       NOT NULL UNIQUE,
     [path]                 VARCHAR(255) NOT NULL,
     created_date           DATETIME2    NOT NULL DEFAULT GETDATE(),
     modified_date          DATETIME2    NOT NULL DEFAULT GETDATE(),
