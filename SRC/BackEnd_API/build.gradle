@@ -43,7 +43,7 @@ azurewebapp {
     region = 'kocen' 
     runtime {
         os = 'Linux' 
-        webContainer = 'Tomcat 9.0'
+        webContainer = 'Java SE'
         javaVersion = 'Java 17'
     }
 }
