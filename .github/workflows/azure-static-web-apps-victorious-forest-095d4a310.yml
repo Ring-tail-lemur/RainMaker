@@ -4,6 +4,8 @@ on:
   push:
     branches:
       - deploy-frontend
+    paths:
+      - "SRC/FrontEnd_API/**"
   # pull_request:
   #   types: [opened, synchronize, reopened, closed]
   #   branches:
