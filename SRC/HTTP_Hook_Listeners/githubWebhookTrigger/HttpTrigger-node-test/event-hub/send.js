@@ -10,7 +10,7 @@ module.exports = {
       const producer = new EventHubProducerClient(connectionString, eventHubName);
     
       // Prepare a batch of three events.
-      cloudEventObj.sendingTimeInFunction = timeModule.getCurrentTime();
+      cloudEventObj.sendingTimeInFunction = await timeModule.getCurrentTime();
       const batch = await producer.createBatch();
       batch.tryAdd({ body: cloudEventObj});
     
