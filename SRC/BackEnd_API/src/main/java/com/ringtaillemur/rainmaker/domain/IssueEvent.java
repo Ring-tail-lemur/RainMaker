@@ -29,7 +29,7 @@ public class IssueEvent {
 	@Enumerated(EnumType.STRING)
 	private IssueEventType issueEventType;
 
-	private LocalDateTime eventTime;
+//	private LocalDateTime eventTime;
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "event_sender_id")
