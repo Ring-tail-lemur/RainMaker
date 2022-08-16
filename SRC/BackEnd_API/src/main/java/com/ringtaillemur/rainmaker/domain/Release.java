@@ -16,10 +16,12 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
 import lombok.AccessLevel;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@Getter
 public class Release extends BaseEntity {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)

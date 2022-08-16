@@ -14,7 +14,6 @@ import com.ringtaillemur.rainmaker.domain.WorkflowRun;
 import com.ringtaillemur.rainmaker.dto.webdto.responsedto.DeploymentFrequencyDto;
 import com.ringtaillemur.rainmaker.repository.RepositoryRepository;
 import com.ringtaillemur.rainmaker.repository.WorkflowRunRepository;
-import com.ringtaillemur.rainmaker.util.enumtype.ProductivityLevel;
 
 import lombok.RequiredArgsConstructor;
 
@@ -50,6 +49,7 @@ public class DeploymentFrequencyService {
 		}
 
 		deploymentFrequencyDto.setDeploymentFrequencyMap(AverageTimeMap);
+		deploymentFrequencyDto.setLevel();
 		return deploymentFrequencyDto;
 	}
 }

@@ -1,16 +1,15 @@
 package com.ringtaillemur.rainmaker.dto.webdto.responsedto;
 
-import com.ringtaillemur.rainmaker.util.enumtype.ProductivityLevel;
-
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-
 import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.Map;
 
 import org.apache.commons.lang.NullArgumentException;
+
+import com.ringtaillemur.rainmaker.util.enumtype.ProductivityLevel;
+
+import lombok.Builder;
+import lombok.Data;
 
 @Data
 public class DeploymentFrequencyDto {
@@ -26,8 +25,14 @@ public class DeploymentFrequencyDto {
         this.startTime = startTime;
         this.endTime = endTime;
         this.deploymentFrequencyMap = deploymentFrequencyMap;
-        Integer averageDeploymentFrequency = getAverageDeploymentFrequency(deploymentFrequencyMap);
-        this.level = getDeploymentFrequencyProductivityLevel(averageDeploymentFrequency);
+    }
+
+    public void setLevel(Map<LocalDate, Integer> deploymentFrequencyMap) {
+        this.level = getDeploymentFrequencyProductivityLevel(getAverageDeploymentFrequency(deploymentFrequencyMap));
+    }
+
+    public void setLevel() {
+        this.level = getDeploymentFrequencyProductivityLevel(getAverageDeploymentFrequency(this.deploymentFrequencyMap));
     }
 
     private ProductivityLevel getDeploymentFrequencyProductivityLevel(Integer deploymentFrequency) {

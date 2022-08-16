@@ -25,8 +25,14 @@ public class LeadTimeForChangeByTimeDto {
 		this.startTime = startTime;
 		this.endTime = endTime;
 		this.leadTimeForChangeAverageMap = leadTimeForChangeAverageMap;
-		Integer averageLeadTimeForChange = getAverageLeadTimeForChange(leadTimeForChangeAverageMap);
-		this.level = getLeadTimeForChangeProductivityLevel(averageLeadTimeForChange);
+	}
+
+	public void setLevel(Map<LocalDate, Integer> leadTimeForChangeAverageMap) {
+		this.level = getLeadTimeForChangeProductivityLevel(getAverageLeadTimeForChange(leadTimeForChangeAverageMap));
+	}
+
+	public void setLevel() {
+		this.level = getLeadTimeForChangeProductivityLevel(getAverageLeadTimeForChange(leadTimeForChangeAverageMap));
 	}
 
 	private ProductivityLevel getLeadTimeForChangeProductivityLevel(Integer leadTimeForChange) {

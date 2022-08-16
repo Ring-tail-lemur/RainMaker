@@ -58,6 +58,7 @@ public class LeadTimeForChangeService {
 		}
 
 		dto.setLeadTimeForChangeAverageMap(leadTimeForChangeAverageMap);
+		dto.setLevel();
 
 		return dto;
 	}

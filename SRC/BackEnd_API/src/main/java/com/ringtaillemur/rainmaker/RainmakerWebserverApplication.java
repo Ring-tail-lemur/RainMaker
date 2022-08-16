@@ -11,5 +11,4 @@ public class RainmakerWebserverApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(RainmakerWebserverApplication.class, args);
 	}
-
 }
