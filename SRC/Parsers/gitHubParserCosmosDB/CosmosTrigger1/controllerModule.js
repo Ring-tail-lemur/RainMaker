@@ -35,10 +35,12 @@ async function controllerMain(eventObj, context, pool){
             await pullRequestReviewMainModule.pullRequestReviewMain(pool, eventObj);
             context.log("pull_request_review insert success");
         }
+
+        await deduplicationRepository.insertDeduplication(pool, eventObj.id);
     } catch (e) {
         console.log(e);
     } finally {
-        await deduplicationRepository.insertDeduplication(pool, eventObj.id);
+
     }
 
 }

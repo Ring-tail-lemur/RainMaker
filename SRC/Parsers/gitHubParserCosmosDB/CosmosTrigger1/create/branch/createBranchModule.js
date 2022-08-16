@@ -1,5 +1,5 @@
-const pool = require('../ms-sql/msSQLPool');
-const repoCheckModule = require('../check-error/repoCheckModule');
+const pool = require('../../ms-sql/msSQLPool');
+const repoCheckModule = require('../../check-error/repoCheckModule');
 const createBranchRepository = require('./createBranchRepository');
 
 async function createBranchMain(dbConnectionPool, eventObject, context) {
