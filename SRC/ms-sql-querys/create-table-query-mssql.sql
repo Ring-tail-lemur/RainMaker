@@ -189,6 +189,12 @@ CREATE TABLE deployment_workflow
     issue_label_id         BIGINT       NULL
 );
 
+CREATE TABLE deduplication_check_table
+(
+    cosmosdb_id             uniqueidentifier   NOT NULL UNIQUE,
+    created_date           datetime2          NOT NULL DEFAULT GETDATE(),
+);
+
 CREATE TABLE release
 (
     release_id                       BIGINT       NOT NULL PRIMARY KEY IDENTITY,
