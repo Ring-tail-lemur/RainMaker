@@ -377,12 +377,12 @@ INSERT INTO pull_request_commit_table(pull_request_id, commit_id, first_commit)
 VALUES (8, 8, 0);
 
 
-INSERT INTO issue(repository_id, open_user_id, [state])
-VALUES (1, 1, 'OPEN');
+INSERT INTO issue(repository_id, open_user_id, [state], remote_identifier, issue_label_id)
+VALUES (1, 1, 'OPEN', 1456432, 1);
 
 
-INSERT INTO issue_label([label], issue_id, release_id)
-VALUES ('deploy_bug', 1, 1);
+INSERT INTO issue_label([label], release_id, remote_identifier)
+VALUES ('deploy_bug', 1, 153453);
 
 
 INSERT INTO deployment_workflow(name, remote_identifier, path, issue_label_id)
@@ -401,10 +401,10 @@ INSERT INTO release_event(release_event_type, release_id)
 VALUES ('PUBLISH', 1)
 
 
-INSERT INTO issue_event(issue_event_type, event_time, event_sender_id, issue_id, remote_identifier)
-VALUES ('OPEN', GETDATE(), 1, 1, 1213343);
+INSERT INTO issue_event(issue_event_type, event_time, event_sender_id, issue_id)
+VALUES ('OPEN', GETDATE(), 1, 1);
 
 
-INSERT INTO issue_event(issue_event_type, event_time, event_sender_id, issue_id, remote_identifier)
-VALUES ('CLOSED', DATEADD(day, 2, GETDATE()), 1, 1, 12113532);
+INSERT INTO issue_event(issue_event_type, event_time, event_sender_id, issue_id)
+VALUES ('CLOSED', DATEADD(day, 2, GETDATE()), 1, 1);
 

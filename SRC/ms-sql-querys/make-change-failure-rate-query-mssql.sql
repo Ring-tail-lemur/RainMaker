@@ -5,7 +5,7 @@ select issue_label.release_id,
        issue_event.event_time
 from issue
          join issue_event on issue.issue_id = issue_event.issue_id
-         join issue_label on issue_label.issue_id = issue.issue_id
+         join issue_label on issue_label.issue_label_id = issue.issue_label_id
          join release on issue_label.release_id = release.release_id
          left join failed_change
                    on release.release_id = failed_change.release_id

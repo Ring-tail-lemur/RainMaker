@@ -1,5 +1,8 @@
 package com.ringtaillemur.rainmaker.domain;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -8,6 +11,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
 import lombok.AccessLevel;
@@ -23,9 +27,8 @@ public class IssueLabel {
 
 	private String label;
 
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "issue_id")
-	private Issue issue;
+	@OneToMany(mappedBy = "issueLabel")
+	private List<Issue> issueList = new ArrayList<>();
 
 	@OneToOne(fetch = FetchType.LAZY, mappedBy = "issueLabel")
 	private DeploymentWorkflow deploymentWorkflow;
