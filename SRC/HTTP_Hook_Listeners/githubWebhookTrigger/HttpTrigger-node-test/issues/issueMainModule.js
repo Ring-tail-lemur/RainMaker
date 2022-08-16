@@ -1,6 +1,6 @@
 const issueLabeledModule = require('./issueLabeledModule.js');
 const issueOpenedModule = require('./issueOpenedModule.js');
-const issueEdittedModule = require('./issueEdittedModule.js');
+const issueEditedModule = require('./issueEdittedModule.js');
 const issueClosedModule = require('./issueClosedModule.js');
 async function issueMain(hookBody, cloudEventObj, context){
     cloudEventObj.action = JSON.stringify(hookBody.action).replace(/['"]+/g, '');
@@ -16,7 +16,7 @@ async function issueMain(hookBody, cloudEventObj, context){
     if(cloudEventObj.action == 'labeled'){
         return await issueLabeledModule.issueLabledMain(hookBody, cloudEventObj, context);
     }else if(cloudEventObj.action == 'edited'){
-        return await issueEdittedModule.issueEdittedMain(hookBody, cloudEventObj, context);
+        return await issueEditedModule.issueEditedMain(hookBody, cloudEventObj, context);
     }else if(cloudEventObj.action == 'opened'){
         return await issueOpenedModule.issueOpenedMain(hookBody, cloudEventObj, context);
     }else if(cloudEventObj.action == 'closed'){
