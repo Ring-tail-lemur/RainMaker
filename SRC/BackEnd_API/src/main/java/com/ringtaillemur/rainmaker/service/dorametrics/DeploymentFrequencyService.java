@@ -14,7 +14,6 @@ import com.ringtaillemur.rainmaker.domain.WorkflowRun;
 import com.ringtaillemur.rainmaker.dto.webdto.responsedto.DeploymentFrequencyDto;
 import com.ringtaillemur.rainmaker.repository.RepositoryRepository;
 import com.ringtaillemur.rainmaker.repository.WorkflowRunRepository;
-import com.ringtaillemur.rainmaker.util.enumtype.ProductivityLevel;
 
 import lombok.RequiredArgsConstructor;
 
@@ -28,12 +27,11 @@ public class DeploymentFrequencyService {
 
 	public DeploymentFrequencyDto getDeploymentFrequency(Long repo_id, LocalDate startTime, LocalDate endTime) {
 		DeploymentFrequencyDto deploymentFrequencyDto = DeploymentFrequencyDto.builder()
-			.start_time(startTime)
-			.end_time(endTime)
-			.level(ProductivityLevel.FRUIT)
+			.startTime(startTime)
+			.endTime(endTime)
 			.build();
 
-		Repository repo = repositoryRepository.findById(repo_id).get();
+		Repository repo = repositoryRepository.findById(repo_id).orElseThrow(() -> new NullPointerException("there is no repository which have this id"));
 		List<WorkflowRun> workflowRunList = workflowRunRepository.findByRepoIdAndTime(repo, startTime.atStartOfDay(),
 			endTime.plusDays(1).atStartOfDay());
 
@@ -51,6 +49,7 @@ public class DeploymentFrequencyService {
 		}
 
 		deploymentFrequencyDto.setDeploymentFrequencyMap(AverageTimeMap);
+		deploymentFrequencyDto.setLevel();
 		return deploymentFrequencyDto;
 	}
 }

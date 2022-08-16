@@ -1,33 +1,54 @@
 package com.ringtaillemur.rainmaker.dto.webdto.responsedto;
 
-import com.ringtaillemur.rainmaker.util.enumtype.ProductivityLevel;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-
 import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.LocalTime;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang.NullArgumentException;
+
+import com.ringtaillemur.rainmaker.util.enumtype.ProductivityLevel;
+
+import lombok.Builder;
+import lombok.Data;
+
 @Data
-@NoArgsConstructor
 public class LeadTimeForChangeByTimeDto {
 
-    private LocalDate start_time;
-    private LocalDate end_time;
-    private ProductivityLevel level;
-    private Map<LocalDate, Integer> leadTimeForChangeAverageMap = new HashMap<>();
+	private LocalDate startTime;
+	private LocalDate endTime;
+	private ProductivityLevel level;
+	private Map<LocalDate, Integer> leadTimeForChangeAverageMap = new HashMap<>();
 
-    @Builder
-    public LeadTimeForChangeByTimeDto(LocalDate start_time, LocalDate end_time, ProductivityLevel level,
-        Map<LocalDate, Integer> leadTimeForChangeAverageMap) {
-        this.start_time = start_time;
-        this.end_time = end_time;
-        this.level = level;
-        this.leadTimeForChangeAverageMap = leadTimeForChangeAverageMap;
-    }
+	@Builder
+	public LeadTimeForChangeByTimeDto(LocalDate startTime, LocalDate endTime,
+		Map<LocalDate, Integer> leadTimeForChangeAverageMap) {
+		this.startTime = startTime;
+		this.endTime = endTime;
+		this.leadTimeForChangeAverageMap = leadTimeForChangeAverageMap;
+	}
+
+	public void setLevel(Map<LocalDate, Integer> leadTimeForChangeAverageMap) {
+		this.level = getLeadTimeForChangeProductivityLevel(getAverageLeadTimeForChange(leadTimeForChangeAverageMap));
+	}
+
+	public void setLevel() {
+		this.level = getLeadTimeForChangeProductivityLevel(getAverageLeadTimeForChange(leadTimeForChangeAverageMap));
+	}
+
+	private ProductivityLevel getLeadTimeForChangeProductivityLevel(Integer leadTimeForChange) {
+		if (leadTimeForChange < 1440)
+			return ProductivityLevel.FRUIT;
+		if (leadTimeForChange < 10080)
+			return ProductivityLevel.FLOWER;
+		if (leadTimeForChange < 43200)
+			return ProductivityLevel.SPROUT;
+		return ProductivityLevel.SEED;
+	}
+
+	private Integer getAverageLeadTimeForChange(Map<LocalDate, Integer> leadTimeForChangeAverageMap){
+		return (int) leadTimeForChangeAverageMap.values().stream()
+			.mapToInt(leadTimeForChange -> leadTimeForChange)
+			.average()
+			.orElseThrow(() -> new NullArgumentException("nothing to average operation values"));
+	}
 }

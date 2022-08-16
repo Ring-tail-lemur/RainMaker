@@ -1,16 +1,14 @@
 package com.ringtaillemur.rainmaker.repository;
 
-import com.ringtaillemur.rainmaker.domain.LeadTimeForChange;
-import com.ringtaillemur.rainmaker.domain.Repository;
-import org.springframework.data.jpa.repository.JpaRepository;
+import java.time.LocalDateTime;
+import java.util.List;
 
-import com.ringtaillemur.rainmaker.domain.GitOrganization;
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
-import java.time.LocalDateTime;
-import java.util.List;
-import java.util.Optional;
+import com.ringtaillemur.rainmaker.domain.LeadTimeForChange;
+import com.ringtaillemur.rainmaker.domain.Repository;
 
 public interface LeadTimeForChangeRepository extends JpaRepository<LeadTimeForChange, Long> {
 
@@ -20,6 +18,4 @@ public interface LeadTimeForChangeRepository extends JpaRepository<LeadTimeForCh
             "and l.modifiedDate > :start_time " +
             "and l.modifiedDate < :end_time")
     List<LeadTimeForChange> findByRepoIdAndTime(@Param("repo") Repository repository, @Param("start_time") LocalDateTime start_time, @Param("end_time") LocalDateTime end_time);
-
-    // List<LeadTimeForChange> findLeadTimeForChangesByDeploymentTimeBetweenAndRepository();
 }
