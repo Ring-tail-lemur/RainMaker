@@ -402,7 +402,7 @@ VALUES ('PUBLISH', 1)
 
 
 INSERT INTO issue_event(issue_event_type, event_time, event_sender_id, issue_id, remote_identifier)
-VALUES ('OPENED', GETDATE(), 1, 1, 1213343);
+VALUES ('OPEN', GETDATE(), 1, 1, 1213343);
 
 
 INSERT INTO issue_event(issue_event_type, event_time, event_sender_id, issue_id, remote_identifier)

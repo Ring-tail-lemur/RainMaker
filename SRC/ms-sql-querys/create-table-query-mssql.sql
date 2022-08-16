@@ -202,7 +202,7 @@ CREATE TABLE release
     pre_release                      BIT          NOT NULL,
     [name]                           VARCHAR(255) NOT NULL,
     author_id                        BIGINT       NOT NULL,
-    tag_id                           BIGINT       NOT NULL,
+    tag_id                           BIGINT,
     created_date                     DATETIME2    NOT NULL DEFAULT GETDATE(),
     modified_date                    DATETIME2    NOT NULL DEFAULT GETDATE(),
     repository_id                    BIGINT       NOT NULL,
@@ -227,16 +227,25 @@ CREATE TABLE failed_change
     created_date                        DATETIME2 NOT NULL DEFAULT GETDATE(),
     modified_date                       DATETIME2 NOT NULL DEFAULT GETDATE(),
     first_error_issue_id                BIGINT    NOT NULL,
-    time_to_restore_service_process_end BIGINT    NOT NULL DEFAULT 0
+    time_to_restore_service_process_end BIGINT    NOT NULL DEFAULT 0,
+    repository_id                       BIGINT    NOT NULL,
+    failed_at                           DATETIME2 NOT NULL
 );
 
 CREATE TABLE time_to_restore_service
 (
-    time_to_restore_service_id bigint    NOT NULL PRIMARY KEY IDENTITY,
-    restore_service_time       bigint    NOT NULL,
-    failed_change_id           bigint    NOT NULL,
+    time_to_restore_service_id BIGINT    NOT NULL PRIMARY KEY IDENTITY,
+    restore_service_time       BIGINT    NOT NULL,
+    failed_change_id           BIGINT    NOT NULL,
     created_date               DATETIME2 NOT NULL DEFAULT GETDATE(),
-    modified_date              DATETIME2 NOT NULL DEFAULT GETDATE()
+    modified_date              DATETIME2 NOT NULL DEFAULT GETDATE(),
+    restored_at                DATETIME2 NOT NULL
+);
+
+create table deduplication_check_table
+(
+    cosmosdb_id  UNIQUEIDENTIFIER NOT NULL UNIQUE,
+    created_date DATETIME2        NOT NULL DEFAULT GETDATE()
 );
 
 ALTER TABLE time_to_restore_service
@@ -250,6 +259,10 @@ ALTER TABLE failed_change
 ALTER TABLE failed_change
     ADD CONSTRAINT FK_issue_TO_failed_change_1 FOREIGN KEY (first_error_issue_id)
         REFERENCES issue (issue_id);
+
+ALTER TABLE failed_change
+    ADD CONSTRAINT FK_repository_TO_failed_change_1 FOREIGN KEY (repository_id)
+        REFERENCES repository (repository_id);
 
 ALTER TABLE release
     ADD CONSTRAINT FK_git_user_TO_release_1 FOREIGN KEY (author_id)

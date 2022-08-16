@@ -19,7 +19,7 @@ import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
 @Controller
-public class doraMetricsController {
+public class DoraMetricsController {
 
 	private final LeadTimeForChangeService leadTimeForChangeService;
 	private final DeploymentFrequencyService deploymentFrequencyService;
@@ -29,8 +29,7 @@ public class doraMetricsController {
 	@GetMapping("/dorametric/lead-time-for-change")
 	public LeadTimeForChangeByTimeDto doraLeadTimeForChangeForRestApi(
 		@RequestParam("start_time") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate startTime,
-		@RequestParam("end_time") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate endTime) throws
-		InterruptedException {
+		@RequestParam("end_time") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate endTime) {
 		return leadTimeForChangeService.getLeadTimeForChangeByTime(1L, startTime, endTime);
 	}
 
@@ -38,8 +37,7 @@ public class doraMetricsController {
 	@GetMapping("/dorametric/deployment-frequency")
 	public DeploymentFrequencyDto doraDeploymentFrequencyForRestApi(
 		@RequestParam("start_time") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate startTime,
-		@RequestParam("end_time") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate endTime) throws
-		InterruptedException {
+		@RequestParam("end_time") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate endTime) {
 		return deploymentFrequencyService.getDeploymentFrequency(1L, startTime, endTime);
 	}
 
@@ -47,7 +45,7 @@ public class doraMetricsController {
 	@GetMapping("/dorametric/change-failure-rate")
 	public ChangeFailureRateDto doraChangeFailureRateApi(
 		@RequestParam("start_time") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate startTime,
-		@RequestParam("end_time") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate endTime){
+		@RequestParam("end_time") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate endTime) {
 		return changeFailureRateService.getChangeFailureRate(1L, startTime, endTime);
 	}
 }

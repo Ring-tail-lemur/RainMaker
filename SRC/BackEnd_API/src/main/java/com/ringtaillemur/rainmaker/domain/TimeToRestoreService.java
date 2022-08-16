@@ -1,5 +1,7 @@
 package com.ringtaillemur.rainmaker.domain;
 
+import java.time.LocalDateTime;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -25,4 +27,6 @@ public class TimeToRestoreService extends BaseEntity {
 	@OneToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "failed_change_id")
 	private FailedChange failedChange;
+
+	private LocalDateTime restoredAt;
  }
