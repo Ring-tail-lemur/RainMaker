@@ -12,10 +12,10 @@ async function controllerMain(eventObj, context, pool){
     // context.log("EventObj :", eventObj);
 
     // Deduplicate가 일어났다면 true를 반환.
-    const isDeduplicate = await deduplicationRepository.checkDeduplication(pool, eventObj.id);
-    if(isDeduplicate) {
-        return;
-    }
+    // const isDeduplicate = await deduplicationRepository.checkDeduplication(pool, eventObj.id);
+    // if(isDeduplicate) {
+    //     return;
+    // }
 
     const hook_event = eventObj.hook_event;
 
@@ -39,7 +39,7 @@ async function controllerMain(eventObj, context, pool){
             await releaseMainModule.releaseMain(pool, eventObj, context);
         }
 
-        await deduplicationRepository.insertDeduplication(pool, eventObj.id);
+        // await deduplicationRepository.insertDeduplication(pool, eventObj.id);
     } catch (e) {
         console.log(e);
     } finally {
