@@ -3,7 +3,7 @@ name: Azure Static Web Apps CI/CD
 on:
   push:
     branches:
-      - deploy-frontend
+      - main
     paths:
       - "SRC/FrontEnd_API/**"
   # pull_request:
