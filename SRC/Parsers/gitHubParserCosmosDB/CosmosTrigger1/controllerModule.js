@@ -4,11 +4,12 @@ const createMainModule = require('./create/createMainModule.js');
 const commitMainModule = require('./commit/commitMainModule.js');
 const pullRequestReviewMainModule = require('./review/pullRequestReviewMainModule');
 const deduplicationRepository = require('./deduplicate/deduplicationRepository')
+const releaseMainModule = require('./release/releaseMainModule');
 // const pool = require('./ms-sql/msSQLPool');
 
 async function controllerMain(eventObj, context, pool){
 
-    context.log("EventObj :", eventObj);
+    // context.log("EventObj :", eventObj);
 
     // Deduplicate가 일어났다면 true를 반환.
     const isDeduplicate = await deduplicationRepository.checkDeduplication(pool, eventObj.id);
@@ -34,6 +35,8 @@ async function controllerMain(eventObj, context, pool){
         } else if (hook_event == 'pull_request_review') {
             await pullRequestReviewMainModule.pullRequestReviewMain(pool, eventObj);
             context.log("pull_request_review insert success");
+        } else if (hook_event == 'release') {
+            await releaseMainModule.releaseMain(pool, eventObj, context);
         }
 
         await deduplicationRepository.insertDeduplication(pool, eventObj.id);
