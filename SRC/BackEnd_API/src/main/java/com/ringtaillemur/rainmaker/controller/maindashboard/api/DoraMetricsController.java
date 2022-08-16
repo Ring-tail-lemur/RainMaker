@@ -29,8 +29,9 @@ public class DoraMetricsController {
 	@GetMapping("/dorametric/lead-time-for-change")
 	public LeadTimeForChangeByTimeDto doraLeadTimeForChangeForRestApi(
 		@RequestParam("start_time") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate startTime,
-		@RequestParam("end_time") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate endTime) {
-		return leadTimeForChangeService.getLeadTimeForChangeByTime(1L, startTime, endTime);
+		@RequestParam("end_time") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate endTime,
+		@RequestParam("repo_id") Long repoId) {
+		return leadTimeForChangeService.getLeadTimeForChangeByTime(repoId, startTime, endTime);
 	}
 
 	@ResponseBody
