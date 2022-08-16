@@ -16,7 +16,7 @@ public class TimerTriggerFunction {
 
 	@FunctionName("TimerTrigger-Java")
 	public void run(
-		@TimerTrigger(name = "timerInfo", schedule = "1-59 * * * * *") String timerInfo,
+		@TimerTrigger(name = "timerInfo", schedule = "0 */5 * * * *") String timerInfo,
 		final ExecutionContext context) {
 		leadTimeForChange.calculateLeadTimeForChange();
 		changeFailureRate.calculateChangeFailureRate();
