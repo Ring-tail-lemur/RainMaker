@@ -13,6 +13,9 @@ on:
 
 jobs:
   build_and_deploy_job:
+    default: 
+      run: 
+        working-directory:"./SRC/FrontEnd_API/rainmaker-front-vue"
     # if: github.event_name == 'push' || (github.event_name == 'pull_request' && github.event.action != 'closed')
     runs-on: ubuntu-latest
     name: Build and Deploy Job
@@ -29,9 +32,9 @@ jobs:
           action: "upload"
           ###### Repository/Build Configurations - These values can be configured to match your app requirements. ######
           # For more information regarding Static Web App workflow configurations, please visit: https://aka.ms/swaworkflowconfig
-          app_location: "/SRC/FrontEnd_API/rainmaker-front-vue" # App source code path
-          api_location: "/SRC/FrontEnd_API/rainmaker-front-vue/src/api" # Api source code path - optional
-          output_location: "/SRC/FrontEnd_API/rainmaker-front-vue/dist" # Built app content directory - optional
+          app_location: "." # App source code path
+          api_location: "./src/api" # Api source code path - optional
+          output_location: "./dist" # Built app content directory - optional
           ###### End of Repository/Build Configurations ######
 
   # close_pull_request_job:
