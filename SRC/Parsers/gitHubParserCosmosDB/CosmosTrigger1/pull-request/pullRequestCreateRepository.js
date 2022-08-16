@@ -60,7 +60,7 @@ async function insertPullRequestEventClosedByPullRequestIdAndUserId(dbConnection
     context.log(event_type, event_time, pull_request_id, event_sender_id);
 
     const sqlQuery = `
-    INSERT INTO pull_request_event (event_type, event_time, pull_request_id, event_sender_id)
+    INSERT INTO pull_request_event (pull_request_event_type, event_time, pull_request_id, event_sender_id)
     VALUES (UPPER('${event_type}'), '${event_time}', 
         (
         SELECT pull_request_id 
@@ -89,7 +89,7 @@ async function insertPullRequestEventOpenByPullRequestIdAndUserId(dbConnectionPo
     console.log(event_type, event_time, pull_request_id, event_sender_id);
 
     const sqlQuery = `
-    INSERT INTO pull_request_event (event_type, event_time, pull_request_id, event_sender_id)
+    INSERT INTO pull_request_event (pull_request_event_type, event_time, pull_request_id, event_sender_id)
     VALUES (UPPER('${event_type}'), '${event_time}',  ${pull_request_id},
         (
         SELECT git_user_id

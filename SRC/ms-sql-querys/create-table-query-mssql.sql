@@ -47,7 +47,7 @@ CREATE TABLE pull_request_event
     pull_request_event_type VARCHAR(50) NOT NULL,
     event_time              DATETIME2   NOT NULL,
     pull_request_id         BIGINT      NOT NULL,
-    event_sender_id         BIGINT      NOT NULL,
+    event_sender_id         BIGINT,
     created_date            DATETIME2   NOT NULL DEFAULT GETDATE(),
     modified_date           DATETIME2   NOT NULL DEFAULT GETDATE()
 );
@@ -147,7 +147,7 @@ CREATE TABLE issue_event
     issue_event_id   BIGINT       NOT NULL PRIMARY KEY IDENTITY,
     issue_event_type VARCHAR(255) NOT NULL,
     event_time       DATETIME2    NOT NULL,
-    event_sender_id  BIGINT       NOT NULL,
+    event_sender_id  BIGINT,
     issue_id         BIGINT       NOT NULL,
     created_date     DATETIME2    NOT NULL DEFAULT GETDATE(),
     modified_date    DATETIME2    NOT NULL DEFAULT GETDATE()
@@ -241,12 +241,6 @@ CREATE TABLE time_to_restore_service
     created_date               DATETIME2 NOT NULL DEFAULT GETDATE(),
     modified_date              DATETIME2 NOT NULL DEFAULT GETDATE(),
     restored_at                DATETIME2 NOT NULL
-);
-
-create table deduplication_check_table
-(
-    cosmosdb_id  UNIQUEIDENTIFIER NOT NULL UNIQUE,
-    created_date DATETIME2        NOT NULL DEFAULT GETDATE()
 );
 
 ALTER TABLE time_to_restore_service
