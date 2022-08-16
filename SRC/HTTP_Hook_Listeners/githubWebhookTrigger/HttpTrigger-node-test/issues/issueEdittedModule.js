@@ -1,4 +1,5 @@
-async function issueEdittedMain(hookBody, cloudEventObj, context){
+const labellingModule = require('./issueLabeledModule.js');
+async function issueEditedMain(hookBody, cloudEventObj, context){
     cloudEventObj.action_time = JSON.stringify(hookBody.issue.updated_at).replace(/['"]+/g, '');
     try{
         //label이 되어있으면 그냥 집어넣자~
@@ -9,4 +10,4 @@ async function issueEdittedMain(hookBody, cloudEventObj, context){
     }
 }
 
-module.exports.issueEdittedMain = issueEdittedMain;
+module.exports.issueEditedMain = issueEditedMain;

@@ -40,12 +40,15 @@ public class Issue {
 	@Enumerated(EnumType.STRING)
 	private IssueState state;
 
-	@OneToMany(mappedBy = "issue")
-	private List<IssueLabel> issueLabelList = new ArrayList<>();
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "issue_label_id")
+	private IssueLabel issueLabel;
 
 	@OneToMany(mappedBy = "issue")
 	private List<IssueEvent> issueEventList = new ArrayList<>();
 
 	@OneToOne(fetch = FetchType.LAZY, mappedBy = "firstErrorIssue")
 	private FailedChange failedChange;
+
+	private Long remoteIdentifier;
 }

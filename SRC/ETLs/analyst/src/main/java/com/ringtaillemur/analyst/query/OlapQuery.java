@@ -100,7 +100,7 @@ public class OlapQuery {
 		+ "       issue_event.event_time\n"
 		+ "from issue\n"
 		+ "         join issue_event on issue.issue_id = issue_event.issue_id\n"
-		+ "         join issue_label on issue_label.issue_id = issue.issue_id\n"
+		+ "         join issue_label on issue_label.issue_label_id = issue.issue_label_id\n"
 		+ "         join release on issue_label.release_id = release.release_id\n"
 		+ "         left join failed_change\n"
 		+ "                   on release.release_id = failed_change.release_id\n"

@@ -38,6 +38,4 @@ public class IssueEvent {
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "issue_id")
 	private Issue issue;
-
-	private Long remoteIdentifier;
 }
