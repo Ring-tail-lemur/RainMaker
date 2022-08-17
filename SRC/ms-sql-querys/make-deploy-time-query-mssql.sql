@@ -1,9 +1,10 @@
-WITH target_release AS (SELECT release.release_id
+WITH target_release AS (SELECT distinct release.release_id
+                                      , release.published_at
                         FROM release
                                  JOIN release_event ON release.release_id = release_event.release_id
                         WHERE release.lead_time_for_change_process_end = 0),
      target_commits AS
-         (SELECT commits.commit_id, commits.release_id
+         (SELECT commits.commit_id, commits.release_id, target_release.published_at
           FROM commits
                    JOIN target_release ON target_release.release_id = commits.release_id),
      commits_ranked_by_event_time AS
@@ -27,7 +28,7 @@ SET lead_time_for_change.deployment_time = deployment_time.et,
     lead_time_for_change.release_id      = deployment_time.ri
 FROM lead_time_for_change,
      (select distinct commits_first_pr.pr_id      pr_id,
-                      commits_first_pr.event_time et,
+                      target_commits.published_at et,
                       target_commits.release_id   ri
       from commits_first_pr
                JOIN target_commits

@@ -96,12 +96,14 @@ CREATE TABLE pull_request_comment
 
 CREATE TABLE branch
 (
-    branch_id     BIGINT       NOT NULL PRIMARY KEY IDENTITY,
-    [name]        VARCHAR(255) NOT NULL,
-    repository_id BIGINT       NOT NULL,
-    git_user_id   BIGINT,
-    created_date  DATETIME2    NOT NULL DEFAULT GETDATE(),
-    modified_date DATETIME2    NOT NULL DEFAULT GETDATE()
+    branch_id        BIGINT       NOT NULL PRIMARY KEY IDENTITY,
+    [name]           VARCHAR(255) NOT NULL,
+    repository_id    BIGINT       NOT NULL,
+    git_user_id      BIGINT,
+    created_date     DATETIME2    NOT NULL DEFAULT GETDATE(),
+    modified_date    DATETIME2    NOT NULL DEFAULT GETDATE(),
+    is_closed        BIT          NOT NULL DEFAULT 0,
+    create_type      VARCHAR(255) NOT NULL DEFAULT 'BRANCH'
 );
 
 CREATE TABLE lead_time_for_change
@@ -415,3 +417,10 @@ ALTER TABLE pull_request_commit_table
 
 ALTER TABLE pull_request_direction
     ADD CONSTRAINT UNIQUE_source_pull_request_id_AND_outgoing_pull_request_id_TO_pull_request_direction_1 UNIQUE (source_pull_request_id, outgoing_pull_request_id);
+
+ALTER TABLE pull_request_event
+    ADD CONSTRAINT UNIQUE_pull_request_event_AND_event_time_TO_pull_request_id_1 UNIQUE (pull_request_event_type, event_time, pull_request_id);
+
+ALTER TABLE pull_request_comment
+    ADD CONSTRAINT UNIQUE_git_user_id_AND_event_time_TO_comment_type_TO_pull_request_id_1 UNIQUE (git_user_id, event_time, comment_type, pull_request_id);
+
