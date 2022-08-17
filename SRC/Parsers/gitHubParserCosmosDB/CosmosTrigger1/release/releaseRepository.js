@@ -1,6 +1,6 @@
-async function insertReleaseByUserIdAndTagIdAndRepoId(dbConnectionPool, user_id, tag_id, repo_id, remote_identifier, pre_release, name, published_at, draft, release_event_type) {
+async function insertReleaseByUserIdAndTagIdAndRepoId(dbConnectionPool, user_id, tag_name, repo_id, remote_identifier, pre_release, name, published_at, draft, release_event_type) {
 
-    console.log(user_id, tag_id, repo_id, remote_identifier, pre_release, name, published_at, draft, release_event_type);
+    console.log(user_id, tag_name, repo_id, remote_identifier, pre_release, name, published_at, draft, release_event_type);
 
     const sqlQuery = `
         DECLARE @releaseId INT
@@ -26,7 +26,13 @@ async function insertReleaseByUserIdAndTagIdAndRepoId(dbConnectionPool, user_id,
                  FROM release
                  WHERE remote_identifier = ${remote_identifier}
                 )
-        
+        SET @tagId =
+                (
+                SELECT TOP 1 branch_id
+                FROM branch
+                WHERE name = '${tag_name}'
+                AND create_type = 'TAG'
+                )
         IF
         ((
             @releaseId

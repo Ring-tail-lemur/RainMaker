@@ -37,6 +37,7 @@ async function controllerMain(eventObj, context, pool){
             context.log("pull_request_review insert success");
         } else if (hook_event == 'release') {
             await releaseMainModule.releaseMain(pool, eventObj, context);
+            context.log("release insert success");
         }
 
         // await deduplicationRepository.insertDeduplication(pool, eventObj.id);
