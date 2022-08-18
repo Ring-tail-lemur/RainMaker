@@ -1,24 +1,8 @@
-const queueModule = require('./workflowJobQueueModule.js');
-const inProgressModule = require('./workflowJobCompleteModule.js');
-const completeModule = require('./workflowJobCompleteModule.js');
 async function workflowJobMain(hookBody, cloudEventObj, context) {
     cloudEventObj.action = JSON.stringify(hookBody.action).replace(/['"]+/g, '');
-    cloudEventObj.workflow_run_remote_id = JSON.stringify(hookBody.workflow_job.run_id).replace(/['"]+/g, '');
-    cloudEventObj.workflow_job_remote_id = JSON.stringify(hookBody.workflow_job.id).replace(/['"]+/g, '');
-    cloudEventObj.repository_remote_id = JSON.stringify(hookBody.repository.id).replace(/['"]+/g, '');
-    cloudEventObj.repository_owner_type = JSON.stringify(hookBody.repository.owner.type).replace(/['"]+/g, '');
-    cloudEventObj.repository_owner_id = JSON.stringify(hookBody.repository.owner.id).replace(/['"]+/g, '');
-    cloudEventObj.repository.private = JSON.stringify(hookBody.repository.private).replace(/['"]+/g, '');
-    cloudEventObj.actor_remote_id = JSON.stringify(hookBody.sender.id).replace(/['']+/g, '');
-    if(cloudEventObj.action == 'queued'){
-        return await queueModule.workflowJobQueueMain(hookBody, cloudEventObj, context);
-    }else if(cloudEventObj.action == 'in_progress'){
-        return await inProgressModule.inProgressMain(hookBody, cloudEventObj, context);
-    }else if(cloudEventObj.action == 'completed'){
-        return await completeModule.completeMain(hookBody, cloudEventObj, context);
-    }
+    cloudEventObj.workflow_job = JSON.stringify(hookBody.workflow_job.url).replace(/['"]+/g, '');
+    cloudEventObj.repository = JSON.stringify(hookBody.repository.url).replace(/['"]+/g, '');
+    cloudEventObj.organization = JSON.stringify(hookBody.organization.url).replace(/['"]+/g, '');
+    cloudEventObj.sender = JSON.stringify(hookBody.sender.url).replace(/['"]+/g, '');
 }
 module.exports.workflowJobMain = workflowJobMain;
-
-
-//teet

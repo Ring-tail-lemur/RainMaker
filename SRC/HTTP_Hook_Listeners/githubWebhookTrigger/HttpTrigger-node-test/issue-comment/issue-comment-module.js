@@ -1,19 +1,17 @@
-const getPullRequestModule = require('./getPullRequestModule.js');
 async function issueCommentMain(context, hookBody, cloudEventObj){
     cloudEventObj.action = JSON.stringify(hookBody.action).replace(/['"]+/g, '');
-    cloudEventObj.issue_comment_remote_id = JSON.stringify(hookBody.issue.id);
-    cloudEventObj.issue_comment_repository_number = JSON.stringify(hookBody.issue.number);
-    cloudEventObj.git_user_remote_id = JSON.stringify(hookBody.sender.id);
-    cloudEventObj.event_time = JSON.stringify(hookBody.issue.created_at).replace(/['"]+/g, '');
-    cloudEventObj.repository_id = JSON.stringify(hookBody.repository.id);
-    cloudEventObj.isPrivate = JSON.stringify(hookBody.repository.private);
-    try{
-        const pull_request_url = JSON.stringify(hookBody.issue.pull_request.url).replace(/['"]+/g, '');
-        cloudEventObj.pull_request_id = await getPullRequestModule.getPullRequestMain(pull_request_url,cloudEventObj.isPrivate,context);
-    }catch(e){
-        console.log(e);
+    if(cloudEventObj.action == 'edited'){
+        try{
+            cloudEventObj.changes = JSON.stringify(hookBody.changes).replace(/['"]+/g, '');
+        }catch(e){
+            cloudEventObj.changes = JSON.stringify(hookBody.changes);
+        }
     }
-    return cloudEventObj;
+    cloudEventObj.issue = JSON.stringify(hookBody.issue.url).replace(/['"]+/g, '');
+    cloudEventObj.comment = JSON.stringify(hookBody.comment.url).replace(/['"]+/g, '');
+    cloudEventObj.repository = JSON.stringify(hookBody.repository.url).replace(/['"]+/g, '');
+    cloudEventObj.organization = JSON.stringify(hookBody.organization.url).replace(/['"]+/g, '');
+    cloudEventObj.sender = JSON.stringify(hookBody.sender.url).replace(/['"]+/g, '');
 }
 
 module.exports.issueCommentMain = issueCommentMain;

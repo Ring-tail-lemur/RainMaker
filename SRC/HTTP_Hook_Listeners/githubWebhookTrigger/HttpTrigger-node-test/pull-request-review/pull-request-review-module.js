@@ -1,9 +1,13 @@
 async function pullRequestReviewMain(hookBody, cloudEventObj){
     cloudEventObj.action = JSON.stringify(hookBody.action).replace(/['"]+/g, '');
-    cloudEventObj.event_time = JSON.stringify(hookBody.review.submitted_at).replace(/['"]+/g, '');
-    cloudEventObj.actor_remote_id = JSON.stringify(hookBody.sender.id);
-    cloudEventObj.pull_request_remote_identifier = JSON.stringify(hookBody.pull_request.id);
-    cloudEventObj.review_state = JSON.stringify(hookBody.review.state).replace(/['"]+/g, '');
+    cloudEventObj.pull_request = JSON.stringify(hookBody.pull_request.url);
+    cloudEventObj.review = JSON.stringify(hookBody.review.url);
+    if(cloudEventObj.action == 'edited'){
+        cloudEventObj.changes = JSON.stringify(hookBody.changes).replace(/['"]+/g, '');
+    }
+    cloudEventObj.repository = JSON.stringify(hookBody.repository.url).replace(/['"]+/g, '');
+    cloudEventObj.organization = JSON.stringify(hookBody.organization.url).replace(/['"]+/g, '');
+    cloudEventObj.sender = JSON.stringify(hookBody.sender.url).replace(/['"]+/g, '');
     return cloudEventObj;
 }
 module.exports.pullRequestReviewMain = pullRequestReviewMain;

@@ -1,10 +1,17 @@
 async function pullRequestReviewCommentMain(hookBody, cloudEventObj){
     cloudEventObj.action = JSON.stringify(hookBody.action).replace(/['"]+/g, '');
-    cloudEventObj.event_time = JSON.stringify(hookBody.comment.created_at).replace(/['"]+/g, '');
-    cloudEventObj.action_id = JSON.stringify(hookBody.comment.id);
-    cloudEventObj.review_id = JSON.stringify(hookBody.comment.pull_request_review_id);
-    cloudEventObj.action_id = JSON.stringify(hookBody.sender.id);
-    cloudEventObj.pull_request_remote_id = JSON.stringify(hookBody.pull_request.id);
+    if(cloudEventObj.action == 'edited'){
+        try{
+            cloudEventObj.changes = JSON.stringify(hookBody.changes).replace(/['"]+/g, '');
+        }catch(e){
+            cloudEventObj.changes = JSON.stringify(hookBody.changes);
+        }
+    }
+    cloudEventObj.pull_request = JSON.stringify(hookBody.pull_request.url).replace(/['"]+/g, '');
+    cloudEventObj.comment = JSON.stringify(hookBody.comment.url).replace(/['"]+/g, '');
+    cloudEventObj.repository = JSON.stringify(hookBody.repository.url).replace(/['"]+/g, '');
+    cloudEventObj.organization = JSON.stringify(hookBody.organization.url).replace(/['"]+/g, '');
+    cloudEventObj.sender = JSON.stringify(hookBody.sender.url).replace(/['"]+/g, '');
     return cloudEventObj;
 }
 
