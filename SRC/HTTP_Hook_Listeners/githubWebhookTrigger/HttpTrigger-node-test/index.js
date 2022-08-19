@@ -15,6 +15,8 @@ const checkRunModule = require('./check-run/checkRunMainModule.js');
 const codeScanningAlertModule = require('./code-scanning-alert/codeScanningAlertMainModule.js');
 const commitCommentModule = require('./commit-comment/commitCommentMainModule.js');
 const deployKeyModule = require('./deploy-key/deployKeyMainModule.js');
+const deploymentModule = require('./deployment/deploymentMainModule.js');
+const deploymentStatusModule = require('./deployment/deploymentStatusMainModule.js');
 module.exports = async function (context, req) {
     const cloudEventObj = new Object();
     const hookBody = req.body;
@@ -135,12 +137,24 @@ module.exports = async function (context, req) {
         context.res = {
             body : JSON.stringify(resultObj)
         }
+    }else if(cloudEventObj.hook_event == 'deployment'){
+        const resultObj = await deploymentModule.deploymentMain(hookBody,cloudEventObj,context);
+        await send_module.sender(resultObj,context);
+        context.res = {
+            body : JSON.stringify(resultObj)
+        }
+    }else if(cloudEventObj.hook_event == 'deployment_status'){
+        const resultObj = await deploymentStatusModule.deploymentStatusMain(hookBody,cloudEventObj,context).replace(/['"]+/g, '');
+        await send_module.sender(resultObj,context);
+        context.res = {
+            body : JSON.stringify(resultObj)
+        }
     }else{
         context.res = {
             body : JSON.stringify(cloudEventObj)
         }
     }
-    //TODO: deployment // deployment_status // discussion // discussion_comment //fork // github_app_authorization // gollum
+    //TODO: discussion // discussion_comment //fork // github_app_authorization // gollum
     //TODO: installation // installation_repositories // label // marketplace_purchase // member // membership //merge_group // meta // milestone // organization // org_block
     //TODO: package // page_build // ping // project // project_card //project_column // projects_v2_item // public // pull_request_review_thread // push // repository_dispatch // repository_import // repository_vulnerability_alert
     //TODO: security_advisory // sponsership // star // status // team // team_add // watch // workflow_dispatch // workflow_job
