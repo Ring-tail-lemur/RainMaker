@@ -11,6 +11,10 @@ const workflowRunModule = require('./workflow-run/workflowRunMainModule.js');
 const releaseModule = require('./release/releaseMainModule.js');
 const deleteModule = require('./delete/deleteMainModule.js');
 const timeModule = require('./utils/getCurrentTimeModule.js');
+const checkRunModule = require('./check-run/checkRunMainModule.js');
+const codeScanningAlertModule = require('./code-scanning-alert/codeScanningAlertMainModule.js');
+const commitCommentModule = require('./commit-comment/commitCommentMainModule.js');
+const deployKeyModule = require('./deploy-key/deployKeyMainModule.js');
 module.exports = async function (context, req) {
     const cloudEventObj = new Object();
     const hookBody = req.body;
@@ -67,14 +71,14 @@ module.exports = async function (context, req) {
         const resultObj = await repositoryModule.repositoryMain(hookBody,cloudEventObj);
         await send_module.sender(resultObj,context);
         context.res = {
-            body : JSON.stringify(cloudEventObj)
+            body : JSON.stringify(resultObj)
         }
         //태그, 브랜치
     }else if(cloudEventObj.hook_event == 'create'){
         const resultObj = await createModule.createMain(context, hookBody,cloudEventObj);
         await send_module.sender(resultObj,context);
         context.res = {
-            body : JSON.stringify(cloudEventObj)
+            body : JSON.stringify(resultObj)
         }
         // 이슈
     }else if(cloudEventObj.hook_event == 'issues'){
@@ -84,35 +88,59 @@ module.exports = async function (context, req) {
         const resultObj = await issuesModule.issueMain(hookBody,cloudEventObj,context);
         await send_module.sender(resultObj,context);
         context.res = {
-            body : JSON.stringify(cloudEventObj)
+            body : JSON.stringify(resultObj)
         }
         // 워크플로우런
     }else if(cloudEventObj.hook_event == 'workflow_run'){
         const resultObj = await workflowRunModule.workflowRunMain(hookBody,cloudEventObj,context);
         await send_module.sender(resultObj,context);
         context.res = {
-            body : JSON.stringify(cloudEventObj)
+            body : JSON.stringify(resultObj)
         }
         //릴리즈
     }else if(cloudEventObj.hook_event == 'release'){
         const resultObj = await releaseModule.releaseMain(hookBody,cloudEventObj,context);
         await send_module.sender(resultObj,context);
         context.res = {
-            body : JSON.stringify(cloudEventObj)
+            body : JSON.stringify(resultObj)
         }
         //삭제(브랜치/태그)
     }else if(cloudEventObj.hook_event == 'delete'){
         const resultObj = await deleteModule.deleteMain(hookBody,cloudEventObj,context);
         await send_module.sender(resultObj,context);
         context.res = {
-            body : JSON.stringify(cloudEventObj)
+            body : JSON.stringify(resultObj)
+        }
+    }else if(cloudEventObj.hook_evnet == 'check_run'){
+        const resultObj = await checkRunModule.checkRunMain(hookBody,cloudEventObj,context);
+        await send_module.sender(resultObj,context);
+        context.res = {
+            body : JSON.stringify(resultObj)
+        }
+    }else if(cloudEventObj.hook_event == 'code_scanning_alert'){
+        const resultObj = await codeScanningAlertModule.codeScanningAlertMain(hookBody,cloudEventObj,context);
+        await send_module.sender(resultObj,context);
+        context.res = {
+            body : JSON.stringify(resultObj)
+        }
+    }else if(cloudEventObj.hook_event == 'commit_comment'){
+        const resultObj = await commitCommentModule.commitCommentMain(hookBody,cloudEventObj,context);
+        await send_module.sender(resultObj,context);
+        context.res = {
+            body : JSON.stringify(resultObj)
+        }
+    }else if(cloudEventObj.action == 'deploy_key'){
+        const resultObj = await deployKeyModule.deployKeyMain(hookBody,cloudEventObj,context);
+        await send_module.sender(resultObj,context);
+        context.res = {
+            body : JSON.stringify(resultObj)
         }
     }else{
         context.res = {
             body : JSON.stringify(cloudEventObj)
         }
     }
-    //TODO: check_run // code_scanning_alert // commit_comment // // deploy_key // deployment // deployment_status // discussion // discussion_comment //fork // github_app_authorization // gollum
+    //TODO: deployment // deployment_status // discussion // discussion_comment //fork // github_app_authorization // gollum
     //TODO: installation // installation_repositories // label // marketplace_purchase // member // membership //merge_group // meta // milestone // organization // org_block
     //TODO: package // page_build // ping // project // project_card //project_column // projects_v2_item // public // pull_request_review_thread // push // repository_dispatch // repository_import // repository_vulnerability_alert
     //TODO: security_advisory // sponsership // star // status // team // team_add // watch // workflow_dispatch // workflow_job
