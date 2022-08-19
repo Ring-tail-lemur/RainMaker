@@ -5,7 +5,8 @@ const issueClosedModule = require('./issueClosedModule.js');
 async function issueMain(hookBody, cloudEventObj, context){
     cloudEventObj.action = JSON.stringify(hookBody.action).replace(/['"]+/g, '');
     cloudEventObj.issue = JSON.stringify(hookBody.issue.url);
-    cloudEventObj.changes = JSON.stringify(hookBody.changes.url).replace(/['"]+/g, '');
+    cloudEventObj.cahnges_title_from = JSON.stringify(hookBody.cahnges.title.from).replace(/['"]+/g, '');
+    cloudEventObj.changes_body_from = JSON.stringify(hookBody.changes.body.from).replace(/['"]+/g, '');
     if(cloudEventObj.action == 'edited'){
         cloudEventObj.changes = JSON.stringify(hookBody.changes).replace(/['"]+/g, '');
     }

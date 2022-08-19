@@ -2,7 +2,7 @@ async function issueCommentMain(context, hookBody, cloudEventObj){
     cloudEventObj.action = JSON.stringify(hookBody.action).replace(/['"]+/g, '');
     if(cloudEventObj.action == 'edited'){
         try{
-            cloudEventObj.changes = JSON.stringify(hookBody.changes).replace(/['"]+/g, '');
+            cloudEventObj.changes = JSON.stringify(hookBody.changes.body.from).replace(/['"]+/g, '');
         }catch(e){
             cloudEventObj.changes = JSON.stringify(hookBody.changes);
         }
