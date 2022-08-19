@@ -24,56 +24,59 @@ module.exports = async function (context, req) {
 // 
     // 분기, pull_request || pull_request_review || fork || release || issue_comment || create(branch)
     // 상황에 따른 비동기 모듈 분리로 scaleable하게 갈 것.
+
+    //풀리
     if(cloudEventObj.hook_event == 'pull_request'){
-        context.log('pull_request event occur');
         const resultObj = await pull_request_module.pullRequestMain(context, hookBody,cloudEventObj);
         await send_module.sender(resultObj,context);
         context.res ={
             body : JSON.stringify(resultObj)
         }
+        //리뷰
     }else if(cloudEventObj.hook_event == 'pull_request_review'){
-        context.log("pull_request_review!");
         const resultObj = await pullRequestReviewModule.pullRequestReviewMain(hookBody,cloudEventObj);
         await send_module.sender(resultObj,context);
         context.res ={
             body : JSON.stringify(resultObj)
         }
+        // 리뷰 안의 코멘트
     }else if(cloudEventObj.hook_event == 'pull_request_review_comment'){
-        context.log("pull_request_review_comment ocurred");
         const resultObj = await pullRequestReviewCommentModule.pullRequestReviewCommentMain(hookBody,cloudEventObj);
         await send_module.sender(resultObj,context);
         context.res ={
             body : JSON.stringify(resultObj)
         }
+        // 이슈 댓글
     }else if(cloudEventObj.hook_event == 'issue_comment'){
-        context.log("issue_comment event occurred");
         const resultObj = await issueCommentModule.issueCommentMain(context,hookBody,cloudEventObj);
         await send_module.sender(resultObj,context);
         context.res ={
             body : JSON.stringify(resultObj)
         }
+        // 체크쉿
     }else if(cloudEventObj.hook_event == 'check_suite'){
         context.log("check_suite event occurred");
-        cloudEventObj.source = 'github-action';
+        cloudEventObj.source = 'github';
         const resultObj = await checkSuiteModule.checkSuiteMain(context,hookBody,cloudEventObj);
         await send_module.sender(resultObj, context);
         context.res ={
             body : JSON.stringify(resultObj)
         }
+            //레포지토리
     }else if(cloudEventObj.hook_event == 'repository' ){
-        context.log("repository event ocurred");
         const resultObj = await repositoryModule.repositoryMain(hookBody,cloudEventObj);
         await send_module.sender(resultObj,context);
         context.res = {
             body : JSON.stringify(cloudEventObj)
         }
+        //태그, 브랜치
     }else if(cloudEventObj.hook_event == 'create'){
-        context.log("create branch/tag event ocurred.");
         const resultObj = await createModule.createMain(context, hookBody,cloudEventObj);
         await send_module.sender(resultObj,context);
         context.res = {
             body : JSON.stringify(cloudEventObj)
         }
+        // 이슈
     }else if(cloudEventObj.hook_event == 'issues'){
         // 레포지토리 안에서 런타임 issue를 남기는 경우, action : labeled를 봐야한다.
         // project 안에서 런타임 issue를 남기는 경우, action : edited를 봐야한다.
@@ -83,18 +86,21 @@ module.exports = async function (context, req) {
         context.res = {
             body : JSON.stringify(cloudEventObj)
         }
+        // 워크플로우런
     }else if(cloudEventObj.hook_event == 'workflow_run'){
         const resultObj = await workflowRunModule.workflowRunMain(hookBody,cloudEventObj,context);
         await send_module.sender(resultObj,context);
         context.res = {
             body : JSON.stringify(cloudEventObj)
         }
+        //릴리즈
     }else if(cloudEventObj.hook_event == 'release'){
         const resultObj = await releaseModule.releaseMain(hookBody,cloudEventObj,context);
         await send_module.sender(resultObj,context);
         context.res = {
             body : JSON.stringify(cloudEventObj)
         }
+        //삭제(브랜치/태그)
     }else if(cloudEventObj.hook_event == 'delete'){
         const resultObj = await deleteModule.deleteMain(hookBody,cloudEventObj,context);
         await send_module.sender(resultObj,context);
@@ -106,7 +112,10 @@ module.exports = async function (context, req) {
             body : JSON.stringify(cloudEventObj)
         }
     }
-
+    //TODO: check_run // code_scanning_alert // commit_comment // // deploy_key // deployment // deployment_status // discussion // discussion_comment //fork // github_app_authorization // gollum
+    //TODO: installation // installation_repositories // label // marketplace_purchase // member // membership //merge_group // meta // milestone // organization // org_block
+    //TODO: package // page_build // ping // project // project_card //project_column // projects_v2_item // public // pull_request_review_thread // push // repository_dispatch // repository_import // repository_vulnerability_alert
+    //TODO: security_advisory // sponsership // star // status // team // team_add // watch // workflow_dispatch // workflow_job
     context.res ={
         body : JSON.stringify(cloudEventObj)
     }
