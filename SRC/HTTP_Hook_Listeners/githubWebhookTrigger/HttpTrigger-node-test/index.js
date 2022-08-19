@@ -17,6 +17,8 @@ const commitCommentModule = require('./commit-comment/commitCommentMainModule.js
 const deployKeyModule = require('./deploy-key/deployKeyMainModule.js');
 const deploymentModule = require('./deployment/deploymentMainModule.js');
 const deploymentStatusModule = require('./deployment/deploymentStatusMainModule.js');
+const discussionModule = require('./discussion/discussionMainModule.js');
+const discussionCommentModule = require('./discussion-comment/discussionCommentMainModule.js');
 module.exports = async function (context, req) {
     const cloudEventObj = new Object();
     const hookBody = req.body;
@@ -145,6 +147,18 @@ module.exports = async function (context, req) {
         }
     }else if(cloudEventObj.hook_event == 'deployment_status'){
         const resultObj = await deploymentStatusModule.deploymentStatusMain(hookBody,cloudEventObj,context).replace(/['"]+/g, '');
+        await send_module.sender(resultObj,context);
+        context.res = {
+            body : JSON.stringify(resultObj)
+        }
+    }else if(cloudEventObj.hook_event == 'discussion'){
+        const resultObj = await discussionModule.discussionMain(hookBody,cloudEventObj,context).replace(/['"]+/g, '');
+        await send_module.sender(resultObj,context);
+        context.res = {
+            body : JSON.stringify(resultObj)
+        }
+    }else if(cloudEventObj.hook_event == 'discussion_comment'){
+        const resultObj = await discussionCommentModule.discussionCommentMain(hookBody,cloudEventObj,context);
         await send_module.sender(resultObj,context);
         context.res = {
             body : JSON.stringify(resultObj)
