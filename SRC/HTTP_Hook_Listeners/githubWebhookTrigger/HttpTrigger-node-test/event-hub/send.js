@@ -6,7 +6,7 @@ module.exports = {
     // Create a producer client to send messages to the event hub.
     
     try{
-      const producer = new EventHubProducerClient(connectionString, eventHubName);
+      const producer = new EventHubProducerClient(connectionString, eventHubName, {"retryDelayInMs":60000});
     
       // Prepare a batch of three events.
       const batch = await producer.createBatch();
