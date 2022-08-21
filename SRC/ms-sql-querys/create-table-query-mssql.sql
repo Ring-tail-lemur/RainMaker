@@ -215,7 +215,7 @@ CREATE TABLE release_success
     created_date                        DATETIME2 NOT NULL DEFAULT GETDATE(),
     modified_date                       DATETIME2 NOT NULL DEFAULT GETDATE(),
     first_error_issue_id                BIGINT,
-    time_to_restore_service_process_end BIGINT    NOT NULL DEFAULT 0,
+    time_to_restore_service_process_end BIT       NOT NULL DEFAULT 0,
     repository_id                       BIGINT    NOT NULL,
     failed_at                           DATETIME2,
     is_success                          BIT       NOT NULL DEFAULT 1,
