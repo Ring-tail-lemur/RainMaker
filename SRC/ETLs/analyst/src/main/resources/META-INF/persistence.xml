@@ -9,7 +9,7 @@
             <property name="javax.persistence.jdbc.user" value="rainmaker"/>
             <property name="javax.persistence.jdbc.password" value="dkffkrRhfldudndnjstnddl!"/>
             <property name="javax.persistence.jdbc.url"
-                      value="jdbc:sqlserver://rainmaker-azure-sql-server.database.windows.net:1433;databaseName=rainmaker-azure-sql-database"/>
+                      value="jdbc:sqlserver://rainmaker-azure-sql-server.database.windows.net:1433;database=RainMakerSystemDB"/>
             <property name="hibernate.dialect" value="org.hibernate.dialect.SQLServer2012Dialect"/>
             <property name="hibernate.physical_naming_strategy" value="com.ringtaillemur.analyst.config.LowerCaseSnakePhysicalNamingStrategy"/>
 
