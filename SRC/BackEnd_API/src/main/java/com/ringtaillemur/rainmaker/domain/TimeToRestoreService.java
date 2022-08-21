@@ -24,9 +24,7 @@ public class TimeToRestoreService extends BaseEntity {
 
 	private Long restoreServiceTime;
 
-	@OneToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "failed_change_id")
-	private FailedChange failedChange;
+	private Long releaseSuccessId;
 
 	private LocalDateTime restoredAt;
  }

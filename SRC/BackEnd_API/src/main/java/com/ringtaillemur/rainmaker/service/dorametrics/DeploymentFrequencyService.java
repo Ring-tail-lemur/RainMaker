@@ -1,19 +1,17 @@
 package com.ringtaillemur.rainmaker.service.dorametrics;
 
 import java.time.LocalDate;
-import java.time.temporal.ChronoUnit;
-import java.util.HashMap;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.ringtaillemur.rainmaker.domain.Repository;
-import com.ringtaillemur.rainmaker.domain.WorkflowRun;
+import com.ringtaillemur.rainmaker.domain.ReleaseSuccess;
 import com.ringtaillemur.rainmaker.dto.webdto.responsedto.DeploymentFrequencyDto;
-import com.ringtaillemur.rainmaker.repository.RepositoryRepository;
-import com.ringtaillemur.rainmaker.repository.WorkflowRunRepository;
+import com.ringtaillemur.rainmaker.repository.ReleaseSuccessRepository;
+import com.ringtaillemur.rainmaker.service.UtilService;
 
 import lombok.RequiredArgsConstructor;
 
@@ -22,34 +20,19 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class DeploymentFrequencyService {
 
-	private final RepositoryRepository repositoryRepository;
-	private final WorkflowRunRepository workflowRunRepository;
+	private final ReleaseSuccessRepository releaseSuccessRepository;
+	private final UtilService utilService;
 
-	public DeploymentFrequencyDto getDeploymentFrequency(Long repo_id, LocalDate startTime, LocalDate endTime) {
-		DeploymentFrequencyDto deploymentFrequencyDto = DeploymentFrequencyDto.builder()
-			.startTime(startTime)
-			.endTime(endTime)
-			.build();
+	public DeploymentFrequencyDto getDeploymentFrequency(Long repositoryId, LocalDate startTime, LocalDate endTime) {
+		LocalDateTime startDateTime = startTime.atStartOfDay();
+		LocalDateTime endDateTime = endTime.plusDays(1).atStartOfDay();
 
-		Repository repo = repositoryRepository.findById(repo_id).orElseThrow(() -> new NullPointerException("there is no repository which have this id"));
-		List<WorkflowRun> workflowRunList = workflowRunRepository.findByRepoIdAndTime(repo, startTime.atStartOfDay(),
-			endTime.plusDays(1).atStartOfDay());
+		List<ReleaseSuccess> releaseList = releaseSuccessRepository.findByRepositoryIdAndReleasedAtBetween(repositoryId,
+			startDateTime, endDateTime);
 
-		Map<LocalDate, Integer> AverageTimeMap = new HashMap<>();
-		long leadTimeForChangeDays = ChronoUnit.DAYS.between(startTime, endTime);
+		Map<LocalDate, Integer> dailyCountMap = utilService.makeDailyCountMap(releaseList,
+			releaseSuccess -> releaseSuccess.getReleasedAt().toLocalDate());
 
-		for (int i = 0; i < leadTimeForChangeDays; i++) {
-			AverageTimeMap.put(startTime, 0);
-			startTime = startTime.plusDays(1);
-		}
-
-		for (WorkflowRun workflowRun : workflowRunList) {
-			LocalDate localDate = workflowRun.getWorkflowEndTime().toLocalDate();
-			AverageTimeMap.put(localDate, AverageTimeMap.get(localDate) + 1);
-		}
-
-		deploymentFrequencyDto.setDeploymentFrequencyMap(AverageTimeMap);
-		deploymentFrequencyDto.setLevel();
-		return deploymentFrequencyDto;
+		return new DeploymentFrequencyDto(startTime, endTime, dailyCountMap);
 	}
 }

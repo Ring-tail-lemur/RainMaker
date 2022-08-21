@@ -219,6 +219,7 @@ CREATE TABLE release_success
     repository_id                       BIGINT    NOT NULL,
     failed_at                           DATETIME2,
     is_success                          BIT       NOT NULL DEFAULT 1,
+    released_at                         DATETIME2 NOT NULL
 );
 
 CREATE TABLE time_to_restore_service

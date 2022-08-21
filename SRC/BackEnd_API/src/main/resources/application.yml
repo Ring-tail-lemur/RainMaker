@@ -1,7 +1,7 @@
 spring:
   datasource:
     driver-class-name: com.microsoft.sqlserver.jdbc.SQLServerDriver
-    url: jdbc:sqlserver://rainmaker-azure-sql-server.database.windows.net:1433;databaseName=rainmaker-azure-sql-database
+    url: jdbc:sqlserver://rainmaker-azure-sql-server.database.windows.net:1433;database=RainMakerSystemDB
     username: rainmaker
     password: dkffkrRhfldudndnjstnddl!
   jpa:
