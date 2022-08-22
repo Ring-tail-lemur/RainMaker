@@ -24,12 +24,4 @@ public class GitOrganization extends BaseEntity {
 	private Long id;
 
 	private String name;
-
-	private Long remoteIdentifier;
-
-	@OneToMany(mappedBy = "gitOrganization")
-	private List<UserOrganizationTable> userOrganizationTableList = new ArrayList<>();
-
-	@OneToMany(mappedBy = "ownerOrganization")
-	private List<Repository> RepositoryList = new ArrayList<>();
 }

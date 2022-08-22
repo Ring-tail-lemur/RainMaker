@@ -1,5 +1,5 @@
-INSERT INTO release_success(release_id, repository_id)
-SELECT release_id, release.repository_id
+INSERT INTO release_success(release_id, repository_id, released_at)
+SELECT release_id, release.repository_id, release.published_at
 FROM release
 WHERE change_failure_rate_process_end = 0;
 

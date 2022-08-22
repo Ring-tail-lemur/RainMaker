@@ -26,34 +26,9 @@ public class Repository extends BaseEntity {
 	@Column(name = "repository_id")
 	private Long id;
 
-	@OneToMany(mappedBy = "repository")
-	private List<Branch> branchList = new ArrayList<>();
-
-	@OneToMany(mappedBy = "repository")
-	private List<PullRequest> pullRequestList = new ArrayList<>();
-
 	private String name;
 
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "owner_organization_id")
-	private GitOrganization ownerOrganization;
+	private Long ownerOrganizationId;
 
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "owner_user_id")
-	private GitUser ownerUser;
-
-	@OneToMany(mappedBy = "repository")
-	private List<LeadTimeForChange> leadTimeForChangeList = new ArrayList<>();
-
-	@OneToMany(mappedBy = "repository")
-	private List<Issue> issueList = new ArrayList<>();
-
-	@OneToMany(mappedBy = "repository")
-	private List<WorkflowRun> workflowRuns = new ArrayList<>();
-
-	@OneToMany(mappedBy = "repository")
-	private List<Release> releaseList = new ArrayList<>();
-
-	@OneToMany(mappedBy = "repository")
-	private List<FailedChange> failedChangeList = new ArrayList<>();
+	private Long ownerUserId;
 }

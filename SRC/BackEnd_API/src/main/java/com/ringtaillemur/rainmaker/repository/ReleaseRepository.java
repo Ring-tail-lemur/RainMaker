@@ -9,7 +9,5 @@ import com.ringtaillemur.rainmaker.domain.Release;
 
 public interface ReleaseRepository extends JpaRepository<Release, Long> {
 
-	Integer countByPublishedAtBetween(LocalDateTime startTime, LocalDateTime endTime);
-
 	List<Release> findByPublishedAtBetween(LocalDateTime startTime, LocalDateTime endTime);
 }

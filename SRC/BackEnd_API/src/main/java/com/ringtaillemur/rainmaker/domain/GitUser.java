@@ -24,33 +24,4 @@ public class GitUser extends BaseEntity {
 	private Long id;
 
 	private String name;
-
-	private Long remote_identifier;
-
-	@OneToMany(mappedBy = "gitUser")
-	private List<Branch> branchList = new ArrayList<>();
-
-	@OneToMany(mappedBy = "author")
-	private List<Commits> commitsList = new ArrayList<>();
-
-	@OneToMany(mappedBy = "gitUser")
-	private List<PullRequestComment> pullRequestCommentList = new ArrayList<>();
-
-	@OneToMany(mappedBy = "eventSender")
-	private List<PullRequestEvent> pullRequestEventList = new ArrayList<>();
-
-	@OneToMany(mappedBy = "member")
-	private List<UserOrganizationTable> userOrganizationTableList = new ArrayList<>();
-
-	@OneToMany(mappedBy = "ownerUser")
-	private List<Repository> repositoryList = new ArrayList<>();
-
-	@OneToMany(mappedBy = "openUser")
-	private List<Issue> issueList = new ArrayList<>();
-
-	@OneToMany(mappedBy = "eventSender")
-	private List<IssueEvent> issueEventList = new ArrayList<>();
-
-	@OneToMany(mappedBy = "author")
-	private List<Release> releaseList = new ArrayList<>();
 }

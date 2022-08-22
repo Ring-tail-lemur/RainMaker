@@ -1,5 +1,6 @@
 package com.ringtaillemur.rainmaker.domain;
 
+import java.time.Duration;
 import java.time.LocalDateTime;
 
 import javax.persistence.Column;
@@ -13,6 +14,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 
 import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -28,17 +30,21 @@ public class LeadTimeForChange extends BaseEntity {
 
 	private LocalDateTime firstCommitTime;
 
+	private LocalDateTime prOpenTime;
+
 	private LocalDateTime firstReviewTime;
 
 	private LocalDateTime prCloseTime;
 
 	private LocalDateTime deploymentTime;
 
-	@OneToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "pull_request_id")
-	private PullRequest pullRequest;
+	private Long pullRequestId;
 
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "repository_id")
-	private Repository repository;
+	private Long repositoryId;
+
+	private Long releaseId;
+
+	public Long getLeadTimeForChange() {
+		return Duration.between(firstCommitTime, deploymentTime).toMinutes();
+	}
 }

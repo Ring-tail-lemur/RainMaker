@@ -1,10 +1,7 @@
 package com.ringtaillemur.rainmaker.dto.webdto.responsedto;
 
 import java.time.LocalDate;
-import java.util.HashMap;
 import java.util.Map;
-
-import org.apache.commons.lang.NullArgumentException;
 
 import com.ringtaillemur.rainmaker.util.enumtype.ProductivityLevel;
 
@@ -16,7 +13,7 @@ public class ChangeFailureRateDto {
 	private LocalDate startTime;
 	private LocalDate endTime;
 	private ProductivityLevel level;
-	private Map<LocalDate, Double> changeFailureRateMap = new HashMap<>();
+	private Map<LocalDate, Double> changeFailureRateMap;
 
 	public ChangeFailureRateDto(LocalDate startTime, LocalDate endTime,
 		Map<LocalDate, Double> changeFailureRateMap) {
@@ -27,7 +24,7 @@ public class ChangeFailureRateDto {
 	}
 
 	private ProductivityLevel getChangeFailureRateProductivityLevel() {
-		double changeFailureRate = getAverageFailureRate(changeFailureRateMap);
+		double changeFailureRate = getAverageFailureRate();
 		if (changeFailureRate < 0.15)
 			return ProductivityLevel.FRUIT;
 		if (changeFailureRate < 0.46)
@@ -35,10 +32,10 @@ public class ChangeFailureRateDto {
 		return ProductivityLevel.SEED;
 	}
 
-	private Double getAverageFailureRate(Map<LocalDate, Double> changeFailureRateMap) {
+	private Double getAverageFailureRate() {
 		return changeFailureRateMap.values().stream()
 			.mapToDouble(changeFailureRate -> changeFailureRate)
 			.average()
-			.orElseThrow(() -> new NullArgumentException("nothing to average operation values"));
+			.orElse(0);
 	}
 }
