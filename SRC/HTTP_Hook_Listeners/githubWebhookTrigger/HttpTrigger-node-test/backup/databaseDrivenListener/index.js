@@ -10,16 +10,16 @@ const issuesModule = require('./issues/issueMainModule.js');
 const workflowRunModule = require('./workflow-run/workflowRunMainModule.js');
 const releaseModule = require('./release/releaseMainModule.js');
 const deleteModule = require('./delete/deleteMainModule.js');
-const timeModule = require('./utils/getCurrentTimeModule.js');
 module.exports = async function (context, req) {
     const cloudEventObj = new Object();
     const hookBody = req.body;
     const hookHeaders = req.headers;
+// test 123232
+    // .replace(/['"]+/g, '') <- double quote problem solve (e.g. "\"hi\"")
     context.log("now : " + JSON.stringify(hookHeaders['x-github-event']));
     cloudEventObj.hook_event = JSON.stringify(hookHeaders['x-github-event']).replace(/['"]+/g, '');
-    cloudEventObj['X-GitHub-Delivery'] = JSON.stringify(hookHeaders['x-github-delivery']).replace(/['"]+/g, '');
-    cloudEventObj.event_triggered_time = (await timeModule.getCurrentTime()).replace(/['"]+/g, '');
     cloudEventObj.source = 'github';
+// 
     // 분기, pull_request || pull_request_review || fork || release || issue_comment || create(branch)
     // 상황에 따른 비동기 모듈 분리로 scaleable하게 갈 것.
     if(cloudEventObj.hook_event == 'pull_request'){

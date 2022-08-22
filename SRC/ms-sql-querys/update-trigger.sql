@@ -180,11 +180,11 @@ go
 
 
 CREATE TRIGGER updateChangeFailureRateModified
-ON dbo.failed_change
+ON dbo.release_success
 AFTER UPDATE
 AS
-   UPDATE dbo.failed_change
+   UPDATE dbo.release_success
    SET modified_date = SYSDATETIME()
    FROM Inserted i
-   WHERE dbo.failed_change.failed_change_id = i.failed_change_id;
+   WHERE dbo.release_success.release_success_id = i.release_success_id;
 go
