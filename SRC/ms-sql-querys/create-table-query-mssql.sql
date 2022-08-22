@@ -174,7 +174,7 @@ CREATE TABLE release
     pre_release                      BIT          NOT NULL,
     [name]                           VARCHAR(255) NOT NULL,
     author_id                        BIGINT,
-    tag_id                           BIGINT,
+    tag_name                         VARCHAR(255) NOT NULL,
     created_date                     DATETIME2    NOT NULL DEFAULT GETDATE(),
     modified_date                    DATETIME2    NOT NULL DEFAULT GETDATE(),
     repository_id                    BIGINT       NOT NULL,
