@@ -4,12 +4,9 @@ import java.time.LocalDateTime;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -18,22 +15,30 @@ import lombok.NoArgsConstructor;
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
-public class PullRequestComment extends BaseEntity {
+public class ReleaseSuccess extends BaseEntity {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "pull_request_comment_id")
+	@Column(name = "release_success_id")
 	private Long id;
 
-	private LocalDateTime eventTime;
+	private Boolean timeToRestoreServiceProcessEnd;
 
-	private String commentType;
+	private Long releaseId;
 
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "pull_request_id")
-	private PullRequest pullRequest;
+	private Long firstErrorIssueId;
 
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "git_user_id")
-	private GitUser gitUser;
+	private Long repositoryId;
 
+	private Boolean isSuccess;
+
+	private LocalDateTime failedAt;
+
+	private LocalDateTime releasedAt;
+
+	public Long getIsSuccessLongValue() {
+		if (Boolean.TRUE.equals(isSuccess)) {
+			return 0L;
+		}
+		return 1L;
+	}
 }

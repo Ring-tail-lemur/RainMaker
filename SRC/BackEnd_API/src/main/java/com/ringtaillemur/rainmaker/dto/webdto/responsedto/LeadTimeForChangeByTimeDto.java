@@ -1,14 +1,10 @@
 package com.ringtaillemur.rainmaker.dto.webdto.responsedto;
 
 import java.time.LocalDate;
-import java.util.HashMap;
 import java.util.Map;
-
-import org.apache.commons.lang.NullArgumentException;
 
 import com.ringtaillemur.rainmaker.util.enumtype.ProductivityLevel;
 
-import lombok.Builder;
 import lombok.Data;
 
 @Data
@@ -17,25 +13,18 @@ public class LeadTimeForChangeByTimeDto {
 	private LocalDate startTime;
 	private LocalDate endTime;
 	private ProductivityLevel level;
-	private Map<LocalDate, Integer> leadTimeForChangeAverageMap = new HashMap<>();
+	private Map<LocalDate, Double> leadTimeForChangeMap;
 
-	@Builder
 	public LeadTimeForChangeByTimeDto(LocalDate startTime, LocalDate endTime,
-		Map<LocalDate, Integer> leadTimeForChangeAverageMap) {
+		Map<LocalDate, Double> leadTimeForChangeMap) {
 		this.startTime = startTime;
 		this.endTime = endTime;
-		this.leadTimeForChangeAverageMap = leadTimeForChangeAverageMap;
+		this.leadTimeForChangeMap = leadTimeForChangeMap;
+		this.level = getLeadTimeForChangeProductivityLevel();
 	}
 
-	public void setLevel(Map<LocalDate, Integer> leadTimeForChangeAverageMap) {
-		this.level = getLeadTimeForChangeProductivityLevel(getAverageLeadTimeForChange(leadTimeForChangeAverageMap));
-	}
-
-	public void setLevel() {
-		this.level = getLeadTimeForChangeProductivityLevel(getAverageLeadTimeForChange(leadTimeForChangeAverageMap));
-	}
-
-	private ProductivityLevel getLeadTimeForChangeProductivityLevel(Integer leadTimeForChange) {
+	private ProductivityLevel getLeadTimeForChangeProductivityLevel() {
+		double leadTimeForChange = getAverageLeadTimeForChange();
 		if (leadTimeForChange < 1440)
 			return ProductivityLevel.FRUIT;
 		if (leadTimeForChange < 10080)
@@ -45,10 +34,10 @@ public class LeadTimeForChangeByTimeDto {
 		return ProductivityLevel.SEED;
 	}
 
-	private Integer getAverageLeadTimeForChange(Map<LocalDate, Integer> leadTimeForChangeAverageMap){
-		return (int) leadTimeForChangeAverageMap.values().stream()
-			.mapToInt(leadTimeForChange -> leadTimeForChange)
+	private Double getAverageLeadTimeForChange() {
+		return leadTimeForChangeMap.values().stream()
+			.mapToDouble(leadTimeForChange -> leadTimeForChange)
 			.average()
-			.orElseThrow(() -> new NullArgumentException("nothing to average operation values"));
+			.orElse(0);
 	}
 }

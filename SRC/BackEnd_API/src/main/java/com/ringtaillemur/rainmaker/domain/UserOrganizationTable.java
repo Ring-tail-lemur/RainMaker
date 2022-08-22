@@ -22,11 +22,7 @@ public class UserOrganizationTable extends BaseEntity {
 	@Column(name = "user_organization_table_id")
 	private Long id;
 
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "member_id")
-	private GitUser member;
+	private Long memberId;
 
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "git_organization_id")
-	private GitOrganization gitOrganization;
+	private Long gitOrganizationId;
 }
