@@ -1,7 +1,7 @@
 const Chart = require('chart.js/auto').default;
 const getDoraApi = require('../api/getDoraApiByAxios');
-const url ='http://localhost:8080';
-// const url = 'https://spring-api-server.azurewebsites.net';
+// const url ='http://localhost:8080';
+const url = 'https://spring-api-server.azurewebsites.net';
 
 async function initChart(chartname, xValues, yValues) {
     console.log("chartName ==== ", chartname)
