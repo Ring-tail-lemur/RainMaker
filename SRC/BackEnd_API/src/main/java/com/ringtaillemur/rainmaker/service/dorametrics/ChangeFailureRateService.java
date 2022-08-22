@@ -10,9 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.ringtaillemur.rainmaker.domain.ReleaseSuccess;
 import com.ringtaillemur.rainmaker.dto.webdto.responsedto.ChangeFailureRateDto;
-import com.ringtaillemur.rainmaker.repository.ReleaseRepository;
 import com.ringtaillemur.rainmaker.repository.ReleaseSuccessRepository;
-import com.ringtaillemur.rainmaker.repository.RepositoryRepository;
 import com.ringtaillemur.rainmaker.service.UtilService;
 
 import lombok.RequiredArgsConstructor;

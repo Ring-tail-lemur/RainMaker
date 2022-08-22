@@ -229,5 +229,6 @@ CREATE TABLE time_to_restore_service
     release_success_id         BIGINT    NOT NULL,
     created_date               DATETIME2 NOT NULL DEFAULT GETDATE(),
     modified_date              DATETIME2 NOT NULL DEFAULT GETDATE(),
-    restored_at                DATETIME2 NOT NULL
+    restored_at                DATETIME2 NOT NULL,
+    repository_id              BIGINT    NOT NULL
 );
