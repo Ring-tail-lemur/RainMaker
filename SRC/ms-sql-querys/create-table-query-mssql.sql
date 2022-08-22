@@ -30,8 +30,8 @@ CREATE TABLE pull_request
     pull_request_id                  BIGINT    NOT NULL PRIMARY KEY, --remote_identifier
     pull_request_number              BIGINT    NOT NULL,
     repository_id                    BIGINT    NOT NULL,
-    pull_request_open_branch_id      BIGINT    NOT NULL,
-    pull_request_close_branch_id     BIGINT    NOT NULL,
+    pull_request_open_branch_id      VARCHAR(255)    NOT NULL,
+    pull_request_close_branch_id     VARCHAR(255)    NOT NULL,
     created_date                     DATETIME2 NOT NULL DEFAULT GETDATE(),
     modified_date                    DATETIME2 NOT NULL DEFAULT GETDATE(),
     lead_time_for_change_process_end BIT       NOT NULL DEFAULT 0
@@ -61,7 +61,7 @@ CREATE TABLE pull_request_commit_table -- 다대다 관계 테이블
 (
     pull_request_commit_table_id BIGINT PRIMARY KEY IDENTITY,
     pull_request_id              BIGINT    NOT NULL,
-    commit_id                    BIGINT    NOT NULL,
+    commit_id                    varchar(255)    NOT NULL,
     first_commit                 BIT       NOT NULL,
     created_date                 DATETIME2 NOT NULL DEFAULT GETDATE(),
     modified_date                DATETIME2 NOT NULL DEFAULT GETDATE()

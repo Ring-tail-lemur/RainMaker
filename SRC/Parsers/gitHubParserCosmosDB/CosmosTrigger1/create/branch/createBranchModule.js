@@ -9,7 +9,7 @@ async function createBranchMain(dbConnectionPool, eventObject, context) {
         `
             SELECT repository_id
             FROM repository
-            WHERE remote_identifier = ${eventObject.repository_id}
+            WHERE repository_id = ${eventObject.repository_id}
         `;
     /*
     1. 처음에는 repo_id를 찾아오는 쿼리를 날린다.
@@ -17,7 +17,7 @@ async function createBranchMain(dbConnectionPool, eventObject, context) {
     3-1. 만약 정말로 repo가 없는 경우라면, 이 요청을 버린다.
     3-2. 만약 repo가 있는 경우는, repo 정보를 insert하고, 그 insert된 id값과 함께 INSERT 쿼리를 다시 날린다.
     */
-    let repository_id
+    let repository_id;
     try {
 
     repository_id = await dbConnectionPool.request()
@@ -36,10 +36,10 @@ async function createBranchMain(dbConnectionPool, eventObject, context) {
         const repo = ownerAndRepo[1];
         const repo_id = await repoCheckModule.repoCheckAndInsert(dbConnectionPool, owner, repo);
         // 리포가 진짜 존재하는지 체크하고 INSERT한다. INSERT한 리포의 repo_id를 반환
-        if(repo_id) await createBranchRepository.insertBranchByRepoIdAndUserId(dbConnectionPool, eventObject.branch_name, repo_id, eventObject.author_id);
+        if(repo_id) await createBranchRepository.insertBranchByRepoIdAndUserId(dbConnectionPool, eventObject.X_GitHub_Delivery, eventObject.branch_name, repo_id, eventObject.author_id);
 
     } else {
-        await createBranchRepository.insertBranchByRepoRemoteIdAndUserId(dbConnectionPool, eventObject.branch_name, eventObject.repository_id, eventObject.author_id, context);
+        await createBranchRepository.insertBranchByRepoRemoteIdAndUserId(dbConnectionPool, eventObject.X_GitHub_Delivery, eventObject.branch_name, eventObject.repository_id, eventObject.author_id, context);
     }
 
 }
