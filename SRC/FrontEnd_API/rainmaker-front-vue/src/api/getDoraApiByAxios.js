@@ -5,7 +5,7 @@ async function getDoraMetricsbyAxios(start_time, end_time, repo, url) {
         params : {
             start_time : start_time,
             end_time : end_time,
-            repo : repo
+            repo_id : repo
         }
     })
 

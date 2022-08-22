@@ -15,7 +15,7 @@ public interface LeadTimeForChangeRepository extends JpaRepository<LeadTimeForCh
     @Query("select l " +
             "from LeadTimeForChange l " +
             "where l.repository = :repo " +
-            "and l.modifiedDate > :start_time " +
-            "and l.modifiedDate < :end_time")
+            "and l.deploymentTime > :start_time " +
+            "and l.deploymentTime < :end_time")
     List<LeadTimeForChange> findByRepoIdAndTime(@Param("repo") Repository repository, @Param("start_time") LocalDateTime start_time, @Param("end_time") LocalDateTime end_time);
 }

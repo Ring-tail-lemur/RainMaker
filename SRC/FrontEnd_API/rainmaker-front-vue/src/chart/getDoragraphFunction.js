@@ -1,5 +1,7 @@
 const Chart = require('chart.js/auto').default;
 const getDoraApi = require('../api/getDoraApiByAxios');
+const url ='http://localhost:8080';
+// const url = 'https://spring-api-server.azurewebsites.net';
 
 async function initChart(chartname, xValues, yValues) {
     console.log("chartName ==== ", chartname)
@@ -45,7 +47,7 @@ async function chartChange(start_time, end_time, repo){
 
     if(!start_time || !end_time) return;
 
-    let returnVal1 = await getDoraApi.getDoraMetricsbyAxios(start_time, end_time, repo, 'http://localhost:8080/dorametric/lead-time-for-change');
+    let returnVal1 = await getDoraApi.getDoraMetricsbyAxios(start_time, end_time, repo, url + '/dorametric/lead-time-for-change');
     let leadTimeForChange = returnVal1[0];
     let date_arr = returnVal1[1];
 
@@ -61,7 +63,7 @@ async function chartChange(start_time, end_time, repo){
         // "Elite",
     );
 
-    let returnVal2 = await getDoraApi.getDoraMetricsbyAxios(start_time, end_time, repo, 'http://localhost:8080/dorametric/deployment-frequency');
+    let returnVal2 = await getDoraApi.getDoraMetricsbyAxios(start_time, end_time, repo, url + '/dorametric/deployment-frequency');
     let deploymentFrequency = returnVal2[0];
 
     const initChart2 = initChart(
