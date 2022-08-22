@@ -9,7 +9,7 @@ async function createBranchMain(dbConnectionPool, eventObject, context) {
         `
             SELECT repository_id
             FROM repository
-            WHERE remote_identifier = ${eventObject.repository_id}
+            WHERE repository_id = ${eventObject.repository_id}
         `;
     /*
     1. 처음에는 repo_id를 찾아오는 쿼리를 날린다.
@@ -17,7 +17,7 @@ async function createBranchMain(dbConnectionPool, eventObject, context) {
     3-1. 만약 정말로 repo가 없는 경우라면, 이 요청을 버린다.
     3-2. 만약 repo가 있는 경우는, repo 정보를 insert하고, 그 insert된 id값과 함께 INSERT 쿼리를 다시 날린다.
     */
-    let repository_id
+    let repository_id;
     try {
 
     repository_id = await dbConnectionPool.request()
