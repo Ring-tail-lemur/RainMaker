@@ -141,6 +141,7 @@ CREATE TABLE issue_label
     created_date   DATETIME2    NOT NULL DEFAULT GETDATE(),
     modified_date  DATETIME2    NOT NULL DEFAULT GETDATE(),
     release_id     BIGINT,
+    repository_id  BIGINT       NOT NULL
 );
 
 CREATE TABLE workflow_run
