@@ -5,13 +5,8 @@ async function insertCommitByUserId(dbConnectionPool, commit_sha, author_id, mes
     // const dbConnectionPool = await pool;
 
     const sqlQuery = `
-    INSERT INTO commits (sha, message, commit_time, author_id)
-    VALUES ('${commit_sha}', '${message}', '${commit_time}',
-            (
-                SELECT git_user_id
-                FROM git_user
-                WHERE git_user_id = ${author_id}
-            ));
+    INSERT INTO commits (commit_id, message, commit_time, author_id)
+    VALUES ('${commit_sha}', '${message}', '${commit_time}', ${author_id});
     `;
     console.log(sqlQuery);
 
@@ -31,20 +26,7 @@ async function insertPullRequestCommitTableByPullRequestIdAndCommitId(dbConnecti
 
     const sqlQuery = `
     INSERT INTO pull_request_commit_table (pull_request_id, commit_id, first_commit)
-    VALUES (
-        (
-        SELECT pull_request.pull_request_id
-        FROM pull_request
-        WHERE remote_identifier = ${pull_request_id}
-        ),
-        (
-        SELECT commits.commit_id
-        FROM commits
-        WHERE sha = '${commit_id}'
-        ),
-        '${first_commit}'
-    );
-    `;
+    VALUES ( ${pull_request_id}, '${commit_id}', '${first_commit}');`;
     console.log(sqlQuery);
 
     try {

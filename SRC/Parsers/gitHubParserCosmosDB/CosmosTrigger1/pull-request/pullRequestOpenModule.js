@@ -5,7 +5,7 @@ async function pullRequestOpenMain(pool, eventObject, context) {
     //pull_request entity 생성 및 삽입
     await pullRequestCreateRepository.insertPullRequestByRepoIdAndBranchId(pool, eventObject.pull_request_remote_identifier, eventObject.pull_request_opened_number, eventObject.repository_identifier, eventObject.pull_request_open_branch, eventObject.pull_request_close_branch);
     //pull_request_event entity 생성 및 삽입
-    await pullRequestCreateRepository.insertPullRequestEventOpenByPullRequestIdAndUserId(pool, 'AAAAAAAA-206C-11ED-982C-C290E2BD1A98',eventObject.action, eventObject.pull_request_open_time, eventObject.pull_request_remote_identifier, eventObject.pull_request_user_id);
+    await pullRequestCreateRepository.insertPullRequestEventOpenByPullRequestIdAndUserId(pool, eventObject.X_GitHub_Delivery, eventObject.action, eventObject.pull_request_open_time, eventObject.pull_request_remote_identifier, eventObject.pull_request_user_id);
 
 }
 

@@ -24,9 +24,9 @@ const a = []
 // a.push(jsonData3);
 // a.push(jsonData3);
 // a.push(jsonData3);
-a.push(jsonData4);
+// a.push(jsonData4);
 // a.push(jsonData5);
-// a.push(jsonData6);
+a.push(jsonData6);
 // a.push(jsonData7);
 // a.push(jsonData8);
 // a.push(jsonData9);

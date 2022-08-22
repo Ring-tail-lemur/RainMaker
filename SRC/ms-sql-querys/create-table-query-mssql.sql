@@ -61,7 +61,7 @@ CREATE TABLE pull_request_commit_table -- 다대다 관계 테이블
 (
     pull_request_commit_table_id BIGINT PRIMARY KEY IDENTITY,
     pull_request_id              BIGINT    NOT NULL,
-    commit_id                    BIGINT    NOT NULL,
+    commit_id                    varchar(255)    NOT NULL,
     first_commit                 BIT       NOT NULL,
     created_date                 DATETIME2 NOT NULL DEFAULT GETDATE(),
     modified_date                DATETIME2 NOT NULL DEFAULT GETDATE()
