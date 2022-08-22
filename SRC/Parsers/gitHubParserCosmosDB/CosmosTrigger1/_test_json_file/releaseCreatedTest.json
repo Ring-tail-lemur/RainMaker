@@ -5,7 +5,7 @@
   "_ts": 1660351435,
   "_etag": "\"0000c81d-0000-2500-0000-62f6f3cb0000\"",
 
-  "X-GitHub-Delivery":"efeedb80-21e1-11ed-8cd1-8005ff40c417",
+  "X_GitHub_Delivery":"efeedb80-21e1-11ed-8cd1-8005ff40c417",
   "hook_event":"release",
   "source":"github",
   "action":"created",
