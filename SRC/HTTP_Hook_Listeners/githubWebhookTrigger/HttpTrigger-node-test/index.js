@@ -17,7 +17,7 @@ module.exports = async function (context, req) {
     const hookHeaders = req.headers;
     context.log("now : " + JSON.stringify(hookHeaders['x-github-event']));
     cloudEventObj.hook_event = JSON.stringify(hookHeaders['x-github-event']).replace(/['"]+/g, '');
-    cloudEventObj['X-GitHub-Delivery'] = JSON.stringify(hookHeaders['x-github-delivery']).replace(/['"]+/g, '');
+    cloudEventObj.X_GitHub_Delivery = JSON.stringify(hookHeaders['x-github-delivery']).replace(/['"]+/g, '');
     cloudEventObj.event_triggered_time = (await timeModule.getCurrentTime()).replace(/['"]+/g, '');
     cloudEventObj.source = 'github';
     // 분기, pull_request || pull_request_review || fork || release || issue_comment || create(branch)
