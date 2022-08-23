@@ -1,20 +1,10 @@
-async function insertTagByRepoIdAndUserId(dbConnectionPool, tag_name, repository_remote_id, author_id){
+async function insertTagByRepoIdAndUserId(dbConnectionPool, tag_id, tag_name, repository_remote_id, author_id){
 
     // const dbConnectionPool = await pool;
 
     const sqlQuery = `
-    INSERT INTO branch (name, repository_id, git_user_id, create_type)
-    VALUES ( '${tag_name}', 
-    (
-        SELECT repository_id
-        FROM repository
-        WHERE remote_identifier = ${repository_remote_id}
-    ),
-    (
-        SELECT git_user_id
-        FROM git_user
-        WHERE remote_identifier = ${author_id}
-    ), 'TAG');
+    INSERT INTO branch (branch_id, name, repository_id, git_user_id, create_type)
+    VALUES ( '${tag_id}', '${tag_name}', ${repository_remote_id}, ${author_id}, 'TAG');
     `;
     console.log(sqlQuery);
 
