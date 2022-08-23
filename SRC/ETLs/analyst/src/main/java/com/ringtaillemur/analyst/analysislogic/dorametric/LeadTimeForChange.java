@@ -21,10 +21,10 @@ public class LeadTimeForChange {
 	}
 
 	private void calculateLeadTimeForChangeExceptDeploymentTime() {
-		queryRunner.runQuery(OlapQuery.MAKE_LEAD_TIME_FOR_CHANGE);
+		queryRunner.runUpdateInsertQuery(OlapQuery.MAKE_LEAD_TIME_FOR_CHANGE);
 	}
 
 	private void calculateDeploymentTime() {
-		queryRunner.runQuery(OlapQuery.MAKE_DEPLOY_TIME);
+		queryRunner.runUpdateInsertQuery(OlapQuery.MAKE_DEPLOY_TIME);
 	}
 }
