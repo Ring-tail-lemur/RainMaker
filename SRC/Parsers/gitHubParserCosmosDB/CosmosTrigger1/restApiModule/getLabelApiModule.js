@@ -9,8 +9,3 @@ async function createGitHubLabel(releaseName, repositoryId, repositoryName, owne
 
 
 module.exports.createGitHubLabel = createGitHubLabel;
-// (async () => {
-//     console.log('before start');
-//     await createGitHubLabel("hello", 1, "test-for-fake-project", "Ring-tail-lemur", "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", "runtime-error-hello");
-//     console.log('after start');
-// })();
