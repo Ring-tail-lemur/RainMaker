@@ -1,10 +1,10 @@
 {
   "hook_event": "label",
-  "X_GitHub_Delivery": "207b90b0-228f-11ed-815f-eb05e117bde9",
-  "event_triggered_time": "2022-8-23T02:56:05Z",
+  "X_GitHub_Delivery": "cc702510-2290-11ed-930d-5c6cae90f591",
+  "event_triggered_time": "2022-8-23T03:08:04Z",
   "source": "github",
-  "label": "test  label",
-  "issue_label_id": "4453499838",
+  "label": "aaaaa1111111",
+  "issue_label_id": "4453526843",
   "repository_id": "510731046",
-  "hookBody": "notYet"
+  "action": "created"
 }
