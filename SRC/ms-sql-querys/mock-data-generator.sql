@@ -380,8 +380,8 @@ INSERT INTO issue(repository_id, open_user_id, [state], issue_id, issue_label_id
 VALUES (1, 1, 'OPEN', 1, 1);
 
 
-INSERT INTO issue_label([label], release_id, issue_label_id)
-VALUES ('deploy_bug', 1, 1);
+INSERT INTO issue_label([label], release_id, issue_label_id, repository_id)
+VALUES ('deploy_bug', 1, 1, 1);
 
 
 INSERT INTO deployment_workflow(name, deployment_workflow_id, path, issue_label_id)
