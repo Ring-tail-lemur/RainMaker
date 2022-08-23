@@ -5,19 +5,20 @@ async function insertReleaseByUserIdAndTagIdAndRepoId(dbConnectionPool, release_
 
     const sqlQuery = `
     INSERT INTO release_event (release_event_id, release_event_type, release_id)
-    VALUES ('${release_event_id}', '${release_event_type}', ${remote_identifier} )
+    VALUES ('${release_event_id}', UPPER('${release_event_type}'), ${remote_identifier} )
     INSERT INTO release (release_id, pre_release, name, author_id, tag_name, repository_id, published_at, draft)
     VALUES (${remote_identifier}, '${pre_release}', '${name}', ${user_id}, '${tag_name}', ${repo_id}, '${published_at}', '${draft}')
     `
 
     console.log(sqlQuery);
-
+    let result;
     try {
-        await dbConnectionPool.request()
+        result = await dbConnectionPool.request()
              .query(sqlQuery);
     } catch (e) {
         console.error(e);
     }
+    return result;
 }
 
 /**

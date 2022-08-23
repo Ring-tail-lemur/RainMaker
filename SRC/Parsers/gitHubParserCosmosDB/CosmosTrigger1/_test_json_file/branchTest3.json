@@ -1,0 +1,19 @@
+{
+  "hook_event": "pull_request",
+  "X_GitHub_Delivery": "654e2900-22cb-11ed-889a-c36074492cb4",
+  "event_triggered_time": "2022-8-23T10:07:30Z",
+  "source": "github",
+  "action": "opened",
+  "pull_request_remote_identifier": "1033948048",
+  "repository_name": "test-for-fake-project",
+  "repository_identifier": "510731046",
+  "repository_owner_type": "Organization",
+  "repository_owner_name": "Ring-tail-lemur",
+  "repository_owner_id": "107110653",
+  "repository_private": "false",
+  "pull_request_opened_number": "239",
+  "pull_request_open_branch": "백종현",
+  "pull_request_close_branch": "main",
+  "pull_request_open_time": "2022-08-23T10:07:28Z",
+  "pull_request_user_id": "81180977"
+}

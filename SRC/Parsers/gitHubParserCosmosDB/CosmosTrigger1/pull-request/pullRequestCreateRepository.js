@@ -5,7 +5,7 @@ async function insertPullRequestByRepoIdAndBranchId(dbConnectionPool ,remote_ide
     console.log(remote_identifier, pull_request_number, repository_id, open_branch_name, close_branch_name);
 
     const sqlQuery = `
-        INSERT INTO pull_request (pull_request_id, pull_request_number, repository_id, pull_request_open_branch_id, pull_request_close_branch_id)
+        INSERT INTO pull_request (pull_request_id, pull_request_number, repository_id, pull_request_open_branch_name, pull_request_close_branch_name)
         VALUES ('${remote_identifier}', ${pull_request_number}, ${repository_id}, '${open_branch_name}', '${close_branch_name}');
     `;
     console.log(sqlQuery);
