@@ -11,8 +11,4 @@ async function insertIssueLabel(dbConnectionPool, releaseId, labelId, labelName,
 
 }
 
-async function insertIssueLabelByApi(findLabel) {
-    console.log(findLabel);
-}
-
 module.exports.insertIssueLabel = insertIssueLabel;
