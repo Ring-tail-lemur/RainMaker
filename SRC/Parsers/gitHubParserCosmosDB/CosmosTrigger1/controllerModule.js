@@ -12,6 +12,8 @@ async function controllerMain(eventObj, context, pool){
 
     const hook_event = eventObj.hook_event;
 
+    context.log(hook_event);
+
     try {
         if (hook_event == 'pull_request') {
             await pullRequestMainModule.pullRequestMain(pool, eventObj, context);
@@ -34,6 +36,9 @@ async function controllerMain(eventObj, context, pool){
         } else if (hook_event == 'label') {
             await labelMainModule.labelMain(pool, eventObj, context);
             context.log("label insert(or delete or edit) success");
+        } else if (hook_event == 'issues') {
+            await issueMainModule.issueMain(pool, eventObj, context);
+            context.log("issue insert(or delete or edit) success");
         }
 
         // await deduplicationRepository.insertDeduplication(pool, eventObj.id);

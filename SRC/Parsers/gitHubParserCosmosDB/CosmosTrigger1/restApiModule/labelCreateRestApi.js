@@ -10,7 +10,7 @@ async function createGitHubLabel(releaseName, repositoryId, repositoryName, owne
         response = await octokit.request(`POST /repos/${ownerName}/${repositoryName}/labels`, {
             owner: ownerName,
             repo: repositoryName,
-            name: `runtime-error-${releaseName}`,
+            name: `[RainMaker]runtime-error-${releaseName}`,
             description: 'RainMaker runtime error label',
             color: 'f213be'
         });
