@@ -25,7 +25,7 @@ async function getDoraMetricsbyAxios(start_time, end_time, repo, url) {
     const en = new Date(end_time);
 
     console.log("info: ",info);
-    while(st.getDate() <= en.getDate()) {
+    while(st <= en) {
         date_arr.push(dateFormat(st));
         if( info[dateFormat(st)] ) {
             average_time.push(info[dateFormat(st)]);
