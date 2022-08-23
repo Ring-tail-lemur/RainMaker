@@ -1,6 +1,4 @@
 const { Octokit } = require("@octokit/core");
-const labelCreateRepository = require('../label/labelRepository');
-const getLabelApiModule = require('./getLabelApiModule');
 const msSQLPool = require('../ms-sql/msSQLPool')
 
 async function createGitHubLabel(releaseName, repositoryId, repositoryName, ownerName, token, context, releaseId, dbConnectionPool) {
@@ -27,13 +25,6 @@ async function createGitHubLabel(releaseName, repositoryId, repositoryName, owne
             throw "주소가 유효하지 않음";
         }
     }
-    labelCreateRepository.insertIssueLabel(dbConnectionPool, releaseId, response.data.id, response.data.name, repositoryId, context)
 }
 
-
 module.exports.createGitHubLabel = createGitHubLabel;
-(async() => {
-    console.log('before start');
-    await createGitHubLabel("test",1, "test-for-fake-project", "Ring-tail-lemur", "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", console, 1, await msSQLPool);
-    console.log('after start');
-})();

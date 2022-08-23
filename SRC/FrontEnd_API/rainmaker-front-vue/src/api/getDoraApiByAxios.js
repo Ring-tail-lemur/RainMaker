@@ -1,6 +1,8 @@
 const axios = require('axios');
 
 async function getDoraMetricsbyAxios(start_time, end_time, repo, url) {
+
+    console.log("url = ", url);
     const Message = await axios.get(url, {
         params : {
             start_time : start_time,
@@ -9,23 +11,30 @@ async function getDoraMetricsbyAxios(start_time, end_time, repo, url) {
         }
     })
 
-    console.log("================================== Message\n", Message.data);
-
-
     let info;
-    if (Message.data.leadTimeForChangeAverageMap) info = Message.data.leadTimeForChangeAverageMap;
+    if (Message.data.leadTimeForChangeMap) info = Message.data.leadTimeForChangeMap;
     if (Message.data.deploymentFrequencyMap) info = Message.data.deploymentFrequencyMap;
+    if (Message.data.changeFailureRateMap) info = Message.data.changeFailureRateMap;
+    if (Message.data.timeToRestoreServiceMap) info = Message.data.timeToRestoreServiceMap;
 
-    console.log("================================== Map\n", info);
-
-    const sort = Object.entries(info).sort();
-    console.log("*****************", sort[0][0], sort[0][1]);
-    let average_time = [];
+    console.log("================================== Message\n", Message.data);
     let date_arr = [];
-    for(var i =0; i< sort.length; i++){
-        average_time.push(sort[i][1]);
-        date_arr.push(sort[i][0]);
+    let average_time = [];
+
+    const st = new Date(start_time);
+    const en = new Date(end_time);
+
+    console.log("info: ",info);
+    while(st.getDate() <= en.getDate()) {
+        date_arr.push(dateFormat(st));
+        if( info[dateFormat(st)] ) {
+            average_time.push(info[dateFormat(st)]);
+        } else {
+            average_time.push(0);
+        }
+        st.setDate(st.getDate() + 1);
     }
+
 
     const testMessage =
         [
@@ -41,5 +50,15 @@ async function getDoraMetricsbyAxios(start_time, end_time, repo, url) {
     return [testMessage, date_arr];
 }
 
+function dateFormat(date) {
+
+    let month = date.getMonth() + 1;
+    let day = date.getDate();
+
+    month = month >= 10 ? month : '0' + month;
+    day = day >= 10 ? day : '0' + day;
+
+    return date.getFullYear() + '-' + month + '-' + day;
+}
 
 module.exports.getDoraMetricsbyAxios = getDoraMetricsbyAxios;
