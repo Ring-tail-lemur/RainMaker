@@ -11,6 +11,7 @@ const workflowRunModule = require('./workflow-run/workflowRunMainModule.js');
 const releaseModule = require('./release/releaseMainModule.js');
 const deleteModule = require('./delete/deleteMainModule.js');
 const timeModule = require('./utils/getCurrentTimeModule.js');
+const labelModule = require('./label/labelModule.js');
 module.exports = async function (context, req) {
     const cloudEventObj = new Object();
     const hookBody = req.body;
@@ -95,6 +96,12 @@ module.exports = async function (context, req) {
         }
     }else if(cloudEventObj.hook_event == 'delete'){
         const resultObj = await deleteModule.deleteMain(hookBody,cloudEventObj,context);
+        await send_module.sender(resultObj,context);
+        context.res = {
+            body : JSON.stringify(cloudEventObj)
+        }
+    }else if(cloudEventObj.hook_event == 'label'){
+        const resultObj = await labelModule.labelMain(hookBody,cloudEventObj,context);
         await send_module.sender(resultObj,context);
         context.res = {
             body : JSON.stringify(cloudEventObj)

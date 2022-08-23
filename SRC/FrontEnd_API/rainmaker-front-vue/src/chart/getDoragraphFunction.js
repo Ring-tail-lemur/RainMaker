@@ -73,18 +73,22 @@ async function chartChange(start_time, end_time, repo){
         ["red"],
     );
 
+    let returnVal3 = await getDoraApi.getDoraMetricsbyAxios(start_time, end_time, repo, url + '/dorametric/change-failure-rate');
+    let changeFailureRate = returnVal3[0];
+
     const initChart3 = initChart(
         "ChangeFailureRate",
-        ["1week", "2week", "3week", "4week", "5week"],
-        [55, 49, 44, 24, 30],
-        ["red", "green","blue","orange","brown"]
+        date_arr,
+        changeFailureRate[0].average_time_data,
     );
+
+    let returnVal4 = await getDoraApi.getDoraMetricsbyAxios(start_time, end_time, repo, url + '/dorametric/time-to-restore-service');
+    let MTTR = returnVal4[0];
 
     const initChart4 = initChart(
         "MTTR",
-        ["1week", "2week", "3week", "4week", "5week"],
-        [55, 49, 44, 24, 30],
-        ["red", "green","blue","orange","brown"]
+        date_arr,
+        MTTR[0].average_time_data,
     );
 
     console.log("*******************************\n", await initChart1, await initChart2, await initChart3, await initChart4);

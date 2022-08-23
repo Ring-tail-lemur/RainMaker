@@ -9,7 +9,7 @@ async function insertPullRequestCommentByPullRequestIdAndUserId(dbConnectionPool
     VALUES (${pull_request_comment_id}, '${event_time}', ${pull_request_id}, ${git_user_id}, '${comment_type}'
      )
     `;
-    console.log(sqlQuery);
+    context.log(sqlQuery);
 
     try {
         await dbConnectionPool.request()

@@ -18,9 +18,11 @@
   "published_at":"2022-08-16T05:57:41Z",
   "pre_release":"false",
   "repository_id":"510731046",
+  "repository_name": "test-for-fake-project",
   "repository_owner_id":"107110653",
   "repository_private":"false",
   "repository_owner_type":"Organization",
+  "owner_name": "Ring-tail-lemur",
   "event_time":"2022-8-16T05:57:43Z",
   "sendingTimeInFunction":"2022-8-16T05:57:43Z"
 }
