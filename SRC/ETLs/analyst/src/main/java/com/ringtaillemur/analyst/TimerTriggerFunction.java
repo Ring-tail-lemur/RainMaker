@@ -19,7 +19,7 @@ public class TimerTriggerFunction {
 	public void run(
 		@TimerTrigger(
 			name = "timerInfo",
-			schedule = "1-59 * * * * *"
+			schedule = "0 */3 * * * *"
 		) String timerInfo,
 		final ExecutionContext context
 	)

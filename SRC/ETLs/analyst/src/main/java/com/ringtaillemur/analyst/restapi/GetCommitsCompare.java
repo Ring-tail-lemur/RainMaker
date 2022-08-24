@@ -51,8 +51,8 @@ public class GetCommitsCompare {
 		try {
 			String owner = targetReleaseDto.getOwner_name();
 			String repo = targetReleaseDto.getRepository_name();
-			String basehead1 = targetReleaseDto.getTag_name();
-			String basehead2 = previousReleaseDto.getTag_name();
+			String basehead2 = targetReleaseDto.getTag_name();
+			String basehead1 = previousReleaseDto.getTag_name();
 			URL url = new URL(
 				String.format("https://api.github.com/repos/%s/%s/compare/%s...%s", owner, repo, basehead1, basehead2));
 			HttpURLConnection conn = (HttpURLConnection)url.openConnection();
