@@ -151,7 +151,7 @@ public class OlapQuery {
 			                 time_to_restore_service_process_end
 			          from release_success
 			                   JOIN issue_event ON release_success.first_error_issue_id = issue_event.issue_id
-			          where issue_event_type = 'OPEN')
+			          where issue_event_type = 'OPENED')
 			 
 			INSERT
 			 
@@ -179,42 +179,42 @@ public class OlapQuery {
 	public static String PUBLISHED_AND_NOT_CALCULATE_LEAD_TIME_FOR_CHANGE_RELEASE
 		=
 		"""
-				SELECT
-			release.repository_id as
-			repository_id,
-			release.tag_name as
-			tag_name,
-			repository_name,
-			owner_name,
-			release.release_id
+			SELECT release.repository_id as
+			           repository_id,
+			       release.tag_name      as
+			           tag_name,
+			       repository_name,
+			       owner_name,
+			       release.release_id
 			FROM release
-			JOIN repository_owner_table
-			on repository_owner_table.repository_id =release.repository_id
-			JOIN release_event
-			ON release.release_id =release_event.release_id
-			AND release_event.release_event_type ='PUBLISHED'
-			JOIN repository
-			ON release.repository_id =repository.repository_id
-			WHERE release.lead_time_for_change_process_end =0
-			ORDER BY
-			release.published_at;
+			         JOIN repository_owner_table
+			              on repository_owner_table.repository_id = release.repository_id
+			         JOIN release_event
+			              ON release.release_id = release_event.release_id
+			                  AND release_event.release_event_type = 'PUBLISHED'
+			         JOIN repository
+			              ON release.repository_id = repository.repository_id
+			WHERE release.lead_time_for_change_process_end = 0
+			ORDER BY release.published_at;
 			""";
 	public static String PUBLISHED_AND_CALCULATED_LEAD_TIME_FOR_CHANGE_RELEASE
 		=
-		"""	
-			SELECT
-			TOP 1release.repository_id,release.tag_name,repository_name,owner_name,release.release_id
+		"""
+			SELECT TOP 1 release.repository_id,
+			             release.tag_name,
+			             repository_name,
+			             owner_name,
+			             release.release_id
 			FROM release
-			JOIN repository_owner_table
-			on repository_owner_table.repository_id =release.repository_id
-			JOIN release_event
-			ON release.release_id =release_event.release_id
-			AND release_event.release_event_type ='PUBLISHED'
-			JOIN repository
-			ON release.repository_id =repository.repository_id
-			WHERE release.lead_time_for_change_process_end =1
-			ORDER BY
-			release.published_at;
+			         JOIN repository_owner_table
+			              on repository_owner_table.repository_id = release.repository_id
+			         JOIN release_event
+			              ON release.release_id = release_event.release_id
+			                  AND release_event.release_event_type = 'PUBLISHED'
+			         JOIN repository
+			              ON release.repository_id = repository.repository_id
+			WHERE release.lead_time_for_change_process_end = 1
+			ORDER BY release.published_at;
 			""";
 	public static String UPDATE_COMMITS_RELEASE_ID
 		=

@@ -18,7 +18,7 @@ FROM release_success
          JOIN issue_event ie ON ie.issue_id = i.issue_id
 WHERE release_success.is_success = 1
   AND i.failed_change_process_end = 0
-  AND ie.issue_event_type = 'OPEN'
+  AND ie.issue_event_type = 'OPENED'
 
 UPDATE issue
 set failed_change_process_end = 1
