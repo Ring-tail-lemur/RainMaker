@@ -1,4 +1,6 @@
-const axios = require('axios');
+// const axios = require('axios');
+// const axios = import('axios');
+import axios from 'axios';
 
 async function getDoraMetricsbyAxios(start_time, end_time, repo, url) {
 
@@ -61,4 +63,5 @@ function dateFormat(date) {
     return date.getFullYear() + '-' + month + '-' + day;
 }
 
-module.exports.getDoraMetricsbyAxios = getDoraMetricsbyAxios;
+export default getDoraMetricsbyAxios;
+// module.exports.getDoraMetricsbyAxios = getDoraMetricsbyAxios;

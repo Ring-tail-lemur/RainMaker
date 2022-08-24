@@ -1,24 +1,36 @@
-# rainmaker-front-vue
+# windmill-dashboard-vue3
 
-## Project setup
-```
-npm install
-```
+This is a Vue 3 clone of [@estevanmaito](https://github.com/estevanmaito)'s [Windmill Dashboard](https://github.com/estevanmaito/windmill-dashboard).
 
-### Compiles and hot-reloads for development
-```
-npm run serve
-```
+![](/public/cover.png)
 
-### Compiles and minifies for production
-```
-npm run build
-```
+## Pages
 
-### Lints and fixes files
-```
-npm run lint
-```
+- Index
+- Buttons
+- Cards 
+- Tables
+- Charts [Coming Soon]  
+- Forms [Coming Soon]  
+- Modals [Coming Soon]  
 
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+## Components
+
+- Button
+- Card
+- Loader
+- Sidebar
+- Navigation
+- Call To Action
+- TableRow
+- Modal [Coming Soon]
+
+## Live Versions
+
+Vue 3.0 [Live Version](https://windmill.bydiamond.co.uk)  
+
+Estavan's [Live Version](https://windmillui.com/dashboard-html)  
+
+## Credit
+
+All credit goes to Estevan Maito for building the original Dashboard, I simply ported across to Vue 😀

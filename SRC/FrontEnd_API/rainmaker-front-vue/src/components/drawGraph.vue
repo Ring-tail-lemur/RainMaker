@@ -1,10 +1,10 @@
 <template>
   <div>
-    시간 : <br>
-    {{startTime}}
-    {{endTime}}
-    {{repoId}}
-    <h3>이름 : {{name}}</h3>
+<!--    시간 : <br>-->
+<!--    {{startTime}}-->
+<!--    {{endTime}}-->
+<!--    {{repoId}}-->
+    <h3 style="font-family: 'Bell MT'">{{name}}</h3>
     <canvas v-bind:id="name" style="width:100%;max-width:600px"></canvas>
   </div>
 </template>
