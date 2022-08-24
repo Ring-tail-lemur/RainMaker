@@ -1,18 +1,3 @@
-with closed_issue as
-         (select release_success_id, event_time as closed_issue_event_time
-          from release_success
-                   JOIN issue_event ON release_success.first_error_issue_id = issue_event.issue_id
-          where issue_event_type = 'CLOSED'),
-     opened_issue as
-         (select release_success_id,
-                 event_time as opened_issue_event_time,
-                 time_to_restore_service_process_end,
-                 repository_id
-          from release_success
-                   JOIN issue_event ON release_success.first_error_issue_id = issue_event.issue_id
-          where issue_event_type = 'OPEN')
-
-
 INSERT
 INTO time_to_restore_service (release_success_id, restore_service_time, restored_at, repository_id)
 SELECT closed_issue.release_success_id,

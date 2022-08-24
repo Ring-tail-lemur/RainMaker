@@ -16,6 +16,6 @@ public class ChangeFailureRate {
 	}
 
 	public void calculateChangeFailureRate() {
-		queryRunner.runQuery(OlapQuery.MAKE_CHANGE_FAILURE_RATE);
+		queryRunner.runUpdateInsertQuery(OlapQuery.MAKE_CHANGE_FAILURE_RATE);
 	}
 }

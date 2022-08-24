@@ -4,7 +4,7 @@ import com.ringtaillemur.analyst.query.OlapQuery;
 import com.ringtaillemur.analyst.query.QueryRunner;
 
 public class TimeToRestoreService {
-	private final static TimeToRestoreService timeToRestoreService = new TimeToRestoreService();
+	private static final TimeToRestoreService timeToRestoreService = new TimeToRestoreService();
 	private final QueryRunner queryRunner = QueryRunner.getQueryRunner();
 
 	private TimeToRestoreService() {
@@ -15,6 +15,6 @@ public class TimeToRestoreService {
 	}
 
 	public void calculateTimeToRestoreService() {
-		queryRunner.runQuery(OlapQuery.MAKE_TIME_TO_RESTORE_SERVICE);
+		queryRunner.runUpdateInsertQuery(OlapQuery.MAKE_TIME_TO_RESTORE_SERVICE);
 	}
 }
