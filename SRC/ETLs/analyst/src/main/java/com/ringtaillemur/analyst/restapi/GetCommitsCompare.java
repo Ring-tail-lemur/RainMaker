@@ -22,7 +22,7 @@ public class GetCommitsCompare {
 		try {
 			String owner = targetReleaseDto.getOwner_name();
 			String repo = targetReleaseDto.getRepository_name();
-			String tagName = URLEncoder.encode(targetReleaseDto.getTag_name(), StandardCharsets.UTF_8);
+			String tagName = URLEncoder.encode(targetReleaseDto.getTag_name(), "UTF-8");
 			URL url = new URL(String.format("https://api.github.com/repos/%s/%s/commits?sha=%s", owner, repo,
 				tagName));
 			HttpURLConnection conn = (HttpURLConnection)url.openConnection();
