@@ -29,7 +29,7 @@ async function controllerMain(eventObj, context, pool){
             await createMainModule.createMain(pool, eventObj, context);
             context.log("create(branch making) insert success");
         } else if (hook_event == 'pull_request_review') {
-            await pullRequestReviewMainModule.pullRequestReviewMain(pool, eventObj);
+            await pullRequestReviewMainModule.pullRequestReviewMain(pool, eventObj, context);
             context.log("pull_request_review insert success");
         } else if (hook_event == 'release') {
             await releaseMainModule.releaseMain(pool, eventObj, context);
