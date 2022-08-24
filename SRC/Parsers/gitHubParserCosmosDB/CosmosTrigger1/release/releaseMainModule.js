@@ -9,7 +9,7 @@ async function releaseMain(pool, eventObject, context) {
 
     if(result != undefined) {
         try {
-            await labelCreateRestApi.createGitHubLabel(eventObject.release_name, eventObject.repository_id, eventObject.repository_name, eventObject.owner_name, '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', context);
+            await labelCreateRestApi.createGitHubLabel(eventObject.release_tag_name, eventObject.repository_id, eventObject.repository_name, eventObject.owner_name, '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', context);
             // todo : 중요! 여기에 팀 토큰 정보를 넣어줘야함! 지금은 우리 팀의 정보를 넣었음.
             context.log("태그 생성 완료");
         } catch (e) {
