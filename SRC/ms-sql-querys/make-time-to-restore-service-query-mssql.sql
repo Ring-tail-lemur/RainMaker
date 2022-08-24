@@ -12,6 +12,7 @@ WHERE time_to_restore_service_process_end = 0;
 
 UPDATE release_success
 SET release_success.time_to_restore_service_process_end = 1
-FROM issue_event JOIN release_success ON release_success.first_error_issue_id = issue_event.issue_id
+FROM issue_event
+         JOIN release_success ON release_success.first_error_issue_id = issue_event.issue_id
 WHERE time_to_restore_service_process_end = 0
   AND issue_event_type = 'CLOSED'
