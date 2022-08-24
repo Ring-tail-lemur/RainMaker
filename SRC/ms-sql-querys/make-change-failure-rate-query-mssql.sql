@@ -1,3 +1,5 @@
+BEGIN TRAN
+
 INSERT INTO release_success(release_id, repository_id, released_at)
 SELECT release_id, release.repository_id, release.published_at
 FROM release
@@ -6,6 +8,11 @@ WHERE change_failure_rate_process_end = 0;
 UPDATE release
 SET change_failure_rate_process_end = 1
 WHERE change_failure_rate_process_end = 0;
+
+COMMIT TRAN
+
+
+BEGIN TRAN
 
 UPDATE release_success
 SET release_success.failed_at = ie.event_time,
@@ -22,4 +29,8 @@ WHERE release_success.is_success = 1
 
 UPDATE issue
 set failed_change_process_end = 1
-where failed_change_process_end = 0
+FROM issue i
+         JOIN issue_event ie ON ie.issue_id = i.issue_id
+where failed_change_process_end = 0 AND ie.issue_event_type = 'OPENED'
+
+COMMIT TRAN
