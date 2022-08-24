@@ -131,14 +131,20 @@ public class OlapQuery {
 		+ "WHERE time_to_restore_service_process_end = 0\n"
 		+ "  AND issue_event_type = 'CLOSED'\n";
 	public static String publishedAndNotCalculateLeadTimeForChangeReleases
-		= "SELECT distinct release.repository_id as repository_id, release.tag_name as tag_name, repository_name, owner_name, release.release_id\n"
-		+ "FROM release\n"
-		+ "         JOIN repository_owner_table on repository_owner_table.repository_id = release.repository_id\n"
-		+ "         JOIN release_event\n"
-		+ "              ON release.release_id = release_event.release_id\n"
-		+ "                  AND release_event.release_event_type = 'PUBLISHED'\n"
-		+ "         JOIN repository ON release.repository_id = repository.repository_id\n"
-		+ "WHERE release.lead_time_for_change_process_end = 0;\n";
+		=
+		"SELECT release.repository_id as repository_id,\n"
+			+ "                release.tag_name      as tag_name,\n"
+			+ "                repository_name,\n"
+			+ "                owner_name,\n"
+			+ "                release.release_id\n"
+			+ "FROM release\n"
+			+ "         JOIN repository_owner_table on repository_owner_table.repository_id = release.repository_id\n"
+			+ "         JOIN release_event\n"
+			+ "              ON release.release_id = release_event.release_id\n"
+			+ "                  AND release_event.release_event_type = 'PUBLISHED'\n"
+			+ "         JOIN repository ON release.repository_id = repository.repository_id\n"
+			+ "WHERE release.lead_time_for_change_process_end = 0\n"
+			+ "ORDER BY release.published_at;";
 
 	public static String publishedAndCalculatedLeadTimeForChangeReleases
 		= "SELECT TOP 1 release.repository_id, release.tag_name, repository_name, owner_name, release.release_id\n"

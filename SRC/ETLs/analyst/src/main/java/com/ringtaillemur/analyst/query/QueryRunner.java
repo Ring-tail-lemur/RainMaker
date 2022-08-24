@@ -1,8 +1,6 @@
 package com.ringtaillemur.analyst.query;
 
-import java.security.cert.Extension;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 import javax.persistence.EntityManager;

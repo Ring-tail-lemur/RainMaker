@@ -37,7 +37,7 @@ public class UpdateCommitsReleaseId {
 		queryRunner.runUpdateInsertQuery(String.format(OlapQuery.updateCommitsReleaseId, joinMergeQuery));
 	}
 
-	public List<String> makeJoinMergeQueryList(List<ReleaseDto> releaseDtoList) throws Exception {
+	public List<String> makeJoinMergeQueryList(List<ReleaseDto> releaseDtoList) {
 		String mergeQueryForm = "('%s', %s)";
 		List<String> joinMergeQueryList = new ArrayList<>();
 		for (int i = 1; i < releaseDtoList.size(); i++) {
