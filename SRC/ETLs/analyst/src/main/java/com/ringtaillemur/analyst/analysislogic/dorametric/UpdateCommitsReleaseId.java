@@ -27,14 +27,14 @@ public class UpdateCommitsReleaseId {
 
 	public void calculateUpdateCommitsReleaseId() throws Exception {
 		List<ReleaseDto> releaseDtoList = queryRunner.runSelectReleaseQuery(
-			OlapQuery.publishedAndNotCalculateLeadTimeForChangeReleases);
+			OlapQuery.PUBLISHED_AND_NOT_CALCULATE_LEAD_TIME_FOR_CHANGE_RELEASE);
 		ReleaseDto lastCalculatedReleaseDto = queryRunner.runSelectCalculatedReleaseTop1Query(
-			OlapQuery.publishedAndCalculatedLeadTimeForChangeReleases);
+			OlapQuery.PUBLISHED_AND_CALCULATED_LEAD_TIME_FOR_CHANGE_RELEASE);
 
 		releaseDtoList.add(0, lastCalculatedReleaseDto);
 
 		String joinMergeQuery = String.join(", ", makeJoinMergeQueryList(releaseDtoList));
-		queryRunner.runUpdateInsertQuery(String.format(OlapQuery.updateCommitsReleaseId, joinMergeQuery));
+		queryRunner.runUpdateInsertQuery(String.format(OlapQuery.UPDATE_COMMITS_RELEASE_ID, joinMergeQuery));
 	}
 
 	public List<String> makeJoinMergeQueryList(List<ReleaseDto> releaseDtoList) {

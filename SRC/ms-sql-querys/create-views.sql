@@ -44,7 +44,7 @@ select release_success_id,
        repository_id
 from release_success
          JOIN issue_event ON release_success.first_error_issue_id = issue_event.issue_id
-where issue_event_type = 'OPEN'
+where issue_event_type = 'OPENED'
 ------------------------------------------------------------------------------------------------------------------------
 CREATE VIEW repository_owner_table AS
 select repository_id, repository.name as repository_name, ISNULL(git_user.name, git_organization.name) as owner_name
