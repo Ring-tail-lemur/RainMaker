@@ -1,13 +1,5 @@
 package com.ringtaillemur.analyst;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
-
-import org.json.JSONArray;
-import org.json.JSONObject;
-
 import com.microsoft.azure.functions.ExecutionContext;
 import com.microsoft.azure.functions.annotation.FunctionName;
 import com.microsoft.azure.functions.annotation.TimerTrigger;
@@ -15,10 +7,7 @@ import com.ringtaillemur.analyst.analysislogic.dorametric.ChangeFailureRate;
 import com.ringtaillemur.analyst.analysislogic.dorametric.LeadTimeForChange;
 import com.ringtaillemur.analyst.analysislogic.dorametric.TimeToRestoreService;
 import com.ringtaillemur.analyst.analysislogic.dorametric.UpdateCommitsReleaseId;
-import com.ringtaillemur.analyst.dto.ReleaseDto;
-import com.ringtaillemur.analyst.restapi.GetCommitsCompare;
 
-// test8
 public class TimerTriggerFunction {
 
 	LeadTimeForChange leadTimeForChange = LeadTimeForChange.getLeadTimeForChange();
@@ -28,7 +17,7 @@ public class TimerTriggerFunction {
 
 	@FunctionName("TimerTrigger-Java")
 	public void run(
-		@TimerTrigger(name = "timerInfo", schedule = "1-50 * * * * *") String timerInfo,
+		@TimerTrigger(name = "timerInfo", schedule = "* */1 * * * *") String timerInfo,
 		final ExecutionContext context) throws Exception {
 		updateCommitsReleaseId.calculateUpdateCommitsReleaseId();
 		leadTimeForChange.calculateLeadTimeForChange();
