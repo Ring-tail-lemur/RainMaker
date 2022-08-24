@@ -17,7 +17,8 @@ async function issueMain(hookBody, cloudEventObj, context){
 
     try{
         //label이 되어있으면 그냥 집어넣자~
-        cloudEventObj.labelNameList = await labellingModule.issueLabeling(hookBody, context);
+        cloudEventObj.label_name_list = await labellingModule.issueLabeling(hookBody, context);
+        cloudEventObj.label_id_list = await labellingModule.issueLabelingId(hookBody, context);
         return cloudEventObj;
     }catch(e){
         return cloudEventObj;

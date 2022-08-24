@@ -6,6 +6,7 @@ const pullRequestReviewMainModule = require('./review/pullRequestReviewMainModul
 const deduplicationRepository = require('./deduplicate/deduplicationRepository')
 const releaseMainModule = require('./release/releaseMainModule');
 const labelMainModule = require("./label/labelMainModule");
+const issueMainModule = require('./issue/issueMainModule');
 // const pool = require('./ms-sql/msSQLPool');
 
 async function controllerMain(eventObj, context, pool){

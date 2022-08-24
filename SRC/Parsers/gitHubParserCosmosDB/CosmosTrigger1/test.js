@@ -14,6 +14,8 @@ const jsonData7 = require('./_test_json_file/pullRequsetClosedTest.json');
 const jsonData8 = require('./_test_json_file/releaseCreatedTest.json');
 const jsonData9 = require('./_test_json_file/createTagTest.json');
 const jsonData10 = require('./_test_json_file/labelTest.json');
+const jsonData11 = require('./_test_json_file/issuesLabeledTest.json');
+
 
 const a = []
 // a.push(jsonData1);
@@ -30,10 +32,11 @@ const a = []
 // a.push(jsonData5);
 // a.push(jsonData6);
 // a.push(jsonData7);
-a.push(jsonData8);
+// a.push(jsonData8);
 // a.push(jsonData9);
 // a.push(jsonData9);
 // a.push(jsonData10);
+a.push(jsonData11);
 
 const context = console
 index(context,a);
