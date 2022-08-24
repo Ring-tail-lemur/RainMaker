@@ -14,6 +14,7 @@ async function issueMain(hookBody, cloudEventObj, context){
     cloudEventObj.repository_owner_type = JSON.stringify(hookBody.repository.owner.type).replace(/['"]+/g, '');
     cloudEventObj.repository_owner_id = JSON.stringify(hookBody.repository.owner.id).replace(/['"]+/g, '');
     cloudEventObj.action_time = JSON.stringify(hookBody.issue.updated_at).replace(/['"]+/g, '');
+    cloudEventObj.state = JSON.stringify(hookBody.issue.state).replace(/['"]+/g, '');
 
     try{
         //label이 되어있으면 그냥 집어넣자~

@@ -12,10 +12,10 @@ async function issueMain(pool, eventObject, context){
     }
     console.log("issue_label_id", issue_label_id);
     if(eventObject.action == 'opened') {
-        await issueRepository.insertIssueByRepoIdAndLabelId(pool, eventObject.issue_remote_id, eventObject.repository_remote_id, eventObject.actor_remote_id, eventObject.action, issue_label_id, context);
+        await issueRepository.insertIssueByRepoIdAndLabelId(pool, eventObject.issue_remote_id, eventObject.repository_remote_id, eventObject.actor_remote_id, eventObject.state, issue_label_id, context);
         await issueRepository.insertIssueEventByIssueIdAndUserId(pool, eventObject.X_GitHub_Delivery, eventObject.action, eventObject.action_time, eventObject.actor_remote_id, eventObject.issue_remote_id, context);
     } else if (eventObject.action == 'labeled' || eventObject.action == 'unlabeled' || eventObject.action == 'edited' || eventObject.action == 'reopened' || eventObject.action == 'closed') {
-        await issueRepository.updateIssueByIssueIdAndRepoId(pool, eventObject.issue_remote_id, eventObject.repository_remote_id, eventObject.action, issue_label_id);
+        await issueRepository.updateIssueByIssueIdAndRepoId(pool, eventObject.issue_remote_id, eventObject.repository_remote_id, eventObject.state, issue_label_id);
         await issueRepository.insertIssueEventByIssueIdAndUserId(pool, eventObject.X_GitHub_Delivery, eventObject.action, eventObject.action_time, eventObject.actor_remote_id, eventObject.issue_remote_id, context);
     } else if (eventObject.action == 'deleted') {
         // todo : delete됐을 경우를 처리해야함.

@@ -7,21 +7,39 @@ import com.ringtaillemur.analyst.analysislogic.dorametric.ChangeFailureRate;
 import com.ringtaillemur.analyst.analysislogic.dorametric.LeadTimeForChange;
 import com.ringtaillemur.analyst.analysislogic.dorametric.TimeToRestoreService;
 import com.ringtaillemur.analyst.analysislogic.dorametric.UpdateCommitsReleaseId;
+<<<<<<< HEAD
 
+=======
+import com.ringtaillemur.analyst.dto.ReleaseDto;
+import com.ringtaillemur.analyst.restapi.GetCommitsCompare;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
+import org.json.JSONArray;
+import org.json.JSONObject;
+
+// test what?
+>>>>>>> 74ad07cbc17aaec754a8a8ea340a4a603b2ac933
 public class TimerTriggerFunction {
 
-	LeadTimeForChange leadTimeForChange = LeadTimeForChange.getLeadTimeForChange();
-	ChangeFailureRate changeFailureRate = ChangeFailureRate.getChangeFailureRate();
-	TimeToRestoreService timeToRestoreService = TimeToRestoreService.getTimeToRestoreService();
-	UpdateCommitsReleaseId updateCommitsReleaseId = UpdateCommitsReleaseId.getUpdateCommitsReleaseId();
+  LeadTimeForChange leadTimeForChange = LeadTimeForChange.getLeadTimeForChange();
+  ChangeFailureRate changeFailureRate = ChangeFailureRate.getChangeFailureRate();
+  TimeToRestoreService timeToRestoreService = TimeToRestoreService.getTimeToRestoreService();
+  UpdateCommitsReleaseId updateCommitsReleaseId = UpdateCommitsReleaseId.getUpdateCommitsReleaseId();
 
-	@FunctionName("TimerTrigger-Java")
-	public void run(
-		@TimerTrigger(name = "timerInfo", schedule = "* */1 * * * *") String timerInfo,
-		final ExecutionContext context) throws Exception {
-		updateCommitsReleaseId.calculateUpdateCommitsReleaseId();
-		leadTimeForChange.calculateLeadTimeForChange();
-		changeFailureRate.calculateChangeFailureRate();
-		timeToRestoreService.calculateTimeToRestoreService();
-	}
+  @FunctionName("TimerTrigger-Java")
+  public void run(
+    @TimerTrigger(
+      name = "timerInfo",
+      schedule = "1-50 * * * * *"
+    ) String timerInfo,
+    final ExecutionContext context
+  )
+    throws Exception {
+    updateCommitsReleaseId.calculateUpdateCommitsReleaseId();
+    leadTimeForChange.calculateLeadTimeForChange();
+    changeFailureRate.calculateChangeFailureRate();
+    timeToRestoreService.calculateTimeToRestoreService();
+  }
 }
