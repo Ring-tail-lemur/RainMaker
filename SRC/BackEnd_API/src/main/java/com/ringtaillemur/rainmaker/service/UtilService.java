@@ -41,7 +41,7 @@ public class UtilService {
 					x.getValue()
 						.stream()
 						.map(getAnalysisValue)
-						.collect(Collectors.toList())
+						.toList()
 				)
 			)
 			.collect(Collectors.toMap(AbstractMap.SimpleEntry::getKey, AbstractMap.SimpleEntry::getValue));
