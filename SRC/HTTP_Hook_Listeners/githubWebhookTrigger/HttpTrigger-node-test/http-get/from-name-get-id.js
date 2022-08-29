@@ -1,9 +1,11 @@
 const { delay } = require('@azure/core-amqp');
 const axios = require('axios');
 async function getUserIdFromName(name,context){
+    //TODO github token 받는 부분
+    const gitToken = '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';
     const uri = 'https://api.github.com/users/'+name;
     const headers = {
-        'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_5_2) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/32.webkit'
+        'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_5_2) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/32.webkit', 'Authorization': 'Bearer ' + gitToken
     }
     for(let i = 0; i< 3; i++){
         try{
