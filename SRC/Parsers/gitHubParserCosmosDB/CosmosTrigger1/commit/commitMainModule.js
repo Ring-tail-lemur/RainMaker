@@ -8,7 +8,7 @@ async function commitMain(pool, eventObject, context){
 
     //pull_request_commit_table 생성 및 삽입
     try {
-        await commitCreateRepository.insertCommitByUserId(pool, eventObject.commit_sha, eventObject.commit_author_id, eventObject.commit_message, eventObject.commit_time);
+        await commitCreateRepository.insertCommitByUserId(pool, eventObject.commit_sha, eventObject.commit_author_id, eventObject.commit_message, eventObject.commit_time, context);
     } catch (e) {
         context.log(e);
     }
