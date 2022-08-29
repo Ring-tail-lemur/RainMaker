@@ -4,6 +4,7 @@ async function getUserIdFromName(name,context){
     //TODO github token 받는 부분
     const gitToken = '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';
     const uri = 'https://api.github.com/users/'+name;
+    context.log(uri);
     const headers = {
         'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_5_2) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/32.webkit', 'Authorization': 'Bearer ' + gitToken
     }
@@ -14,6 +15,7 @@ async function getUserIdFromName(name,context){
                 url: uri,
                 headers: headers,
             });
+            context.log("get id"+body.data.id);
             return JSON.stringify(body.data.id);
         }catch(e){
             context.log("error ocurred in commit http get");
