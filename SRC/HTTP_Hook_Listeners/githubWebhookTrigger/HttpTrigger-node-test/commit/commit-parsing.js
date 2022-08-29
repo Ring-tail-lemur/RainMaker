@@ -1,12 +1,13 @@
 const sendModule = require('../event-hub/send.js');
 const getIdFromNameModule = require('../http-get/from-name-get-id.js');
-
+const timeModule = require('../utils/getCurrentTimeModule.js');
 //test
 async function parsingCommit(context, commitObj, parent_pull_request_remote_identifier){
     const eventHubCommitObj = new Object();
     eventHubCommitObj.source = 'github';
     eventHubCommitObj.hook_event = 'commit';
     eventHubCommitObj.action = 'commit';
+    eventHubCommitObj.event_triggered_time = (await timeModule.getCurrentTime()).replace(/['"]+/g, '');
     eventHubCommitObj.parent_pull_request_remote_identifier = parent_pull_request_remote_identifier;
     eventHubCommitObj.commit_sha = JSON.stringify(commitObj.sha).replace(/['"]+/g, '');
     eventHubCommitObj.parent_commit_sha = JSON.stringify(commitObj.parents.sha);
