@@ -23,4 +23,4 @@ async function getUserIdFromName(name,context){
         delay(100);
     }
 }
-module.exports.getUserId = getUserIdFromName;
+module.exports.getUserIdFromName = getUserIdFromName;
