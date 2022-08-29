@@ -11,7 +11,7 @@ async function getUserIdFromName(name,context){
     for(let i = 0; i< 3; i++){
         try{
             const body = await axios({
-                method: 'GET',
+                method:'GET',
                 url: uri,
                 headers: headers,
             });
