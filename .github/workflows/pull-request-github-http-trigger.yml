@@ -1,4 +1,4 @@
-    name: github trigger [Deploy]
+    name: github trigger pull request Testing
     
     on:
       pull_request:
