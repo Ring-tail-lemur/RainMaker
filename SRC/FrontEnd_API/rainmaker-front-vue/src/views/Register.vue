@@ -35,21 +35,22 @@ export default {}
 
 #functionExplanation {
   font-family: 'Dongle', sans-serif;
-  font-family: 'Jua', sans-serif;
+  font-size: 25px;
   margin: 30px;
 }
 
 #functionName {
   margin-bottom: 10px;
   font-family: 'Jua', sans-serif;
+  font-size: 25px;
 }
 
 #topLogo {
   margin: 0 auto;
-  margin-top: 30px;
-  margin-bottom: 20px;
+  margin-top: 20px;
+  margin-bottom: 10px;
   padding: 0;
-  height: 100px;
+  height: 70px;
   display: block;
   align-self: center;
 }
