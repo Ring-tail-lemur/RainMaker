@@ -205,6 +205,10 @@ const pages = [
     name: 'Tables',
     icon: MenuIcon,
     to: 'tables'
+  },
+  {
+    name: 'Login',
+    to: 'login'
   }
 ]
 
