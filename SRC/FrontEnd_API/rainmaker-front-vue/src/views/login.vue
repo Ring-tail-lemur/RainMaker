@@ -10,23 +10,23 @@
     <div class="login">
       <div>
         <div class="githubExplain">
-          <div style="margin-bottom: 10px;">
+          <div style="margin-bottom: 10px; " id="titleFont">
             RainMaker
           </div>
           <hr id="line">
-          <div style="margin-bottom: 50px; padding: 0 30px">
+          <div style="margin-bottom: 50px; padding: 0 30px" id="contentFont">
             팀의 생산성 향상을 원하시고,
             추적하시고 싶으시다면 로그인하세요. Git을 기반으로 이루어지기 때문에 필수적으로 Git의 접근권한이 필요합니다.
           </div>
-          <div style="padding: 0 30px">
+          <div style="padding: 0 30px" id="contentFont">
             오른쪽에 서비스로 편리하게 로그인, 회원가입하세요
           </div>
         </div>
         <div class="loginBox">
           <div class="logo">
-            로고
+            <Logo/>
           </div>
-          <div class="loginTitle">
+          <div class="loginTitle" id="titleFont">
             로그인
           </div>
           <div class="loginInnerBox">
@@ -36,11 +36,11 @@
               </button>
             </div>
           </div>
-          <div class="githubLoginText">
+          <div class="githubLoginText" id="contentFont">
             GitHub
           </div>
           <div class="githubRegister">
-            <button class="githubRegisterButton">
+            <button class="githubRegisterButton"  id="contentFont">
               회원가입
             </button>
           </div>
@@ -52,8 +52,12 @@
 
 <script>
 import Button from "./Buttons.vue";
+import Logo from "../components/Logo.vue"
 export default {
-  components: {Button}
+  components: {
+    Button,
+    Logo,
+  }
 }
 </script>
 
@@ -150,9 +154,8 @@ export default {
 }
 
 .loginTitle {
-  margin-bottom: 40px;
+  margin-bottom: 20px;
   font-size: 24px;
-  font-weight:bold;
 }
 .logo{
   margin-bottom: 50px;
@@ -175,11 +178,12 @@ export default {
 
 #contentFont {
   font-family: 'Dongle', sans-serif;
-  font-family: 'Jua', sans-serif;
+  font-size: 25px;
 }
 
 #titleFont {
   font-family: 'Jua', sans-serif;
+  font-size: 25px;
 }
 
 </style>
