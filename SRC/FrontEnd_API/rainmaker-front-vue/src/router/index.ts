@@ -40,6 +40,14 @@ const router = createRouter({
       meta : {
         header : false
       }
+    },
+    {
+      path: '/register',
+      name: 'register',
+      component: () => import('../views/Register.vue'),
+      meta : {
+        header : false
+      }
     }
   ]
 })
