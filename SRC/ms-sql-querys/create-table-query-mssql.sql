@@ -107,8 +107,7 @@ CREATE TABLE pull_request_direction -- 특수 로직
     source_pull_request_id           BIGINT,
     outgoing_pull_request_id         BIGINT,
     created_date                     DATETIME2 NOT NULL DEFAULT GETDATE(),
-    modified_date                    DATETIME2 NOT NULL DEFAULT GETDATE(),
-    lead_time_for_change_process_end BIT       NOT NULL DEFAULT 0
+    modified_date                    DATETIME2 NOT NULL DEFAULT GETDATE()
 );
 
 CREATE TABLE issue

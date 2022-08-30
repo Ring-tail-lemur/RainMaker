@@ -51,3 +51,21 @@ select repository_id, repository.name as repository_name, ISNULL(git_user.name, 
 from repository
          left join git_user ON repository.owner_user_id = git_user_id
          left join git_organization on repository.owner_organization_id = git_organization_id;
+------------------------------------------------------------------------------------------------------------------------
+CREATE VIEW pr_direction_source_count AS
+SELECT prd.outgoing_pull_request_id      AS pr_id,
+       count(prd.source_pull_request_id) AS source_count
+FROM pull_request_direction prd
+GROUP BY prd.outgoing_pull_request_id
+------------------------------------------------------------------------------------------------------------------------
+CREATE VIEW pr_first_commit_times AS
+SELECT pr_commit_table.pull_request_id as pr_id,
+             min(c.commit_time) as first_commit_time
+      FROM pull_request_commit_table pr_commit_table
+               join commits c on pr_commit_table.commit_id = c.commit_id
+      GROUP BY pr_commit_table.pull_request_id
+------------------------------------------------------------------------------------------------------------------------
+CREATE VIEW pr_first_review_times AS
+SELECT pull_request_id AS pr_id, MIN(pr_comment.event_time) first_review_time
+      FROM pull_request_comment pr_comment
+      GROUP BY pull_request_id
