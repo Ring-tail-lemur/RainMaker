@@ -8,7 +8,10 @@ const router = createRouter({
     {
       path: '/',
       name: 'home',
-      component: HomeView
+      component: HomeView,
+      meta : {
+        header : true
+      }
     },
     {
       path: '/about',
@@ -33,7 +36,10 @@ const router = createRouter({
     {
       path: '/login',
       name: 'login',
-      component: () => import('../views/login.vue')
+      component: () => import('../views/login.vue'),
+      meta : {
+        header : false
+      }
     }
   ]
 })
