@@ -5,8 +5,21 @@ spring:
       client:
         registration:
           github:
-            clientId: dac63dfd5020629a9124
-            clientSecret: 095dfb0d0d15acf44c1fdfb72fd0625c0d0fc91a
+            redirectUri: "http://127.0.0.1:8080/login/oauth2/code/github"
+            clientId: 8189c16057d124b9324e
+            clientSecret: e5231059eb31aa50d69a6a2154708a8a3f88954d
+            scope:
+              - repo
+              - repo:status
+              - repo_deployment
+              - public_repo
+              - repo:invite
+              - admin:repo_hook
+              - write:repo_hook
+              - read:repo_hook
+              - admin:org
+              - admin:public_key
+
 
 
 # ...
