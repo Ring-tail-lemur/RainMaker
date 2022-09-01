@@ -1,0 +1,22 @@
+{
+  "commits": {
+    "request": {
+      "method": "GET",
+      "url": "https://api.github.com/repos/{OWNER}/{REPO}/commits/",
+      "header": {
+      },
+      "path_parameters": {
+        "owner": "Ring-tail-lemur",
+        "repo": "test-for-fake-project"
+      },
+      "query_parameters": {
+      }
+    },
+    "mapping": {
+      "sha": "commit_id",
+      "author.id": "author_id",
+      "commit.message": "message",
+      "commit.author.date": "commit_time"
+    }
+  }
+}
