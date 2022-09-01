@@ -8,6 +8,7 @@ import "bootstrap"
 
 const app = createApp(App)
 
+app.config.globalProperties.defaultURL = "http://localhost:8080";
 app.use(router)
 app.mount('#app')
 /** test1 */

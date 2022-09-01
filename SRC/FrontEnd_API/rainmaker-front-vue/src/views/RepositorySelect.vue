@@ -10,7 +10,7 @@
     <div class="login">
       <div>
         <div class="loginBox">
-          <div>
+          <div style="margin-bottom: 7px">
             리포지토리 선택
           </div>
           <div>
@@ -29,7 +29,7 @@
                     </div>
 
                     <div style="float: left; width: 20%; height: 100%">
-                      비고
+                      마지막 사용
                     </div>
                   </div>
 
@@ -47,7 +47,7 @@
                     </div>
 
                     <div style="float: left; width: 20%; height: 100%">
-                      aa
+                      {{item.pushed_at}}
                     </div>
                   </div>
 
@@ -64,15 +64,28 @@
 </template>
 
 <script>
+import axios from "axios";
 export default {
   name: "RepositorySelect",
   data() {
     return {
       list : [
-        {id:"123141121111", organization: "인혁", repository: "RainMaker"},
-        {id:"123141132222", organization: "종현", repository: "test-for-fake-project"},
-        {id:"123141143333", organization: "동인", repository: "gugudan"},
+        // {id:"123141121111", organization: "인혁", repository: "RainMaker", pushed_at : "2022-06-08T10:06:50Z"},
+        // {id:"123141132222", organization: "종현", repository: "test-for-fake-project", pushed_at : "2022-06-08T10:06:50Z"},
+        // {id:"123141143333", organization: "동인", repository: "gugudan", pushed_at : "2022-06-08T10:06:50Z"},
       ]
+    }
+  },
+  created() {
+    this.getList();
+  },
+  methods : {
+    async getList () {
+      const RepositoryInfo = await axios({
+        method: "get",
+        url: this.defaultURL + "/RepositorySelect",
+      });
+      this.list = RepositoryInfo.data;
     }
   }
 }
@@ -140,5 +153,10 @@ export default {
 #titleFont {
   font-family: 'Jua', sans-serif;
   font-size: 20px;
+}
+
+.h-screen {
+  min-height: 100vh;
+  height: auto;
 }
 </style>
