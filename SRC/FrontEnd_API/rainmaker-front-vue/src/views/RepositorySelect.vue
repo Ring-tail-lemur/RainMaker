@@ -14,7 +14,7 @@
             리포지토리 선택
           </div>
           <div>
-            <form method="post" action="http://localhost:8080/">
+            <form method="post" action="http://localhost:8080/RepositorySelect">
               <ul class="list-group">
                 <li class="list-group-item">
                   <div>
@@ -37,7 +37,7 @@
                 <li v-for="item in list" class="list-group-item">
                   <div>
                     <div style="float: left; width: 5%; ">
-                      <input class="form-check-input me-1" type="checkbox" value="" aria-label="..." v-bind:name="item.id">
+                      <input class="form-check-input me-1" type="checkbox" aria-label="..." name="repo_id" v-bind:value="item.id" >
                     </div>
                     <div style="float: left; width: 30%; height: 100%">
                       {{item.organization}}
@@ -69,9 +69,9 @@ export default {
   data() {
     return {
       list : [
-        {id:"12314112", organization: "인혁", repository: "RainMaker"},
-        {id:"12314113", organization: "종현", repository: "test-for-fake-project"},
-        {id:"12314114", organization: "동인", repository: "gugudan"},
+        {id:"123141121111", organization: "인혁", repository: "RainMaker"},
+        {id:"123141132222", organization: "종현", repository: "test-for-fake-project"},
+        {id:"123141143333", organization: "동인", repository: "gugudan"},
       ]
     }
   }
