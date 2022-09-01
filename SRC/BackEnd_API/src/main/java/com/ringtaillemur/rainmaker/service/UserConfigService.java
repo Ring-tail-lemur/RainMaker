@@ -21,7 +21,7 @@ public class UserConfigService {
 
         for(var organization : OrganizationArray){
             String organizationName = ((JSONObject) organization).getString("login");
-            getRepositoryListByGithubApi(organizationName);
+            getRepositoryListByGithubApi(organizationName, token);
         }
 
         return null;
@@ -53,7 +53,29 @@ public class UserConfigService {
         }
     }
 
-    public static <T> ArrayList<T> getRepositoryListByGithubApi(String organizationName) {
-        return null;
+    public JSONArray getRepositoryListByGithubApi(String organizationName, String token) {
+
+        try {
+            URL url = new URL(String.format("https://api.github.com/orgs/%s/repos", organizationName));
+            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+
+            conn.setRequestMethod("GET");
+            conn.setRequestProperty("accept", "application/vnd.github+json"); // header Content-Type 정보
+            conn.setRequestProperty("Authorization", "Bearer " + token); // header Content-Type 정보
+            conn.setDoOutput(true); // 서버로부터 받는 값이 있다면 true
+
+            BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+            StringBuilder sb = new StringBuilder();
+            String line = null;
+
+            while ((line = br.readLine()) != null) { // 읽을 수 있을 때 까지 반복
+                sb.append(line);
+            }
+
+            return new JSONArray(sb.toString());
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new JSONArray();
+        }
     }
 }
