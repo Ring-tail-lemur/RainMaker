@@ -1,5 +1,6 @@
 package com.example.demo;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpStatus;
@@ -19,13 +20,12 @@ public class SecurityConfiguration {
         //http.authorizeRequests().anyRequest().authenticated().and().formLogin().and().httpBasic();/
         http
                 .authorizeRequests(a -> a
-                        .antMatchers("/", "/error", "/webjars/**").permitAll()
+                        .antMatchers("/", "/error", "/webjars/**", "/login/**", "/login/oauth2/code/github").permitAll()
                         .anyRequest().authenticated()
                 )
                 .exceptionHandling(e -> e
                         .authenticationEntryPoint(new HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED))
-                ).oauth2Login();
-
+                ).oauth2Login().redirectionEndpoint().baseUri("/oauth2/auth/code/github");
         return http.build();
     }
 }
