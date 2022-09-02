@@ -32,7 +32,7 @@ public class MainController{
 
 
     @GetMapping("/login/oauth2/code/github")
-    public void testMap2(@RequestParam(value = "code", required = false, defaultValue = "test")String code,
+    public String testMap2(@RequestParam(value = "code", required = false, defaultValue = "test")String code,
                          @RequestParam(value = "state", required = false, defaultValue = "test")String state) throws IOException {
         String clientId = "8189c16057d124b9324e";
         String clientSecret = "e5231059eb31aa50d69a6a2154708a8a3f88954d";
@@ -85,6 +85,7 @@ public class MainController{
         http.disconnect();
         System.out.println(inputLine);
         stringToJson(inputLine);
+        return inputLine;
     }
     public void stringToJson(String inputString){
         GsonBuilder gsonBuilder = new GsonBuilder();

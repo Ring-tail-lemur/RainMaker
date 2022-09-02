@@ -1,42 +1,34 @@
 package com.ringtaillemur.rainmaker.domain;
 
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Entity
-@Getter
+@Data
 @NoArgsConstructor
+@Table(name = "oauth_user")
 public class OAuthUser extends BaseEntity{
+
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     Long id;
+
+    @Column(name = "user_remote_id")
+    Long user_remote_id;
     String name;
-    String html_url;
     String oauth_token;
-    String email;
-
-    @Column(nullable = true)
-    String created_at;
-
-    @Column(nullable = true)
-    String updated_at;
-
+    String url;
     @Builder
-    public OAuthUser(Long id, String name, String html_url, String token, String email){
-        this.id = id;
+    public OAuthUser(Long id, String name, String url, String token){
+        this.user_remote_id = id;
         this.name = name;
         this.oauth_token = token;
-        this.html_url = html_url;
-        this.email = email;
+        this.url = url;
     }
 
     public OAuthUser update(String oauth_token){
         this.oauth_token = oauth_token;
         return this;
     }
-
 }
