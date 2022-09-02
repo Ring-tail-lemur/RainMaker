@@ -1,34 +1,26 @@
-package com.example.demo;
+package com.ringtaillemur.rainmaker.controller.maindashboard.api;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.core.util.BufferRecycler;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.google.gson.JsonObject;
-import net.minidev.json.JSONArray;
-import net.minidev.json.JSONObject;
-import net.minidev.json.parser.JSONParser;
-import org.springframework.http.*;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.oauth2.core.user.OAuth2User;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.ResponseEntity;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.net.*;
-import java.util.Collections;
-import java.util.Map;
+import java.net.HttpURLConnection;
+import java.net.URL;
 
-@RestController
-public class MainController{
+public class OAuthContoller {
 
 
     @GetMapping("/login/oauth2/code/github")
@@ -84,15 +76,15 @@ public class MainController{
         inputLine = bufferedReader.readLine();
         http.disconnect();
         System.out.println(inputLine);
-        stringToJson(inputLine);
+//        stringToJson(inputLine);
     }
-    public void stringToJson(String inputString){
-        GsonBuilder gsonBuilder = new GsonBuilder();
-        gsonBuilder.setPrettyPrinting();
-        Gson gson = gsonBuilder.create();
-        User user = gson.fromJson(inputString, User.class);
-
-        System.out.println(user.name);
-        System.out.println(user.organizations_url);
-    }
+//    public void stringToJson(String inputString){
+//        GsonBuilder gsonBuilder = new GsonBuilder();
+//        gsonBuilder.setPrettyPrinting();
+//        Gson gson = gsonBuilder.create();
+//        User user = gson.fromJson(inputString, User.class);
+//
+//        System.out.println(user.name);
+//        System.out.println(user.organizations_url);
+//    }
 }
