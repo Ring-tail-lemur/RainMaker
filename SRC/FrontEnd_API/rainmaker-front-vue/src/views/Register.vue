@@ -13,9 +13,9 @@
           <hr id="line">
           <p id="functionExplanation">아래의 서비스로 편리하게<br>
             연동하여 회원가입 하세요</p>
-            <button id="githubRegisterButton" onclick="alert('clicked')">
-              <i class="fa fa-github" style="font-size:48px"></i>
-            </button>
+          <button id="githubRegisterButton" v-on:click="registerWithGithubOAuth">
+            <i class="fa fa-github" style="font-size:48px"></i>
+          </button>
         </div>
       </div>
     </div>
@@ -23,7 +23,38 @@
 </template>
 
 <script>
-export default {}
+import axios from "axios";
+
+export default {
+  methods: {
+    registerWithGithubOAuth : function registerWithGithubOAuth() {
+      let clientID = "549e791147c93aef5e5c"
+      let clientSecret = "f4376df5afc35b2310c8feb9a82cdc641d8b378d"
+      // alert("hello")
+
+      // axios.get({
+      //   method: 'get',
+      //   url: `https://github.com/login/oauth/authorize?client_id=${clientID}`,
+      //   headers: {
+      //     accept: 'application/json',
+      //   },
+      //   params: {
+      //     // client_id: clientID,
+      //     // client_secret: clientSecret
+      //   }
+      // })
+      window.location.replace("https://github.com/login/oauth/authorize?client_id=549e791147c93aef5e5c");
+      // axios.get('https://github.com/login/oauth/authorize?client_id=549e791147c93aef5e5c').then((response)=>{
+      //   console.log(response.data);
+      // }).catch((error)=>{
+      //   console.log(error);
+      // })
+    }
+  }
+};
+
+
+
 </script>
 
 <style>

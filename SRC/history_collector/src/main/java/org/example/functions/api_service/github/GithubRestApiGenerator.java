@@ -14,12 +14,18 @@ public class GithubRestApiGenerator {
 
 	private String repositoryName;
 	private String ownerName;
-	private String Token;
+	private String token;
 
 	public GithubRestApiGenerator(String repositoryName, String ownerName, String token) {
 		this.repositoryName = repositoryName;
 		this.ownerName = ownerName;
-		Token = token;
+		this.token = token;
+	}
+
+	public GithubRestApiGenerator(Map<String, String> requestQueryParameters) {
+		this.repositoryName = requestQueryParameters.get("repository_id");
+		this.ownerName = requestQueryParameters.get("owner_name");
+		this.token = requestQueryParameters.get("token");
 	}
 
 	public List<GithubRestApiDto> getGithubRestApiDtoList(JSONObject configJSONObject) {
@@ -38,6 +44,7 @@ public class GithubRestApiGenerator {
 		JSONObject request = (JSONObject)configElementJSONObject.get("request");
 		JSONObject queryParameters = (JSONObject)request.get("query_parameters");
 		JSONObject header = (JSONObject)request.get("header");
+		header.append("token", token);
 		JSONObject pathParameters = (JSONObject)request.get("path_parameters");
 		String method = (String)request.get("method");
 		String rawUrl = (String)request.get("url");
