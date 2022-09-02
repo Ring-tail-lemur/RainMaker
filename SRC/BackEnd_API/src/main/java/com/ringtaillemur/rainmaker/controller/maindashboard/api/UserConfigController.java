@@ -29,6 +29,15 @@ public class UserConfigController {
     @PostMapping("/RepositorySelect")
     public String userRepositoryRegisterRestAPI(@RequestParam(name="repo_id") List<String> repoIds) {
         System.out.println(repoIds);
+        // todo: repoId, token, repo Name, owner Name (Organization Name), 이걸로 azure function을 호출.
+        // todo: Webhook 등록.
         return "redirect:http://localhost:3000/";
     }
 }
+
+/*
+todo 웹훅 등록
+* curl -H "Authorization: Bearer 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" -i https://api.github.com/hub -F "hub.mode=subscribe" -F "hub.topic=https://github.com/Ring-tail-lemur/test-for-fake-project/events/push" -F "hub.callback=https://webhook.site/3d6e59ed-e609-434a-bf0c-52cd3c563062"
+* curl -H "Authorization: Bearer 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" -i https://api.github.com/hub -F "hub.mode=subscribe" -F "hub.topic=https://github.com/Ring-tail-lemur/test-for-fake-project/events/pull_request" -F "hub.callback=https://webhook.site/3d6e59ed-e609-434a-bf0c-52cd3c563062"
+*
+* */
