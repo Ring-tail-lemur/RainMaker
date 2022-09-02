@@ -23,7 +23,7 @@ public class GithubRestApiGenerator {
 	}
 
 	public GithubRestApiGenerator(Map<String, String> requestQueryParameters) {
-		this.repositoryName = requestQueryParameters.get("repository_id");
+		this.repositoryName = requestQueryParameters.get("repository_name");
 		this.ownerName = requestQueryParameters.get("owner_name");
 		this.token = requestQueryParameters.get("token");
 	}
@@ -34,13 +34,13 @@ public class GithubRestApiGenerator {
 		Iterator<String> configElementKeys = configJSONObject.keys();
 		while (configElementKeys.hasNext()) {
 			String configElementKey = configElementKeys.next();
-			GithubRestApiDto githubRestApiDto = getGithubRestApiDto((JSONObject)configJSONObject.get(configElementKey));
+			GithubRestApiDto githubRestApiDto = getGithubRestApiDto((JSONObject)configJSONObject.get(configElementKey), configElementKey);
 			githubRestApiDtoList.add(githubRestApiDto);
 		}
 		return githubRestApiDtoList;
 	}
 
-	public GithubRestApiDto getGithubRestApiDto(JSONObject configElementJSONObject) {
+	public GithubRestApiDto getGithubRestApiDto(JSONObject configElementJSONObject, String requestType) {
 		JSONObject request = (JSONObject)configElementJSONObject.get("request");
 		JSONObject queryParameters = (JSONObject)request.get("query_parameters");
 		JSONObject header = (JSONObject)request.get("header");
@@ -51,7 +51,7 @@ public class GithubRestApiGenerator {
 		String url = bindPathParameters(rawUrl, pathParameters) + getStringQueryParameters(queryParameters);
 
 		try {
-			return new GithubRestApiDto(new URL(url), header, method);
+			return new GithubRestApiDto(requestType, new URL(url), header, method);
 		} catch (MalformedURLException e) {
 			throw new RuntimeException(e);
 		}

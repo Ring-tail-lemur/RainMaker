@@ -2,7 +2,7 @@
   "commits": {
     "request": {
       "method": "GET",
-      "url": "https://api.github.com/repos/{OWNER}/{REPO}/commits/",
+      "url": "https://api.github.com/repos/{OWNER}/{REPO}/commits",
       "header": {
       },
       "path_parameters": {

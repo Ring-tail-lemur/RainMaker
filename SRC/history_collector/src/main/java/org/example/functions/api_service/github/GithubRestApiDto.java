@@ -10,6 +10,7 @@ import lombok.Data;
 @Data
 @AllArgsConstructor
 public class GithubRestApiDto {
+	private String requestType;
 	private URL url;
 	private JSONObject header;
 	private String method;
