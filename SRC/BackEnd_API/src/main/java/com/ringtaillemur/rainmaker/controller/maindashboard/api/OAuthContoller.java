@@ -19,13 +19,13 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.Optional;
 
 @RestController
 public class OAuthContoller {
@@ -83,7 +83,6 @@ public class OAuthContoller {
         }
         inputLine = bufferedReader.readLine();
         http.disconnect();
-        System.out.println(inputLine);
         OAuthUser inputOAuthUser = stringToJson(inputLine, userAccessToken);
 
 //
@@ -107,11 +106,26 @@ public class OAuthContoller {
 
         JsonUser user = gson.fromJson(inputString, JsonUser.class);
         user.oauth_token = OauthToken;
-        System.out.println("user.toString() : "+user.oauth_token);
+        System.out.println("user.oauth_token : "+user.oauth_token);
 
-        OAuthUser oAuthUser  = new OAuthUser(user.id, user.name, user.url, user.oauth_token);
-        System.out.println(oAuthUser);
-        oAuthRepository.save(oAuthUser);
+
+        OAuthUser oAuthUser  = new OAuthUser(user.id, user.login, user.url, user.oauth_token);
+        try{
+            Optional<OAuthUser> tmpUser = oAuthRepository.findByUserRemoteId(oAuthUser.getUserRemoteId());
+            System.out.println("pres! : "+tmpUser.get().toString());
+            tmpUser.get().update(oAuthUser.getOauthToken());
+            oAuthRepository.save(tmpUser.get());
+        }catch (Exception e){
+            oAuthRepository.save(oAuthUser);
+        }
+
+//        System.out.println(tmpUser.get().getUserRemoteId());
+//        if(tmpUser.isPresent()) {
+//
+//        }else {
+//
+//        }
+
         return oAuthUser;
     }
 
@@ -119,6 +133,6 @@ public class OAuthContoller {
         String oauth_token;
         Long id;
         String url;
-        String name;
+        String login;
     }
 }

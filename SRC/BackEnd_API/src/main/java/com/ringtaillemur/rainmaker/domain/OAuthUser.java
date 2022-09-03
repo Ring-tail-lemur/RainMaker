@@ -6,6 +6,7 @@ import javax.persistence.*;
 
 @Entity
 @Data
+@Setter
 @NoArgsConstructor
 @Table(name = "oauth_user")
 public class OAuthUser extends BaseEntity{
@@ -15,20 +16,20 @@ public class OAuthUser extends BaseEntity{
     Long id;
 
     @Column(name = "user_remote_id")
-    Long user_remote_id;
+    Long userRemoteId;
     String name;
-    String oauth_token;
+    String oauthToken;
     String url;
     @Builder
     public OAuthUser(Long id, String name, String url, String token){
-        this.user_remote_id = id;
+        this.userRemoteId = id;
         this.name = name;
-        this.oauth_token = token;
+        this.oauthToken = token;
         this.url = url;
     }
 
     public OAuthUser update(String oauth_token){
-        this.oauth_token = oauth_token;
+        this.oauthToken = oauth_token;
         return this;
     }
 }
