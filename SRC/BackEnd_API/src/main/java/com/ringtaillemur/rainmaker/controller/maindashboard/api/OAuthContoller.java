@@ -119,13 +119,6 @@ public class OAuthContoller {
             oAuthRepository.save(oAuthUser);
         }
 
-//        System.out.println(tmpUser.get().getUserRemoteId());
-//        if(tmpUser.isPresent()) {
-//
-//        }else {
-//
-//        }
-
         return oAuthUser;
     }
 
