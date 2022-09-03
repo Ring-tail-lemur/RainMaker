@@ -1,0 +1,109 @@
+{
+  "commits": {
+    "request": {
+      "method": "GET",
+      "url": "https://api.github.com/repos/{OWNER}/{REPO}/commits",
+      "header": {
+      },
+      "path_parameters": {
+        "owner": "Ring-tail-lemur",
+        "repo": "test-for-fake-project"
+      },
+      "query_parameters": {
+      }
+    },
+    "mapping": {
+      "sha": "commit_id",
+      "author.id": "author_id",
+      "commit.message": "message",
+      "commit.author.date": "commit_time"
+    }
+  },
+
+  "branch": {
+    "request": {
+      "method": "GET",
+      "url": "https://api.github.com/repos/{OWNER}/{REPO}/commits",
+      "header": {
+        "Accept": "*/*",
+        "User-Agent": "PostmanRuntime/7.29.2"
+      },
+      "path_parameters": {
+        "owner": "Ring-tail-lemur",
+        "repo": "test-for-fake-project"
+      },
+      "query_parameters": {
+        "time": 321
+      }
+    },
+    "mapping": {
+      "sha": "commit_id",
+      "author.id": "author_id",
+      "commit.message": "message",
+      "commit.author.date": "commit_time"
+    }
+  },
+
+  "test": {
+    "request": {
+      "method": "POST",
+      "url": "https://api.github.com/repos/{OWNER}/{REPO}/commits",
+      "header": {
+      },
+      "path_parameters": {
+        "owner": "Ring-tail-lemur",
+        "repo": "test-for-fake-project"
+      },
+      "query_parameters": {
+      }
+    },
+    "mapping": {
+      "sha": "asdf",
+      "author.id": "authasdfor_id",
+      "commit.message": "asdfa",
+      "commit.author.sdf.asdf.fdsa.aas": "ff"
+    }
+  },
+
+  "test2": {
+    "request": {
+      "method": "GET",
+      "url": "https://api.github.com/repos/{OWNER}/{REPO}/commits",
+      "header": {
+      },
+      "path_parameters": {
+        "owner": "Ring-tail-lemur",
+        "repo": "test-for-project"
+      },
+      "query_parameters": {
+      }
+    },
+    "mapping": {
+      "sha": "commit_id",
+      "author.id": "author_id",
+      "commit.message": "message",
+      "commit.author.date": "commit_time"
+    }
+  },
+
+  "tes": {
+    "request": {
+      "method": "UPDATE",
+      "url": "https://github.com/repos/{OWNER}/{REPO}/commits",
+      "header": {
+      },
+      "path_parameters": {
+        "owner": "Ring-asdfas-lemur",
+        "repo": "test-for-fake-project"
+      },
+      "query_parameters": {
+      }
+    },
+    "mapping": {
+      "sha": "commit_id",
+      "author.id": "asdsadf",
+      "commit.message": "message",
+      "commit.author.date": "commit_time"
+    }
+  }
+}

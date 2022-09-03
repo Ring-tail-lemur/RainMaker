@@ -46,3 +46,5 @@ public class HttpTriggerFunction {
 		return request.createResponseBuilder(HttpStatus.OK).body(responseJSONArrayList.toString()).build();
 	}
 }
+
+

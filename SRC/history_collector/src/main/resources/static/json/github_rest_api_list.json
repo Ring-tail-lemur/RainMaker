@@ -6,17 +6,15 @@
       "header": {
       },
       "path_parameters": {
-        "owner": "Ring-tail-lemur",
-        "repo": "test-for-fake-project"
       },
       "query_parameters": {
       }
     },
     "mapping": {
-      "sha": "commit_id",
-      "author.id": "author_id",
-      "commit.message": "message",
-      "commit.author.date": "commit_time"
+      "sha": ["commit_id", "string"],
+      "author.id": ["author_id", "int"],
+      "commit.message": ["message", "string"],
+      "commit.author.date": ["commit_time", "datetime2"]
     }
   }
 }

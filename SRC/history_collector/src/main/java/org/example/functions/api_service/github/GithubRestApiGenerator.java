@@ -34,27 +34,36 @@ public class GithubRestApiGenerator {
 		Iterator<String> configElementKeys = configJSONObject.keys();
 		while (configElementKeys.hasNext()) {
 			String configElementKey = configElementKeys.next();
-			GithubRestApiDto githubRestApiDto = getGithubRestApiDto((JSONObject)configJSONObject.get(configElementKey), configElementKey);
+			GithubRestApiDto githubRestApiDto = getGithubRestApiDto((JSONObject)configJSONObject.get(configElementKey),
+				configElementKey);
 			githubRestApiDtoList.add(githubRestApiDto);
 		}
 		return githubRestApiDtoList;
 	}
 
 	public GithubRestApiDto getGithubRestApiDto(JSONObject configElementJSONObject, String requestType) {
-		JSONObject request = (JSONObject)configElementJSONObject.get("request");
-		JSONObject queryParameters = (JSONObject)request.get("query_parameters");
-		JSONObject header = (JSONObject)request.get("header");
-		header.append("token", token);
-		JSONObject pathParameters = (JSONObject)request.get("path_parameters");
-		String method = (String)request.get("method");
-		String rawUrl = (String)request.get("url");
-		String url = bindPathParameters(rawUrl, pathParameters) + getStringQueryParameters(queryParameters);
-
+		JSONObject request = configElementJSONObject.getJSONObject("request");
+		appendUserSpecificData(request);
+		String url = bindPathParameters(request.getString("url"), request.getJSONObject("path_parameters"))
+			+ getStringQueryParameters(request.getJSONObject("query_parameters"));
 		try {
-			return new GithubRestApiDto(requestType, new URL(url), header, method);
+			return GithubRestApiDto.builder()
+				.requestType(requestType)
+				.url(new URL(url))
+				.header(request.getJSONObject("header"))
+				.method(request.getString("method"))
+				.build();
 		} catch (MalformedURLException e) {
 			throw new RuntimeException(e);
 		}
+	}
+
+	private void appendUserSpecificData(JSONObject request) {
+		JSONObject pathParameters = request.getJSONObject("path_parameters");
+		pathParameters.put("owner", ownerName);
+		pathParameters.put("repo", repositoryName);
+		JSONObject header = request.getJSONObject("header");
+		header.put("token", token);
 	}
 
 	private String getStringQueryParameters(JSONObject queryParameters) {

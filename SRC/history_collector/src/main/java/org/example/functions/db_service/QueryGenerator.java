@@ -6,15 +6,15 @@ import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
+import org.example.functions.util.TypeConverter;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
 public class QueryGenerator {
 
 	private JSONObject jsonObjectConfig;
-
+	private TypeConverter typeConverter = TypeConverter.getTypeConverter();
 	public QueryGenerator(JSONObject jsonObjectConfig) {
 		this.jsonObjectConfig = jsonObjectConfig;
 	}
@@ -26,31 +26,33 @@ public class QueryGenerator {
 	}
 
 	private String generateBulkInsertQuery(String tableName, JSONArray sourceData) {
-		LinkedHashMap<String, String> metaDataLinkedHashMap = getMetaDataLinkedHashMap(tableName);
+		LinkedHashMap<String, JSONArray> metaDataLinkedHashMap = getMetaDataLinkedHashMap(tableName);
 		String columns = getColumnNamesQueryString(metaDataLinkedHashMap);
 		String queryValues = getQueryValues(sourceData, metaDataLinkedHashMap);
 		return String.format("INSERT INTO %s (%s) VALUES %s", tableName, columns, queryValues);
 	}
 
-	private LinkedHashMap<String, String> getMetaDataLinkedHashMap(String tableName) {
+	private LinkedHashMap<String, JSONArray> getMetaDataLinkedHashMap(String tableName) {
 		JSONObject targetObject = jsonObjectConfig.getJSONObject(tableName);
 		JSONObject targetObjectMapping = targetObject.getJSONObject("mapping");
-		return targetObjectMapping.toMap().entrySet()
-			.stream()
-			.collect(Collectors.toMap(Map.Entry::getKey,
-				entry -> (String)(entry.getValue()),
-				(oldValue, newValue) -> newValue,
-				LinkedHashMap::new));
+
+		LinkedHashMap<String, JSONArray> metaDataLinkedHashMap = new LinkedHashMap<>();
+		Iterator<String> targetObjectMappingKeys = targetObjectMapping.keys();
+		while (targetObjectMappingKeys.hasNext()) {
+			String targetObjectMappingKey = targetObjectMappingKeys.next();
+			metaDataLinkedHashMap.put(targetObjectMappingKey, targetObjectMapping.getJSONArray(targetObjectMappingKey));
+		}
+		return metaDataLinkedHashMap;
 	}
 
-	private String getColumnNamesQueryString(LinkedHashMap<String, String> metaDataLinkedHashMap) {
+	private String getColumnNamesQueryString(LinkedHashMap<String, JSONArray> metaDataLinkedHashMap) {
 		List<String> columnList = new ArrayList<>();
 		metaDataLinkedHashMap
-			.forEach((key, value) -> columnList.add(value));
+			.forEach((key, value) -> columnList.add(value.getString(0)));
 		return String.join(", ", columnList);
 	}
 
-	private String getQueryValues(JSONArray sourceData, LinkedHashMap<String, String> metaDataLinkedHashMap) {
+	private String getQueryValues(JSONArray sourceData, LinkedHashMap<String, JSONArray> metaDataLinkedHashMap) {
 		List<String> valueList = new ArrayList<>();
 		for (int i = 0; i < sourceData.length(); i++) {
 			JSONObject targetSource = sourceData.getJSONObject(i);
@@ -59,14 +61,15 @@ public class QueryGenerator {
 		return String.join(", ", valueList);
 	}
 
-	private String getQueryValue(JSONObject targetSource, LinkedHashMap<String, String> metaDataLinkedHashMap) {
+	private String getQueryValue(JSONObject targetSource, LinkedHashMap<String, JSONArray> metaDataLinkedHashMap) {
 		List<String> valueList = new ArrayList<>();
-		metaDataLinkedHashMap.keySet()
-			.forEach(valuePointer -> valueList.add(getValueWithPointer(targetSource, valuePointer)));
+		metaDataLinkedHashMap
+			.forEach((valuePointer, valueType) -> valueList.add(
+				getValueWithPointer(targetSource, valuePointer, valueType.getString(1))));
 		return String.format("(%s)", String.join(", ", valueList));
 	}
 
-	private String getValueWithPointer(JSONObject targetSource, String valuePointer) {
+	private String getValueWithPointer(JSONObject targetSource, String valuePointer, String valueType) {
 		List<String> pointerList = Arrays.asList(valuePointer.split("\\."));
 		Iterator<String> pointerIterator = pointerList.iterator();
 		JSONObject currentNode = targetSource;
@@ -78,6 +81,6 @@ public class QueryGenerator {
 			else
 				value = String.valueOf(currentNode.get(point));
 		}
-		return value;
+		return typeConverter.getMssqlQueryString(value.replaceAll("'", "''"), valueType);
 	}
 }
