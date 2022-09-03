@@ -42,55 +42,55 @@ class ChangeFailureRateServiceTest {
 	// 	System.out.println(localDateListMap);
 	// }
 
-	@Test
-	void 뭔가이상하다() {
-		List<LeadTimeForChange> leadTimeForChangeList = new ArrayList<>();
-
-		leadTimeForChangeList.add(
-			new LeadTimeForChange(
-				LocalDateTime.of(2022, 6, 11, 5, 30),
-				LocalDateTime.of(2022, 6, 12, 5, 30),
-				LocalDateTime.of(2022, 6, 13, 5, 30),
-				LocalDateTime.of(2022, 6, 14, 5, 30)
-			)
-		);
-		leadTimeForChangeList.add(
-			new LeadTimeForChange(
-				LocalDateTime.of(2022, 6, 12, 5, 30),
-				LocalDateTime.of(2022, 6, 14, 5, 30),
-				LocalDateTime.of(2022, 6, 16, 5, 30),
-				LocalDateTime.of(2022, 6, 18, 5, 30)
-			)
-		);
-		leadTimeForChangeList.add(
-			new LeadTimeForChange(
-				LocalDateTime.of(2022, 6, 13, 5, 30),
-				LocalDateTime.of(2022, 6, 15, 5, 30),
-				LocalDateTime.of(2022, 6, 17, 5, 30),
-				LocalDateTime.of(2022, 6, 19, 5, 30)
-			)
-		);
-		leadTimeForChangeList.add(
-			new LeadTimeForChange(
-				LocalDateTime.of(2022, 6, 14, 5, 30),
-				LocalDateTime.of(2022, 6, 16, 5, 30),
-				LocalDateTime.of(2022, 6, 18, 5, 30),
-				LocalDateTime.of(2022, 6, 20, 5, 30)
-			)
-		);
-		leadTimeForChangeList.add(
-			new LeadTimeForChange(
-				LocalDateTime.of(2022, 6, 5, 5, 30),
-				LocalDateTime.of(2022, 6, 7, 5, 30),
-				LocalDateTime.of(2022, 6, 19, 5, 30),
-				LocalDateTime.of(2022, 6, 21, 5, 30)
-			)
-		);
-
-		UtilService utilService = new UtilService();
-		Map<LocalDate, Double> localDateDoubleMap = utilService.makeDailyAverageMap(leadTimeForChangeList,
-			x -> x.getDeploymentTime().toLocalDate(),
-			LeadTimeForChange::getLeadTimeForChange);
-		System.out.println("localDateDoubleMap = " + localDateDoubleMap);
-	}
+//	@Test
+//	void 뭔가이상하다() {
+//		List<LeadTimeForChange> leadTimeForChangeList = new ArrayList<>();
+//
+//		leadTimeForChangeList.add(
+//			new LeadTimeForChange(
+//				LocalDateTime.of(2022, 6, 11, 5, 30),
+//				LocalDateTime.of(2022, 6, 12, 5, 30),
+//				LocalDateTime.of(2022, 6, 13, 5, 30),
+//				LocalDateTime.of(2022, 6, 14, 5, 30)
+//			)
+//		);
+//		leadTimeForChangeList.add(
+//			new LeadTimeForChange(
+//				LocalDateTime.of(2022, 6, 12, 5, 30),
+//				LocalDateTime.of(2022, 6, 14, 5, 30),
+//				LocalDateTime.of(2022, 6, 16, 5, 30),
+//				LocalDateTime.of(2022, 6, 18, 5, 30)
+//			)
+//		);
+//		leadTimeForChangeList.add(
+//			new LeadTimeForChange(
+//				LocalDateTime.of(2022, 6, 13, 5, 30),
+//				LocalDateTime.of(2022, 6, 15, 5, 30),
+//				LocalDateTime.of(2022, 6, 17, 5, 30),
+//				LocalDateTime.of(2022, 6, 19, 5, 30)
+//			)
+//		);
+//		leadTimeForChangeList.add(
+//			new LeadTimeForChange(
+//				LocalDateTime.of(2022, 6, 14, 5, 30),
+//				LocalDateTime.of(2022, 6, 16, 5, 30),
+//				LocalDateTime.of(2022, 6, 18, 5, 30),
+//				LocalDateTime.of(2022, 6, 20, 5, 30)
+//			)
+//		);
+//		leadTimeForChangeList.add(
+//			new LeadTimeForChange(
+//				LocalDateTime.of(2022, 6, 5, 5, 30),
+//				LocalDateTime.of(2022, 6, 7, 5, 30),
+//				LocalDateTime.of(2022, 6, 19, 5, 30),
+//				LocalDateTime.of(2022, 6, 21, 5, 30)
+//			)
+//		);
+//
+//		UtilService utilService = new UtilService();
+//		Map<LocalDate, Double> localDateDoubleMap = utilService.makeDailyAverageMap(leadTimeForChangeList,
+//			x -> x.getDeploymentTime().toLocalDate(),
+//			LeadTimeForChange::getLeadTimeForChange);
+//		System.out.println("localDateDoubleMap = " + localDateDoubleMap);
+//	}
 }

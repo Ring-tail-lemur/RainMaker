@@ -31,6 +31,7 @@
           </div>
           <div class="loginInnerBox">
             <div class="githubIconBox">
+              <button v-on:click="aaa()"/>
               <button>
                 <i class="fa fa-github" style="font-size:48px"></i>
               </button>
