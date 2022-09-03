@@ -48,6 +48,14 @@ const router = createRouter({
       meta : {
         header : false
       }
+    },
+    {
+      path: '/RepositorySelect',
+      name: '/RepositorySelect',
+      component: () => import('../views/RepositorySelect.vue'),
+      meta : {
+        header : false
+      }
     }
   ]
 })
