@@ -19,6 +19,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -28,12 +30,14 @@ import java.net.URL;
 @RestController
 public class OAuthContoller {
     @Autowired
+    private HttpSession session;
+    @Autowired
     CustomOAuth2UserService customOAuth2UserService;
     @Autowired
     OAuthRepository oAuthRepository;
     @GetMapping("/login/oauth2/code/github")
     public String testMap2(@RequestParam(value = "code", required = false, defaultValue = "test")String code,
-                         @RequestParam(value = "state", required = false, defaultValue = "test")String state) throws IOException {
+                           @RequestParam(value = "state", required = false, defaultValue = "test")String state) throws IOException {
         String clientId = "8189c16057d124b9324e";
         String clientSecret = "e5231059eb31aa50d69a6a2154708a8a3f88954d";
         System.out.println("code : " + code);
@@ -82,20 +86,17 @@ public class OAuthContoller {
         System.out.println(inputLine);
         OAuthUser inputOAuthUser = stringToJson(inputLine, userAccessToken);
 
+//
+//        /* id, name, token, url, email 넣은 OAuthUser 생성*/
+//        session.setAttribute("OAUTH_USER", inputOAuthUser);
 
-        //여기서부터 DB에 넣는 부분
-        try{
-            customOAuth2UserService = new CustomOAuth2UserService();
-            customOAuth2UserService.insertUser(inputOAuthUser);
+        session.setAttribute("OAUTH_USER", inputOAuthUser);
+        if(session.getId() == null){
+            System.out.println("????");
+        }else{
+            System.out.println(session.getId());
+            System.out.println(session.getAttribute("OAUTH_USER"));
         }
-        catch (Exception e){
-            System.out.println(e);
-        }
-
-        /* id, name, token, url, email 넣은 OAuthUser 생성*/
-
-
-
         return inputLine;
     }
 

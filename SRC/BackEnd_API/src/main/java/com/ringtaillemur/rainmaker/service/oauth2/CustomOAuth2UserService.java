@@ -10,11 +10,5 @@ import java.util.function.Function;
 
 @Service
 public class CustomOAuth2UserService {
-    @Autowired
-    private OAuthRepository oAuthRepository;
 
-    public void insertUser(OAuthUser oAuthUser){
-        System.out.println(oAuthUser.getId());
-        OAuthUser oAuthUser1 = oAuthRepository.saveAndFlush(oAuthUser);
-    }
 }
