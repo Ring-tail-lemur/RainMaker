@@ -37,7 +37,7 @@
                 <li v-for="item in list" class="list-group-item">
                   <div>
                     <div style="float: left; width: 5%; ">
-                      <input class="form-check-input me-1" type="checkbox" aria-label="..." name="repo_id" v-bind:value="item.id" >
+                      <input class="form-check-input me-1" type="checkbox" aria-label="..." name="repo_id" v-bind:value="[item.id, item.organization, item.repository, item.pushed_at]" >
                     </div>
                     <div style="float: left; width: 30%; height: 100%">
                       {{item.organization}}
