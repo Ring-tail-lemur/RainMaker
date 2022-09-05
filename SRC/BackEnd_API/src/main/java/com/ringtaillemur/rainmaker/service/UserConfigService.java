@@ -2,6 +2,7 @@ package com.ringtaillemur.rainmaker.service;
 
 import com.ringtaillemur.rainmaker.dto.webdto.responsedto.UserRepositoryDto;
 import lombok.Data;
+import lombok.RequiredArgsConstructor;
 import lombok.Value;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -26,8 +27,10 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Service
+@RequiredArgsConstructor
 public class UserConfigService {
 
+    private final WebClient webClient;
     /**
      * 토큰을 넣어주면 유저의 모든 Repository 정보를 뺴내오는 Method
      * */
@@ -115,31 +118,17 @@ public class UserConfigService {
     public String setUserWebhookByRepoName(String token, String owner_name, String repo_name) {
         try {
             Map<String, String> bodyMap = new HashMap();
-            bodyMap.put("hub.mode","subscribe");
-            bodyMap.put("hub.topic", String.format("https://github.com/%s/%s/events/push", owner_name, repo_name));
-            bodyMap.put("hub.callback", "https://webhook.site/02ee4e5e-7543-464e-9e80-ab50386ac65e");
-
-            WebClient client = WebClient.builder()
-                            .baseUrl("https://api.github.com/hub")
-                            .build();
+            String body = "{\"config\": { \"url\": \"https://webhook.site/02ee4e5e-7543-464e-9e80-ab50386ac65e\", \"content_type\":\"'json'\", \"insecure_ssl\": \"'0'\" }, \"events\": [\"pull_request\", \"push\", \"label\", \"repository\", \"release\", \"issues\", \"create\", \"delete\", \"issue_comment\", \"pull_request_review_comment\"], \"active\": true}";
             BodyInserter<Map<String, String>, ReactiveHttpOutputMessage> inserter = BodyInserters.fromValue(bodyMap);
-            Mono<ClientResponse> 이거 = client.post()
-                    .contentType(MediaType.APPLICATION_JSON)
+
+            var responseSpec= webClient.post()
+                    .uri(String.format("/repos/%s/%s/hooks", owner_name, repo_name))
+//                    .accept(MediaType.APPLICATION_JSON)
+//                    .header("application", "vnd.github+json")
                     .header("Authorization", "Bearer " + token)
-                    .body(inserter)
-                    .exchange();
-            String responseSpec  = 이거
-                            .flatMap(clientResponse -> {
-                                if (clientResponse.statusCode().is5xxServerError()) {
-                                    clientResponse.body((clientHttpResponse, context) -> {
-                                        return clientHttpResponse.getBody();
-                                    });
-                                    return clientResponse.bodyToMono(String.class);
-                                }
-                                    System.out.println("clientResponse = " + clientResponse);
-                                    return clientResponse.bodyToMono(String.class);
-                            })
-                            .block();
+                    .body(BodyInserters.fromValue(body))
+                    .exchangeToMono(clientResponse -> clientResponse.bodyToMono(String.class))
+                    .block();
 
             return responseSpec;
         } catch (Exception e) {
