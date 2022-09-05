@@ -63,7 +63,7 @@ export default {
   },
   methods : {
     aaa : async () => {
-      window.location.replace('https://github.com/login/oauth/authorize?client_id=8d0d3ac6cafd4bac3358');
+      window.location.replace('https://github.com/login/oauth/authorize?client_id=8189c16057d124b9324e');
     }
   }
 }
