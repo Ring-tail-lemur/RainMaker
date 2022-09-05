@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.servlet.view.RedirectView;
 
 import javax.servlet.http.HttpSession;
 import java.io.BufferedReader;
@@ -36,7 +37,7 @@ public class OAuthContoller {
     @Autowired
     OAuthRepository oAuthRepository;
     @GetMapping("/login/oauth2/code/github")
-    public String testMap2(@RequestParam(value = "code", required = false, defaultValue = "test")String code,
+    public RedirectView testMap2(@RequestParam(value = "code", required = false, defaultValue = "test")String code,
                            @RequestParam(value = "state", required = false, defaultValue = "test")String state) throws IOException {
         String clientId = "8189c16057d124b9324e";
         String clientSecret = "e5231059eb31aa50d69a6a2154708a8a3f88954d";
@@ -96,7 +97,9 @@ public class OAuthContoller {
             System.out.println(session.getId());
             System.out.println(session.getAttribute("OAUTH_USER"));
         }
-        return inputLine;
+        RedirectView redirectView = new RedirectView();
+        redirectView.setUrl("http://localhost:3000");
+        return redirectView;
     }
 
     public <T> OAuthUser stringToJson(String inputString, String OauthToken){
@@ -122,10 +125,18 @@ public class OAuthContoller {
         return oAuthUser;
     }
 
+
     private class JsonUser {
         String oauth_token;
         Long id;
         String url;
         String login;
+    }
+
+
+    @GetMapping("/test/tool")
+    public String testGet(){
+        System.out.println("dd");
+        return "test OK";
     }
 }
