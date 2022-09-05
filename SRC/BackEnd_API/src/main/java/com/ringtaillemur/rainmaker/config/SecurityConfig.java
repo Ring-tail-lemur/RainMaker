@@ -18,7 +18,7 @@ public class SecurityConfig {
 
         http
                 .authorizeRequests(a -> a
-                        .antMatchers("/", "/error", "/webjars/**", "/login/**", "/login/oauth2/code/github", "/api/cycletime", "/dorametric/**").permitAll()
+                        .antMatchers("/", "/error", "/webjars/**", "/login/**", "/login/oauth2/code/github", "/api/cycletime", "/dorametric/**", "/test/**").permitAll()
                         .anyRequest().authenticated()
                 )
                 .exceptionHandling(e -> e
