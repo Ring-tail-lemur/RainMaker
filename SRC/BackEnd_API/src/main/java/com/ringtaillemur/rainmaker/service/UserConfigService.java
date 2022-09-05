@@ -1,17 +1,29 @@
 package com.ringtaillemur.rainmaker.service;
 
 import com.ringtaillemur.rainmaker.dto.webdto.responsedto.UserRepositoryDto;
+import lombok.Data;
+import lombok.Value;
 import org.json.JSONArray;
 import org.json.JSONObject;
+import org.springframework.http.MediaType;
+import org.springframework.http.ReactiveHttpOutputMessage;
 import org.springframework.stereotype.Service;
+import org.springframework.web.reactive.function.BodyInserter;
+import org.springframework.web.reactive.function.BodyInserters;
+import org.springframework.web.reactive.function.client.ClientResponse;
+import org.springframework.web.reactive.function.client.WebClient;
+import reactor.core.publisher.Mono;
 
 import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.net.http.HttpHeaders;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 @Service
 public class UserConfigService {
@@ -100,45 +112,41 @@ public class UserConfigService {
         return dateTime;
     }
 
-    public void setUserWebhookByRepoName(String token, String owner_name, String repo_name) {
+    public String setUserWebhookByRepoName(String token, String owner_name, String repo_name) {
         try {
-            URL url = new URL("https://api.github.com/hub");
-            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+            Map<String, String> bodyMap = new HashMap();
+            bodyMap.put("hub.mode","subscribe");
+            bodyMap.put("hub.topic", String.format("https://github.com/%s/%s/events/push", owner_name, repo_name));
+            bodyMap.put("hub.callback", "https://webhook.site/02ee4e5e-7543-464e-9e80-ab50386ac65e");
 
-            conn.setRequestMethod("POST");
-            conn.setRequestProperty("Content-Type", "application/x-www-form-urlencoded;charset=UTF-8");
-            conn.setRequestProperty("Authorization", "Bearer " + token); // header Content-Type 정보
-            conn.setDoOutput(true); // 서버로부터 받는 값이 있다면 true
+            WebClient client = WebClient.builder()
+                            .baseUrl("https://api.github.com/hub")
+                            .build();
+            BodyInserter<Map<String, String>, ReactiveHttpOutputMessage> inserter = BodyInserters.fromValue(bodyMap);
+            Mono<ClientResponse> 이거 = client.post()
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .header("Authorization", "Bearer " + token)
+                    .body(inserter)
+                    .exchange();
+            String responseSpec  = 이거
+                            .flatMap(clientResponse -> {
+                                if (clientResponse.statusCode().is5xxServerError()) {
+                                    clientResponse.body((clientHttpResponse, context) -> {
+                                        return clientHttpResponse.getBody();
+                                    });
+                                    return clientResponse.bodyToMono(String.class);
+                                }
+                                    System.out.println("clientResponse = " + clientResponse);
+                                    return clientResponse.bodyToMono(String.class);
+                            })
+                            .block();
 
-
-
-            OutputStream httpConnOutputStream = conn.getOutputStream();
-            DataOutputStream request = new DataOutputStream(httpConnOutputStream);
-
-            BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
-
-            StringBuilder sb = new StringBuilder();
-            String line = null;
-
-            while ((line = br.readLine()) != null) { // 읽을 수 있을 때 까지 반복
-                sb.append(line);
-            }
-
-            JSONArray jsonArray = new JSONArray(sb.toString());
-            ArrayList<UserRepositoryDto> userRepositoryDtoArrayList = new ArrayList<>();
-
-            for(var eachRepository : jsonArray) {
-                int id = (int) ((JSONObject) eachRepository).get("id");
-                String repository = (String) ((JSONObject) eachRepository).get("name");
-                LocalDateTime pushed_at = changeStringToDateTime( (String) ((JSONObject) eachRepository).get("pushed_at") );
-//                userRepositoryDtoArrayList.add(new UserRepositoryDto(id, organizationName, repository, pushed_at));
-            }
-
+            return responseSpec;
         } catch (Exception e) {
             e.printStackTrace();
+            return null;
         }
     }
-
 
     /*
     todo 웹훅 등록
