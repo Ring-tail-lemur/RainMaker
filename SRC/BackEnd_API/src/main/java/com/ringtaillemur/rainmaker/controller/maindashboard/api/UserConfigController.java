@@ -27,10 +27,21 @@ public class UserConfigController {
     }
 
     @PostMapping("/RepositorySelect")
-    public String userRepositoryRegisterRestAPI(@RequestParam(name="repo_id") List<String> repoIds) {
-        System.out.println(repoIds);
+    public String userRepositoryRegisterRestAPI(  //@RequestBody String repoIds) {
+            @RequestParam(name="repo_id") List<String> repoIds) {
+
+        for(var repoId : repoIds) {
+            System.out.println(repoId);
+        }
+
         // todo: repoId, token, repo Name, owner Name (Organization Name), 이걸로 azure function을 호출.
         // todo: Webhook 등록.
+        String token = "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";
+        String owner_name = "Ring-tail-lemur";
+        String repo_name = "aa";
+
+        userConfigService.setUserWebhookByRepoName(token, owner_name, repo_name);
+
         return "redirect:http://localhost:3000/";
     }
 }
