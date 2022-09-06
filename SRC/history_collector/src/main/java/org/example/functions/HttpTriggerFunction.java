@@ -23,7 +23,7 @@ import org.json.JSONObject;
 
 public class HttpTriggerFunction {
 
-  //deployment test
+  //deployment test2
   ConfigReader configReader = new ConfigReader();
   GithubRestApiSender githubRestApiSender = new GithubRestApiSender();
   QueryRunner queryRunner = QueryRunner.getQueryRunner();
