@@ -31,8 +31,8 @@
           </div>
           <div class="loginInnerBox">
             <div class="githubIconBox">
-              <button v-on:click="aaa()"/>
-              <button>
+              <button />
+              <button v-on:click="aaa()">
                 <i class="fa fa-github" style="font-size:48px"></i>
               </button>
             </div>
@@ -54,7 +54,16 @@
 <script>
 import Button from "./Buttons.vue";
 export default {
-  components: {Button}
+  components: {
+    Button,
+    Logo,
+  },
+  methods : {
+    aaa : async () => {
+      console.log("hhihihihihihi");
+      window.location.replace('https://github.com/login/oauth/authorize?client_id=8189c16057d124b9324e');
+    }
+  }
 }
 </script>
 

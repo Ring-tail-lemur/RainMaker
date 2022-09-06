@@ -1,13 +1,29 @@
 {
+  "branch": {
+    "request": {
+      "method": "GET",
+      "url": "https://api.github.com/repos/{OWNER}/{REPO}/branches",
+      "header": {
+        "accept": "application/vnd.github+json"
+      },
+      "path_parameters": {},
+      "query_parameters": {
+        "per_page": "100"
+      }
+    },
+    "mapping": {}
+  },
   "commits": {
     "request": {
       "method": "GET",
       "url": "https://api.github.com/repos/{OWNER}/{REPO}/commits",
       "header": {
+        "accept": "application/vnd.github+json"
       },
       "path_parameters": {
       },
       "query_parameters": {
+        "per_page": "100"
       }
     },
     "mapping": {
@@ -16,5 +32,60 @@
       "commit.message": ["message", "string"],
       "commit.author.date": ["commit_time", "datetime2"]
     }
+  },
+  "pull_request" : {
+    "request": {
+      "method": "GET",
+      "url": "https://api.github.com/repos/{OWNER}/{REPO}/pulls",
+      "header": {
+        "accept": "application/vnd.github+json"
+      },
+      "path_parameters": {},
+      "query_parameters": {
+        "state": "all",
+        "per_page": "100"
+      }
+    },
+    "mapping": {
+      "id": ["pull_request_id", "int"],
+      "number": ["pull_request_number", "int"],
+      "head.ref": ["pull_request_open_branch_name", "string"],
+      "base.ref": ["pull_request_close_branch_name", "string"],
+      "request.repo_id" : ["repository_id", "int"]
+    }
+  },
+  "pull_request_comment": {
+    "request": {
+      "method": "GET",
+      "url": "https://api.github.com/repos/{OWNER}/{REPO}/pulls/comments",
+      "header": {
+        "accept": "application/vnd.github+json"
+      },
+      "path_parameters": {},
+      "query_parameters": {
+        "per_page": "100"
+      }
+    },
+    "mapping": {
+      "id": ["pull_request_comment_id", "int"],
+      "created_at": ["event_time", "int"],
+      "": ["pull_request_id", "int"],
+      "": ["git_user_id", "int"],
+      "": ["comment_type", "string"]
+    }
+  },
+  "release": {
+    "request": {
+      "method": "GET",
+      "url": "https://api.github.com/repos/{OWNER}/{REPO}/releases",
+      "header": {
+        "accept": "application/vnd.github+json"
+      },
+      "path_parameters": {},
+      "query_parameters": {
+        "per_page": "100"
+      }
+    },
+    "mapping": {}
   }
 }

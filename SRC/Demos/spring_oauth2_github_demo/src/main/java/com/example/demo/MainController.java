@@ -4,6 +4,12 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.util.BufferRecycler;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonObject;
+import net.minidev.json.JSONArray;
+import net.minidev.json.JSONObject;
+import net.minidev.json.parser.JSONParser;
 import org.springframework.http.*;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.oauth2.core.user.OAuth2User;
@@ -24,23 +30,9 @@ import java.util.Map;
 @RestController
 public class MainController{
 
-//    @Value(staticConstructor = "${spring.security.oauth2.client.registration.githu.clientId}")
-//    String clientId;
-    @GetMapping("/user")
-    public Map<String, Object> user(@AuthenticationPrincipal OAuth2User principal) {
-        return Collections.singletonMap("name", principal.getAttribute("name"));
-    }
-    @GetMapping("/callback")
-    public void testCallBack(){
-        System.out.println("dddd");
-    }
 
-    @GetMapping("/login/code/github")
-    public Map<String, Object> testMap(@AuthenticationPrincipal OAuth2User principal) {
-        return Collections.singletonMap("name", principal.getAttribute("name"));
-    }
     @GetMapping("/login/oauth2/code/github")
-    public void testMap2(@RequestParam(value = "code", required = false, defaultValue = "test")String code,
+    public String testMap2(@RequestParam(value = "code", required = false, defaultValue = "test")String code,
                          @RequestParam(value = "state", required = false, defaultValue = "test")String state) throws IOException {
         String clientId = "8189c16057d124b9324e";
         String clientSecret = "e5231059eb31aa50d69a6a2154708a8a3f88954d";
@@ -70,7 +62,9 @@ public class MainController{
         JsonNode jsonNode;
         jsonNode = mapper.readTree(response.getBody());
         String userAccessToken = String.valueOf(jsonNode.findValue("access_token"));
+        String refreshToken = String.valueOf(jsonNode.findValue("refresh_token"));
         System.out.println(userAccessToken);
+        System.out.println("refresh_token : " + refreshToken);
         System.out.println("Bearer ".concat(userAccessToken.replace("\"","")));
         //여기까지가 Token 받아오는 부분
 
@@ -90,9 +84,16 @@ public class MainController{
         inputLine = bufferedReader.readLine();
         http.disconnect();
         System.out.println(inputLine);
+        stringToJson(inputLine);
+        return inputLine;
     }
-    @GetMapping("/auth_index")
-    public void authIndexMain() {
-        System.out.println("here, auth index");
+    public void stringToJson(String inputString){
+        GsonBuilder gsonBuilder = new GsonBuilder();
+        gsonBuilder.setPrettyPrinting();
+        Gson gson = gsonBuilder.create();
+        User user = gson.fromJson(inputString, User.class);
+
+        System.out.println(user.name);
+        System.out.println(user.organizations_url);
     }
 }

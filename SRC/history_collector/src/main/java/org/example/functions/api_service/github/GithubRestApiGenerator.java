@@ -41,14 +41,14 @@ public class GithubRestApiGenerator {
 		return githubRestApiDtoList;
 	}
 
-	public GithubRestApiDto getGithubRestApiDto(JSONObject configElementJSONObject, String requestType) {
+	public GithubRestApiDto getGithubRestApiDto(JSONObject configElementJSONObject, String tableName) {
 		JSONObject request = configElementJSONObject.getJSONObject("request");
 		appendUserSpecificData(request);
 		String url = bindPathParameters(request.getString("url"), request.getJSONObject("path_parameters"))
 			+ getStringQueryParameters(request.getJSONObject("query_parameters"));
 		try {
 			return GithubRestApiDto.builder()
-				.requestType(requestType)
+				.requestType(tableName)
 				.url(new URL(url))
 				.header(request.getJSONObject("header"))
 				.method(request.getString("method"))

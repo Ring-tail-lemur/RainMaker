@@ -1,54 +1,58 @@
 package com.ringtaillemur.rainmaker.controller.maindashboard.api;
 
-import com.ringtaillemur.rainmaker.dto.webdto.responsedto.UserRepositoryDto;
-import com.ringtaillemur.rainmaker.service.UserConfigService;
-import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.*;
-
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.servlet.http.HttpSession;
+
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import com.ringtaillemur.rainmaker.config.WebClientConfig;
+import com.ringtaillemur.rainmaker.dto.webdto.responsedto.UserRepositoryDto;
+import com.ringtaillemur.rainmaker.service.UserConfigService;
+
+import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
 @Controller
 public class UserConfigController {
 
-    private final UserConfigService userConfigService;
+	private final HttpSession session;
 
-    @ResponseBody
-    @GetMapping("/RepositorySelect")
-    public ArrayList<UserRepositoryDto> userRepositoryListReturnRestAPI() {
+	private final UserConfigService userConfigService;
 
-        // todo : UserId의 경우는 세션을 통해 알아올 것이고, token의 경우는 이 유저아이디를 통해 DB에서 빼올것.
-        String userId = "11979390";
-        String token = "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";
+	@ResponseBody
+	@GetMapping("/RepositorySelect")
+	public ArrayList<UserRepositoryDto> userRepositoryListReturnRestAPI() {
 
-        return userConfigService.getUserRepositoryDtoByToken(token);
-    }
+		// todo : UserId의 경우는 세션을 통해 알아올 것이고, token의 경우는 이 유저아이디를 통해 DB에서 빼올것.
+		System.out.println(session.getId());
+		Object oauth_user = session.getAttribute("OAUTH_USER");
+		System.out.println(oauth_user);
+		String token = "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";
 
-    @PostMapping("/RepositorySelect")
-    public String userRepositoryRegisterRestAPI(  //@RequestBody String repoIds) {
-            @RequestParam(name="repo_id") List<String> repoIds) {
+		System.out.println(session);
+		return userConfigService.getUserRepositoryDtoByToken(token);
+	}
 
-        for(var repoId : repoIds) {
-            System.out.println(repoId);
-        }
+	@PostMapping("/RepositorySelect")
+	public String userRepositoryRegisterRestAPI(@RequestParam(name = "repo_id") List<String> RepoInfos) {
 
-        // todo: repoId, token, repo Name, owner Name (Organization Name), 이걸로 azure function을 호출.
-        // todo: Webhook 등록.
-        String token = "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";
-        String owner_name = "Ring-tail-lemur";
-        String repo_name = "aa";
+		session.getId(); // 얘가 세션아이디
+		session.getAttribute("OAUTH_USER");
 
-        userConfigService.setUserWebhookByRepoName(token, owner_name, repo_name);
+		String token = "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";
 
-        return "redirect:http://localhost:3000/";
-    }
+		for (var repo : RepoInfos) {
+			String[] repoArr = repo.split(","); // Id, Organ, Repo, Time 순.
+			userConfigService.setUserWebhookByRepoName(token, repoArr[1], repoArr[2]);
+		}
+
+		// todo: repoId, token, repo Name, owner Name (Organization Name), 이걸로 azure function을 호출.
+		return "redirect:" + WebClientConfig.FrontBaseUrl;
+	}
 }
-
-/*
-todo 웹훅 등록
-* curl -H "Authorization: Bearer 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" -i https://api.github.com/hub -F "hub.mode=subscribe" -F "hub.topic=https://github.com/Ring-tail-lemur/test-for-fake-project/events/push" -F "hub.callback=https://webhook.site/3d6e59ed-e609-434a-bf0c-52cd3c563062"
-* curl -H "Authorization: Bearer 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" -i https://api.github.com/hub -F "hub.mode=subscribe" -F "hub.topic=https://github.com/Ring-tail-lemur/test-for-fake-project/events/pull_request" -F "hub.callback=https://webhook.site/3d6e59ed-e609-434a-bf0c-52cd3c563062"
-*
-* */

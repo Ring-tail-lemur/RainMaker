@@ -9,24 +9,41 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.MediaType;
 import org.springframework.http.ReactiveHttpOutputMessage;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.BodyInserter;
 import org.springframework.web.reactive.function.BodyInserters;
-import org.springframework.web.reactive.function.client.ClientResponse;
 import org.springframework.web.reactive.function.client.WebClient;
 
+import com.ringtaillemur.rainmaker.domain.OAuthUser;
 import com.ringtaillemur.rainmaker.dto.webdto.responsedto.UserRepositoryDto;
+import com.ringtaillemur.rainmaker.repository.OAuthRepository;
 
-import reactor.core.publisher.Mono;
+import lombok.RequiredArgsConstructor;
 
 @Service
+@RequiredArgsConstructor
 public class UserConfigService {
+
+	private final WebClient webClient;
+	private final OAuthRepository oAuthRepository;
+
+	/**
+	 * UserId를 인수로 넣으면 token을 반환하는 함수
+	 *
+	 * @return OAuthToken - (String)
+	 * @param userId (Long) - session에서 얻어오는 userId
+	 * */
+	public String getUserToken(Long userId) {
+		Optional<OAuthUser> user = oAuthRepository.findById(userId);
+		OAuthUser oauthuser = user.get();
+
+		return oauthuser.getOauthToken();
+	}
 
 	/**
 	 * 토큰을 넣어주면 유저의 모든 Repository 정보를 뺴내오는 Method
@@ -115,35 +132,24 @@ public class UserConfigService {
 
 	public String setUserWebhookByRepoName(String token, String owner_name, String repo_name) {
 		try {
-			WebClient webClient = WebClient.builder()
-				.baseUrl(String.format(
-					"https://api.github.com/hub?hub.mode=subscribe&hub.topic=https://github.com/%s/%s/events/push.pull_request&hub.callback=https://webhook.site/02ee4e5e-7543-464e-9e80-ab50386ac65e",
-					owner_name, repo_name))
-				.defaultHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
-				.build();
-			return webClient
-				.post()
+			Map<String, String> bodyMap = new HashMap();
+			String body = "{\"config\": { \"url\": \"https://webhook.site/02ee4e5e-7543-464e-9e80-ab50386ac65e\", \"content_type\":\"'json'\", \"insecure_ssl\": \"'0'\" }, \"events\": [\"pull_request\", \"push\", \"label\", \"repository\", \"release\", \"issues\", \"create\", \"delete\", \"issue_comment\", \"pull_request_review_comment\"], \"active\": true}";
+			BodyInserter<Map<String, String>, ReactiveHttpOutputMessage> inserter = BodyInserters.fromValue(bodyMap);
+
+			var responseSpec = webClient.post()
+				.uri(String.format("/repos/%s/%s/hooks", owner_name, repo_name))
+				//                    .accept(MediaType.APPLICATION_JSON)
+				//                    .header("application", "vnd.github+json")
 				.header("Authorization", "Bearer " + token)
-				.exchange().flatMap(clientResponse -> {
-					if (clientResponse.statusCode().is5xxServerError()) {
-						clientResponse.body((clientHttpResponse, context) -> {
-							return clientHttpResponse.getBody();
-						});
-						return clientResponse.bodyToMono(String.class);
-					}
-					return clientResponse.bodyToMono(String.class);
-				})
+				.body(BodyInserters.fromValue(body))
+				.exchangeToMono(clientResponse -> clientResponse.bodyToMono(String.class))
 				.block();
+
+			return responseSpec;
 		} catch (Exception e) {
 			e.printStackTrace();
 			return null;
 		}
 	}
 
-    /*
-    todo 웹훅 등록
-    * curl -H "Authorization: Bearer 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" -i https://api.github.com/hub -F "hub.mode=subscribe" -F "hub.topic=https://github.com/Ring-tail-lemur/test-for-fake-project/events/push" -F "hub.callback=https://webhook.site/3d6e59ed-e609-434a-bf0c-52cd3c563062"
-    * curl -H "Authorization: Bearer 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" -i https://api.github.com/hub -F "hub.mode=subscribe" -F "hub.topic=https://github.com/Ring-tail-lemur/test-for-fake-project/events/pull_request" -F "hub.callback=https://webhook.site/3d6e59ed-e609-434a-bf0c-52cd3c563062"
-    *
-    * */
 }

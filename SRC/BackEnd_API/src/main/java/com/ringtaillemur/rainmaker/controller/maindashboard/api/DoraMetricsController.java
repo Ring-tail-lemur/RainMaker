@@ -2,8 +2,6 @@ package com.ringtaillemur.rainmaker.controller.maindashboard.api;
 
 import java.time.LocalDate;
 
-import javax.servlet.http.HttpServlet;
-
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
