@@ -1,5 +1,6 @@
 package com.ringtaillemur.rainmaker.service;
 
+import com.ringtaillemur.rainmaker.domain.OAuthUser;
 import com.ringtaillemur.rainmaker.dto.webdto.responsedto.UserRepositoryDto;
 import com.ringtaillemur.rainmaker.repository.GitUserRepository;
 import com.ringtaillemur.rainmaker.repository.OAuthRepository;
@@ -27,6 +28,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -35,11 +37,17 @@ public class UserConfigService {
     private final WebClient webClient;
     private final OAuthRepository oAuthRepository;
 
-    public String getUserToken(String userId) {
+    /**
+    * UserId를 인수로 넣으면 token을 반환하는 함수
+    *
+    * @return OAuthToken - (String)
+    * @param userId (Long) - session에서 얻어오는 userId
+    * */
+    public String getUserToken(Long userId) {
+        Optional<OAuthUser> user = oAuthRepository.findById(userId);
+        OAuthUser oauthuser = user.get();
 
-        oAuthRepository.findById(Long.valueOf(userId));
-        return null;
-//        return token;
+        return oauthuser.getOauthToken();
     }
 
 

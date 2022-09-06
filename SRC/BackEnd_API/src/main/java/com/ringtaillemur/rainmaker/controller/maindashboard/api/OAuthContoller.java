@@ -13,6 +13,7 @@ import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -21,6 +22,8 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.servlet.view.RedirectView;
 
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -29,7 +32,8 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.Optional;
 
-@RestController
+//@RestController
+@Controller
 public class OAuthContoller {
     @Autowired
     private HttpSession session;
@@ -38,8 +42,8 @@ public class OAuthContoller {
     @Autowired
     OAuthRepository oAuthRepository;
     @GetMapping("/login/oauth2/code/github")
-    public RedirectView testMap2(@RequestParam(value = "code", required = false, defaultValue = "test")String code,
-                           @RequestParam(value = "state", required = false, defaultValue = "test")String state) throws IOException {
+    public String testMap2(@RequestParam(value = "code", required = false, defaultValue = "test")String code,
+                                 @RequestParam(value = "state", required = false, defaultValue = "test")String state, HttpServletResponse response1 ) throws IOException {
         String clientId = "8189c16057d124b9324e";
         String clientSecret = "e5231059eb31aa50d69a6a2154708a8a3f88954d";
         System.out.println("code : " + code);
@@ -85,22 +89,30 @@ public class OAuthContoller {
         }
         inputLine = bufferedReader.readLine();
         http.disconnect();
-        OAuthUser inputOAuthUser = stringToJson(inputLine, userAccessToken);
+        OAuthUser inputOAuthUser = stringToJson(inputLine, userAccessToken.replace("\"",""));
 
-//
 //        /* id, name, token, url, email 넣은 OAuthUser 생성*/
 //        session.setAttribute("OAUTH_USER", inputOAuthUser);
 
         session.setAttribute("OAUTH_USER", inputOAuthUser);
+        session.setMaxInactiveInterval(-1);
         if(session.getId() == null){
             System.out.println("????");
         }else{
             System.out.println(session.getId());
             System.out.println(session.getAttribute("OAUTH_USER"));
         }
-        RedirectView redirectView = new RedirectView();
-        redirectView.setUrl(WebClientConfig.FrontBaseUrl);
-        return redirectView;
+
+        response1.setHeader("Set-cookie", "JSESSIONID="+ session.getId() + "; path=/ ");
+        Cookie cookie = new Cookie("super","pil" );
+        cookie.setPath("/");
+        response1.addCookie(cookie);
+
+//        RedirectView redirectView = new RedirectView();
+//        redirectView.setUrl("127.0.0.1:3000"); // + "/RepositorySelect");
+//        return redirectView;
+        return "redirect:http://127.0.0.1:3000";
+//        return "";
     }
 
     public <T> OAuthUser stringToJson(String inputString, String OauthToken){

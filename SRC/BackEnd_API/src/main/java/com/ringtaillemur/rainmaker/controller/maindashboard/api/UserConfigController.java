@@ -26,11 +26,12 @@ public class UserConfigController {
     public ArrayList<UserRepositoryDto> userRepositoryListReturnRestAPI() {
 
         // todo : UserId의 경우는 세션을 통해 알아올 것이고, token의 경우는 이 유저아이디를 통해 DB에서 빼올것.
+        System.out.println(session.getId());
         Object oauth_user = session.getAttribute("OAUTH_USER");
-
+        System.out.println(oauth_user);
         String token = "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";
 
-        System.out.println(session.toString());
+        System.out.println(session);
         return userConfigService.getUserRepositoryDtoByToken(token);
     }
 
