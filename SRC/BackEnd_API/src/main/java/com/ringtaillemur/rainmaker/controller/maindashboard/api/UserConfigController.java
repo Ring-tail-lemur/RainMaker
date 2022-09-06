@@ -1,5 +1,6 @@
 package com.ringtaillemur.rainmaker.controller.maindashboard.api;
 
+import com.ringtaillemur.rainmaker.config.WebClientConfig;
 import com.ringtaillemur.rainmaker.dto.webdto.responsedto.UserRepositoryDto;
 import com.ringtaillemur.rainmaker.service.UserConfigService;
 import lombok.RequiredArgsConstructor;
@@ -25,7 +26,8 @@ public class UserConfigController {
     public ArrayList<UserRepositoryDto> userRepositoryListReturnRestAPI() {
 
         // todo : UserId의 경우는 세션을 통해 알아올 것이고, token의 경우는 이 유저아이디를 통해 DB에서 빼올것.
-        String userId = "11979390";
+        Object oauth_user = session.getAttribute("OAUTH_USER");
+
         String token = "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";
 
         System.out.println(session.toString());
@@ -35,6 +37,9 @@ public class UserConfigController {
     @PostMapping("/RepositorySelect")
     public String userRepositoryRegisterRestAPI(@RequestParam(name="repo_id") List<String> RepoInfos) {
 
+        session.getId(); // 얘가 세션아이디
+        session.getAttribute("OAUTH_USER");
+
         String token = "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";
 
         for(var repo : RepoInfos) {
@@ -43,6 +48,6 @@ public class UserConfigController {
         }
 
         // todo: repoId, token, repo Name, owner Name (Organization Name), 이걸로 azure function을 호출.
-        return "redirect:http://localhost:3000/";
+        return "redirect:" + WebClientConfig.FrontBaseUrl;
     }
 }

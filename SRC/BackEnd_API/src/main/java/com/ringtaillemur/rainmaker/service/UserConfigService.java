@@ -1,6 +1,8 @@
 package com.ringtaillemur.rainmaker.service;
 
 import com.ringtaillemur.rainmaker.dto.webdto.responsedto.UserRepositoryDto;
+import com.ringtaillemur.rainmaker.repository.GitUserRepository;
+import com.ringtaillemur.rainmaker.repository.OAuthRepository;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import lombok.Value;
@@ -31,6 +33,16 @@ import java.util.Map;
 public class UserConfigService {
 
     private final WebClient webClient;
+    private final OAuthRepository oAuthRepository;
+
+    public String getUserToken(String userId) {
+
+        oAuthRepository.findById(Long.valueOf(userId));
+        return null;
+//        return token;
+    }
+
+
     /**
      * 토큰을 넣어주면 유저의 모든 Repository 정보를 뺴내오는 Method
      * */
@@ -137,10 +149,5 @@ public class UserConfigService {
         }
     }
 
-    /*
-    todo 웹훅 등록
-    * curl -H "Authorization: Bearer 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" -i https://api.github.com/hub -F "hub.mode=subscribe" -F "hub.topic=https://github.com/Ring-tail-lemur/test-for-fake-project/events/push" -F "hub.callback=https://webhook.site/3d6e59ed-e609-434a-bf0c-52cd3c563062"
-    * curl -H "Authorization: Bearer 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" -i https://api.github.com/hub -F "hub.mode=subscribe" -F "hub.topic=https://github.com/Ring-tail-lemur/test-for-fake-project/events/pull_request" -F "hub.callback=https://webhook.site/3d6e59ed-e609-434a-bf0c-52cd3c563062"
-    *
-    * */
+
 }

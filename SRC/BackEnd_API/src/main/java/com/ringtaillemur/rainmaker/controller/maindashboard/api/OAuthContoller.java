@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.ringtaillemur.rainmaker.config.WebClientConfig;
 import com.ringtaillemur.rainmaker.domain.OAuthUser;
 import com.ringtaillemur.rainmaker.repository.OAuthRepository;
 import com.ringtaillemur.rainmaker.service.oauth2.CustomOAuth2UserService;
@@ -98,7 +99,7 @@ public class OAuthContoller {
             System.out.println(session.getAttribute("OAUTH_USER"));
         }
         RedirectView redirectView = new RedirectView();
-        redirectView.setUrl("http://localhost:3000");
+        redirectView.setUrl(WebClientConfig.FrontBaseUrl);
         return redirectView;
     }
 
