@@ -84,7 +84,7 @@ public class OAuthContoller {
         }
         inputLine = bufferedReader.readLine();
         http.disconnect();
-        OAuthUser inputOAuthUser = stringToJson(inputLine, userAccessToken);
+        OAuthUser inputOAuthUser = stringToJson(inputLine, userAccessToken.replace("\"",""));
 
 //
 //        /* id, name, token, url, email 넣은 OAuthUser 생성*/
