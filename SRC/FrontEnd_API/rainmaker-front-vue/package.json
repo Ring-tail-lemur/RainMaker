@@ -19,7 +19,8 @@
     "bootstrap-vue-3": "^0.2.14",
     "chart.js": "^3.9.1",
     "vue": "^3.2.37",
-    "vue-router": "^4.1.2"
+    "vue-router": "^4.1.2",
+    "yarn": "^1.22.19"
   },
   "devDependencies": {
     "@types/jsdom": "^16.2.14",
