@@ -8,16 +8,14 @@ import com.ringtaillemur.rainmaker.domain.OAuthUser;
 import com.ringtaillemur.rainmaker.repository.OAuthRepository;
 import com.ringtaillemur.rainmaker.service.oauth2.CustomOAuth2UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.*;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.servlet.view.RedirectView;
 
 import javax.servlet.http.HttpSession;
@@ -25,6 +23,8 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.Optional;
 
@@ -37,8 +37,8 @@ public class OAuthContoller {
     @Autowired
     OAuthRepository oAuthRepository;
     @GetMapping("/login/oauth2/code/github")
-    public RedirectView testMap2(@RequestParam(value = "code", required = false, defaultValue = "test")String code,
-                           @RequestParam(value = "state", required = false, defaultValue = "test")String state) throws IOException {
+    public String testMap2(@RequestParam(value = "code", required = false, defaultValue = "test")String code,
+                           @RequestParam(value = "state", required = false, defaultValue = "test")String state,  RedirectAttributes redirectAttributes) throws IOException, URISyntaxException {
         String clientId = "8189c16057d124b9324e";
         String clientSecret = "e5231059eb31aa50d69a6a2154708a8a3f88954d";
         System.out.println("code : " + code);
@@ -97,9 +97,8 @@ public class OAuthContoller {
             System.out.println(session.getId());
             System.out.println(session.getAttribute("OAUTH_USER"));
         }
-        RedirectView redirectView = new RedirectView();
-        redirectView.setUrl("http://localhost:3000/RepositorySelect");
-        return redirectView;
+        redirectAttributes.addFlashAttribute("session",session);
+        return "redirect:http://localhost:3000";
     }
 
     public <T> OAuthUser stringToJson(String inputString, String OauthToken){
