@@ -98,7 +98,7 @@ public class OAuthContoller {
             System.out.println(session.getAttribute("OAUTH_USER"));
         }
         RedirectView redirectView = new RedirectView();
-        redirectView.setUrl("http://localhost:3000");
+        redirectView.setUrl("http://localhost:3000/RepositorySelect");
         return redirectView;
     }
 
