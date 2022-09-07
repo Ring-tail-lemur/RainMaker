@@ -11,9 +11,10 @@ import lombok.Data;
 @Data
 @AllArgsConstructor
 @Builder
-public class GithubRestApiDto {
+public class HttpRequestDto {
 	private String requestType;
 	private URL url;
 	private JSONObject header;
 	private String method;
+	private String body;
 }

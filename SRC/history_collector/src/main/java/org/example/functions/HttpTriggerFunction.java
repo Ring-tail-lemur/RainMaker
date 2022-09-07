@@ -1,13 +1,11 @@
 package org.example.functions;
 
-import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
-import org.example.functions.api_service.github.GithubRestApiDto;
-import org.example.functions.api_service.github.GithubRestApiGenerator;
-import org.example.functions.api_service.github.GithubRestApiSender;
+import org.example.functions.api_service.github.GithubApiRunner;
+import org.example.functions.api_service.github.HttpRequestSender;
 import org.example.functions.db_service.QueryGenerator;
 import org.example.functions.db_service.QueryRunner;
 import org.example.functions.util.ConfigReader;
@@ -26,8 +24,9 @@ import com.microsoft.azure.functions.annotation.HttpTrigger;
 public class HttpTriggerFunction {
 
 	ConfigReader configReader = new ConfigReader();
-	GithubRestApiSender githubRestApiSender = new GithubRestApiSender();
+	HttpRequestSender httpRequestSender = new HttpRequestSender();
 	QueryRunner queryRunner = QueryRunner.getQueryRunner();
+	GithubApiRunner githubApiRunner = GithubApiRunner.getGithubApiRunner();
 	@FunctionName("HttpExample")
 	public HttpResponseMessage run(
 		@HttpTrigger(
@@ -35,11 +34,10 @@ public class HttpTriggerFunction {
 			methods = {HttpMethod.GET, HttpMethod.POST},
 			authLevel = AuthorizationLevel.ANONYMOUS)
 		HttpRequestMessage<Optional<String>> request,
-		final ExecutionContext context) throws IOException {
+		final ExecutionContext context) throws Exception {
 		JSONObject jsonObjectConfig = configReader.getJsonObjectConfig();
-		GithubRestApiGenerator githubRestApiGenerator = new GithubRestApiGenerator(request.getQueryParameters());
-		List<GithubRestApiDto> githubRestApiDtoList = githubRestApiGenerator.getGithubRestApiDtoList(jsonObjectConfig);
-		Map<String, JSONArray> responseJSONArrayList = githubRestApiSender.sendAllGithubRestApi(githubRestApiDtoList);
+		Map<String, JSONArray> responseJSONArrayList = githubApiRunner.runGithubApi(jsonObjectConfig, request);
+
 		QueryGenerator queryGenerator = new QueryGenerator(jsonObjectConfig);
 		List<String> queryList = queryGenerator.generateQueryList(responseJSONArrayList);
 		queryRunner.runInsertQueries(queryList);

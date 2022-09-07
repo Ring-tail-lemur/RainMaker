@@ -13,21 +13,21 @@ import org.example.functions.util.TypeConverter;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-public class GithubRestApiSender {
+public class HttpRequestSender {
 
 	TypeConverter typeConverter = TypeConverter.getTypeConverter();
 
-	public Map<String, JSONArray> sendAllGithubRestApi(List<GithubRestApiDto> githubRestApiDtoList) throws IOException {
+	public Map<String, JSONArray> sendAllHttpRequest(List<HttpRequestDto> httpRequestDtoList) throws IOException {
 		Map<String, JSONArray> responseJSONArrayList = new HashMap<>();
-		for (GithubRestApiDto githubRestApiDto : githubRestApiDtoList) {
-			responseJSONArrayList.put(githubRestApiDto.getRequestType(), sendGithubRestApi(githubRestApiDto));
+		for (HttpRequestDto httpRequestDto : httpRequestDtoList) {
+			responseJSONArrayList.put(httpRequestDto.getRequestType(), sendHttpRequest(httpRequestDto));
 		}
 		return responseJSONArrayList;
 	}
-	public JSONArray sendGithubRestApi(GithubRestApiDto githubRestApiDto) throws IOException {
-		HttpURLConnection httpURLConnection = (HttpURLConnection)githubRestApiDto.getUrl().openConnection();
-		httpURLConnection.setRequestMethod(githubRestApiDto.getMethod());
-		setConnectionHeader(githubRestApiDto, httpURLConnection);
+	public JSONArray sendHttpRequest(HttpRequestDto httpRequestDto) throws IOException {
+		HttpURLConnection httpURLConnection = (HttpURLConnection)httpRequestDto.getUrl().openConnection();
+		httpURLConnection.setRequestMethod(httpRequestDto.getMethod());
+		setConnectionHeader(httpRequestDto, httpURLConnection);
 		httpURLConnection.setDoOutput(true);
 
 		String responseString = getResponseString(httpURLConnection);
@@ -53,8 +53,8 @@ public class GithubRestApiSender {
 		return stringBuilder.toString();
 	}
 
-	private void setConnectionHeader(GithubRestApiDto githubRestApiDto, HttpURLConnection httpURLConnection) {
-		JSONObject header = githubRestApiDto.getHeader();
+	private void setConnectionHeader(HttpRequestDto httpRequestDto, HttpURLConnection httpURLConnection) {
+		JSONObject header = httpRequestDto.getHeader();
 		Iterator<String> headerKeys = header.keys();
 		while (headerKeys.hasNext()) {
 			String headerKey = headerKeys.next();
