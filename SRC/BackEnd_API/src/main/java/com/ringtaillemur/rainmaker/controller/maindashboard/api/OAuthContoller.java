@@ -31,34 +31,51 @@ import com.ringtaillemur.rainmaker.domain.OAuthUser;
 import com.ringtaillemur.rainmaker.repository.OAuthRepository;
 import com.ringtaillemur.rainmaker.service.oauth2.CustomOAuth2UserService;
 
-//@RestController
-@Controller
-public class OAuthContoller {
-	@Autowired
-	private HttpSession session;
-	@Autowired
-	CustomOAuth2UserService customOAuth2UserService;
-	@Autowired
-	OAuthRepository oAuthRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.*;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.client.RestTemplate;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.springframework.web.servlet.view.RedirectView;
 
-	@GetMapping("/login/oauth2/code/github")
-	public String testMap2(@RequestParam(value = "code", required = false, defaultValue = "test") String code,
-		@RequestParam(value = "state", required = false, defaultValue = "test") String state,
-		HttpServletResponse response1) throws IOException {
-		String clientId = "8189c16057d124b9324e";
-		String clientSecret = "e5231059eb31aa50d69a6a2154708a8a3f88954d";
-		System.out.println("code : " + code);
-		System.out.println("state : " + state);
-		MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
-		params.add("client_id", clientId);
-		params.add("code", code);
-		params.add("client_secret", clientSecret);
-		HttpHeaders headers = new HttpHeaders();
-		headers.add("Accept", "application/json");
-		HttpEntity<MultiValueMap<String, String>> entity = new HttpEntity<>(params, headers);
-		RestTemplate restTemplate = new RestTemplate();
-		ResponseEntity<String> response = restTemplate.exchange("https://github.com/login/oauth/access_token",
-			HttpMethod.POST, entity, String.class);
+import javax.servlet.http.HttpSession;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.net.URL;
+import java.util.Optional;
+
+@RestController
+public class OAuthContoller {
+    @Autowired
+    private HttpSession session;
+    @Autowired
+    CustomOAuth2UserService customOAuth2UserService;
+    @Autowired
+    OAuthRepository oAuthRepository;
+    @GetMapping("/login/oauth2/code/github")
+    public String testMap2(@RequestParam(value = "code", required = false, defaultValue = "test")String code,
+                           @RequestParam(value = "state", required = false, defaultValue = "test")String state,  RedirectAttributes redirectAttributes) throws IOException, URISyntaxException {
+        String clientId = "8189c16057d124b9324e";
+        String clientSecret = "e5231059eb31aa50d69a6a2154708a8a3f88954d";
+        System.out.println("code : " + code);
+        System.out.println("state : " + state);
+        MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
+        params.add("client_id", clientId);
+        params.add("code", code);
+        params.add("client_secret", clientSecret);
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("Accept","application/json");
+        HttpEntity<MultiValueMap<String,String>> entity = new HttpEntity<>(params, headers);
+        RestTemplate restTemplate = new RestTemplate();
+        ResponseEntity<String> response = restTemplate.exchange("https://github.com/login/oauth/access_token", HttpMethod.POST, entity,String.class);
         /*
         access_token=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
         scope=admin%3Aorg%2Cadmin%3Apublic_key%2Cadmin%3Arepo_hook%2Crepo
@@ -108,12 +125,25 @@ public class OAuthContoller {
 		cookie.setPath("/");
 		response1.addCookie(cookie);
 
+<<<<<<< HEAD
 		//        RedirectView redirectView = new RedirectView();
 		//        redirectView.setUrl("127.0.0.1:3000"); // + "/RepositorySelect");
 		//        return redirectView;
 		return "redirect:http://127.0.0.1:3000";
 		//        return "";
 	}
+=======
+        session.setAttribute("OAUTH_USER", inputOAuthUser);
+        if(session.getId() == null){
+            System.out.println("????");
+        }else{
+            System.out.println(session.getId());
+            System.out.println(session.getAttribute("OAUTH_USER"));
+        }
+        redirectAttributes.addFlashAttribute("session",session);
+        return "redirect:http://localhost:3000";
+    }
+>>>>>>> 9238dd374785a205a4f6af46f2b0632dc4762c73
 
 	public <T> OAuthUser stringToJson(String inputString, String OauthToken) {
 		GsonBuilder gsonBuilder = new GsonBuilder();
