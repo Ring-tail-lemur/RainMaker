@@ -4,11 +4,15 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.ringtaillemur.rainmaker.config.JwtTokenProvider;
+import com.ringtaillemur.rainmaker.config.Token;
+import com.ringtaillemur.rainmaker.config.UserAuthentication;
 import com.ringtaillemur.rainmaker.domain.OAuthUser;
 import com.ringtaillemur.rainmaker.repository.OAuthRepository;
 import com.ringtaillemur.rainmaker.service.oauth2.CustomOAuth2UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.*;
+import org.springframework.security.core.Authentication;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,6 +22,8 @@ import org.springframework.web.client.RestTemplate;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.servlet.view.RedirectView;
 
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -37,8 +43,9 @@ public class OAuthContoller {
     @Autowired
     OAuthRepository oAuthRepository;
     @GetMapping("/login/oauth2/code/github")
-    public String testMap2(@RequestParam(value = "code", required = false, defaultValue = "test")String code,
-                           @RequestParam(value = "state", required = false, defaultValue = "test")String state,  RedirectAttributes redirectAttributes) throws IOException, URISyntaxException {
+    public Token.Response testMap2(@RequestParam(value = "code", required = false, defaultValue = "test")String code,
+                           @RequestParam(value = "state", required = false, defaultValue = "test")String state,  RedirectAttributes redirectAttributes
+    , HttpServletResponse res) throws IOException, URISyntaxException {
         String clientId = "8189c16057d124b9324e";
         String clientSecret = "e5231059eb31aa50d69a6a2154708a8a3f88954d";
         System.out.println("code : " + code);
@@ -90,15 +97,29 @@ public class OAuthContoller {
 //        /* id, name, token, url, email 넣은 OAuthUser 생성*/
 //        session.setAttribute("OAUTH_USER", inputOAuthUser);
 
-        session.setAttribute("OAUTH_USER", inputOAuthUser);
-        if(session.getId() == null){
-            System.out.println("????");
-        }else{
-            System.out.println(session.getId());
-            System.out.println(session.getAttribute("OAUTH_USER"));
-        }
-        redirectAttributes.addFlashAttribute("session",session);
-        return "redirect:http://localhost:3000";
+
+//        session.setAttribute("OAUTH_USER", inputOAuthUser);
+//        if(session.getId() == null){
+//            System.out.println("????");
+//        }else{
+//            System.out.println(session.getId());
+//            System.out.println(session.getAttribute("OAUTH_USER"));
+//        }
+//        redirectAttributes.addFlashAttribute("session",session);
+
+
+        Authentication authentication = new UserAuthentication(String.valueOf(inputOAuthUser.getUserRemoteId()), null, null);
+        String token = JwtTokenProvider.generateToken(authentication);
+        Cookie cookie = new Cookie("Bearer", token);
+//        cookie.setSecure(true);
+//        cookie.setDomain("http://127.0.0.1");
+        cookie.setPath("/");
+        System.out.println("GET DOMAIN ==============" +cookie.getDomain()) ;
+        res.addCookie(cookie);
+
+        Token.Response response1 = Token.Response.builder().token(token).build();
+
+        return response1;
     }
 
     public <T> OAuthUser stringToJson(String inputString, String OauthToken){

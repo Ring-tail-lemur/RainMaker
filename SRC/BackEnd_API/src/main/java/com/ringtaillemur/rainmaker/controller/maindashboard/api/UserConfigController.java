@@ -4,6 +4,8 @@ import com.ringtaillemur.rainmaker.dto.webdto.responsedto.UserRepositoryDto;
 import com.ringtaillemur.rainmaker.service.UserConfigService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
@@ -25,8 +27,12 @@ public class UserConfigController {
     public ArrayList<UserRepositoryDto> userRepositoryListReturnRestAPI() {
 
         // todo : UserId의 경우는 세션을 통해 알아올 것이고, token의 경우는 이 유저아이디를 통해 DB에서 빼올것.
-        String userId = "11979390";
-        String token = "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";
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        System.out.println(authentication);
+
+        String userId = (String) authentication.getPrincipal();
+        String token = userConfigService.getToken(Long.valueOf(userId));
+//        String token = "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";
 
         System.out.println(session.toString());
         return userConfigService.getUserRepositoryDtoByToken(token);

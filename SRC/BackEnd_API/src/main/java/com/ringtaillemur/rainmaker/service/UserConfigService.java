@@ -1,6 +1,8 @@
 package com.ringtaillemur.rainmaker.service;
 
+import com.ringtaillemur.rainmaker.domain.OAuthUser;
 import com.ringtaillemur.rainmaker.dto.webdto.responsedto.UserRepositoryDto;
+import com.ringtaillemur.rainmaker.repository.OAuthRepository;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import lombok.Value;
@@ -25,12 +27,20 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
 public class UserConfigService {
 
     private final WebClient webClient;
+    private final OAuthRepository oAuthRepository;
+    public String getToken(Long userId) {
+        Optional<OAuthUser> user = oAuthRepository.findByUserRemoteId(userId);
+//        Optional<OAuthUser> user = oAuthRepository.findById(userId);
+        return user.get().getOauthToken();
+    }
+
     /**
      * 토큰을 넣어주면 유저의 모든 Repository 정보를 뺴내오는 Method
      * */
