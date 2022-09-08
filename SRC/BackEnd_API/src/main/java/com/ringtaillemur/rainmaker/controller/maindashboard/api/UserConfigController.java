@@ -26,13 +26,8 @@ public class UserConfigController {
     @GetMapping("/RepositorySelect")
     public ArrayList<UserRepositoryDto> userRepositoryListReturnRestAPI() {
 
-        // todo : UserId의 경우는 세션을 통해 알아올 것이고, token의 경우는 이 유저아이디를 통해 DB에서 빼올것.
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        System.out.println(authentication);
-
-        String userId = (String) authentication.getPrincipal();
-        String token = userConfigService.getToken(Long.valueOf(userId));
-//        String token = "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";
+        Long userId = userConfigService.getUserId();
+        String token = userConfigService.getToken(userId);
 
         System.out.println(session.toString());
         return userConfigService.getUserRepositoryDtoByToken(token);
@@ -41,6 +36,7 @@ public class UserConfigController {
     @PostMapping("/RepositorySelect")
     public String userRepositoryRegisterRestAPI(  //@RequestBody String repoIds) {
             @RequestParam(name="repo_id") List<String> repoIds) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
         for(var repoId : repoIds) {
             System.out.println(repoId);
