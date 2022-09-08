@@ -44,7 +44,7 @@ public class UserConfigService {
     * */
     public Long getUserId() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        return (Long) authentication.getPrincipal();
+        return Long.parseLong((String)authentication.getPrincipal());
     }
 
     /**
