@@ -54,7 +54,8 @@
                 </li>
               </ul>
 
-              <p><input type="submit" value="Submit"> <input type="reset" value="Reset"></p>
+<!--              <p><input type="submit" value="Submit"> <input type="reset" value="Reset"></p>-->
+              <p><button v-on:click="">Submit</button> <input type="reset" value="Reset"></p>
             </form>
           </div>
         </div>
@@ -65,6 +66,7 @@
 
 <script>
 import axios from "axios";
+import setHeaderJWT from "../components/test/api/setHeaderJWT";
 export default {
   name: "RepositorySelect",
   data() {
@@ -81,7 +83,9 @@ export default {
   },
   methods : {
     async getList () {
+      console.log("==========================JWT=================", setHeaderJWT());
       const RepositoryInfo = await axios({
+        headers: setHeaderJWT(),
         method: "get",
         url: this.defaultURL + "/RepositorySelect",
       });
