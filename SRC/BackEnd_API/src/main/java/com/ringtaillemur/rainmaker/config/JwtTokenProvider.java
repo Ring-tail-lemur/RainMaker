@@ -1,7 +1,10 @@
 package com.ringtaillemur.rainmaker.config;
 
+import com.ringtaillemur.rainmaker.domain.enumtype.OauthUserLevel;
+import com.ringtaillemur.rainmaker.repository.OAuthRepository;
 import io.jsonwebtoken.*;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 
 import java.util.Date;
@@ -9,6 +12,7 @@ import java.util.Date;
 @Slf4j
 public class JwtTokenProvider {
     private static final String JWT_SECRET = "secretKey";
+    private static final String AUTHORITIES_KEY = "ring-tail-lemur";
 
     // 토큰 유효시간
     private static final int JWT_EXPIRATION_MS = 604800000;
@@ -18,9 +22,10 @@ public class JwtTokenProvider {
 
         Date now = new Date();
         Date expiryDate = new Date(now.getTime() + JWT_EXPIRATION_MS);
-
+//        OauthUserLevel oauthUserLevel = oAuthRepositoryInJwtProvider.findByUserRemoteId(Long.parseLong((String) authentication.getPrincipal())).get().getUser_level();
         return Jwts.builder()
                 .setSubject((String) authentication.getPrincipal()) // 사용자
+//                .claim(AUTHORITIES_KEY, oauthUserLevel)
                 .setIssuedAt(new Date()) // 현재 시간 기반으로 생성
                 .setExpiration(expiryDate) // 만료 시간 세팅
                 .signWith(SignatureAlgorithm.HS512, JWT_SECRET) // 사용할 암호화 알고리즘, signature에 들어갈 secret 값 세팅
@@ -36,6 +41,7 @@ public class JwtTokenProvider {
 
         return claims.getSubject();
     }
+
 
     // Jwt 토큰 유효성 검사
     public static boolean validateToken(String token) {

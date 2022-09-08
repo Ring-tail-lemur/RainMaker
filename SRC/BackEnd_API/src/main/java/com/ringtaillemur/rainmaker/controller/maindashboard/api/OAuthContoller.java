@@ -112,7 +112,7 @@ public class OAuthContoller {
 //        redirectAttributes.addFlashAttribute("session",session);
 
 
-        Authentication authentication = new UserAuthentication(String.valueOf(inputOAuthUser.getUserRemoteId()), null, null);
+        Authentication authentication = new UserAuthentication(String.valueOf(inputOAuthUser.getUserRemoteId()), String.valueOf(inputOAuthUser.getUser_level()), null);
         String token = JwtTokenProvider.generateToken(authentication);
         Cookie cookie = new Cookie("Bearer", token);
 
