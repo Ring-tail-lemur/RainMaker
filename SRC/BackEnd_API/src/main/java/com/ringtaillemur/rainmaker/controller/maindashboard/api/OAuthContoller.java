@@ -13,6 +13,7 @@ import com.ringtaillemur.rainmaker.service.oauth2.CustomOAuth2UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.*;
 import org.springframework.security.core.Authentication;
+import org.springframework.stereotype.Controller;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -34,7 +35,7 @@ import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.Optional;
 
-@RestController
+@Controller
 public class OAuthContoller {
     @Autowired
     private HttpSession session;
@@ -43,7 +44,7 @@ public class OAuthContoller {
     @Autowired
     OAuthRepository oAuthRepository;
     @GetMapping("/login/oauth2/code/github")
-    public Token.Response testMap2(@RequestParam(value = "code", required = false, defaultValue = "test")String code,
+    public String testMap2(@RequestParam(value = "code", required = false, defaultValue = "test")String code,
                            @RequestParam(value = "state", required = false, defaultValue = "test")String state,  RedirectAttributes redirectAttributes
     , HttpServletResponse res) throws IOException, URISyntaxException {
         String clientId = "8189c16057d124b9324e";
@@ -111,15 +112,12 @@ public class OAuthContoller {
         Authentication authentication = new UserAuthentication(String.valueOf(inputOAuthUser.getUserRemoteId()), null, null);
         String token = JwtTokenProvider.generateToken(authentication);
         Cookie cookie = new Cookie("Bearer", token);
-//        cookie.setSecure(true);
-//        cookie.setDomain("http://127.0.0.1");
+
         cookie.setPath("/");
         System.out.println("GET DOMAIN ==============" +cookie.getDomain()) ;
         res.addCookie(cookie);
 
-        Token.Response response1 = Token.Response.builder().token(token).build();
-
-        return response1;
+        return "redirect:http://127.0.0.1:3000/RepositorySelect";
     }
 
     public <T> OAuthUser stringToJson(String inputString, String OauthToken){
