@@ -1,22 +1,45 @@
 package com.ringtaillemur.rainmaker.service;
 
+import com.ringtaillemur.rainmaker.domain.OAuthUser;
 import com.ringtaillemur.rainmaker.dto.webdto.responsedto.UserRepositoryDto;
+import com.ringtaillemur.rainmaker.repository.OAuthRepository;
+import lombok.Data;
+import lombok.RequiredArgsConstructor;
+import lombok.Value;
 import org.json.JSONArray;
 import org.json.JSONObject;
+import org.springframework.http.MediaType;
+import org.springframework.http.ReactiveHttpOutputMessage;
 import org.springframework.stereotype.Service;
+import org.springframework.web.reactive.function.BodyInserter;
+import org.springframework.web.reactive.function.BodyInserters;
+import org.springframework.web.reactive.function.client.ClientResponse;
+import org.springframework.web.reactive.function.client.WebClient;
+import reactor.core.publisher.Mono;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
+import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.net.http.HttpHeaders;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Optional;
 
 @Service
+@RequiredArgsConstructor
 public class UserConfigService {
+
+    private final WebClient webClient;
+    private final OAuthRepository oAuthRepository;
+    public String getToken(Long userId) {
+        Optional<OAuthUser> user = oAuthRepository.findByUserRemoteId(userId);
+//        Optional<OAuthUser> user = oAuthRepository.findById(userId);
+        return user.get().getOauthToken();
+    }
 
     /**
      * 토큰을 넣어주면 유저의 모든 Repository 정보를 뺴내오는 Method
@@ -101,4 +124,33 @@ public class UserConfigService {
         LocalDateTime dateTime = LocalDateTime.parse(pushedAtStr, formatter);
         return dateTime;
     }
+
+    public String setUserWebhookByRepoName(String token, String owner_name, String repo_name) {
+        try {
+            Map<String, String> bodyMap = new HashMap();
+            String body = "{\"config\": { \"url\": \"https://webhook.site/02ee4e5e-7543-464e-9e80-ab50386ac65e\", \"content_type\":\"'json'\", \"insecure_ssl\": \"'0'\" }, \"events\": [\"pull_request\", \"push\", \"label\", \"repository\", \"release\", \"issues\", \"create\", \"delete\", \"issue_comment\", \"pull_request_review_comment\"], \"active\": true}";
+            BodyInserter<Map<String, String>, ReactiveHttpOutputMessage> inserter = BodyInserters.fromValue(bodyMap);
+
+            var responseSpec= webClient.post()
+                    .uri(String.format("/repos/%s/%s/hooks", owner_name, repo_name))
+//                    .accept(MediaType.APPLICATION_JSON)
+//                    .header("application", "vnd.github+json")
+                    .header("Authorization", "Bearer " + token)
+                    .body(BodyInserters.fromValue(body))
+                    .exchangeToMono(clientResponse -> clientResponse.bodyToMono(String.class))
+                    .block();
+
+            return responseSpec;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    /*
+    todo 웹훅 등록
+    * curl -H "Authorization: Bearer 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" -i https://api.github.com/hub -F "hub.mode=subscribe" -F "hub.topic=https://github.com/Ring-tail-lemur/test-for-fake-project/events/push" -F "hub.callback=https://webhook.site/3d6e59ed-e609-434a-bf0c-52cd3c563062"
+    * curl -H "Authorization: Bearer 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" -i https://api.github.com/hub -F "hub.mode=subscribe" -F "hub.topic=https://github.com/Ring-tail-lemur/test-for-fake-project/events/pull_request" -F "hub.callback=https://webhook.site/3d6e59ed-e609-434a-bf0c-52cd3c563062"
+    *
+    * */
 }

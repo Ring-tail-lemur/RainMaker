@@ -37,7 +37,7 @@
                 <li v-for="item in list" class="list-group-item">
                   <div>
                     <div style="float: left; width: 5%; ">
-                      <input class="form-check-input me-1" type="checkbox" aria-label="..." name="repo_id" v-bind:value="item.id" >
+                      <input class="form-check-input me-1" type="checkbox" aria-label="..." name="repo_id" v-bind:value="[item.id, item.organization, item.repository, item.pushed_at]" >
                     </div>
                     <div style="float: left; width: 30%; height: 100%">
                       {{item.organization}}
@@ -54,7 +54,8 @@
                 </li>
               </ul>
 
-              <p><input type="submit" value="Submit"> <input type="reset" value="Reset"></p>
+<!--              <p><input type="submit" value="Submit"> <input type="reset" value="Reset"></p>-->
+              <p><button v-on:click="">Submit</button> <input type="reset" value="Reset"></p>
             </form>
           </div>
         </div>
@@ -65,6 +66,7 @@
 
 <script>
 import axios from "axios";
+import setHeaderJWT from "../components/test/api/setHeaderJWT";
 export default {
   name: "RepositorySelect",
   data() {
@@ -81,7 +83,9 @@ export default {
   },
   methods : {
     async getList () {
+      console.log("==========================JWT=================", setHeaderJWT());
       const RepositoryInfo = await axios({
+        headers: setHeaderJWT(),
         method: "get",
         url: this.defaultURL + "/RepositorySelect",
       });

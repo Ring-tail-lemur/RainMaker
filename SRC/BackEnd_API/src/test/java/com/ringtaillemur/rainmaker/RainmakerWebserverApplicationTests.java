@@ -30,4 +30,11 @@ class RainmakerWebserverApplicationTests {
 			System.out.println(" / Pushed_at : " + i.getPushed_at());
 		}
 	}
+
+	@Test
+	void 과연웹훅을등록할수있을까요() {
+		String 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 = userConfigService.setUserWebhookByRepoName("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", "Ring-tail-lemur", "test-for-fake-project");
+
+		System.out.println(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);
+	}
 }
