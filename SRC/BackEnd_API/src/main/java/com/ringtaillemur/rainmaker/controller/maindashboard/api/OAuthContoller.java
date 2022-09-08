@@ -8,6 +8,7 @@ import com.ringtaillemur.rainmaker.config.JwtTokenProvider;
 import com.ringtaillemur.rainmaker.config.Token;
 import com.ringtaillemur.rainmaker.config.UserAuthentication;
 import com.ringtaillemur.rainmaker.domain.OAuthUser;
+import com.ringtaillemur.rainmaker.domain.enumtype.OauthUserLevel;
 import com.ringtaillemur.rainmaker.repository.OAuthRepository;
 import com.ringtaillemur.rainmaker.service.oauth2.CustomOAuth2UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -132,7 +133,7 @@ public class OAuthContoller {
         System.out.println("user.oauth_token : "+user.oauth_token);
 
 
-        OAuthUser oAuthUser  = new OAuthUser(user.id, user.login, user.url, user.oauth_token);
+        OAuthUser oAuthUser  = new OAuthUser(user.id, user.login, user.url, user.oauth_token, OauthUserLevel.FIRST_AUTH_USER);
         try{
             Optional<OAuthUser> tmpUser = oAuthRepository.findByUserRemoteId(oAuthUser.getUserRemoteId());
             System.out.println("pres! : "+tmpUser.get().toString());
