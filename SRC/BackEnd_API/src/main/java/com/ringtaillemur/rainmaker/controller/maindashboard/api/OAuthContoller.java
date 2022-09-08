@@ -35,6 +35,8 @@ import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.Optional;
 
+import static com.ringtaillemur.rainmaker.config.WebClientConfig.frontEndBaseUrl;
+
 @Controller
 public class OAuthContoller {
     @Autowired
@@ -117,7 +119,7 @@ public class OAuthContoller {
         System.out.println("GET DOMAIN ==============" +cookie.getDomain()) ;
         res.addCookie(cookie);
 
-        return "redirect:http://127.0.0.1:3000/RepositorySelect";
+        return "redirect:"+frontEndBaseUrl+"/RepositorySelect";
     }
 
     public <T> OAuthUser stringToJson(String inputString, String OauthToken){
