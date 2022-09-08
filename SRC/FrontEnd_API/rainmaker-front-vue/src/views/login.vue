@@ -10,38 +10,38 @@
     <div class="login">
       <div>
         <div class="githubExplain">
-          <div style="margin-bottom: 10px; " id="titleFont">
+          <div style="margin-bottom: 10px;">
             RainMaker
           </div>
           <hr id="line">
-          <div style="margin-bottom: 50px; padding: 0 30px" id="contentFont">
+          <div style="margin-bottom: 50px; padding: 0 30px">
             팀의 생산성 향상을 원하시고,
             추적하시고 싶으시다면 로그인하세요. Git을 기반으로 이루어지기 때문에 필수적으로 Git의 접근권한이 필요합니다.
           </div>
-          <div style="padding: 0 30px" id="contentFont">
+          <div style="padding: 0 30px">
             오른쪽에 서비스로 편리하게 로그인, 회원가입하세요
           </div>
         </div>
         <div class="loginBox">
           <div class="logo">
-            <Logo/>
+            로고
           </div>
-          <div class="loginTitle" id="titleFont">
+          <div class="loginTitle">
             로그인
           </div>
           <div class="loginInnerBox">
             <div class="githubIconBox">
-              <button v-on:click="aaa()"/>
-              <button>
+              <button />
+              <button v-on:click="aaa()">
                 <i class="fa fa-github" style="font-size:48px"></i>
               </button>
             </div>
           </div>
-          <div class="githubLoginText" id="contentFont">
+          <div class="githubLoginText">
             GitHub
           </div>
           <div class="githubRegister">
-            <button class="githubRegisterButton"  id="contentFont">
+            <button class="githubRegisterButton">
               회원가입
             </button>
           </div>
@@ -53,19 +53,18 @@
 
 <script>
 import Button from "./Buttons.vue";
-import Logo from "../components/Logo.vue"
-import axios from "axios";
 export default {
-
   components: {
     Button,
     Logo,
   },
   methods : {
     aaa : async () => {
-      window.location.replace('https://github.com/login/oauth/authorize?client_id=8d0d3ac6cafd4bac3358');
+      console.log("hhihihihihihi");
+      window.location.replace('https://github.com/login/oauth/authorize?client_id=8189c16057d124b9324e');
     }
   }
+  components: {Button}
 }
 </script>
 
@@ -162,8 +161,9 @@ export default {
 }
 
 .loginTitle {
-  margin-bottom: 20px;
+  margin-bottom: 40px;
   font-size: 24px;
+  font-weight:bold;
 }
 .logo{
   margin-bottom: 50px;
@@ -186,12 +186,11 @@ export default {
 
 #contentFont {
   font-family: 'Dongle', sans-serif;
-  font-size: 25px;
+  font-family: 'Jua', sans-serif;
 }
 
 #titleFont {
   font-family: 'Jua', sans-serif;
-  font-size: 25px;
 }
 
 </style>
