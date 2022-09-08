@@ -1,5 +1,6 @@
 package com.ringtaillemur.rainmaker.domain;
 
+import com.ringtaillemur.rainmaker.domain.enumtype.OauthUserLevel;
 import lombok.*;
 
 import javax.persistence.*;
@@ -20,6 +21,7 @@ public class OAuthUser extends BaseEntity{
     String name;
     String oauthToken;
     String url;
+    OauthUserLevel user_level;
     @Builder
     public OAuthUser(Long id, String name, String url, String token){
         this.userRemoteId = id;
@@ -32,4 +34,6 @@ public class OAuthUser extends BaseEntity{
         this.oauthToken = oauth_token;
         return this;
     }
+
+
 }
