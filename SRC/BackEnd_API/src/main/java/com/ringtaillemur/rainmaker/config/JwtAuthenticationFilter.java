@@ -27,7 +27,8 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             String jwt = getJwtFromRequest(request); //request에서 jwt 토큰을 꺼낸다.
             if (StringUtils.isNotEmpty(jwt) && JwtTokenProvider.validateToken(jwt)) {
                 String userId = JwtTokenProvider.getUserIdFromJWT(jwt); //jwt에서 사용자 id를 꺼낸다.
-
+                String userLevel = JwtTokenProvider.getUserLevelFromJWT(jwt);
+                System.out.println("this is now filter : "+ userLevel);
                 UserAuthentication authentication = new UserAuthentication(userId, null, null); //id를 인증한다.
                 authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request)); //기본적으로 제공한 details 세팅
 

@@ -113,7 +113,7 @@ public class OAuthContoller {
 
 
         Authentication authentication = new UserAuthentication(String.valueOf(inputOAuthUser.getUserRemoteId()), String.valueOf(inputOAuthUser.getUser_level()), null);
-        String token = JwtTokenProvider.generateToken(authentication);
+        String token = JwtTokenProvider.generateToken(authentication, inputOAuthUser.getUser_level());
         Cookie cookie = new Cookie("Bearer", token);
 
         cookie.setPath("/");

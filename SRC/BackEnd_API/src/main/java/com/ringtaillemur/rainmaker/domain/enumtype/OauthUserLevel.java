@@ -1,5 +1,10 @@
 package com.ringtaillemur.rainmaker.domain.enumtype;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+
+@AllArgsConstructor
+@Getter
 public enum OauthUserLevel {
 
     FIRST_AUTH_USER,
