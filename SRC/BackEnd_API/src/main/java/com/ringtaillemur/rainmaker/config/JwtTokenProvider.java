@@ -56,7 +56,6 @@ public class JwtTokenProvider {
                 .setSigningKey(JWT_SECRET)
                 .parseClaimsJws(token)
                 .getBody();
-        System.out.println("claim! : " +claims.get("ROLE"));
         Object a = claims.get("ROLE");
         String t = a.toString();
         return t;

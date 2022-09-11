@@ -14,6 +14,7 @@ import com.ringtaillemur.rainmaker.service.oauth2.CustomOAuth2UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.*;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
@@ -24,6 +25,7 @@ import org.springframework.web.client.RestTemplate;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.servlet.view.RedirectView;
 
+import javax.annotation.security.RolesAllowed;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -34,7 +36,9 @@ import java.net.HttpURLConnection;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
+import java.util.HashSet;
 import java.util.Optional;
+import java.util.Set;
 
 import static com.ringtaillemur.rainmaker.config.WebClientConfig.frontEndBaseUrl;
 
@@ -47,6 +51,7 @@ public class OAuthContoller {
     @Autowired
     OAuthRepository oAuthRepository;
     @GetMapping("/login/oauth2/code/github")
+    @RolesAllowed("FIRST_AUTH_USER")
     public String testMap2(@RequestParam(value = "code", required = false, defaultValue = "test")String code,
                            @RequestParam(value = "state", required = false, defaultValue = "test")String state,  RedirectAttributes redirectAttributes
     , HttpServletResponse res) throws IOException, URISyntaxException {
@@ -97,22 +102,11 @@ public class OAuthContoller {
         http.disconnect();
         OAuthUser inputOAuthUser = stringToJson(inputLine, userAccessToken.replace("\"",""));
 
-//
-//        /* id, name, token, url, email 넣은 OAuthUser 생성*/
-//        session.setAttribute("OAUTH_USER", inputOAuthUser);
+        Set<SimpleGrantedAuthority> grantedAuthorities = new HashSet<>();
+        SimpleGrantedAuthority simpleGrantedAuthority = new SimpleGrantedAuthority("FIRST_AUTH_USER");
+        grantedAuthorities.add(simpleGrantedAuthority);
 
-
-//        session.setAttribute("OAUTH_USER", inputOAuthUser);
-//        if(session.getId() == null){
-//            System.out.println("????");
-//        }else{
-//            System.out.println(session.getId());
-//            System.out.println(session.getAttribute("OAUTH_USER"));
-//        }
-//        redirectAttributes.addFlashAttribute("session",session);
-
-
-        Authentication authentication = new UserAuthentication(String.valueOf(inputOAuthUser.getUserRemoteId()), String.valueOf(inputOAuthUser.getUser_level()), null);
+        Authentication authentication = new UserAuthentication(String.valueOf(inputOAuthUser.getUserRemoteId()), null, grantedAuthorities);
         String token = JwtTokenProvider.generateToken(authentication, inputOAuthUser.getUser_level());
         Cookie cookie = new Cookie("Bearer", token);
 
