@@ -30,8 +30,6 @@ public class OAuthContoller {
 
     @Autowired
     private SecurityUserService securityUserService;
-    @Autowired
-    OAuthRepository oAuthRepository;
 
     @GetMapping("/login/oauth2/code/github")
     @RolesAllowed("FIRST_AUTH_USER")
