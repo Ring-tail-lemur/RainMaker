@@ -37,7 +37,7 @@ public class UserConfigController {
         System.out.println("Now in GET(/RepositorySelect) : " + authentication);
 
         String userId = (String) authentication.getPrincipal();
-        String token = userConfigService.getToken(userId);
+        String token = userConfigService.getToken(Long.valueOf(userId));
         
 //        securityUserService.changeUserAuthByRemoteId(Long.valueOf(userId), OauthUserLevel.AUTHED_HISTORY_COLLECT_NOT_ENDED_USER);
         return userConfigService.getUserRepositoryDtoByToken(token);
