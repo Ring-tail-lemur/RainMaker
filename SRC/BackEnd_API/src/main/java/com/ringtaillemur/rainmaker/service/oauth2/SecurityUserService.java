@@ -112,6 +112,20 @@ public class SecurityUserService {
         return JwtTokenProvider.generateToken(authentication, oAuthUser.getUser_level());
     }
 
+    public String setNewUpdateUserAuthorityJwtToken(String jwt, OauthUserLevel oauthUserLevel){
+        Long UserRemoteIdFromJwt = Long.valueOf(JwtTokenProvider.getUserIdFromJWT(jwt));
+        try{
+            Optional<OAuthUser> oAuthUser = oAuthRepository.findByUserRemoteId(UserRemoteIdFromJwt);
+            oAuthUser.get().setUser_level(oauthUserLevel);
+            oAuthRepository.save(oAuthUser.get());
+            Authentication authentication = new UserAuthentication(String.valueOf(oAuthUser.get().getUserRemoteId()), null, null);
+            return JwtTokenProvider.generateToken(authentication, oAuthUser.get().getUser_level());
+        }catch (Exception e) {
+            return "null";
+        }
+    }
+
+
     private static class JsonUser {
         String oauth_token;
         Long id;
