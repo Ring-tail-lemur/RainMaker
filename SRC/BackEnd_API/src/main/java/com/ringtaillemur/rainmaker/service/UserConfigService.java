@@ -10,6 +10,8 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.http.MediaType;
 import org.springframework.http.ReactiveHttpOutputMessage;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.BodyInserter;
 import org.springframework.web.reactive.function.BodyInserters;
@@ -35,6 +37,21 @@ public class UserConfigService {
 
     private final WebClient webClient;
     private final OAuthRepository oAuthRepository;
+
+    /**
+    * 현재 들어온 유저의 Remote_ID를 리턴하는 함수
+    * @return userId
+    * */
+    public Long getUserId() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        return Long.parseLong((String)authentication.getPrincipal());
+    }
+
+    /**
+     * 현재 들어온 유저의 Remote_ID를 리턴하는 함수
+     * @param userId Long, getUserId() 함수를 통해 얻은 userId
+     * @return Token - String
+     * */
     public String getToken(Long userId) {
         Optional<OAuthUser> user = oAuthRepository.findByUserRemoteId(userId);
 //        Optional<OAuthUser> user = oAuthRepository.findById(userId);
