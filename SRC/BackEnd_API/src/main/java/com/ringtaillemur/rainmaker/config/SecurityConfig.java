@@ -1,6 +1,7 @@
 package com.ringtaillemur.rainmaker.config;
 
 
+import com.ringtaillemur.rainmaker.domain.enumtype.OauthUserLevel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -40,9 +41,7 @@ public class SecurityConfig {
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
                 .authorizeRequests(a -> a
                         .antMatchers("/", "/error", "/webjars/**", "/login/**", "/login/oauth2/code/github", "/api/cycletime", "/dorametric/**").permitAll()
-//                        .anyRequest().hasAuthority("FIRST_AUTH_USER")
-                        .anyRequest().hasAuthority("FIRST_AUTH_USER")
-//                        .anyRequest().authenticated()
+                        .anyRequest().hasAnyAuthority("FIRST_AUTH_USER")
                 )
                 .exceptionHandling(e -> e
                         .authenticationEntryPoint(new HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED))

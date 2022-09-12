@@ -11,6 +11,7 @@ import com.ringtaillemur.rainmaker.domain.OAuthUser;
 import com.ringtaillemur.rainmaker.domain.enumtype.OauthUserLevel;
 import com.ringtaillemur.rainmaker.repository.OAuthRepository;
 import com.ringtaillemur.rainmaker.service.oauth2.CustomOAuth2UserService;
+import com.ringtaillemur.rainmaker.service.oauth2.SecurityUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.*;
 import org.springframework.security.core.Authentication;
@@ -47,7 +48,7 @@ public class OAuthContoller {
     @Autowired
     private HttpSession session;
     @Autowired
-    CustomOAuth2UserService customOAuth2UserService;
+    private SecurityUserService securityUserService;
     @Autowired
     OAuthRepository oAuthRepository;
     @GetMapping("/login/oauth2/code/github")
@@ -102,14 +103,13 @@ public class OAuthContoller {
         http.disconnect();
         OAuthUser inputOAuthUser = stringToJson(inputLine, userAccessToken.replace("\"",""));
 
-        Set<SimpleGrantedAuthority> grantedAuthorities = new HashSet<>();
-        SimpleGrantedAuthority simpleGrantedAuthority = new SimpleGrantedAuthority("FIRST_AUTH_USER");
-        grantedAuthorities.add(simpleGrantedAuthority);
 
-        Authentication authentication = new UserAuthentication(String.valueOf(inputOAuthUser.getUserRemoteId()), null, grantedAuthorities);
+        OAuthUser nowUser = securityUserService.changeUserAuth(inputOAuthUser,OauthUserLevel.FIRST_AUTH_USER);
+
+        Authentication authentication = new UserAuthentication(String.valueOf(inputOAuthUser.getUserRemoteId()), null, null);
         String token = JwtTokenProvider.generateToken(authentication, inputOAuthUser.getUser_level());
-        Cookie cookie = new Cookie("Bearer", token);
 
+        Cookie cookie = new Cookie("Bearer", token);
         cookie.setPath("/");
         System.out.println("GET DOMAIN ==============" +cookie.getDomain()) ;
         res.addCookie(cookie);
