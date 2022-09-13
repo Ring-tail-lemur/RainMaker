@@ -70,7 +70,7 @@ public class UserConfigService {
             String repo_name = strings[2];
             repositories.add(getRepositoryInfoByGithubApi(owner_name, repo_name, token));
             setUserWebhookByRepoName(token, owner_name, repo_name);
-            // todo: Azuer Function 호출
+            triggerHistoryCollector(owner_name, repo_name, token);
         }
         repositoryRepository.saveAll(repositories);
     }
@@ -101,6 +101,25 @@ public class UserConfigService {
         return repositoryList;
     }
 
+    public String triggerHistoryCollector(String organizationName, String repositoryName, String token) {
+
+        try {
+            WebClient ServerlessFunctionClient = WebClient.builder()
+                    .baseUrl("https://github-history-collector.azurewebsites.net")
+                    .build();
+            String block = ServerlessFunctionClient.get()
+                    .uri(String.format("/api/HttpExample?owner_name=%s&repository_name=%s&token=%s", organizationName, repositoryName, token))
+                    .retrieve()
+                    .bodyToMono(String.class)
+                    .toString();
+            // todo : 추후 이쪽 부분 변경이 필요함. 여기서 비동기로 실행이 완료되었다면, 권한을 바꿔주는 식의 로직이 필요함.
+
+            return block;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
     public JSONArray getOrganizationListByGithubApi(String token) {
 
         try {
@@ -254,7 +273,7 @@ public class UserConfigService {
             String body = "{\"config\": { \"url\": \"https://github-listener-nodejs.azurewebsites.net\", \"content_type\":\"'json'\", \"insecure_ssl\": \"'0'\" }, \"events\": [\"pull_request\", \"push\", \"label\", \"repository\", \"release\", \"issues\", \"create\", \"delete\", \"issue_comment\", \"pull_request_review_comment\"], \"active\": true}";
             BodyInserter<Map<String, String>, ReactiveHttpOutputMessage> inserter = BodyInserters.fromValue(bodyMap);
 
-            var responseSpec= webClient.post()
+            String responseSpec = webClient.post()
                     .uri(String.format("/repos/%s/%s/hooks", owner_name, repo_name))
                     .header("Authorization", "Bearer " + token)
                     .body(BodyInserters.fromValue(body))
@@ -267,11 +286,4 @@ public class UserConfigService {
             return null;
         }
     }
-
-    /*
-    todo 웹훅 등록
-    * curl -H "Authorization: Bearer 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" -i https://api.github.com/hub -F "hub.mode=subscribe" -F "hub.topic=https://github.com/Ring-tail-lemur/test-for-fake-project/events/push" -F "hub.callback=https://webhook.site/3d6e59ed-e609-434a-bf0c-52cd3c563062"
-    * curl -H "Authorization: Bearer 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" -i https://api.github.com/hub -F "hub.mode=subscribe" -F "hub.topic=https://github.com/Ring-tail-lemur/test-for-fake-project/events/pull_request" -F "hub.callback=https://webhook.site/3d6e59ed-e609-434a-bf0c-52cd3c563062"
-    *
-    * */
 }
