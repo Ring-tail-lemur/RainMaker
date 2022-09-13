@@ -1,29 +1,35 @@
 package com.ringtaillemur.rainmaker.service;
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
+import com.ringtaillemur.rainmaker.domain.OAuthUser;
+import com.ringtaillemur.rainmaker.dto.webdto.responsedto.UserRepositoryDto;
+import com.ringtaillemur.rainmaker.repository.OAuthRepository;
+import lombok.Data;
+import lombok.RequiredArgsConstructor;
+import lombok.Value;
+import org.json.JSONArray;
+import org.json.JSONObject;
+import org.springframework.http.MediaType;
+import org.springframework.http.ReactiveHttpOutputMessage;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.stereotype.Service;
+import org.springframework.web.reactive.function.BodyInserter;
+import org.springframework.web.reactive.function.BodyInserters;
+import org.springframework.web.reactive.function.client.ClientResponse;
+import org.springframework.web.reactive.function.client.WebClient;
+import reactor.core.publisher.Mono;
+
+import java.io.*;
 import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
 import java.net.URL;
+import java.net.http.HttpHeaders;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
-
-import org.json.JSONArray;
-import org.json.JSONObject;
-import org.springframework.http.ReactiveHttpOutputMessage;
-import org.springframework.stereotype.Service;
-import org.springframework.web.reactive.function.BodyInserter;
-import org.springframework.web.reactive.function.BodyInserters;
-import org.springframework.web.reactive.function.client.WebClient;
-
-import com.ringtaillemur.rainmaker.domain.OAuthUser;
-import com.ringtaillemur.rainmaker.dto.webdto.responsedto.UserRepositoryDto;
-import com.ringtaillemur.rainmaker.repository.OAuthRepository;
-
-import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
@@ -33,16 +39,23 @@ public class UserConfigService {
 	private final OAuthRepository oAuthRepository;
 
 	/**
-	 * UserId를 인수로 넣으면 token을 반환하는 함수
-	 *
-	 * @return OAuthToken - (String)
-	 * @param userId (Long) - session에서 얻어오는 userId
+	 * 현재 들어온 유저의 Remote_ID를 리턴하는 함수
+	 * @return userId
 	 * */
-	public String getUserToken(Long userId) {
-		Optional<OAuthUser> user = oAuthRepository.findById(userId);
-		OAuthUser oauthuser = user.get();
+	public Long getUserId() {
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		return Long.parseLong((String)authentication.getPrincipal());
+	}
 
-		return oauthuser.getOauthToken();
+	/**
+	 * 현재 들어온 유저의 Remote_ID를 리턴하는 함수
+	 * @param userId Long, getUserId() 함수를 통해 얻은 userId
+	 * @return Token - String
+	 * */
+	public String getToken(Long userId) {
+		Optional<OAuthUser> user = oAuthRepository.findByUserRemoteId(userId);
+		//        Optional<OAuthUser> user = oAuthRepository.findById(userId);
+		return user.get().getOauthToken();
 	}
 
 	/**
@@ -53,10 +66,9 @@ public class UserConfigService {
 		JSONArray OrganizationArray = getOrganizationListByGithubApi(token);
 		ArrayList<UserRepositoryDto> repositoryList = new ArrayList<>();
 
-		for (var organization : OrganizationArray) {
-			String organizationName = ((JSONObject)organization).getString("login");
-			ArrayList<UserRepositoryDto> repositoryListByGithubApi = getRepositoryListByGithubApi(organizationName,
-				token);
+		for(var organization : OrganizationArray){
+			String organizationName = ((JSONObject) organization).getString("login");
+			ArrayList<UserRepositoryDto> repositoryListByGithubApi = getRepositoryListByGithubApi(organizationName, token);
 			repositoryList.addAll(repositoryListByGithubApi);
 		}
 
@@ -67,7 +79,7 @@ public class UserConfigService {
 
 		try {
 			URL url = new URL("https://api.github.com/user/orgs");
-			HttpURLConnection conn = (HttpURLConnection)url.openConnection();
+			HttpURLConnection conn = (HttpURLConnection) url.openConnection();
 
 			conn.setRequestMethod("GET");
 			conn.setRequestProperty("accept", "application/vnd.github+json"); // header Content-Type 정보
@@ -93,7 +105,7 @@ public class UserConfigService {
 
 		try {
 			URL url = new URL(String.format("https://api.github.com/orgs/%s/repos", organizationName));
-			HttpURLConnection conn = (HttpURLConnection)url.openConnection();
+			HttpURLConnection conn = (HttpURLConnection) url.openConnection();
 
 			conn.setRequestMethod("GET");
 			conn.setRequestProperty("accept", "application/vnd.github+json"); // header Content-Type 정보
@@ -111,10 +123,10 @@ public class UserConfigService {
 			JSONArray jsonArray = new JSONArray(sb.toString());
 			ArrayList<UserRepositoryDto> userRepositoryDtoArrayList = new ArrayList<>();
 
-			for (var eachRepository : jsonArray) {
-				int id = (int)((JSONObject)eachRepository).get("id");
-				String repository = (String)((JSONObject)eachRepository).get("name");
-				LocalDateTime pushed_at = changeStringToDateTime((String)((JSONObject)eachRepository).get("pushed_at"));
+			for(var eachRepository : jsonArray) {
+				int id = (int) ((JSONObject) eachRepository).get("id");
+				String repository = (String) ((JSONObject) eachRepository).get("name");
+				LocalDateTime pushed_at = changeStringToDateTime( (String) ((JSONObject) eachRepository).get("pushed_at") );
 				userRepositoryDtoArrayList.add(new UserRepositoryDto(id, organizationName, repository, pushed_at));
 			}
 			return userRepositoryDtoArrayList;
@@ -136,7 +148,7 @@ public class UserConfigService {
 			String body = "{\"config\": { \"url\": \"https://webhook.site/02ee4e5e-7543-464e-9e80-ab50386ac65e\", \"content_type\":\"'json'\", \"insecure_ssl\": \"'0'\" }, \"events\": [\"pull_request\", \"push\", \"label\", \"repository\", \"release\", \"issues\", \"create\", \"delete\", \"issue_comment\", \"pull_request_review_comment\"], \"active\": true}";
 			BodyInserter<Map<String, String>, ReactiveHttpOutputMessage> inserter = BodyInserters.fromValue(bodyMap);
 
-			var responseSpec = webClient.post()
+			var responseSpec= webClient.post()
 				.uri(String.format("/repos/%s/%s/hooks", owner_name, repo_name))
 				//                    .accept(MediaType.APPLICATION_JSON)
 				//                    .header("application", "vnd.github+json")
@@ -152,4 +164,10 @@ public class UserConfigService {
 		}
 	}
 
+    /*
+    todo 웹훅 등록
+    * curl -H "Authorization: Bearer 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" -i https://api.github.com/hub -F "hub.mode=subscribe" -F "hub.topic=https://github.com/Ring-tail-lemur/test-for-fake-project/events/push" -F "hub.callback=https://webhook.site/3d6e59ed-e609-434a-bf0c-52cd3c563062"
+    * curl -H "Authorization: Bearer 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" -i https://api.github.com/hub -F "hub.mode=subscribe" -F "hub.topic=https://github.com/Ring-tail-lemur/test-for-fake-project/events/pull_request" -F "hub.callback=https://webhook.site/3d6e59ed-e609-434a-bf0c-52cd3c563062"
+    *
+    * */
 }

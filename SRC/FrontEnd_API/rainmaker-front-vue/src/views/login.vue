@@ -54,15 +54,14 @@
 <script>
 import Button from "./Buttons.vue";
 export default {
-  components: {
-    Button
-  },
   methods : {
     aaa : async () => {
       console.log("hhihihihihihi");
-      window.location.replace('https://github.com/login/oauth/authorize?client_id=8189c16057d124b9324e');
+      // window.location.replace('https://github.com/login/oauth/authorize?client_id=8189c16057d124b9324e');
+      window.location.replace('https://github.com/login/oauth/authorize?response_type=code&client_id=8189c16057d124b9324e&scope=repo%20repo:status%20repo_deployment%20public_repo%20repo:invite%20admin:repo_hook%20write:repo_hook%20read:repo_hook%20admin:org%20admin:public_key&state=8U6-X7-6MVIRmkTQbb-ySo36wSRugfaBNjpHlTVJ0hY%3D&redirect_uri=http://127.0.0.1:8080/login/oauth2/code/github');
     }
-  }
+  },
+  components: {Button}
 }
 </script>
 
@@ -72,15 +71,12 @@ export default {
   justify-content: center;
   align-items: center;
 }
-
 .login {
   width: 450px;
 }
-
 .login {
   min-height: 0;
 }
-
 .login {
   -webkit-border-radius: 8px;
   border-radius: 12px;
@@ -94,7 +90,6 @@ export default {
   transition: .2s;
   width: 700px;
 }
-
 .login {
   background: #fff;
   display: -webkit-box;
@@ -106,7 +101,6 @@ export default {
   position: relative;
   z-index: 2;
 }
-
 .login {
   background: #fff;
   direction: ltr;
@@ -115,32 +109,26 @@ export default {
   margin: 0;
   padding: 0;
 }
-
 .loginBox {
   height: auto;
   min-height: 500px;
 }
-
 .loginBox {
   box-sizing: inherit;
   float: right;
   width: 50%;
   padding: 48px 40px 36px;
 }
-
 .loginInnerBox{
   display: flex;
   justify-content: center;
   align-items: center;
-
-
 }
 .githubIconBox{
   border: solid 3px #c0bfbf;
   border-radius: 10px;
   padding: 5px 8px;
 }
-
 .githubExplain {
   -webkit-border-bottom-left-radius: 8px;
   -webkit-border-top-left-radius: 8px;
@@ -152,12 +140,10 @@ export default {
   min-height: 500px;
   padding: 48px 40px 36px;
 }
-
 .githubLoginText{
   margin-bottom: 50px;
   font-weight:bold;
 }
-
 .loginTitle {
   margin-bottom: 40px;
   font-size: 24px;
@@ -174,21 +160,17 @@ export default {
   border-top: 3px solid;
   margin-bottom: 20px;
 }
-
 .githubRegisterButton{
   border: solid 3px #c0bfbf;
   border-radius: 10px;
   padding: 5px 8px;
   width: 100px;
 }
-
 #contentFont {
   font-family: 'Dongle', sans-serif;
   font-family: 'Jua', sans-serif;
 }
-
 #titleFont {
   font-family: 'Jua', sans-serif;
 }
-
 </style>
