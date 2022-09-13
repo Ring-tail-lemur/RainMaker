@@ -5,7 +5,6 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -25,19 +24,16 @@ public class HttpRequestSender {
 		return responseJSONArrayList;
 	}
 	public JSONArray sendHttpRequest(HttpRequestDto httpRequestDto) throws IOException {
-		HttpURLConnection httpURLConnection = (HttpURLConnection)httpRequestDto.getUrl().openConnection();
-		httpURLConnection.setRequestMethod(httpRequestDto.getMethod());
-		setConnectionHeader(httpRequestDto, httpURLConnection);
-		httpURLConnection.setDoOutput(true);
-
+		HttpURLConnection httpURLConnection = httpRequestDto.getHttpURLConnection();
 		String responseString = getResponseString(httpURLConnection);
 
 		if (typeConverter.canConvertJSONArray(responseString)) {
 			return typeConverter.convertStringToJSONArray(responseString);
 		}
 		if (typeConverter.canConvertJSONObject(responseString)) {
-			JSONObject responseJsonArray = typeConverter.convertStringToJSONObject(responseString);
-			return typeConverter.coverJSONObjectWithJSONArray(responseJsonArray);
+			JSONObject responseJsonObject = typeConverter.convertStringToJSONObject(responseString);
+			JSONArray responseJsonArray = typeConverter.coverJSONObjectWithJSONArray(responseJsonObject);
+			return typeConverter.normalizeJsonObject(responseJsonArray);
 		}
 		throw new RuntimeException("응답이 JSON형태가 아닙니다.");
 	}
@@ -46,19 +42,9 @@ public class HttpRequestSender {
 		BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(httpURLConnection.getInputStream()));
 		StringBuilder stringBuilder = new StringBuilder();
 		String line;
-
 		while ((line = bufferedReader.readLine()) != null) {
 			stringBuilder.append(line);
 		}
 		return stringBuilder.toString();
-	}
-
-	private void setConnectionHeader(HttpRequestDto httpRequestDto, HttpURLConnection httpURLConnection) {
-		JSONObject header = httpRequestDto.getHeader();
-		Iterator<String> headerKeys = header.keys();
-		while (headerKeys.hasNext()) {
-			String headerKey = headerKeys.next();
-			httpURLConnection.setRequestProperty(headerKey, String.valueOf(header.get(headerKey)));
-		}
 	}
 }

@@ -42,14 +42,14 @@ public class ApiGeneratorFactory {
 		HttpRequestDto httpRequestDto;
 		if (isRestApi(configJSONObject, configElementKey))
 			httpRequestDto = githubRestApiGenerator.getHttpRequestDto(
-				(JSONObject)configJSONObject.get(configElementKey),
+				configJSONObject.getJSONObject(configElementKey),
 				configElementKey);
 		else if (isGraphql(configJSONObject, configElementKey)) {
 			httpRequestDto = githubGraphqlGenerator.getHttpRequestDto(
-				(JSONObject)configJSONObject.get(configElementKey),
+				configJSONObject.getJSONObject(configElementKey),
 				configElementKey);
 		} else
-			throw new Exception("정의되지 않은 요청 방식입니다. (현재 RestAPI와 Graphql만 지원합니다.)");
+			throw new Exception(String.format("%s의 요청방식은 정의되지 않은 요청 방식입니다. (현재 RestAPI와 Graphql만 지원합니다.)", configElementKey));
 		return httpRequestDto;
 	}
 

@@ -7,9 +7,10 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.commons.text.StringSubstitutor;
 import org.example.functions.api_service.github.HttpRequestDto;
 import org.example.functions.api_service.github.request_query_generator.ApiGenerator;
+import org.example.functions.util.ConfigReader;
+import org.example.functions.util.StringFormatter;
 import org.example.functions.util.TypeConverter;
 import org.json.JSONObject;
 
@@ -17,6 +18,8 @@ public class GithubGraphqlGenerator implements ApiGenerator {
 
 	private final TypeConverter typeConverter = TypeConverter.getTypeConverter();
 
+	private final ConfigReader configReader = ConfigReader.getConfigReader();
+	private final StringFormatter stringFormatter = new StringFormatter();
 	private Map<String, String> requestParameters;
 
 	public GithubGraphqlGenerator(Map<String, String> requestQueryParameters) {
@@ -39,8 +42,10 @@ public class GithubGraphqlGenerator implements ApiGenerator {
 
 	public HttpRequestDto getHttpRequestDto(JSONObject configElementJSONObject, String tableName) throws
 		MalformedURLException {
-		JSONObject graphqlBody = configElementJSONObject.getJSONObject("graphql");
-		String body = bindRequestParameters(graphqlBody.toString(), requestParameters);
+		String graphqlFileName = configElementJSONObject.getString("graphql");
+		String graphqlBody = configReader.getStringConfig(String.format("/static/json/graphql/%s", graphqlFileName));
+		String formattedBody = getGraphqlFormatString(graphqlBody);
+		String body = stringFormatter.bindParameters(formattedBody, requestParameters);
 		return HttpRequestDto.builder()
 			.url(new URL("https://api.github.com/graphql"))
 			.method("POST")
@@ -50,16 +55,15 @@ public class GithubGraphqlGenerator implements ApiGenerator {
 			.build();
 	}
 
+	private String getGraphqlFormatString(String graphqlBody) {
+		JSONObject jsonObject = new JSONObject();
+		jsonObject.put("query", graphqlBody);
+		return jsonObject.toString();
+	}
+
 	private JSONObject getHeader() {
 		JSONObject header = new JSONObject();
-		header.put("token", requestParameters.get("token"));
+		header.put("Authorization", String.format("Bearer %s", requestParameters.get("token")));
 		return header;
 	}
-
-	private String bindRequestParameters(String graphqlBody, Map<String, String> requestParameters) {
-		graphqlBody = graphqlBody.toLowerCase();
-		StringSubstitutor strSubstitutor = new StringSubstitutor(requestParameters, "{", "}");
-		return strSubstitutor.replace(graphqlBody);
-	}
-
 }

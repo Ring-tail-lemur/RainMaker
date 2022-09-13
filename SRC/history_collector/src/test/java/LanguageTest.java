@@ -1,16 +1,38 @@
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.io.IOException;
 
+import org.example.functions.util.ConfigReader;
+import org.example.functions.util.TypeConverter;
+import org.json.JSONArray;
+import org.json.JSONObject;
+import org.json.JSONPointer;
 import org.junit.jupiter.api.Test;
 
 public class LanguageTest {
-	@Test
-	void test() {
-		List<String> strings = new ArrayList<>();
 
-		String a = "hello.world";
-		List<String> strings1 = Arrays.asList(a.split("\\."));
-		System.out.println("strings1 = " + strings1);
+	ConfigReader configReader = ConfigReader.getConfigReader();
+	TypeConverter typeConverter = TypeConverter.getTypeConverter();
+
+	@Test
+	void test() throws IOException {
+		String fileString = configReader.readFile("/static/json/mock_graphql_result.json");
+		JSONObject jsonObject = typeConverter.convertStringToJSONObject(
+			fileString);
+		JSONPointer jsonPointer = JSONPointer.builder()
+			.append("data")
+			.append("repository")
+			.append("pullRequests")
+			.append("nodes")
+			.append("comments")
+			.append("nodes")
+			.append("publishedAt")
+			.build();
+		Object o = jsonPointer.queryFrom(jsonObject);
+		System.out.println("s = " + o);
+	}
+
+	@Test
+	void test1() {
+		JSONArray objects = new JSONArray("[]");
+		Object o = objects.get(0);
 	}
 }

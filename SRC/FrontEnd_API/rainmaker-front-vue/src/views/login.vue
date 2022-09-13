@@ -55,8 +55,7 @@
 import Button from "./Buttons.vue";
 export default {
   components: {
-    Button,
-    Logo,
+    Button
   },
   methods : {
     aaa : async () => {

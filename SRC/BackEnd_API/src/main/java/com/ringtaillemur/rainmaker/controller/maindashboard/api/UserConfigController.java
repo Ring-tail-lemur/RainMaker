@@ -3,6 +3,8 @@ package com.ringtaillemur.rainmaker.controller.maindashboard.api;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Controller;
@@ -27,7 +29,8 @@ public class UserConfigController {
 
 	@ResponseBody
 	@GetMapping("/RepositorySelect")
-	public ArrayList<UserRepositoryDto> userRepositoryListReturnRestAPI() {
+	public ArrayList<UserRepositoryDto> userRepositoryListReturnRestAPI(HttpServletRequest request) {
+		Cookie[] cookies = request.getCookies();
 
 		// todo : UserId의 경우는 세션을 통해 알아올 것이고, token의 경우는 이 유저아이디를 통해 DB에서 빼올것.
 		System.out.println(session.getId());

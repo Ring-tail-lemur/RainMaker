@@ -4,8 +4,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
-import org.example.functions.api_service.github.GithubApiRunner;
+import org.example.functions.api_service.github.HttpRequestDto;
 import org.example.functions.api_service.github.HttpRequestSender;
+import org.example.functions.api_service.github.request_query_generator.ApiGeneratorFactory;
 import org.example.functions.db_service.QueryGenerator;
 import org.example.functions.db_service.QueryRunner;
 import org.example.functions.util.ConfigReader;
@@ -23,10 +24,10 @@ import com.microsoft.azure.functions.annotation.HttpTrigger;
 
 public class HttpTriggerFunction {
 
-	ConfigReader configReader = new ConfigReader();
+	ConfigReader configReader = ConfigReader.getConfigReader();
 	HttpRequestSender httpRequestSender = new HttpRequestSender();
 	QueryRunner queryRunner = QueryRunner.getQueryRunner();
-	GithubApiRunner githubApiRunner = GithubApiRunner.getGithubApiRunner();
+
 	@FunctionName("HttpExample")
 	public HttpResponseMessage run(
 		@HttpTrigger(
@@ -35,12 +36,17 @@ public class HttpTriggerFunction {
 			authLevel = AuthorizationLevel.ANONYMOUS)
 		HttpRequestMessage<Optional<String>> request,
 		final ExecutionContext context) throws Exception {
+
 		JSONObject jsonObjectConfig = configReader.getJsonObjectConfig();
-		Map<String, JSONArray> responseJSONArrayList = githubApiRunner.runGithubApi(jsonObjectConfig, request);
+
+		ApiGeneratorFactory apiGeneratorFactory = new ApiGeneratorFactory(request.getQueryParameters());
+		List<HttpRequestDto> httpRequestDtoList = apiGeneratorFactory.getHttpRequestDtoList(jsonObjectConfig);
+		Map<String, JSONArray> responseJSONArrayList = httpRequestSender.sendAllHttpRequest(httpRequestDtoList);
 
 		QueryGenerator queryGenerator = new QueryGenerator(jsonObjectConfig);
 		List<String> queryList = queryGenerator.generateQueryList(responseJSONArrayList);
 		queryRunner.runInsertQueries(queryList);
-		return request.createResponseBuilder(HttpStatus.OK).body(responseJSONArrayList.toString()).build();
+
+		return request.createResponseBuilder(HttpStatus.OK).body(queryList.toString()).build();
 	}
 }
