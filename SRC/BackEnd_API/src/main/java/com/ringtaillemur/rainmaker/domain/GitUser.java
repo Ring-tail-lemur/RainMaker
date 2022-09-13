@@ -15,7 +15,6 @@ import lombok.NoArgsConstructor;
 @Getter
 public class GitUser extends BaseEntity {
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "git_user_id")
 	private Long id;
 

@@ -1,7 +1,10 @@
 package com.ringtaillemur.rainmaker.controller.maindashboard.api;
 
+import com.ringtaillemur.rainmaker.dto.webdto.responsedto.RegisterRepoIdDto;
 import com.ringtaillemur.rainmaker.dto.webdto.responsedto.UserRepositoryDto;
 import com.ringtaillemur.rainmaker.service.UserConfigService;
+import lombok.AllArgsConstructor;
+import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -28,28 +31,13 @@ public class UserConfigController {
 
         Long userId = userConfigService.getUserId();
         String token = userConfigService.getToken(userId);
-
-        System.out.println(session.toString());
         return userConfigService.getUserRepositoryDtoByToken(token);
     }
 
     @PostMapping("/RepositorySelect")
-    public String userRepositoryRegisterRestAPI(  //@RequestBody String repoIds) {
-            @RequestParam(name="repo_id") List<String> repoIds) {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+    public String userRepositoryRegisterRestAPI(@RequestBody RegisterRepoIdDto repoIds) {
 
-        for(var repoId : repoIds) {
-            System.out.println(repoId);
-        }
-
-        // todo: repoId, token, repo Name, owner Name (Organization Name), 이걸로 azure function을 호출.
-        // todo: Webhook 등록.
-        String token = "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";
-        String owner_name = "Ring-tail-lemur";
-        String repo_name = "aa";
-
-        userConfigService.setUserWebhookByRepoName(token, owner_name, repo_name);
-
+        userConfigService.registerRepository(repoIds);
         return "redirect:http://localhost:3000/";
     }
 }
