@@ -47,7 +47,7 @@ class RainmakerWebserverApplicationTests {
 
 	@Test
 	void 웹훅트리거링가능(){
-		String s = userConfigService.loadAllDataByServerlessFunction("Ring-tail-lemur", "private_fake", "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");
+		String s = userConfigService.triggerHistoryCollector("Ring-tail-lemur", "private_fake", "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");
 		System.out.println(s);
 	}
 }
