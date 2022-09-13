@@ -28,10 +28,7 @@ public class UserConfigController {
     @ResponseBody
     @GetMapping("/RepositorySelect")
     public ArrayList<UserRepositoryDto> userRepositoryListReturnRestAPI() {
-
-        Long userId = userConfigService.getUserId();
-        String token = userConfigService.getToken(userId);
-        return userConfigService.getUserRepositoryDtoByToken(token);
+        return userConfigService.getUserRepositoryDtoByToken(userConfigService.getToken(userConfigService.getUserId()));
     }
 
     @PostMapping("/RepositorySelect")

@@ -7,28 +7,20 @@ import com.ringtaillemur.rainmaker.dto.webdto.responsedto.RegisterRepoIdDto;
 import com.ringtaillemur.rainmaker.dto.webdto.responsedto.UserRepositoryDto;
 import com.ringtaillemur.rainmaker.repository.OAuthRepository;
 import com.ringtaillemur.rainmaker.repository.RepositoryRepository;
-import lombok.Data;
 import lombok.RequiredArgsConstructor;
-import lombok.Value;
 import org.json.JSONArray;
 import org.json.JSONObject;
-import org.springframework.http.MediaType;
 import org.springframework.http.ReactiveHttpOutputMessage;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.BodyInserter;
 import org.springframework.web.reactive.function.BodyInserters;
-import org.springframework.web.reactive.function.client.ClientResponse;
 import org.springframework.web.reactive.function.client.WebClient;
-import reactor.core.publisher.Mono;
 
 import java.io.*;
 import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
 import java.net.URL;
-import java.net.http.HttpHeaders;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
@@ -93,7 +85,16 @@ public class UserConfigService {
 
         for(var organization : OrganizationArray){
             String organizationName = ((JSONObject) organization).getString("login");
-            ArrayList<UserRepositoryDto> repositoryListByGithubApi = getRepositoryListByGithubApi(organizationName, token);
+            Long organization_id = Long.valueOf(((JSONObject) organization).getInt("id"));
+
+            List<Repository> checkedRepository = repositoryRepository.findByOwnerOrganizationId(organization_id);
+            List<Long> repositoryIds = new ArrayList<>();
+            for(var repository : checkedRepository ){
+                repositoryIds.add(repository.getId());
+            }
+
+
+            ArrayList<UserRepositoryDto> repositoryListByGithubApi = getRepositoryListByGithubApi(organizationName, token, repositoryIds);
             repositoryList.addAll(repositoryListByGithubApi);
         }
 
@@ -152,7 +153,47 @@ public class UserConfigService {
                 int id = (int) ((JSONObject) eachRepository).get("id");
                 String repository = (String) ((JSONObject) eachRepository).get("name");
                 LocalDateTime pushed_at = changeStringToDateTime( (String) ((JSONObject) eachRepository).get("pushed_at") );
-                userRepositoryDtoArrayList.add(new UserRepositoryDto(id, organizationName, repository, pushed_at));
+                userRepositoryDtoArrayList.add(new UserRepositoryDto(id, organizationName, repository, pushed_at, false));
+            }
+            return userRepositoryDtoArrayList;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ArrayList<UserRepositoryDto>();
+        }
+    }
+
+    public ArrayList<UserRepositoryDto> getRepositoryListByGithubApi(String organizationName, String token, List<Long> repositoryIds) {
+
+        try {
+            URL url = new URL(String.format("https://api.github.com/orgs/%s/repos", organizationName));
+            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+
+            conn.setRequestMethod("GET");
+            conn.setRequestProperty("accept", "application/vnd.github+json"); // header Content-Type 정보
+            conn.setRequestProperty("Authorization", "Bearer " + token); // header Content-Type 정보
+            conn.setDoOutput(true); // 서버로부터 받는 값이 있다면 true
+
+            BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+            StringBuilder sb = new StringBuilder();
+            String line = null;
+
+            while ((line = br.readLine()) != null) { // 읽을 수 있을 때 까지 반복
+                sb.append(line);
+            }
+
+            JSONArray jsonArray = new JSONArray(sb.toString());
+            ArrayList<UserRepositoryDto> userRepositoryDtoArrayList = new ArrayList<>();
+
+            for(var eachRepository : jsonArray) {
+
+                int id = (int) ((JSONObject) eachRepository).get("id");
+                String repository = (String) ((JSONObject) eachRepository).get("name");
+                LocalDateTime pushed_at = changeStringToDateTime( (String) ((JSONObject) eachRepository).get("pushed_at") );
+                if(repositoryIds.contains(Long.valueOf(id))){
+                    userRepositoryDtoArrayList.add(new UserRepositoryDto(id, organizationName, repository, pushed_at, true));
+                } else {
+                    userRepositoryDtoArrayList.add(new UserRepositoryDto(id, organizationName, repository, pushed_at, false));
+                }
             }
             return userRepositoryDtoArrayList;
         } catch (Exception e) {
@@ -215,8 +256,6 @@ public class UserConfigService {
 
             var responseSpec= webClient.post()
                     .uri(String.format("/repos/%s/%s/hooks", owner_name, repo_name))
-//                    .accept(MediaType.APPLICATION_JSON)
-//                    .header("application", "vnd.github+json")
                     .header("Authorization", "Bearer " + token)
                     .body(BodyInserters.fromValue(body))
                     .exchangeToMono(clientResponse -> clientResponse.bodyToMono(String.class))
