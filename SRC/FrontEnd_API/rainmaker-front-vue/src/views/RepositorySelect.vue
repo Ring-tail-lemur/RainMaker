@@ -14,7 +14,7 @@
             리포지토리 선택
           </div>
           <div>
-            <form method="post" action="http://localhost:8080/RepositorySelect">
+            <form name="RepositoryForm" onsubmit="return false;">
               <ul class="list-group">
                 <li class="list-group-item">
                   <div>
@@ -37,7 +37,7 @@
                 <li v-for="item in list" class="list-group-item">
                   <div>
                     <div style="float: left; width: 5%; ">
-                      <input class="form-check-input me-1" type="checkbox" aria-label="..." name="repo_id" v-bind:value="[item.id, item.organization, item.repository, item.pushed_at]" >
+                      <input class="form-check-input me-1" type="checkbox" v-bind:checked="item.checked" aria-label="..." name="repo_id" v-bind:value="[item.id, item.organization, item.repository, item.pushed_at]" >
                     </div>
                     <div style="float: left; width: 30%; height: 100%">
                       {{item.organization}}
@@ -55,7 +55,7 @@
               </ul>
 
 <!--              <p><input type="submit" value="Submit"> <input type="reset" value="Reset"></p>-->
-              <p><button v-on:click="">Submit</button> <input type="reset" value="Reset"></p>
+              <p><button v-on:click="registerRepository">Submit</button> <input type="reset" value="Reset"></p>
             </form>
           </div>
         </div>
@@ -89,6 +89,30 @@ export default {
         url: this.defaultURL + "/RepositorySelect",
       });
       this.list = RepositoryInfo.data;
+    },
+    async registerRepository() {
+      console.log("setHeaderJWT()", setHeaderJWT());
+      console.log(this.getCheckboxValue());
+      await axios({
+        headers: setHeaderJWT(),
+        method: "post",
+        url: this.defaultURL + "/RepositorySelect",
+        data : {
+          repoIds: this.getCheckboxValue()
+        }
+      });
+    },
+    getCheckboxValue()  {
+      // 선택된 목록 가져오기
+      const query = 'input[name="repo_id"]:checked';
+      const selectedEls =
+          document.querySelectorAll(query);
+      // 선택된 목록에서 value 찾기
+      let result = [];
+      selectedEls.forEach((el) => {
+        result.push(el.value);
+      });
+      return result;
     }
   }
 }
