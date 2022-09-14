@@ -1,7 +1,11 @@
 package com.ringtaillemur.rainmaker.controller.maindashboard.api;
 
+import com.ringtaillemur.rainmaker.config.JwtAuthenticationFilter;
+import com.ringtaillemur.rainmaker.domain.enumtype.OauthUserLevel;
 import com.ringtaillemur.rainmaker.dto.webdto.responsedto.UserRepositoryDto;
 import com.ringtaillemur.rainmaker.service.UserConfigService;
+import com.ringtaillemur.rainmaker.service.oauth2.SecurityUserService;
+import com.ringtaillemur.rainmaker.util.jwt.JwtUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -9,6 +13,9 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
 import java.util.List;
@@ -17,26 +24,36 @@ import java.util.List;
 @Controller
 public class UserConfigController {
 
+    @Autowired
+    private JwtUtils jwtUtils;
 
 	private final HttpSession session;
 
 	private final UserConfigService userConfigService;
 
-	@ResponseBody
-	@GetMapping("/RepositorySelect")
-	public ArrayList<UserRepositoryDto> userRepositoryListReturnRestAPI() {
+    private final SecurityUserService securityUserService;
 
-		Long userId = userConfigService.getUserId();
-		String token = userConfigService.getToken(userId);
+    @ResponseBody
+    @GetMapping("/RepositorySelect")
+    public ArrayList<UserRepositoryDto> userRepositoryListReturnRestAPI(HttpServletRequest request) {
 
-		System.out.println(session.toString());
-		return userConfigService.getUserRepositoryDtoByToken(token);
-	}
+        // todo : UserId의 경우는 세션을 통해 알아올 것이고, token의 경우는 이 유저아이디를 통해 DB에서 빼올것.
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        System.out.println("Now in GET(/RepositorySelect) : " + authentication);
+        String nowJwtToken = jwtUtils.getJwtFromRequest(request);
+        System.out.println("nowToken : " + nowJwtToken);
+        String userId = (String) authentication.getPrincipal();
+        String token = userConfigService.getToken(Long.valueOf(userId));
+        
+//        securityUserService.changeUserAuthByRemoteId(Long.valueOf(userId), OauthUserLevel.AUTHED_HISTORY_COLLECT_NOT_ENDED_USER);
+        return userConfigService.getUserRepositoryDtoByToken(token);
+    }
 
-	@PostMapping("/RepositorySelect")
-	public String userRepositoryRegisterRestAPI(  //@RequestBody String repoIds) {
-		@RequestParam(name="repo_id") List<String> repoIds) {
-		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+    @PostMapping("/RepositorySelect")
+    public String userRepositoryRegisterRestAPI( //@RequestBody String repoIds) {
+                                                 @RequestParam(name="repo_id") List<String> repoIds, HttpServletRequest request, HttpServletResponse response) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        System.out.println("Now in POST(/RepositorySelect : "+authentication);
 
 		for(var repoId : repoIds) {
 			System.out.println(repoId);
@@ -50,10 +67,9 @@ public class UserConfigController {
 
 		userConfigService.setUserWebhookByRepoName(token, owner_name, repo_name);
 
-		return "redirect:http://localhost:3000/";
-	}
+        return "redirect:http://localhost:3000/";
+    }
 }
-
 /*
 todo 웹훅 등록
 * curl -H "Authorization: Bearer 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" -i https://api.github.com/hub -F "hub.mode=subscribe" -F "hub.topic=https://github.com/Ring-tail-lemur/test-for-fake-project/events/push" -F "hub.callback=https://webhook.site/3d6e59ed-e609-434a-bf0c-52cd3c563062"

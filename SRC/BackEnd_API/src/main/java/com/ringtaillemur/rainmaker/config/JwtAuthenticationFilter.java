@@ -2,6 +2,7 @@ package com.ringtaillemur.rainmaker.config;
 
 import groovy.util.logging.Slf4j;
 import org.apache.commons.lang.StringUtils;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.stereotype.Component;
@@ -12,7 +13,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.Enumeration;
+import java.util.*;
 
 @Slf4j
 @Component
@@ -26,10 +27,18 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             String jwt = getJwtFromRequest(request); //request에서 jwt 토큰을 꺼낸다.
             if (StringUtils.isNotEmpty(jwt) && JwtTokenProvider.validateToken(jwt)) {
                 String userId = JwtTokenProvider.getUserIdFromJWT(jwt); //jwt에서 사용자 id를 꺼낸다.
+                String userLevel = JwtTokenProvider.getUserLevelFromJWT(jwt);//jwt에서 사용자 level을 꺼낸다.
 
-                UserAuthentication authentication = new UserAuthentication(userId, null, null); //id를 인증한다.
+
+                System.out.println("Jwt Token now in filter : "+ userLevel);
+
+                Set<SimpleGrantedAuthority> grantedAuthorities = new HashSet<>();
+                SimpleGrantedAuthority simpleGrantedAuthority = new SimpleGrantedAuthority(userLevel);
+                grantedAuthorities.add(simpleGrantedAuthority);
+                UserAuthentication authentication = new UserAuthentication(userId, userLevel, grantedAuthorities); //id를 인증한다.
+                System.out.println("grantedAuthorities : "+grantedAuthorities.toString());
+                System.out.println("authentication : "+authentication.toString());
                 authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request)); //기본적으로 제공한 details 세팅
-
                 SecurityContextHolder.getContext().setAuthentication(authentication); //세션에서 계속 사용하기 위해 securityContext에 Authentication 등록
             } else {
                 if (StringUtils.isEmpty(jwt)) {
