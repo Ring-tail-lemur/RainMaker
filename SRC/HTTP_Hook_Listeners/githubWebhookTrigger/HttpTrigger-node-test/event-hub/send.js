@@ -29,12 +29,9 @@ async function sender(cloudEventObj, context) {
 
 async function readJsonSecret(){
   //되나 이게
-  var obj;
-  fs.readFileSync('../app-config.json', 'utf8', function(err,data){
-    if(err) throw err;
-    obj = JSON.parse(data);
-  });
-  return JSON.stringify(obj.eventHubConnectionString);
+  const jsonFile = fs.readFileSync('../app-config.json','utf-8');
+  const jsonData = JSON.parse(jsonData);
+  return jsonData.eventHubConnectionString;
 }
 
 
