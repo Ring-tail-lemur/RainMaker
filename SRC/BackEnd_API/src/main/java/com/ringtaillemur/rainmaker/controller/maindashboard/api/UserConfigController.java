@@ -1,5 +1,6 @@
 package com.ringtaillemur.rainmaker.controller.maindashboard.api;
 
+
 import com.ringtaillemur.rainmaker.dto.webdto.responsedto.RegisterRepoIdDto;
 import com.ringtaillemur.rainmaker.dto.webdto.responsedto.UserRepositoryDto;
 import com.ringtaillemur.rainmaker.service.UserConfigService;
@@ -10,16 +11,24 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
-import javax.servlet.http.HttpSession;
-import java.util.ArrayList;
-import java.util.List;
+import com.ringtaillemur.rainmaker.dto.webdto.responsedto.UserRepositoryDto;
+import com.ringtaillemur.rainmaker.service.UserConfigService;
+import com.ringtaillemur.rainmaker.service.oauth2.SecurityUserService;
+import com.ringtaillemur.rainmaker.util.jwt.JwtUtils;
+
+import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
 @Controller
 public class UserConfigController {
 
+	@Autowired
+	private JwtUtils jwtUtils;
 
 	private final HttpSession session;
 
@@ -38,10 +47,3 @@ public class UserConfigController {
         return "redirect:http://localhost:3000/";
     }
 }
-
-/*
-todo 웹훅 등록
-* curl -H "Authorization: Bearer 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" -i https://api.github.com/hub -F "hub.mode=subscribe" -F "hub.topic=https://github.com/Ring-tail-lemur/test-for-fake-project/events/push" -F "hub.callback=https://webhook.site/3d6e59ed-e609-434a-bf0c-52cd3c563062"
-* curl -H "Authorization: Bearer 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" -i https://api.github.com/hub -F "hub.mode=subscribe" -F "hub.topic=https://github.com/Ring-tail-lemur/test-for-fake-project/events/pull_request" -F "hub.callback=https://webhook.site/3d6e59ed-e609-434a-bf0c-52cd3c563062"
-*
-* */
