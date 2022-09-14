@@ -23,7 +23,6 @@ public class TimeToRestoreServiceDto {
 		this.level = getTimeToRestoreServiceProductivityLevel();
 	}
 
-
 	private ProductivityLevel getTimeToRestoreServiceProductivityLevel() {
 		double timeToRestoreService = getTimeToRestoreService();
 		if (timeToRestoreService < 60)

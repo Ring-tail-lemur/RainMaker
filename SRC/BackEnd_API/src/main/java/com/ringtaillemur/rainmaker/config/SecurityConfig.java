@@ -1,6 +1,5 @@
 package com.ringtaillemur.rainmaker.config;
 
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -16,30 +15,29 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @EnableWebSecurity
 public class SecurityConfig {
 
-    @Autowired
-    private JwtAuthenticationFilter jwtAuthenticationFilter;
+	@Autowired
+	private JwtAuthenticationFilter jwtAuthenticationFilter;
 
-    @Bean
-    public SecurityFilterChain filterChain(HttpSecurity http)throws Exception{
-        //http.authorizeRequests().anyRequest().authenticated().and().formLogin().and().httpBasic();/
+	@Bean
+	public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+		http
+			.cors() //(1)
+			.and()
+			.csrf() //(2)
+			.disable()
+			.sessionManagement() //(4)
+			.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+			.and()
+			.addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
+			.authorizeRequests(a -> a
+				.antMatchers("/", "/error", "/webjars/**", "/login/**", "/login/oauth2/code/github", "/api/cycletime",
+					"/dorametric/**").permitAll()
+				.anyRequest().hasAnyAuthority("FIRST_AUTH_USER")
+			)
+			.exceptionHandling(e -> e
+				.authenticationEntryPoint(new HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED))
+			).oauth2Login().redirectionEndpoint().baseUri("/oauth2/auth/code/github");
+		return http.build();
+	}
 
-        http
-                .cors() //(1)
-                .and()
-                .csrf() //(2)
-                .disable()
-                .sessionManagement() //(4)
-                .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-                .and()
-                .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
-                .authorizeRequests(a -> a
-                        .antMatchers("/", "/error", "/webjars/**", "/login/**", "/login/oauth2/code/github", "/api/cycletime", "/dorametric/**", "/test/**").permitAll()
-                        .anyRequest().authenticated()
-                )
-                .exceptionHandling(e -> e
-                        .authenticationEntryPoint(new HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED))
-//                )
-                ).oauth2Login().redirectionEndpoint().baseUri("/oauth2/auth/code/github");
-        return http.build();
-    }
 }
