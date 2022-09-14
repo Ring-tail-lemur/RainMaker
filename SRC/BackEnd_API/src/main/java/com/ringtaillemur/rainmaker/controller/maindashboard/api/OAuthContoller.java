@@ -47,6 +47,7 @@ public class OAuthContoller {
 			String token = securityUserService.setJwtTokenWithUserInfo(nowUser.get());
 			//Bearer이라는 토큰 생성(jwt 토큰이 담김)
 			Cookie cookie = new Cookie("Bearer", token);
+			cookie.setDomain("https://victorious-forest-095d4a310.1.azurestaticapps.net");
 			cookie.setPath("/");
 			res.addCookie(cookie);
 		}
