@@ -6,7 +6,7 @@ async function sender(cloudEventObj, context) {
   // const connectionString = 'Endpoint=sb://httptriggereventhubs.servicebus.windows.net/;SharedAccessKeyName=default;SharedAccessKey=ygtTa1wlgXx+UIr6up3i8x4aFHx2vNnD6NZ32K2W9gw=;EntityPath=githubhttpeventhub';
   const eventHubName = 'githubhttpeventhub';   
   // Create a producer client to send messages to the event hub.
-  const connectionString = readJsonSecret();
+  const connectionString = readJsonSecret(context);
   try{
     const producer = new EventHubProducerClient(connectionString, eventHubName, {"retryDelayInMs":60000});
   
@@ -27,10 +27,13 @@ async function sender(cloudEventObj, context) {
   }
 }
 
-async function readJsonSecret(){
+async function readJsonSecret(context){
   //되라 이제..ㅇㅇdasㅁㄴㅇㄴㅇㅁasdf
-  const jsonFile = fs.readFileSync('./app-config.json','utf-8');
+  context.log("hihi");
+  const jsonFile = fs.readFileSync('app-config.json','utf-8');
+  context.log(jsonFIle)
   const jsonData = JSON.parse(jsonFile);
+  
   return jsonData.eventHubConnectionString;
 }
 
