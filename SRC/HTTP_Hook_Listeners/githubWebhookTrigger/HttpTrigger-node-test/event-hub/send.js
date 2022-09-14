@@ -39,5 +39,4 @@ async function readJsonSecret(){
 
 
 
-readJsonSecret();
 module.exports.sender = sender;
