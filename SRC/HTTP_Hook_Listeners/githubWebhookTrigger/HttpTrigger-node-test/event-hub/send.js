@@ -1,34 +1,43 @@
 const { EventHubProducerClient } = require("@azure/event-hubs");
 const fs = require("fs");
-module.exports = {
-  async sender(cloudEventObj, context) {
-    // const connectionString = 'Endpoint=sb://httptriggereventhubs.servicebus.windows.net/;SharedAccessKeyName=default;SharedAccessKey=ygtTa1wlgXx+UIr6up3i8x4aFHx2vNnD6NZ32K2W9gw=;EntityPath=githubhttpeventhub';
-    // const eventHubName = 'githubhttpeventhub';   
-    // Create a producer client to send messages to the event hub.
+
+async function sender(cloudEventObj, context) {
     
-    try{
-      const producer = new EventHubProducerClient(connectionString, eventHubName, {"retryDelayInMs":60000});
-    
-      // Prepare a batch of three events.
-      const batch = await producer.createBatch();
-      batch.tryAdd({ body: cloudEventObj});
-    
-      // Send the batch to the event hub.
-      await producer.sendBatch(batch);
-    
-      // Close the producer client.
-      await producer.close();
-      context.log(JSON.stringify(cloudEventObj));
-    }catch (e) {
-      context.log("err");
-      context.log(e);
-      // test
-    }
-    
-    
+  // const connectionString = 'Endpoint=sb://httptriggereventhubs.servicebus.windows.net/;SharedAccessKeyName=default;SharedAccessKey=ygtTa1wlgXx+UIr6up3i8x4aFHx2vNnD6NZ32K2W9gw=;EntityPath=githubhttpeventhub';
+  const eventHubName = 'githubhttpeventhub';   
+  // Create a producer client to send messages to the event hub.
+  const connectionString = readJsonSecret();
+  try{
+    const producer = new EventHubProducerClient(connectionString, eventHubName, {"retryDelayInMs":60000});
+  
+    // Prepare a batch of three events.
+    const batch = await producer.createBatch();
+    batch.tryAdd({ body: cloudEventObj});
+  
+    // Send the batch to the event hub.
+    await producer.sendBatch(batch);
+  
+    // Close the producer client.
+    await producer.close();
+    context.log(JSON.stringify(cloudEventObj));
+  }catch (e) {
+    context.log("err");
+    context.log(e);
+    // test
   }
-};
+}
+
+async function readJsonSecret(){
+  
+  var obj;
+  fs.readFileSync('../app-config.json', 'utf8', function(err,data){
+    if(err) throw err;
+    obj = JSON.parse(data);
+  });
+  return JSON.stringify(obj.eventHubConnectionString);
+}
 
 
 
-
+readJsonSecret();
+module.exports.sender = sender;
