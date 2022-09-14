@@ -27,9 +27,9 @@ public class UserConfigController {
     @Autowired
     private JwtUtils jwtUtils;
 
-    private final HttpSession session;
+	private final HttpSession session;
 
-    private final UserConfigService userConfigService;
+	private final UserConfigService userConfigService;
 
     private final SecurityUserService securityUserService;
 
@@ -55,25 +55,21 @@ public class UserConfigController {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         System.out.println("Now in POST(/RepositorySelect : "+authentication);
 
+		for(var repoId : repoIds) {
+			System.out.println(repoId);
+		}
 
-        for(var repoId : repoIds) {
-            System.out.println(repoId);
-        }
+		// todo: repoId, token, repo Name, owner Name (Organization Name), 이걸로 azure function을 호출.
+		// todo: Webhook 등록.
+		String token = "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";
+		String owner_name = "Ring-tail-lemur";
+		String repo_name = "aa";
 
-        // todo: repoId, token, repo Name, owner Name (Organization Name), 이걸로 azure function을 호출.
-        // todo: Webhook 등록.
-        String token = "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";
-        String owner_name = "Ring-tail-lemur";
-        String repo_name = "aa";
-
-        userConfigService.setUserWebhookByRepoName(token, owner_name, repo_name);
-
-
+		userConfigService.setUserWebhookByRepoName(token, owner_name, repo_name);
 
         return "redirect:http://localhost:3000/";
     }
 }
-
 /*
 todo 웹훅 등록
 * curl -H "Authorization: Bearer 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" -i https://api.github.com/hub -F "hub.mode=subscribe" -F "hub.topic=https://github.com/Ring-tail-lemur/test-for-fake-project/events/push" -F "hub.callback=https://webhook.site/3d6e59ed-e609-434a-bf0c-52cd3c563062"

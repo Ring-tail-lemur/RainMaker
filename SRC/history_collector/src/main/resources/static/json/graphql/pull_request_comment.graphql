@@ -1,0 +1,20 @@
+{
+    repository(name: "test-for-fake-project", owner: "Ring-tail-lemur") {
+        pullRequests(first: 100) {
+            nodes {
+                comments(first: 100) {
+                    nodes {
+                        publishedAt
+                        databaseId
+                        author {
+                            ... on User {
+                                databaseId
+                            }
+                        }
+                    }
+                }
+                databaseId
+            }
+        }
+    }
+}

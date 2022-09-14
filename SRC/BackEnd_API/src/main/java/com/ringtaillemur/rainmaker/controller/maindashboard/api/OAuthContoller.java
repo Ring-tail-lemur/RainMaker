@@ -56,5 +56,4 @@ public class OAuthContoller {
         }
         return "redirect:"+frontEndBaseUrl+"/RepositorySelect";
     }
-
 }

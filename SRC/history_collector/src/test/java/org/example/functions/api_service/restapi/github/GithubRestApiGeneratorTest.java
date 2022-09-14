@@ -1,4 +1,4 @@
-package org.example.functions.api_service.github;
+package org.example.functions.api_service.restapi.github;
 
 import static org.assertj.core.api.Assertions.*;
 
@@ -6,6 +6,8 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.List;
 
+import org.example.functions.api_service.github.HttpRequestDto;
+import org.example.functions.api_service.github.request_query_generator.restapi.GithubRestApiGenerator;
 import org.json.JSONObject;
 import org.junit.jupiter.api.Test;
 
@@ -30,15 +32,15 @@ class GithubRestApiGeneratorTest {
 
 
 		//when
-		GithubRestApiDto githubRestApiDtoList = githubRestApiGenerator.getGithubRestApiDto(
+		HttpRequestDto httpRequestDtoList = githubRestApiGenerator.getHttpRequestDto(
 			oneElementConfigJSONObject.getJSONObject("commits"), "commits");
 
 		//then
-		assertThat(githubRestApiDtoList.getUrl()).isEqualTo(
+		assertThat(httpRequestDtoList.getUrl()).isEqualTo(
 			new URL("https://api.github.com/repos/Ring-tail-lemur/test-for-fake-project/commits"));
-		assertThat(githubRestApiDtoList.getMethod()).isEqualTo("GET");
-		assertThat(githubRestApiDtoList.getHeader().getString("User-Agent")).isEqualTo("PostmanRuntime/7.29.2");
-		assertThat(githubRestApiDtoList.getHeader().getString("token")).isEqualTo("token");
+		assertThat(httpRequestDtoList.getMethod()).isEqualTo("GET");
+		assertThat(httpRequestDtoList.getHeader().getString("User-Agent")).isEqualTo("PostmanRuntime/7.29.2");
+		assertThat(httpRequestDtoList.getHeader().getString("token")).isEqualTo("token");
 	}
 
 	@Test
@@ -48,16 +50,16 @@ class GithubRestApiGeneratorTest {
 			new GithubRestApiGenerator("test-for-fake-project", "Ring-tail-lemur", "token");
 
 		//when
-		List<GithubRestApiDto> githubRestApiDtoList = githubRestApiGenerator.getGithubRestApiDtoList(
+		List<HttpRequestDto> httpRequestDtoList = githubRestApiGenerator.getHttpRequestDtoList(
 			oneElementConfigJSONObject);
 
 		//then
-		assertThat(githubRestApiDtoList.size()).isEqualTo(1);
-		assertThat(githubRestApiDtoList.get(0).getUrl()).isEqualTo(
+		assertThat(httpRequestDtoList.size()).isEqualTo(1);
+		assertThat(httpRequestDtoList.get(0).getUrl()).isEqualTo(
 			new URL("https://api.github.com/repos/Ring-tail-lemur/test-for-fake-project/commits"));
-		assertThat(githubRestApiDtoList.get(0).getMethod()).isEqualTo("GET");
-		assertThat(githubRestApiDtoList.get(0).getHeader().getString("User-Agent")).isEqualTo("PostmanRuntime/7.29.2");
-		assertThat(githubRestApiDtoList.get(0).getHeader().getString("token")).isEqualTo("token");
+		assertThat(httpRequestDtoList.get(0).getMethod()).isEqualTo("GET");
+		assertThat(httpRequestDtoList.get(0).getHeader().getString("User-Agent")).isEqualTo("PostmanRuntime/7.29.2");
+		assertThat(httpRequestDtoList.get(0).getHeader().getString("token")).isEqualTo("token");
 	}
 
 	@Test
@@ -67,11 +69,11 @@ class GithubRestApiGeneratorTest {
 			new GithubRestApiGenerator("test-for-fake-project", "Ring-tail-lemur", "token");
 
 		//when
-		List<GithubRestApiDto> githubRestApiDtoList = githubRestApiGenerator.getGithubRestApiDtoList(
+		List<HttpRequestDto> httpRequestDtoList = githubRestApiGenerator.getHttpRequestDtoList(
 			multiElementConfigJSONObject);
 
 		//then
-		assertThat(githubRestApiDtoList).hasSize(5);
+		assertThat(httpRequestDtoList).hasSize(5);
 	}
 
 }

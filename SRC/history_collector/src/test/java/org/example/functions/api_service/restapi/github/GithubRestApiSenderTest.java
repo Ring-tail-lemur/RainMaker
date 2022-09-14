@@ -1,4 +1,4 @@
-package org.example.functions.api_service.github;
+package org.example.functions.api_service.restapi.github;
 
 import static org.junit.jupiter.api.Assertions.*;
 
