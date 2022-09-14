@@ -1,21 +1,21 @@
 package com.ringtaillemur.rainmaker.dto.webdto.responsedto;
 
-import lombok.Data;
-
 import java.time.LocalDateTime;
+
+import lombok.Data;
 
 @Data
 public class UserRepositoryDto {
 
-    private int id;
-    private String organization;
-    private String repository;
-    private LocalDateTime pushed_at;
+	private int id;
+	private String organization;
+	private String repository;
+	private LocalDateTime pushedAt;
 
-    public UserRepositoryDto(int id, String organization, String repository, LocalDateTime pushed_at) {
-        this.id = id;
-        this.organization = organization;
-        this.repository = repository;
-        this.pushed_at = pushed_at;
-    }
+	public UserRepositoryDto(int id, String organization, String repository, LocalDateTime pushedAt) {
+		this.id = id;
+		this.organization = organization;
+		this.repository = repository;
+		this.pushedAt = pushedAt;
+	}
 }
