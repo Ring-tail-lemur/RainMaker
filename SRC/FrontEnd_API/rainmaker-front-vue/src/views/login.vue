@@ -55,8 +55,7 @@
 import Button from "./Buttons.vue";
 export default {
   methods : {
-    aaa : async () => {
-      console.log("hhihihihihihi");
+    aaa : async function() {
       window.location.replace(`https://github.com/login/oauth/authorize?response_type=code&client_id=${this.clientId}&scope=repo%20repo:status%20repo_deployment%20public_repo%20repo:invite%20admin:repo_hook%20write:repo_hook%20read:repo_hook%20admin:org%20admin:public_key&state=8U6-X7-6MVIRmkTQbb-ySo36wSRugfaBNjpHlTVJ0hY%3D&redirect_uri=http://127.0.0.1:8080/login/oauth2/code/github`);
     }
   },
