@@ -24,14 +24,10 @@
             node-version: ${{ env.NODE_VERSION }}
 
         - name: 'Resolve Project Dependencies Using Npm'
-          uses: microsoft/virable-subtitution@v1
-          with:
-            files: 'app-config.json'
-          env:
-            eventHubConnectionString: ${{secrets.AZURE_EVENT_HUB_CONNECTION_STRING}}
           shell: pwsh
           run: |
             pushd './${{ env.AZURE_FUNCTION_APP_PACKAGE_PATH }}'
+            echo "{ \"eventHubConectionString\" : ${{secrets.AZURE_EVENT_HUB_CONNECTION_STRING"}} }" >> app-config.json
             npm install
             npm run build --if-present
             npm run test --if-present
