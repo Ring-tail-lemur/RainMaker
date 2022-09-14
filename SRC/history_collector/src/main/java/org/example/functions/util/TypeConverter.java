@@ -1,5 +1,9 @@
 package org.example.functions.util;
 
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -32,7 +36,7 @@ public class TypeConverter {
 
 	public JSONArray coverJSONObjectWithJSONArray(JSONObject jsonObject) {
 		JSONArray jsonArray = new JSONArray();
-		return jsonArray.put(jsonArray);
+		return jsonArray.put(jsonObject);
 	}
 
 	private String convertToQueryString(String rawString) {
@@ -72,11 +76,55 @@ public class TypeConverter {
 			case "bit": case "bool": case "boolean":
 				return convertToQueryBit(value);
 
-			case "datetime2": case "time":
+			case "datetime2": case "time": case "datetime":
 				return convertToQueryDatetime2(value);
 
 			default:
 				return convertToQueryBigint(value);
+		}
+	}
+
+	public JSONArray normalizeJsonObject(JSONArray sourceData) {
+		JSONArray normalizedSourceData = new JSONArray("[]");
+		if (!sourceData.isEmpty()) {
+			for (Object sourceDatum : sourceData) {
+				List<JSONObject> treeList = new ArrayList<>();
+				if (normalizeJsonObject(sourceDatum, (JSONObject)sourceDatum, treeList, null, null)) {
+					normalizedSourceData.put(sourceDatum);
+				}
+				else{
+					normalizedSourceData.putAll(treeList);
+				}
+			}
+		}
+		return normalizedSourceData;
+	}
+
+	private boolean normalizeJsonObject(Object node, JSONObject tree, List<JSONObject> treeList, String key,
+		JSONObject lastJsonObject) {
+		if (node instanceof JSONObject) {
+			JSONObject jsonObjectNode = (JSONObject)node;
+			Iterator<String> nextNodeKeys = jsonObjectNode.keys();
+			boolean requireMerge = true;
+			while (nextNodeKeys.hasNext()) {
+				String nextNodeKey = nextNodeKeys.next();
+				Object nextNode = jsonObjectNode.get(nextNodeKey);
+				requireMerge = requireMerge && normalizeJsonObject(nextNode, tree, treeList, nextNodeKey, jsonObjectNode);
+			}
+			return requireMerge;
+		} else if (node instanceof JSONArray) {
+			JSONArray jsonArrayNode = (JSONArray)node;
+			for (Object nodeElement : jsonArrayNode) {
+				lastJsonObject.remove(key);
+				lastJsonObject.put(key, nodeElement);
+				boolean requireMerge = normalizeJsonObject(nodeElement, tree, treeList, key, lastJsonObject);
+				if (requireMerge) {
+					treeList.add(new JSONObject(tree.toString()));
+				}
+			}
+			return false;
+		} else {
+			return true;
 		}
 	}
 }

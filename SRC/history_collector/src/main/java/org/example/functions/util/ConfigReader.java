@@ -12,15 +12,22 @@ public class ConfigReader {
 
 	TypeConverter typeConverter = TypeConverter.getTypeConverter();
 
+	public static ConfigReader configReader = new ConfigReader();
+	private ConfigReader(){}
+
+	public static ConfigReader getConfigReader() {
+		return configReader;
+	}
+
 	public JSONObject getJsonObjectConfig() {
-		return typeConverter.convertStringToJSONObject(getStringConfig());
+		return typeConverter.convertStringToJSONObject(getStringConfig(FilePathConstant.CONFIG_FILE_PATH));
 	}
 
-	public String getStringConfig() {
-		return readFile(FilePathConstant.CONFIG_FILE_PATH);
+	public String getStringConfig(String filePath) {
+		return readFile(filePath);
 	}
 
-	private String readFile(String filePath) {
+	public String readFile(String filePath) {
 		InputStream input = this.getClass().getResourceAsStream(filePath);
 		ByteArrayOutputStream result = new ByteArrayOutputStream();
 		byte[] buffer = new byte[1024];

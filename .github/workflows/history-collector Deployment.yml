@@ -18,7 +18,7 @@ env:
   AZURE_FUNCTIONAPP_NAME: github-history-collector     # set this to your function app name on Azure
   POM_XML_DIRECTORY: 'SRC/history_collector'
   POM_FUNCTIONAPP_NAME: historycollector-1661914840110
-  JAVA_VERSION: '1.8.x'                      # set this to the java version to use
+  JAVA_VERSION: '11.x.x'                      # set this to the java version to use
 
 jobs:
   build-and-deploy:

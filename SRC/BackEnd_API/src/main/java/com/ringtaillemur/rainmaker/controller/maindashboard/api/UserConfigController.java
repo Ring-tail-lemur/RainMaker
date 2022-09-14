@@ -21,9 +21,9 @@ import java.util.List;
 public class UserConfigController {
 
 
-    private final HttpSession session;
+	private final HttpSession session;
 
-    private final UserConfigService userConfigService;
+	private final UserConfigService userConfigService;
 
     @ResponseBody
     @GetMapping("/RepositorySelect")

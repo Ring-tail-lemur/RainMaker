@@ -1,4 +1,4 @@
-package org.example.functions.api_service.github;
+package org.example.functions.api_service.github.request_query_generator.restapi;
 
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -7,14 +7,18 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.commons.text.StringSubstitutor;
+import org.example.functions.api_service.github.HttpRequestDto;
+import org.example.functions.api_service.github.request_query_generator.ApiGenerator;
+import org.example.functions.util.StringFormatter;
 import org.json.JSONObject;
 
-public class GithubRestApiGenerator {
+public class GithubRestApiGenerator implements ApiGenerator {
 
 	private String repositoryName;
 	private String ownerName;
 	private String token;
+	private final StringFormatter stringFormatter = new StringFormatter();
+
 
 	public GithubRestApiGenerator(String repositoryName, String ownerName, String token) {
 		this.repositoryName = repositoryName;
@@ -28,27 +32,27 @@ public class GithubRestApiGenerator {
 		this.token = requestQueryParameters.get("token");
 	}
 
-	public List<GithubRestApiDto> getGithubRestApiDtoList(JSONObject configJSONObject) {
-		List<GithubRestApiDto> githubRestApiDtoList = new ArrayList<>();
+	public List<HttpRequestDto> getHttpRequestDtoList(JSONObject configJSONObject) {
+		List<HttpRequestDto> httpRequestDtoList = new ArrayList<>();
 
 		Iterator<String> configElementKeys = configJSONObject.keys();
 		while (configElementKeys.hasNext()) {
 			String configElementKey = configElementKeys.next();
-			GithubRestApiDto githubRestApiDto = getGithubRestApiDto((JSONObject)configJSONObject.get(configElementKey),
+			HttpRequestDto httpRequestDto = getHttpRequestDto((JSONObject)configJSONObject.get(configElementKey),
 				configElementKey);
-			githubRestApiDtoList.add(githubRestApiDto);
+			httpRequestDtoList.add(httpRequestDto);
 		}
-		return githubRestApiDtoList;
+		return httpRequestDtoList;
 	}
 
-	public GithubRestApiDto getGithubRestApiDto(JSONObject configElementJSONObject, String requestType) {
+	public HttpRequestDto getHttpRequestDto(JSONObject configElementJSONObject, String tableName) {
 		JSONObject request = configElementJSONObject.getJSONObject("request");
 		appendUserSpecificData(request);
-		String url = bindPathParameters(request.getString("url"), request.getJSONObject("path_parameters"))
+		String url = stringFormatter.bindParameters(request.getString("url"), request.getJSONObject("path_parameters"))
 			+ getStringQueryParameters(request.getJSONObject("query_parameters"));
 		try {
-			return GithubRestApiDto.builder()
-				.requestType(requestType)
+			return HttpRequestDto.builder()
+				.requestType(tableName)
 				.url(new URL(url))
 				.header(request.getJSONObject("header"))
 				.method(request.getString("method"))
@@ -63,7 +67,7 @@ public class GithubRestApiGenerator {
 		pathParameters.put("owner", ownerName);
 		pathParameters.put("repo", repositoryName);
 		JSONObject header = request.getJSONObject("header");
-		header.put("token", token);
+		header.put("Authorization", String.format("Bearer %s", token));
 	}
 
 	private String getStringQueryParameters(JSONObject queryParameters) {
@@ -76,12 +80,4 @@ public class GithubRestApiGenerator {
 		}
 		return stringQueryParameters.substring(0, stringQueryParameters.length() - 1);
 	}
-
-	private String bindPathParameters(String rawUrl, JSONObject pathParameters) {
-		rawUrl = rawUrl.toLowerCase();
-		Map<String, String> pathParameterMap = (Map)pathParameters.toMap();
-		StringSubstitutor strSubstitutor = new StringSubstitutor(pathParameterMap, "{", "}");
-		return strSubstitutor.replace(rawUrl);
-	}
-
 }

@@ -70,15 +70,12 @@ export default {
   justify-content: center;
   align-items: center;
 }
-
 .login {
   width: 450px;
 }
-
 .login {
   min-height: 0;
 }
-
 .login {
   -webkit-border-radius: 8px;
   border-radius: 12px;
@@ -92,7 +89,6 @@ export default {
   transition: .2s;
   width: 700px;
 }
-
 .login {
   background: #fff;
   display: -webkit-box;
@@ -104,7 +100,6 @@ export default {
   position: relative;
   z-index: 2;
 }
-
 .login {
   background: #fff;
   direction: ltr;
@@ -113,32 +108,26 @@ export default {
   margin: 0;
   padding: 0;
 }
-
 .loginBox {
   height: auto;
   min-height: 500px;
 }
-
 .loginBox {
   box-sizing: inherit;
   float: right;
   width: 50%;
   padding: 48px 40px 36px;
 }
-
 .loginInnerBox{
   display: flex;
   justify-content: center;
   align-items: center;
-
-
 }
 .githubIconBox{
   border: solid 3px #c0bfbf;
   border-radius: 10px;
   padding: 5px 8px;
 }
-
 .githubExplain {
   -webkit-border-bottom-left-radius: 8px;
   -webkit-border-top-left-radius: 8px;
@@ -150,12 +139,10 @@ export default {
   min-height: 500px;
   padding: 48px 40px 36px;
 }
-
 .githubLoginText{
   margin-bottom: 50px;
   font-weight:bold;
 }
-
 .loginTitle {
   margin-bottom: 40px;
   font-size: 24px;
@@ -172,21 +159,17 @@ export default {
   border-top: 3px solid;
   margin-bottom: 20px;
 }
-
 .githubRegisterButton{
   border: solid 3px #c0bfbf;
   border-radius: 10px;
   padding: 5px 8px;
   width: 100px;
 }
-
 #contentFont {
   font-family: 'Dongle', sans-serif;
   font-family: 'Jua', sans-serif;
 }
-
 #titleFont {
   font-family: 'Jua', sans-serif;
 }
-
 </style>

@@ -2,19 +2,160 @@
   "commits": {
     "request": {
       "method": "GET",
-      "url": "https://api.github.com/repos/{OWNER}/{REPO}/commits",
+      "url": "https://api.github.com/repos/{{owner}}/{{repo}}/commits",
       "header": {
+        "accept": "application/vnd.github+json"
       },
       "path_parameters": {
       },
       "query_parameters": {
+        "per_page": "100"
       }
     },
     "mapping": {
-      "sha": ["commit_id", "string"],
-      "author.id": ["author_id", "int"],
-      "commit.message": ["message", "string"],
-      "commit.author.date": ["commit_time", "datetime2"]
+      "sha": [
+        "commit_id",
+        "string"
+      ],
+      "author.id": [
+        "author_id",
+        "int"
+      ],
+      "commit.message": [
+        "message",
+        "string"
+      ],
+      "commit.author.date": [
+        "commit_time",
+        "datetime2"
+      ]
+    }
+  },
+  "pull_request": {
+    "request": {
+      "method": "GET",
+      "url": "https://api.github.com/repos/{{owner}}/{{repo}}/pulls",
+      "header": {
+        "accept": "application/vnd.github+json"
+      },
+      "path_parameters": {},
+      "query_parameters": {
+        "state": "all",
+        "per_page": "100"
+      }
+    },
+    "mapping": {
+      "id": [
+        "pull_request_id",
+        "int"
+      ],
+      "number": [
+        "pull_request_number",
+        "int"
+      ],
+      "head.ref": [
+        "pull_request_open_branch_name",
+        "string"
+      ],
+      "base.ref": [
+        "pull_request_close_branch_name",
+        "string"
+      ],
+      "base.repo.id": [
+        "repository_id",
+        "int"
+      ]
+    }
+  },
+  "pull_request_comment": {
+    "graphql": "pull_request_comment.graphql",
+    "mapping": {
+      "data.repository.pullRequests.nodes.comments.nodes.databaseId": [
+        "pull_request_comment_id",
+        "int"
+      ],
+      "data.repository.pullRequests.nodes.comments.nodes.publishedAt": [
+        "event_time",
+        "datetime2"
+      ],
+      "data.repository.pullRequests.nodes.databaseId": [
+        "pull_request_id",
+        "datetime2"
+      ],
+      "data.repository.pullRequests.nodes.comments.nodes.author.databaseId": [
+        "git_user_id",
+        "datetime2"
+      ]
+    }
+  },
+  "release": {
+    "request": {
+      "method": "GET",
+      "url": "https://api.github.com/repos/{{owner}}/{{repo}}/releases",
+      "header": {
+        "accept": "application/vnd.github+json"
+      },
+      "path_parameters": {},
+      "query_parameters": {
+        "per_page": "100"
+      }
+    },
+    "mapping": {
+      "id": [
+        "release_id",
+        "int"
+      ],
+      "prerelease": [
+        "pre_release",
+        "bit"
+      ],
+      "name": [
+        "name",
+        "string"
+      ],
+      "author.id": [
+        "author_id",
+        "int"
+      ],
+      "tag_name": [
+        "tag_name",
+        "string"
+      ],
+      "이거 문제네 진짜": [
+        "repository_id",
+        "int"
+      ],
+      "published_at": [
+        "published_at",
+        "datetime2"
+      ],
+      "draft": [
+        "draft",
+        "bit"
+      ]
+    }
+  },
+  "git_user": {
+    "request": {
+      "method": "GET",
+      "url": "https://api.github.com/repos/{{owner}}/{{repo}}/contributors",
+      "header": {
+        "accept": "application/vnd.github+json"
+      },
+      "path_parameters": {},
+      "query_parameters": {
+        "per_page": "100"
+      }
+    },
+    "mapping": {
+      "id": [
+        "git_user_id",
+        "int"
+      ],
+      "login": [
+        "name",
+        "string"
+      ]
     }
   }
 }
