@@ -32,6 +32,7 @@ public class LanguageTest {
 
 	@Test
 	void test1() {
+		//test
 		JSONArray objects = new JSONArray("[]");
 		Object o = objects.get(0);
 	}
