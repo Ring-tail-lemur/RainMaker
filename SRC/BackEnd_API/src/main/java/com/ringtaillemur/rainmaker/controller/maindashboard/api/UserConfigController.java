@@ -18,40 +18,40 @@ import java.util.List;
 public class UserConfigController {
 
 
-    private final HttpSession session;
+	private final HttpSession session;
 
-    private final UserConfigService userConfigService;
+	private final UserConfigService userConfigService;
 
-    @ResponseBody
-    @GetMapping("/RepositorySelect")
-    public ArrayList<UserRepositoryDto> userRepositoryListReturnRestAPI() {
+	@ResponseBody
+	@GetMapping("/RepositorySelect")
+	public ArrayList<UserRepositoryDto> userRepositoryListReturnRestAPI() {
 
-        Long userId = userConfigService.getUserId();
-        String token = userConfigService.getToken(userId);
+		Long userId = userConfigService.getUserId();
+		String token = userConfigService.getToken(userId);
 
-        System.out.println(session.toString());
-        return userConfigService.getUserRepositoryDtoByToken(token);
-    }
+		System.out.println(session.toString());
+		return userConfigService.getUserRepositoryDtoByToken(token);
+	}
 
-    @PostMapping("/RepositorySelect")
-    public String userRepositoryRegisterRestAPI(  //@RequestBody String repoIds) {
-            @RequestParam(name="repo_id") List<String> repoIds) {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+	@PostMapping("/RepositorySelect")
+	public String userRepositoryRegisterRestAPI(  //@RequestBody String repoIds) {
+		@RequestParam(name="repo_id") List<String> repoIds) {
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
-        for(var repoId : repoIds) {
-            System.out.println(repoId);
-        }
+		for(var repoId : repoIds) {
+			System.out.println(repoId);
+		}
 
-        // todo: repoId, token, repo Name, owner Name (Organization Name), 이걸로 azure function을 호출.
-        // todo: Webhook 등록.
-        String token = "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";
-        String owner_name = "Ring-tail-lemur";
-        String repo_name = "aa";
+		// todo: repoId, token, repo Name, owner Name (Organization Name), 이걸로 azure function을 호출.
+		// todo: Webhook 등록.
+		String token = "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";
+		String owner_name = "Ring-tail-lemur";
+		String repo_name = "aa";
 
-        userConfigService.setUserWebhookByRepoName(token, owner_name, repo_name);
+		userConfigService.setUserWebhookByRepoName(token, owner_name, repo_name);
 
-        return "redirect:http://localhost:3000/";
-    }
+		return "redirect:http://localhost:3000/";
+	}
 }
 
 /*

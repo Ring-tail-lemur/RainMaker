@@ -1,5 +1,8 @@
 package com.ringtaillemur.analyst;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.microsoft.azure.functions.ExecutionContext;
 import com.microsoft.azure.functions.annotation.FunctionName;
 import com.microsoft.azure.functions.annotation.TimerTrigger;
