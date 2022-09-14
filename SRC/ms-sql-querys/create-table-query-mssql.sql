@@ -231,3 +231,14 @@ CREATE TABLE time_to_restore_service
     restored_at                DATETIME2 NOT NULL,
     repository_id              BIGINT    NOT NULL
 );
+
+CREATE TABLE oauth_user
+(
+    id  BIGINT       NOT NULL PRIMARY KEY,
+    user_remote_id BIGINT       NOT NULL PRIMARY KEY, --remote_identifier
+    [name]              VARCHAR(255) NOT NULL,
+    oauth_token	  VARCHAR(255) NOT NULL,
+    [url]  		  VARCHAR(255) NOT NULL,
+    created_date        DATETIME2    NOT NULL DEFAULT GETDATE(),
+    modified_date       DATETIME2    NOT NULL DEFAULT GETDATE()
+);
