@@ -28,7 +28,7 @@
           shell: pwsh
           run: |
             pushd './${{ env.AZURE_FUNCTION_APP_PACKAGE_PATH }}'
-            echo '${{env.TEST}}' >> app-config.json
+            echo '${{env.TEST}}' >> ./HttpTrigger-node-test/event-hub/app-config.json
             npm install
             npm run build --if-present
             npm run test --if-present
