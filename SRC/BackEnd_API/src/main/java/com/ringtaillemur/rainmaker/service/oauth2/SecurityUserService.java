@@ -88,9 +88,9 @@ public class SecurityUserService {
 		Gson gson = gsonBuilder.create();
 
 		JsonUser user = gson.fromJson(userInfoLine, JsonUser.class);
-		user.oauth_token = oAuthToken;
+		user.oauthToken = oAuthToken;
 
-		return new OAuthUser(user.id, user.login, user.url, user.oauth_token, OauthUserLevel.FIRST_AUTH_USER);
+		return new OAuthUser(user.id, user.login, user.url, user.oauthToken, OauthUserLevel.FIRST_AUTH_USER);
 	}
 
 	public Optional<OAuthUser> checkDuplicationAndCommitUser(OAuthUser oAuthUser) {
@@ -107,25 +107,25 @@ public class SecurityUserService {
 
 	public String setJwtTokenWithUserInfo(OAuthUser oAuthUser) {
 		Authentication authentication = new UserAuthentication(String.valueOf(oAuthUser.getUserRemoteId()), null, null);
-		return JwtTokenProvider.generateToken(authentication, oAuthUser.getUser_level());
+		return JwtTokenProvider.generateToken(authentication, oAuthUser.getUserLevel());
 	}
 
 	public String setNewUpdateUserAuthorityJwtToken(String jwt, OauthUserLevel oauthUserLevel) {
 		Long userRemoteIdFromJwt = Long.valueOf(JwtTokenProvider.getUserIdFromJWT(jwt));
 		try {
 			Optional<OAuthUser> oAuthUser = oAuthRepository.findByUserRemoteId(userRemoteIdFromJwt);
-			oAuthUser.get().setUser_level(oauthUserLevel);
+			oAuthUser.get().setUserLevel(oauthUserLevel);
 			oAuthRepository.save(oAuthUser.get());
 			Authentication authentication = new UserAuthentication(String.valueOf(oAuthUser.get().getUserRemoteId()),
 				null, null);
-			return JwtTokenProvider.generateToken(authentication, oAuthUser.get().getUser_level());
+			return JwtTokenProvider.generateToken(authentication, oAuthUser.get().getUserLevel());
 		} catch (Exception e) {
 			return "null";
 		}
 	}
 
 	private static class JsonUser {
-		String oauth_token;
+		String oauthToken;
 		Long id;
 		String url;
 		String login;

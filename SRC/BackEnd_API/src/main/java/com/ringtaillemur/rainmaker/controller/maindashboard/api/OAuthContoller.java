@@ -46,7 +46,7 @@ public class OAuthContoller {
 			//Authentication 생성, JwtTokenProvider 생성하여 jwt Token 생성함, "sub" == remoteId, "ROLE" == UserLevel
 			String token = securityUserService.setJwtTokenWithUserInfo(nowUser.get());
 			//Bearer이라는 토큰 생성(jwt 토큰이 담김)
-			Cookie cookie = new Cookie("Bearer", token);
+			Cookie cookie = new Cookie("Bearer", token+ "; Domain="+frontEndBaseUrl);
 			cookie.setPath("/");
 			res.addCookie(cookie);
 		}

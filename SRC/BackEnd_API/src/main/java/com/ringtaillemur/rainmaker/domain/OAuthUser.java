@@ -1,12 +1,14 @@
 package com.ringtaillemur.rainmaker.domain;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import com.ringtaillemur.rainmaker.domain.enumtype.OauthUserLevel;
@@ -24,16 +26,17 @@ import lombok.Setter;
 public class OAuthUser extends BaseEntity {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	Long id;
-
 	@Column(name = "user_remote_id")
-	Long userRemoteId;
-	String name;
-	String oauthToken;
-	String url;
+	private Long userRemoteId;
+	private String name;
+	private String oauthToken;
+	private String url;
+
 	@Enumerated(value = EnumType.STRING)
-	OauthUserLevel user_level;
+	OauthUserLevel userLevel;
+
+	@OneToMany(mappedBy = "oAuthUser")
+	private List<OAuthUserRepositoryTable> OAuthUserRepositoryTables = new ArrayList<>();
 
 	@Builder
 	public OAuthUser(Long id, String name, String url, String token, OauthUserLevel inputUserLevel) {
@@ -41,7 +44,7 @@ public class OAuthUser extends BaseEntity {
 		this.name = name;
 		this.oauthToken = token;
 		this.url = url;
-		this.user_level = inputUserLevel;
+		this.userLevel = inputUserLevel;
 	}
 
 	public OAuthUser update(String oauthToken) {
