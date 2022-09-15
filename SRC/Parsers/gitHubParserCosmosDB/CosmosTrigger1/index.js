@@ -4,7 +4,7 @@ const configModule = require('./ms-sql/msSQLMakeConfig.js');
 //ci test
 module.exports = async function (context, documents) {
     /** */
-    global.config = configModule.makeConfig();
+    global.config = await configModule.makeConfig();
     const dbConnectionPool = new sql.ConnectionPool(config);
     try {
         await dbConnectionPool.connect();
