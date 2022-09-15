@@ -22,7 +22,7 @@
         - uses: actions/checkout@v2
         - uses: microsoft/variable-substitution@v1 
           with:
-            files: 'event-hub\event-hub-app-config.json'
+            files: 'event-hub/event-hub-app-config.json'
           env:
             eventHubConnectionString : ${{secrets.AZURE_EVENT_HUB_CONNECTION_STRING}}
 
