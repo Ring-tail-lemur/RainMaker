@@ -19,7 +19,7 @@
         - uses: actions/checkout@v2
         - uses: microsoft/variable-substitution@v1 
           with:
-            files: '${{env.AZURE_FUNCTION_APP_PACKAGE_PATH}}HttpTrigger-node-test/event-hub-app-config.json'
+            files: '${{env.AZURE_FUNCTION_APP_PACKAGE_PATH}}HttpTrigger-node-test/event-hub/event-hub-app-config.json'
           env:
             eventHubConnectionString : ${{secrets.AZURE_EVENT_HUB_CONNECTION_STRING}}
 
