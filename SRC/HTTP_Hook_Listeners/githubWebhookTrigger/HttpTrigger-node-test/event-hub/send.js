@@ -29,14 +29,15 @@ async function sender(cloudEventObj, context) {
 
 async function readJsonSecret(context){
   //되라 이제..test...ㄴtest...tesㄴㅁㄹㅇㄴㄹㅇ
-  context.log("hihi");
-  const jsonFile = fs.readFileSync('event-hub-app-config.json','utf-8');
-  context.log(jsonFile)
+  // context.log("hihi");ß
+  const jsonFile = fs.readFileSync('./event-hub-app-config.json','utf-8');
+  // context.log(jsonFile)
+  console.log(jsonFile);
   const jsonData = JSON.parse(jsonFile);
   
   return jsonData.eventHubConnectionString;
 }
 
-
+readJsonSecret('')
 
 module.exports.sender = sender;
