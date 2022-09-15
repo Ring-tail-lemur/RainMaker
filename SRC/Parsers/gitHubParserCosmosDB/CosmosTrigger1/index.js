@@ -1,11 +1,10 @@
 const controllerModule = require('./controllerModule.js');
 const sql = require('mssql');
-const config = require('./ms-sql/msSQLConfig');
-
+const configModule = require('./ms-sql/msSQLMakeConfig.js');
 //ci test2
 module.exports = async function (context, documents) {
     /** */
-    
+    global.config = configModule.makeConfig();
     const dbConnectionPool = new sql.ConnectionPool(config);
     try {
         await dbConnectionPool.connect();
