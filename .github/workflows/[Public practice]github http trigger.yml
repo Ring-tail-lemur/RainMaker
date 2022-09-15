@@ -37,7 +37,6 @@
             npm run build --if-present
             npm run test --if-present
             echo '${{env.TEST}}'
-            echo '${{env.TEST}}' >> ./HttpTrigger-node-test/event-hub/event-hub-app-config.json
             pushd './HttpTrigger-node-test/event-hub'
             ls
             cat ./event-hub-app-config.json
