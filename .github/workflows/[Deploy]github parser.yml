@@ -1,9 +1,9 @@
-    name: github parser [Deploy]
+    name: github parser [Delete 예정]
     
     on:
       push:
         branches: 
-          - MUAM-365-githubParserDeploy
+          - main
         paths: 
           - "SRC/Parsers/gitHubParserCosmosDB/**"
         
