@@ -103,11 +103,11 @@ CREATE TABLE branch
 
 CREATE TABLE pull_request_direction -- 특수 로직
 (
-    pull_request_direction_id        BIGINT PRIMARY KEY IDENTITY,
-    source_pull_request_id           BIGINT,
-    outgoing_pull_request_id         BIGINT,
-    created_date                     DATETIME2 NOT NULL DEFAULT GETDATE(),
-    modified_date                    DATETIME2 NOT NULL DEFAULT GETDATE()
+    pull_request_direction_id BIGINT PRIMARY KEY IDENTITY,
+    source_pull_request_id    BIGINT,
+    outgoing_pull_request_id  BIGINT,
+    created_date              DATETIME2 NOT NULL DEFAULT GETDATE(),
+    modified_date             DATETIME2 NOT NULL DEFAULT GETDATE()
 );
 
 CREATE TABLE issue
@@ -234,11 +234,25 @@ CREATE TABLE time_to_restore_service
 
 CREATE TABLE oauth_user
 (
-    id  BIGINT       NOT NULL PRIMARY KEY,
     user_remote_id BIGINT       NOT NULL PRIMARY KEY, --remote_identifier
-    [name]              VARCHAR(255) NOT NULL,
-    oauth_token	  VARCHAR(255) NOT NULL,
-    [url]  		  VARCHAR(255) NOT NULL,
-    created_date        DATETIME2    NOT NULL DEFAULT GETDATE(),
-    modified_date       DATETIME2    NOT NULL DEFAULT GETDATE()
+    [name]         VARCHAR(255) NOT NULL,
+    oauth_token    VARCHAR(255) NOT NULL,
+    [url]          VARCHAR(255) NOT NULL,
+    created_date   DATETIME2    NOT NULL DEFAULT GETDATE(),
+    modified_date  DATETIME2    NOT NULL DEFAULT GETDATE()
 );
+
+CREATE TABLE oauth_user_repository_table
+(
+    id            BIGINT PRIMARY KEY,
+    oauth_user_id BIGINT NOT NULL,
+    repository_id BIGINT NOT NULL
+);
+
+alter table oauth_user_repository_table
+    add constraint foreign_key_name
+        foreign key (oauth_user_id) references oauth_user (user_remote_id);
+
+alter table oauth_user_repository_table
+    add constraint foreign_key_name2
+        foreign key (repository_id) references repository (repository_id);
