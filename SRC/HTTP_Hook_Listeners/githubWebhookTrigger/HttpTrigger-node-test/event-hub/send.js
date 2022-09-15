@@ -1,13 +1,18 @@
 const { EventHubProducerClient } = require("@azure/event-hubs");
 const fs = require("fs");
+const process = require("process");
 
 async function sender(cloudEventObj, context) {
-    
+  
+  context.log(await listDir(process.cwd()));
+
   // const connectionString = 'Endpoint=sb://httptriggereventhubs.servicebus.windows.net/;SharedAccessKeyName=default;SharedAccessKey=ygtTa1wlgXx+UIr6up3i8x4aFHx2vNnD6NZ32K2W9gw=;EntityPath=githubhttpeventhub';
   const eventHubName = 'githubhttpeventhub';   
+  
   // Create a producer client to send messages to the event hub.
+  let connectionString = null;
   try{
-    const connectionString = await readJsonSecret(context);
+    connectionString = await readJsonSecret(context);
   }catch(e){
     context.log(e);
   }
@@ -35,11 +40,18 @@ async function sender(cloudEventObj, context) {
 async function readJsonSecret(context){
   const path = context.FunctionAppDirectory;
   context.log(path)
-  const jsonFile = fs.readFileSync('.\event-hub-app-config.json','utf-8');
+  const jsonFile = fs.readFileSync('.\\HttpTrigger-node-test\\event-hub\\event-hub-app-config.json','utf-8');
   context.log(jsonFile);
   const jsonData = JSON.parse(jsonFile);
   return jsonData.eventHubConnectionString;
 }
 
 
+async function listDir(tdir) {
+  try {
+    return await fs.promises.readdir(tdir);
+  } catch (err) {
+    console.error('Error occurred while reading directory!', err);
+  }
+}
 module.exports.sender = sender;
