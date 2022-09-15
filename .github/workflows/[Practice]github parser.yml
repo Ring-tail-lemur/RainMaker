@@ -16,25 +16,33 @@
       build-and-deploy:
         runs-on: windows-latest
         steps:
-        - name: 'Checkout GitHub Action'
-          uses: actions/checkout@v2
+          - uses: actions/checkout@v2
+          - uses: microsoft/variable-substitution@v1 
+            with: 
+              files: '${{env.AZURE_FUNCTION_APP_PACKAGE_PATH}}ms-sql-config.json'
+            env: 
+              port : '${{secrets.MS_SQL_PORT}}'
+              user : '${{secrets.MS_SQL_USER}}'
+              password : '${{secrets.MS_SQL_PASSWORD}}'
+              server : '${{secrets.MS_SQL_SERVER}}'
+              database : '${{secrets.MS_SQL_DATABASE}}'
 
-        - name: Setup Node ${{ env.NODE_VERSION }} Environment
-          uses: actions/setup-node@v2
-          with:
-            node-version: ${{ env.NODE_VERSION }}
+          - name: Setup Node ${{ env.NODE_VERSION }} Environment
+            uses: actions/setup-node@v2
+            with:
+              node-version: ${{ env.NODE_VERSION }}
 
-        - name: 'Resolve Project Dependencies Using Npm'
-          shell: pwsh
-          run: |
-            pushd './${{ env.AZURE_FUNCTION_APP_PACKAGE_PATH }}'
-            npm install
-            npm run build --if-present
-            npm run test --if-present
-            popd
-        - name: 'Run Azure Functions Action'
-          uses: Azure/functions-action@v1
-          with:
-            app-name: ${{ env.AZURE_FUNCTION_APP_NAME }}
-            package: ${{ env.AZURE_FUNCTION_APP_PACKAGE_PATH }}
-            publish-profile: ${{ secrets.AZURE_FUNCTION_GITHUB_PARSER }}
+          - name: 'Resolve Project Dependencies Using Npm'
+            shell: pwsh
+            run: |
+              pushd './${{ env.AZURE_FUNCTION_APP_PACKAGE_PATH }}'
+              npm install
+              npm run build --if-present
+              npm run test --if-present
+              popd
+          - name: 'Run Azure Functions Action'
+            uses: Azure/functions-action@v1
+            with:
+              app-name: ${{ env.AZURE_FUNCTION_APP_NAME }}
+              package: ${{ env.AZURE_FUNCTION_APP_PACKAGE_PATH }}
+              publish-profile: ${{ secrets.AZURE_FUNCTION_GITHUB_PARSER }}
