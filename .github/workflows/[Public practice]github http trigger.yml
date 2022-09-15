@@ -15,9 +15,6 @@
     jobs:
       build-and-deploy:
         runs-on: windows-latest
-        defaults:
-          run:
-            working-directory: 'SRC/HTTP_Hook_Listeners/githubWebhookTrigger'
         steps:
         - uses: actions/checkout@v2
         - uses: microsoft/variable-substitution@v1 
