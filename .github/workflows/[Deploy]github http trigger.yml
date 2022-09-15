@@ -1,0 +1,44 @@
+    name: github trigger [Deploy]
+    
+    on:
+      push:
+        branches: 
+          - main
+        paths: 
+          - "SRC/HTTP_Hook_Listeners/githubWebhookTrigger/**"
+    env:
+      AZURE_FUNCTION_APP_NAME: swm-project-github-webhook    # set this to your application's name
+      AZURE_FUNCTION_APP_PACKAGE_PATH: './SRC/HTTP_Hook_Listeners/githubWebhookTrigger/'      # set this to the path to your web app project, defaults to the repository root
+      NODE_VERSION: '18.x'                     # set this to the node version to use (supports 8.x, 10.x, 12.x, 14.x)
+      TEST: '{ "eventHubConnectionString" : "${{secrets.AZURE_EVENT_HUB_CONNECTION_STRING}}" }'
+
+    jobs:
+      build-and-deploy:
+        runs-on: windows-latest
+        steps:
+        - uses: actions/checkout@v2
+        - uses: microsoft/variable-substitution@v1 
+          with:
+            files: '${{env.AZURE_FUNCTION_APP_PACKAGE_PATH}}HttpTrigger-node-test/event-hub/event-hub-app-config.json'
+          env:
+            eventHubConnectionString : ${{secrets.AZURE_EVENT_HUB_CONNECTION_STRING}}
+
+        - name: Setup Node ${{ env.NODE_VERSION }} Environment
+          uses: actions/setup-node@v2
+          with:
+            node-version: ${{ env.NODE_VERSION }}
+
+        - name: 'Resolve Project Dependencies Using Npm'
+          shell: pwsh
+          run: |
+            pushd './${{ env.AZURE_FUNCTION_APP_PACKAGE_PATH }}'
+            npm install
+            npm run build --if-present
+            npm run test --if-present
+            popd
+        - name: 'Run Azure Functions Action'
+          uses: Azure/functions-action@v1
+          with:
+            app-name: ${{ env.AZURE_FUNCTION_APP_NAME }}
+            package: ${{ env.AZURE_FUNCTION_APP_PACKAGE_PATH }}
+            publish-profile: ${{ secrets.AZURE_GITHUB_WEBHOOK_AUTH }}

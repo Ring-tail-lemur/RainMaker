@@ -3,7 +3,7 @@
     on:
       push:
         branches: 
-          - main 
+          - dev
         paths: 
           - "SRC/HTTP_Hook_Listeners/githubWebhookTrigger/**"
     env:
