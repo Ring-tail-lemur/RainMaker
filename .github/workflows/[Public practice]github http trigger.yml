@@ -40,6 +40,7 @@
             echo '${{env.TEST}}' >> ./HttpTrigger-node-test/event-hub/event-hub-app-config.json
             pushd './HttpTrigger-node-test/event-hub'
             ls
+            cat ./event-hub-app-config.json
             popd
         - name: 'Run Azure Functions Action'
           uses: Azure/functions-action@v1
