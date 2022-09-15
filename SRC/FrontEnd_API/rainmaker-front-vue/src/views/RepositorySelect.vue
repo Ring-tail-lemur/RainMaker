@@ -83,7 +83,6 @@ export default {
   },
   methods : {
     async getList () {
-      console.log("==========================JWT=================", setHeaderJWT());
       const RepositoryInfo = await axios({
         headers: setHeaderJWT(),
         method: "get",

@@ -22,7 +22,6 @@ public class MainController {
 	@ResponseBody
 	@GetMapping("/login/oauth/github")
 	public String test(Model model) {
-		System.out.println("model = " + model);
 		return model.toString();
 	}
 }
