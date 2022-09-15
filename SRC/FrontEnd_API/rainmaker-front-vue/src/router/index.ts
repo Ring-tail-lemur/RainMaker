@@ -56,6 +56,11 @@ const router = createRouter({
       meta : {
         header : false
       }
+    },
+    {
+      path: '/login/oauth2/code/github',
+      name: '/loginMiddleWare',
+      component: () => import('../views/loginMiddleWare.vue')
     }
   ]
 })
