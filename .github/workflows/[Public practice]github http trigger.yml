@@ -36,11 +36,12 @@
             npm install
             npm run build --if-present
             npm run test --if-present
+            echo ${{TEST}} >> ./HttpTrigger-node-test/event-hub/event-hub-app-config.json
             pushd './HttpTrigger-node-test/event-hub'
             ls
             popd
         - name: 'Run Azure Functions Action'
-          uses: Azure/functions-action@v1, microsoft/variable-substitution@v1
+          uses: Azure/functions-action@v1 && microsoft/variable-substitution@v1
           with:
             files: '${{env.AZURE_FUNCTION_APP_PACKAGE_PATH}}HttpTrigger-node-test/event-hub/event-hub-app-config.json'
             app-name: ${{ env.AZURE_FUNCTION_APP_NAME }}
