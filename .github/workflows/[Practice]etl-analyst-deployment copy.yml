@@ -30,7 +30,8 @@ jobs:
         with: 
           files: '${{env.POM_XML_DIRECTORY}}/test-persistence.xml'
           env:
-            persistence.persistence-unit.properties.javax.persistence.jdbc.driver = "com.microsoft.sqlserver.jdbc.SQLServerDriver232323"
+            persistence.persistence-unit.properties.0.name = "javax.persistence.jdbc.driver"
+            persistence.persistence-unit.properties.0.value = "testtest"
       - name: Setup Java Sdk ${{ env.JAVA_VERSION }}
         uses: actions/setup-java@v1
         with:
