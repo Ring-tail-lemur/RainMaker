@@ -8,7 +8,6 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
 import lombok.AccessLevel;
@@ -31,5 +30,5 @@ public class Repository extends BaseEntity {
 	private Long ownerUserId;
 
 	@OneToMany(mappedBy = "repository")
-	private List<oAuthUserRepositoryTable> oAuthUserRepositoryTableList = new ArrayList<>();
+	private List<OAuthUserRepositoryTable> oAuthUserRepositoryTableList = new ArrayList<>();
 }
