@@ -3,12 +3,20 @@
 
     <transition name="fade" mode="out-in">
       <!-- your content here -->
+      <pbutton type="">gggggggggggggggg</pbutton>
       <router-view></router-view>
     </transition>
   </div>
 </template>
 <script>
-  export default {}
+import LoadingMainPanel from "@/components/Dashboard/Layout/LoadingMainPanel";
+import Button from "@/components/UIComponents/Button";
+  export default {
+    components : {
+      LoadingMainPanel,
+      pbutton : Button
+    }
+  }
 </script>
 <style>
   .fade-enter-active,
