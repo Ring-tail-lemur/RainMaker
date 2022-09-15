@@ -33,7 +33,9 @@ async function sender(cloudEventObj, context) {
 }
 
 async function readJsonSecret(context){
-  const jsonFile = fs.readFileSync('./event-hub-app-config.json','utf-8');
+  const path = context.FunctionAppDirectory;
+  context.log(path)
+  const jsonFile = fs.readFileSync('.\event-hub-app-config.json','utf-8');
   context.log(jsonFile);
   const jsonData = JSON.parse(jsonFile);
   return jsonData.eventHubConnectionString;
