@@ -7,7 +7,7 @@ module.exports = async function (context, documents) {
     global.config = await configModule.makeConfig();
     const dbConnectionPool = new sql.ConnectionPool(config);
     try {
-        await dbConnectionPool.connect();
+        await dbConnectionPool.connect(context);
 
         // context.log("DBConnection \n", dbConnectionPool.pool);
 
