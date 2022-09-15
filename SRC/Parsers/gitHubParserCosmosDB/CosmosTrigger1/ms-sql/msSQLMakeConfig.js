@@ -13,12 +13,10 @@ async function makeConfig(context){
         pool: { max: 10, min: 0, idleTimeoutMillis: 30000, },
         trustServerCertificate: true
     };
-    context.log("MSConfig : "+msConfig);
     return msConfig;
 }
 async function readJsonSecret(context){
     const jsonFile = fs.readFileSync('.\\CosmosTrigger1\\ms-sql-config.json','utf-8');
-    context.log("jsonFile : "+jsonFile);
     const jsonData = await JSON.parse(jsonFile);
     return jsonData;
 }
