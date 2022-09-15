@@ -31,7 +31,7 @@ async function readJsonSecret(context){
   //되라 이제..test...test...test...계속...ddfㅇ
   context.log("hihi");
   const jsonFile = fs.readFileSync('event-hub-app-config.json','utf-8');
-  context.log(jsonFIle)
+  context.log(jsonFile)
   const jsonData = JSON.parse(jsonFile);
   
   return jsonData.eventHubConnectionString;
