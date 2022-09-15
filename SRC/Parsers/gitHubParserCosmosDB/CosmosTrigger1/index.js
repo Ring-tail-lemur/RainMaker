@@ -1,7 +1,7 @@
 const controllerModule = require('./controllerModule.js');
 const sql = require('mssql');
 const configModule = require('./ms-sql/msSQLMakeConfig.js');
-//ci test2
+//ci test
 module.exports = async function (context, documents) {
     /** */
     global.config = configModule.makeConfig();
