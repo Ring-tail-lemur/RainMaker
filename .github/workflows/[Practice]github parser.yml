@@ -19,7 +19,7 @@
           - uses: actions/checkout@v2
           - uses: microsoft/variable-substitution@v1 
             with: 
-              files: '${{env.AZURE_FUNCTION_APP_PACKAGE_PATH}}ms-sql-config.json'
+              files: '${{env.AZURE_FUNCTION_APP_PACKAGE_PATH}}CosmosTrigger1/ms-sql-config.json'
             env: 
               port : '${{secrets.MS_SQL_PORT}}'
               user : '${{secrets.MS_SQL_USER}}'
