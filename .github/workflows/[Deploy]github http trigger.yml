@@ -1,9 +1,9 @@
-    name: github trigger [Practice]
+    name: github trigger [Deploy]
     
     on:
       push:
         branches: 
-          - MUAM-361-repository를-public으로-바꾸기 
+          - main
         paths: 
           - "SRC/HTTP_Hook_Listeners/githubWebhookTrigger/**"
     env:
