@@ -8,9 +8,9 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ReleaseDto {
-	private String repository_id;
-	private String tag_name;
-	private String repository_name;
-	private String owner_name;
-	private String release_id;
+	private String repositoryId;
+	private String tagName;
+	private String repositoryName;
+	private String ownerName;
+	private String releaseId;
 }
