@@ -5,7 +5,7 @@ const config = require('./ms-sql/msSQLConfig');
 //ci test2
 module.exports = async function (context, documents) {
     /** */
-
+    
     const dbConnectionPool = new sql.ConnectionPool(config);
     try {
         await dbConnectionPool.connect();
