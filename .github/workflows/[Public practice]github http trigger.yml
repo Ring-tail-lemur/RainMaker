@@ -32,14 +32,9 @@
           shell: pwsh
           run: |
             pushd './${{ env.AZURE_FUNCTION_APP_PACKAGE_PATH }}'
-            pwd
             npm install
             npm run build --if-present
             npm run test --if-present
-            echo '${{env.TEST}}'
-            pushd './HttpTrigger-node-test/event-hub'
-            ls
-            cat ./event-hub-app-config.json
             popd
         - name: 'Run Azure Functions Action'
           uses: Azure/functions-action@v1
