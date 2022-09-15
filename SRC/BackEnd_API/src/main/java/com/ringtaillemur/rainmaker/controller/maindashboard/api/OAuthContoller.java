@@ -10,10 +10,12 @@ import javax.annotation.security.RolesAllowed;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
 
+import com.ringtaillemur.rainmaker.config.Token;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.ringtaillemur.rainmaker.domain.OAuthUser;
@@ -27,9 +29,10 @@ public class OAuthContoller {
 
 	@GetMapping("/login/oauth2/code/github")
 	@RolesAllowed("FIRST_AUTH_USER")
+	@ResponseBody
 	public String testMap2(@RequestParam(value = "code", required = false, defaultValue = "test") String code,
-		@RequestParam(value = "state", required = false, defaultValue = "test") String state,
-		RedirectAttributes redirectAttributes
+						   @RequestParam(value = "state", required = false, defaultValue = "test") String state,
+						   RedirectAttributes redirectAttributes
 		, HttpServletResponse res) throws IOException, URISyntaxException {
 
 		String userGithubToken = securityUserService.getUserGitHubOAuthToken(code);
@@ -42,14 +45,14 @@ public class OAuthContoller {
 		//Repository 에 들어가 있는 상태의 OauthUser Entity 리턴
 		Optional<OAuthUser> nowUser = securityUserService.checkDuplicationAndCommitUser(nowLoginUser);
 
+
 		if (nowUser.isPresent()) {
 			//Authentication 생성, JwtTokenProvider 생성하여 jwt Token 생성함, "sub" == remoteId, "ROLE" == UserLevel
 			String token = securityUserService.setJwtTokenWithUserInfo(nowUser.get());
 			//Bearer이라는 토큰 생성(jwt 토큰이 담김)
-			Cookie cookie = new Cookie("Bearer", token+ "; Domain="+frontEndBaseUrl);
-			cookie.setPath("/");
-			res.addCookie(cookie);
+			return token;
+
 		}
-		return "redirect:" + frontEndBaseUrl + "/RepositorySelect";
+		return null;
 	}
 }
