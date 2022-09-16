@@ -30,7 +30,8 @@ jobs:
         with: 
           files: '${{env.POM_XML_DIRECTORY}}/src/main/resources/META-INF/test-persistence.xml'
         env:
-          persistence/persistence-unit/properties/property[@name = javax.persistence.jdbc.driver]/[@value] : "test Driver"
+          test : "hihi"
+          # persistence/persistence-unit/properties/property[@name = javax.persistence.jdbc.driver]/[@value] : "test Driver"
           
             
       - name: Setup Java Sdk ${{ env.JAVA_VERSION }}
@@ -43,8 +44,10 @@ jobs:
         run: |
           pushd './${{ env.POM_XML_DIRECTORY }}'
           ls
-          cat persistence.xml
           mvn clean package
+          pushd './${{env.POM_XML_DIRECTORY}}/src/main/resources/META-INF'
+          ls
+          cat test-persistence.xml
           popd
       - name: 'Run Azure Functions Action'
         uses: Azure/functions-action@v1
