@@ -35,7 +35,7 @@ jobs:
       - name: 'Restore Project Dependencies Using Mvn'
         shell: pwsh
         run: |
-          rm './${{env.POM_XML_DIRECTORY}}/src/main/resources/META-INF/persistence.xml'
+          rm './${{env.POM_XML_DIRECTORY}}/src/main/resources/META-INF/persistence.xml' -r -fo
           echo '${{secrets.DATABASE_PERSISTENCE_XML}}' >> './${{env.POM_XML_DIRECTORY}}/src/main/resources/META-INF'
           pushd './${{ env.POM_XML_DIRECTORY }}'
           ls
