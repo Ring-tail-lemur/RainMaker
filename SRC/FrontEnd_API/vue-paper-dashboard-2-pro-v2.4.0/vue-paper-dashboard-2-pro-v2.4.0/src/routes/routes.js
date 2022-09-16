@@ -206,8 +206,14 @@ let loginMiddleWarePage = {
 
 let RepositorySelectPage = {
   path: '/RepositorySelect',
-  name: 'RepositorySelect',
-  component: RepositorySelect
+  component: DashboardLayout,
+  children: [
+    {
+      path: '',
+      name: 'RepositorySelect',
+      component: RepositorySelect
+    }
+  ]
 }
 
 const routes = [
