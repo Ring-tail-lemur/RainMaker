@@ -28,7 +28,7 @@ jobs:
       - uses: actions/checkout@master
       - uses: microsoft/variable-substitution@v1  
         with: 
-          files: '${{env.POM_XML_DIRECTORY}}/test-persistence.xml'
+          files: '${{env.POM_XML_DIRECTORY}}/src/main/resources/META-INF/test-persistence.xml'
         env:
           persistence/persistence-unit/properties/property[@name = javax.persistence.jdbc.driver]/[@value] : "test Driver"
           
