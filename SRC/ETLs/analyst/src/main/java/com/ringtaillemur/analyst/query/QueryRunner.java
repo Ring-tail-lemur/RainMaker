@@ -43,12 +43,12 @@ public class QueryRunner {
 		EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("azure-mssql-unit");
 		EntityManager entityManager = entityManagerFactory.createEntityManager();
 		List<Object[]> resultList = entityManager.createNativeQuery(query).getResultList();
-		List<ReleaseDto> releaseDtoStream = resultList.stream()
+		List<ReleaseDto> releaseDtoList = resultList.stream()
 			.map(result -> new ReleaseDto(result[0].toString(), (String)result[1], (String)result[2],
 				(String)result[3], result[4].toString())).collect(Collectors.toList());
 		entityManager.close();
 		entityManagerFactory.close();
-		return releaseDtoStream;
+		return releaseDtoList;
 	}
 
 	public ReleaseDto runSelectCalculatedReleaseTop1Query(String query) {

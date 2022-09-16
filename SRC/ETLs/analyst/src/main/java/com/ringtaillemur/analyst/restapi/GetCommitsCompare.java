@@ -5,7 +5,6 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
-import java.nio.charset.StandardCharsets;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -20,9 +19,9 @@ public class GetCommitsCompare {
 	public JSONArray getFirstReleaseCommitsBy(ReleaseDto targetReleaseDto, String token) {
 
 		try {
-			String owner = targetReleaseDto.getOwner_name();
-			String repo = targetReleaseDto.getRepository_name();
-			String tagName = URLEncoder.encode(targetReleaseDto.getTag_name(), "UTF-8");
+			String owner = targetReleaseDto.getOwnerName();
+			String repo = targetReleaseDto.getRepositoryName();
+			String tagName = URLEncoder.encode(targetReleaseDto.getTagName(), "UTF-8");
 			URL url = new URL(String.format("https://api.github.com/repos/%s/%s/commits?sha=%s", owner, repo,
 				tagName));
 			HttpURLConnection conn = (HttpURLConnection)url.openConnection();
@@ -49,10 +48,10 @@ public class GetCommitsCompare {
 
 	public JSONObject getCommitsCompareBy(ReleaseDto targetReleaseDto, ReleaseDto previousReleaseDto, String token) {
 		try {
-			String owner = targetReleaseDto.getOwner_name();
-			String repo = targetReleaseDto.getRepository_name();
-			String basehead2 = targetReleaseDto.getTag_name();
-			String basehead1 = previousReleaseDto.getTag_name();
+			String owner = targetReleaseDto.getOwnerName();
+			String repo = targetReleaseDto.getRepositoryName();
+			String basehead2 = targetReleaseDto.getTagName();
+			String basehead1 = previousReleaseDto.getTagName();
 			URL url = new URL(
 				String.format("https://api.github.com/repos/%s/%s/compare/%s...%s", owner, repo, basehead1, basehead2));
 			HttpURLConnection conn = (HttpURLConnection)url.openConnection();
