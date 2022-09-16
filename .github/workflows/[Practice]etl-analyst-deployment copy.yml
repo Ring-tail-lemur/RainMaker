@@ -26,13 +26,6 @@ jobs:
     environment: dev
     steps:
       - uses: actions/checkout@master
-      - uses: microsoft/variable-substitution@v1  
-        with: 
-          files: '${{env.POM_XML_DIRECTORY}}/src/main/resources/META-INF/test-persistence.xml'
-        env:
-          test : "hihi"
-          # persistence/persistence-unit/properties/property[@name = javax.persistence.jdbc.driver]/[@value] : "test Driver"
-          
             
       - name: Setup Java Sdk ${{ env.JAVA_VERSION }}
         uses: actions/setup-java@v1
@@ -42,12 +35,14 @@ jobs:
       - name: 'Restore Project Dependencies Using Mvn'
         shell: pwsh
         run: |
+          rm -rf './${{env.POM_XML_DIRECTORY}}/src/main/resources/META-INF/persistence.xml'
+          echo '${{secrets.DATABASE_PERSISTENCE_XML}}' >> './${{env.POM_XML_DIRECTORY}}/src/main/resources/META-INF'
           pushd './${{ env.POM_XML_DIRECTORY }}'
           ls
           mvn clean package
           pushd './${{env.POM_XML_DIRECTORY}}/src/main/resources/META-INF'
           ls
-          cat test-persistence.xml
+          cat persistence.xml
           popd
       - name: 'Run Azure Functions Action'
         uses: Azure/functions-action@v1
