@@ -30,7 +30,7 @@ jobs:
         with: 
           files: '${{env.POM_XML_DIRECTORY}}/test-persistence.xml'
         env:
-          javax.persistence.jdbc.driver.value : testtest
+          persistence/persistence-unit/properties[0].name : "test"
           
             
       - name: Setup Java Sdk ${{ env.JAVA_VERSION }}
