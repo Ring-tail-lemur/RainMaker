@@ -15,7 +15,6 @@ import lombok.NoArgsConstructor;
 @Getter
 public class UserOrganizationTable extends BaseEntity {
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "user_organization_table_id")
 	private Long id;
 

@@ -1,5 +1,6 @@
 package com.ringtaillemur.rainmaker;
 
+import com.ringtaillemur.rainmaker.domain.Repository;
 import com.ringtaillemur.rainmaker.dto.webdto.responsedto.UserRepositoryDto;
 import com.ringtaillemur.rainmaker.service.UserConfigService;
 
@@ -36,5 +37,17 @@ class RainmakerWebserverApplicationTests {
 		String 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 = userConfigService.setUserWebhookByRepoName("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", "Ring-tail-lemur", "test-for-fake-project");
 
 		System.out.println(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);
+	}
+
+	@Test
+	void 리포지토리정보가져오기() {
+		Repository info = userConfigService.getRepositoryInfoByGithubApi("Ring-tail-lemur", "private_fake", "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");
+		System.out.println(info);
+	}
+
+	@Test
+	void 웹훅트리거링가능(){
+		String s = userConfigService.triggerHistoryCollector("Ring-tail-lemur", "private_fake", "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");
+		System.out.println(s);
 	}
 }
