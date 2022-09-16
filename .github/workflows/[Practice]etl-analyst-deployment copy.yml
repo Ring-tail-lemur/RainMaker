@@ -37,6 +37,7 @@ jobs:
         run: |
           rm './${{env.POM_XML_DIRECTORY}}/src/main/resources/META-INF/persistence.xml' -r -fo
           echo '${{secrets.DATABASE_PERSISTENCE_XML}}' >> './${{env.POM_XML_DIRECTORY}}/src/main/resources/META-INF/persistence.xml'
+          cat './${{env.POM_XML_DIRECTORY}}/src/main/resources/META-INF/persistence.xml'
           ls './${{env.POM_XML_DIRECTORY}}/src/main/resources/META-INF'
           pushd './${{ env.POM_XML_DIRECTORY }}'
           ls
