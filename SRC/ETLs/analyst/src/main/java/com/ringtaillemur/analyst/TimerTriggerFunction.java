@@ -12,7 +12,7 @@ import com.ringtaillemur.analyst.analysislogic.dorametric.TimeToRestoreService;
 import com.ringtaillemur.analyst.analysislogic.dorametric.UpdateCommitsReleaseId;
 
 public class TimerTriggerFunction {
-
+	//test
 	LeadTimeForChange leadTimeForChange = LeadTimeForChange.getLeadTimeForChange();
 	ChangeFailureRate changeFailureRate = ChangeFailureRate.getChangeFailureRate();
 	TimeToRestoreService timeToRestoreService = TimeToRestoreService.getTimeToRestoreService();
@@ -22,7 +22,7 @@ public class TimerTriggerFunction {
 	public void run(
 		@TimerTrigger(
 			name = "timerInfo",
-			schedule = "0 */3 * * * *"
+			schedule = "1-59 * * * * *"
 		) String timerInfo,
 		final ExecutionContext context
 	)

@@ -38,8 +38,13 @@ const VectorMaps = () => import(/* webpackChunkName: "maps" */ 'src/components/D
 
 // Calendar
 import Calendar from 'src/components/Dashboard/Views/Calendar/CalendarRoute.vue'
+import repositorySelect from "@/components/Dashboard/Views/Custom/RepositorySelect";
 // Charts
 const Charts = () => import(/* webpackChunkName: "widgets" */ 'src/components/Dashboard/Views/Charts.vue')
+
+// Custom
+const LoginMiddleWare = () => import(/* webpackChunkName: "widgets" */ 'src/components/Dashboard/Views/Custom/loginMiddleWare.vue')
+const RepositorySelect = () => import(/* webpackChunkName: "widgets" */ 'src/components/Dashboard/Views/Custom/RepositorySelect.vue')
 
 let componentsMenu = {
   path: '/components',
@@ -193,6 +198,18 @@ let lockPage = {
   component: Lock
 }
 
+let loginMiddleWarePage = {
+  path: '/login/oauth2/code/github',
+  name: 'LoginMiddleWare',
+  component: LoginMiddleWare
+}
+
+let RepositorySelectPage = {
+  path: '/RepositorySelect',
+  name: 'RepositorySelect',
+  component: RepositorySelect
+}
+
 const routes = [
   {
     path: '/',
@@ -219,6 +236,8 @@ const routes = [
   loginPage,
   registerPage,
   lockPage,
+  loginMiddleWarePage,
+  RepositorySelectPage,
   {
     path: '/admin',
     component: DashboardLayout,

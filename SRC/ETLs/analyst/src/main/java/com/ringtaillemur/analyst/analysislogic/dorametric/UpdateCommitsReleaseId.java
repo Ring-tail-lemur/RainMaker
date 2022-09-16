@@ -51,11 +51,11 @@ public class UpdateCommitsReleaseId {
 			if (previousReleaseDto.getReleaseId() == null) {
 				commits = getCommitsCompare.getFirstReleaseCommitsBy(
 					targetReleaseDto,
-					"token").toList();
+					token).toList();
 			} else {
 				JSONObject commitsCompareResponseJson = getCommitsCompare.getCommitsCompareBy(targetReleaseDto,
 					previousReleaseDto,
-					"token");
+					token);
 				commits = ((JSONArray)commitsCompareResponseJson.get("commits")).toList();
 			}
 			Map<String, String> shaToReleaseId = commits
