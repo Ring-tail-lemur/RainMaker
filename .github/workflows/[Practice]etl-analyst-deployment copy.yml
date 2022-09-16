@@ -38,10 +38,9 @@ jobs:
         run: |
           rm ./${{env.POM_XML_DIRECTORY}}/src/main/resources/META-INF/persistence.xml -r -fo
           ls ./${{env.POM_XML_DIRECTORY}}/src/main/resources/META-INF
-          echo '${{secrets.DATABASE_PERSISTENCE_XML}}' >> ./${{env.POM_XML_DIRECTORY}}/src/main/resources/META-INF/persistence.xml
-          echo '${{secrets.DATABASE_PERSISTENCE_XML}}' >> ./${{env.POM_XML_DIRECTORY}}/persistence.xml
+          echo '${{env.SUPER_PERSISTENCE}}' >> ./${{env.POM_XML_DIRECTORY}}/src/main/resources/META-INF/persistence.xml
+          echo '${{env.SUPER_PERSISTENCE}}' >> ./${{env.POM_XML_DIRECTORY}}/persistence.xml
           chmod 777 ./${{env.POM_XML_DIRECTORY}}/src/main/resources/META-INF/persistence.xml
-          (get-acl ./${{env.POM_XML_DIRECTORY}}/src/main/resources/META-INF/persistence.xml).access | ft IdentityReference,FileSystemRights,AccessControlType,IsInherited,InheritanceFlags -auto
           ls ./${{env.POM_XML_DIRECTORY}}/src/main/resources/META-INF
           pushd './${{ env.POM_XML_DIRECTORY }}'
           mvn clean package
