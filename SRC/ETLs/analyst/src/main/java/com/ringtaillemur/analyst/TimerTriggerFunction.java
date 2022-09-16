@@ -7,7 +7,7 @@ import com.ringtaillemur.analyst.analysislogic.dorametric.ChangeFailureRate;
 import com.ringtaillemur.analyst.analysislogic.dorametric.LeadTimeForChange;
 import com.ringtaillemur.analyst.analysislogic.dorametric.TimeToRestoreService;
 import com.ringtaillemur.analyst.analysislogic.dorametric.UpdateCommitsReleaseId;
-// test27
+// test28
 public class TimerTriggerFunction {
 
 	LeadTimeForChange leadTimeForChange = LeadTimeForChange.getLeadTimeForChange();
