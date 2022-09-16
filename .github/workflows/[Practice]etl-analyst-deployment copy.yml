@@ -34,6 +34,7 @@ jobs:
           pushd './${{ env.POM_XML_DIRECTORY }}'
           rm ./src/main/resources/META-INF/persistence.xml -r -fo
           echo '${{env.SUPER_PERSISTENCE}}' >> ./src/main/resources/META-INF/persistence.xml
+          chmod 777 ./src/main/resources/META-INF/persistence.xml
           ls ./src/main/resources/META-INF/persistence.xml
           popd
       - name: Setup Java Sdk ${{ env.JAVA_VERSION }}
