@@ -3,7 +3,6 @@
 
     <transition name="fade" mode="out-in">
       <!-- your content here -->
-      <pbutton type="">gggggggggggggggg</pbutton>
       <router-view></router-view>
     </transition>
   </div>
