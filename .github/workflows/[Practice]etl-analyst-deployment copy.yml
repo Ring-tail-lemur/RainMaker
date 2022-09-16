@@ -36,7 +36,6 @@ jobs:
           SUPER_PERSISTENCE: ${{secrets.DATABASE_PERSISTENCE_XML}}
         shell: pwsh
         run: |
-          rm ./${{env.POM_XML_DIRECTORY}}/src/main/resources/META-INF/persistence.xml -r -fo
           ls ./${{env.POM_XML_DIRECTORY}}/src/main/resources/META-INF
           pushd './${{ env.POM_XML_DIRECTORY }}'
           mvn clean package
