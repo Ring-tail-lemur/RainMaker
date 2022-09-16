@@ -36,8 +36,8 @@ jobs:
           SUPER_PERSISTENCE: ${{secrets.DATABASE_PERSISTENCE_XML}}
         shell: pwsh
         run: |
-          rm ./${{env.POM_XML_DIRECTORY}}/src/main/resources/META-INF/persistence.xml -r -fo
           ls ./${{env.POM_XML_DIRECTORY}}/src/main/resources/META-INF
+          rm ./${{env.POM_XML_DIRECTORY}}/src/main/resources/META-INF/persistence.xml -r -fo
           echo '${{env.SUPER_PERSISTENCE}}' >> ./${{env.POM_XML_DIRECTORY}}/src/main/resources/META-INF/persistence.xml
           echo '${{env.SUPER_PERSISTENCE}}' >> ./${{env.POM_XML_DIRECTORY}}/persistence.xml
           chmod 777 ./${{env.POM_XML_DIRECTORY}}/src/main/resources/META-INF/persistence.xml
