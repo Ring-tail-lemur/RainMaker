@@ -27,13 +27,18 @@
                 </info-section>
               </div>
               <div class="col-lg-4 col-md-6 mr-auto">
-                <card type="signup" class="text-center">
+                <card type="signup" class="text-center element-center">
+                  <div class="text-center">
+                    <div class="loginInnerBox">
+                      <div v-on:click="githubChange()" class="githubIconBox">
+                        <i class="fa fa-github" style="font-size:48px"></i>
+                      </div>
+                    </div>
+                  </div>
                   <template slot="header">
                     <h4 class="card-title">회원가입</h4>
                   </template>
-
-
-                  <p-button slot="footer" type="info" round>Get Started</p-button>
+                  <p slot="footer" type="info">이미 계정이 있으시다구요? <A href="/login">로그인하기</A></p>
                 </card>
               </div>
             </div>
@@ -77,6 +82,16 @@
       closeMenu() {
         document.body.classList.remove('nav-open')
         document.body.classList.remove('off-canvas-sidebar')
+      },
+      register() {
+        // handle login here
+      },
+      async githubChange() {
+        const url = this.custom.myURL;
+        console.log(`URL : , ${url}`, this.custom.clientId);
+
+        let replaceUrl = `https://github.com/login/oauth/authorize?response_type=code&client_id=${this.custom.clientId}&scope=repo%20repo:status%20repo_deployment%20public_repo%20repo:invite%20admin:repo_hook%20write:repo_hook%20read:repo_hook%20admin:org%20admin:public_key&state=8U6-X7-6MVIRmkTQbb-ySo36wSRugfaBNjpHlTVJ0hY%3D&redirect_uri=${url}/login/oauth2/code/github`;
+        window.location.replace(replaceUrl);
       }
     },
     beforeDestroy() {
@@ -85,4 +100,10 @@
   }
 </script>
 <style>
+.element-center {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
 </style>
