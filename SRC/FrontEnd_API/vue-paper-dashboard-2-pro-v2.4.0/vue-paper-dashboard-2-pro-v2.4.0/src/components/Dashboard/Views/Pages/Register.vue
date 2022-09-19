@@ -100,10 +100,4 @@
   }
 </script>
 <style>
-.element-center {
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-}
-
 </style>
