@@ -31,6 +31,8 @@ jobs:
           spring.security.oauth2.client.registration.github.redirectUri : ${{secrets.APPLICATION_YML_REDIRECT_URL}}
           spring.security.oauth2.client.registration.github.clientId : ${{secrets.APPLICATION_YML_CLIENT_ID}}
           spring.security.oauth2.client.registration.github.clientSecret : ${{secrets.APPLICATION_YML_CLIENT_SECRET}}
+          spring.dev.frontendUri : ${secrets.APPLICATION_YML_FRONTEND_URI}
+          spring.dev.backendUri : ${secrets.APPLICATION_YML_BACKEND_URI}
       - name: Set up Java version
         uses: actions/setup-java@v1
         with:
