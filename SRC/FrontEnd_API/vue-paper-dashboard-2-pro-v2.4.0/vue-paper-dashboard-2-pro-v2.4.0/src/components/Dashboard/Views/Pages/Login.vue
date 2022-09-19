@@ -37,7 +37,7 @@
             </div>
           </div>
         </div>
-        <div class="full-page-background" style="background-image: url(static/img/background/background-2.jpg) "></div>
+        <div class="full-page-background" style="background-image: url(static/img/background/background-devops.jpg) "></div>
       </div>
     </div>
   </div>
