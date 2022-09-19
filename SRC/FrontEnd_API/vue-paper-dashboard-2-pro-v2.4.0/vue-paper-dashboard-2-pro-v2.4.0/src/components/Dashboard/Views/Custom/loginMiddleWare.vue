@@ -35,7 +35,7 @@ export default {
 
         console.log("JWTTOKEN", jwtToken);
         document.cookie = "rainmaker_jwt=" + jwtToken + ";path=/";
-        window.location.replace(this.myURL);
+        window.location.replace(this.custom.myURL);
       } catch (e) {
         console.error("로그인 에러. 다시시도", e);
       }

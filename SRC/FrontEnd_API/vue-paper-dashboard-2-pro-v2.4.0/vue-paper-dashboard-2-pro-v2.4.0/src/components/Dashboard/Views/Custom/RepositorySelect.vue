@@ -79,7 +79,7 @@ export default {
           repoIds.push((tableData[i].id + "," + tableData[i].organization + "," + tableData[i].repository).toString());
       }
       console.log(repoIds);
-      await axios({
+      axios({
         headers: setHeaderJWT(),
         method: "post",
         url: this.custom.defaultURL + "/RepositorySelect",
@@ -87,6 +87,7 @@ export default {
           repoIds: repoIds
         }
       });
+      window.location.replace(this.custom.myURL);
     }
 
   }
