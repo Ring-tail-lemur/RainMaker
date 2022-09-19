@@ -37,7 +37,6 @@
             </div>
           </div>
         </div>
-        <app-footer></app-footer>
         <div class="full-page-background" style="background-image: url(static/img/background/background-2.jpg) "></div>
       </div>
     </div>
