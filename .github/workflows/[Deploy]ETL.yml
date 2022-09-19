@@ -47,7 +47,6 @@ jobs:
           SUPER_PERSISTENCE: ${{secrets.DATABASE_PERSISTENCE_XML}}
         shell: pwsh
         run: |
-          ls ./${{env.POM_XML_DIRECTORY}}/src/main/resources/META-INF
           pushd './${{ env.POM_XML_DIRECTORY }}'
           mvn clean package
           popd
@@ -57,6 +56,4 @@ jobs:
           app-name: ${{ env.AZURE_FUNCTIONAPP_NAME }}
           package: './${{ env.POM_XML_DIRECTORY }}/target/azure-functions/${{ env.POM_FUNCTIONAPP_NAME }}'
           publish-profile: ${{ secrets.AZURE_FUNCTIONAPP_PUBLISH_PROFILE_ETL }}
-          # package: './${{ env.POM_XML_DIRECTORY }}/target/azure-functions/analyst-1659606593521/${{ env.POM_FUNCTIONAPP_NAME }}'
-          # package: './${{ env.POM_XML_DIRECTORY }}/target/azure-functions/${{ env.POM_FUNCTIONAPP_NAME }}'
-  # For more samples to get started with GitHub Action workflows to deploy to Azure, refer to https://github.com/Azure/actions-workflow-samples
+ 
