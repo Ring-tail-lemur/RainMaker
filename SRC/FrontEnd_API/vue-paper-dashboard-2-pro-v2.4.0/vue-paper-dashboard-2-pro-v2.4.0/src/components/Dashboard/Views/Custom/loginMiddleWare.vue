@@ -29,7 +29,7 @@ export default {
       try {
         const response = await axios({
           method: "get",
-          url: this.defaultURL + `/login/oauth2/code/github?code=${code}&state=${state}`
+          url: this.custom.defaultURL + `/login/oauth2/code/github?code=${code}&state=${state}`
         });
         const jwtToken = response.data;
 

@@ -40,12 +40,14 @@ import './registerServiceWorker'
 // plugin setup
 
 Vue.prototype.custom = {
-  // myURL : "http://127.0.0.1:3000",
-  myURL : "https://victorious-forest-095d4a310.1.azurestaticapps.net",
-  // defaultURL : "http://127.0.0.1:8080",
-  defaultURL : "https://spring-api-server.azurewebsites.net",
-  // clientId : "8189c16057d124b9324e",
-  clientId : "42286a47489496b3129b",
+  myURL : "http://127.0.0.1:3000",
+  // myURL : "https://victorious-forest-095d4a310.1.azurestaticapps.net",
+  defaultURL : "http://127.0.0.1:8080",
+  // defaultURL : "https://spring-api-server.azurewebsites.net",
+  clientId : "8189c16057d124b9324e",
+  // clientId : "42286a47489496b3129b",
+
+
   endURL : "/login/oauth2/code/github"
 }
 
@@ -60,6 +62,7 @@ locale.use(lang)
 const router = new VueRouter({
   routes, // short for routes: routes
   linkActiveClass: 'active',
+  mode : "history",
   scrollBehavior: (to) => {
     if (to.hash) {
       return {selector: to.hash}

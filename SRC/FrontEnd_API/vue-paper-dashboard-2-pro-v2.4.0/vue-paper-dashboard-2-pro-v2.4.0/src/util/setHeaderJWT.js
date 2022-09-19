@@ -1,3 +1,5 @@
+import axios from "axios";
+
 function setHeaderJWT() {
     const jwtToken = getCookie("rainmaker_jwt");
     return {
@@ -6,10 +8,10 @@ function setHeaderJWT() {
 }
 
 function getCookie(name) {
-    let nameOfCookie = name + "=";
-    let x = 0;
+    var nameOfCookie = name + "=";
+    var x = 0;
     while (x <= document.cookie.length) {
-        let y = (x + nameOfCookie.length);
+        var y = (x + nameOfCookie.length);
         if (document.cookie.substring(x, y) == nameOfCookie) {
             let endOfCookie;
             if ((endOfCookie = document.cookie.indexOf(";", y)) == -1)
