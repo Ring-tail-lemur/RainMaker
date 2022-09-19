@@ -25,9 +25,7 @@ jobs:
     runs-on: windows-latest
     environment: dev
     steps:
-    - name: 'Checkout GitHub Action'
-      uses: actions/checkout@master
-
+    - uses: actions/checkout@master
     - name: 'Reset Persistence.xml'
       env:
           SUPER_PERSISTENCE: ${{secrets.DATABASE_PERSISTENCE_XML}}
