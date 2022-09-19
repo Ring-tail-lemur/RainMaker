@@ -46,6 +46,8 @@ Vue.prototype.custom = {
   defaultURL : "https://spring-api-server.azurewebsites.net",
   // clientId : "8189c16057d124b9324e",
   clientId : "42286a47489496b3129b",
+
+
   endURL : "/login/oauth2/code/github"
 }
 
