@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import javax.servlet.http.HttpSession;
 
+import com.ringtaillemur.rainmaker.config.WebClientConfig;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -36,9 +37,7 @@ public class UserConfigController {
 	}
 
 	@PostMapping("/RepositorySelect")
-	public String userRepositoryRegisterRestAPI(@RequestBody RegisterRepoIdDto repoIds) {
-
+	public void userRepositoryRegisterRestAPI(@RequestBody RegisterRepoIdDto repoIds) {
 		userConfigService.registerRepository(repoIds);
-		return "redirect:http://localhost:3000/";
 	}
 }

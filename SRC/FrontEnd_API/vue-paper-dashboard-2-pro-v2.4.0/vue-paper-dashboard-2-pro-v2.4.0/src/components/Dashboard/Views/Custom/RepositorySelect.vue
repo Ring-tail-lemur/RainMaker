@@ -7,95 +7,90 @@
       <div class="col-sm-12">
         <el-table class="table-striped"
                   header-row-class-name="text-primary"
+                  fit="true"
                   :data="tableData">
           <el-table-column type="index">
 
           </el-table-column>
-          <el-table-column prop="name"
-                           label="Name">
+          <el-table-column prop="organization"
+                           label="그룹명">
           </el-table-column>
-          <el-table-column prop="job"
-                           label="Job Position">
+          <el-table-column prop="repository"
+                           label="리포지토리명">
           </el-table-column>
-          <el-table-column prop="salary"
+          <el-table-column prop="pushedAt"
                            align="center"
-                           label="Salary">
+                           label="마지막사용">
           </el-table-column>
           <el-table-column
             align="right"
             label="Active">
             <template slot-scope="props">
-              <p-switch v-model="props.row.active"></p-switch>
+              <p-switch v-model="props.row.checked"></p-switch>
             </template>
           </el-table-column>
         </el-table>
+        <p-button class="float-right" style="margin: 1em;" v-on:click="registerRepository()">저장하기</p-button>
       </div>
     </div>
   </div>
 </template>
 
 <script>
-import PSwitch from "@/components/UIComponents/Switch";
-
+import Vue from 'vue'
+import {Table, TableColumn} from 'element-ui'
+import PSwitch from 'src/components/UIComponents/Switch.vue'
+import {Button} from "@/components/UIComponents";
+import setHeaderJWT from "@/api/setHeaderJWT";
+import axios from "axios";
+import tab from "@/components/UIComponents/Tabs/Tab";
+Vue.use(Table)
+Vue.use(TableColumn)
 export default {
   components: {
-    PSwitch
+    PSwitch,
+    [Button.name]: Button
   },
   data () {
     return {
-      tableData: [{
-        name: 'Andrew Mike',
-        job: 'Develop',
-        salary: '€ 99,225',
-        active: false
-      }, {
-        name: 'John Doe',
-        job: 'Design',
-        salary: '€ 89,241',
-        active: false
-      }, {
-        name: 'Alex Mike',
-        job: 'Design',
-        salary: '€ 92,144',
-        active: false
-      }, {
-        name: 'Mike Monday',
-        job: 'Marketing',
-        salary: '€ 49,990',
-        active: true
-      },
-        {
-          name: 'Paul dickens',
-          job: 'Communication',
-          salary: '€ 69,201',
-          active: true
-        }],
-      productsTable: [
-        {
-          image: 'static/img/tables/agenda.png',
-          title: 'Notebook',
-          subTitle: 'Most beautiful agenda for the office.',
-          price: 49,
-          quantity: 1
-        },
-        {
-          image: 'static/img/tables/stylus.jpg',
-          title: 'Stylus',
-          subTitle: 'Design is not just what it looks like and feels like. Design is how it works.',
-          price: 499,
-          quantity: 2
-        },
-        {
-          image: 'static/img/tables/evernote.png',
-          title: 'Evernote iPad Stander',
-          subTitle: 'A groundbreaking Retina display. All-flash architecture. Fourth-generation Intel processors.',
-          price: 799,
-          quantity: 1
-        }
-      ]
+      name: "RepositorySelect",
+      tableData: [],
     }
   },
-  name: "RepositorySelect"
+  created() {
+    this.getList();
+  },
+  methods : {
+    async getList () {
+      console.log("setHeaderJWT()", setHeaderJWT());
+      const RepositoryInfo = await axios({
+        headers: setHeaderJWT(),
+        method: "get",
+        url: this.custom.defaultURL + "/RepositorySelect",
+      });
+      this.tableData = RepositoryInfo.data;
+    },
+    async registerRepository() {
+      let tableData = this.tableData;
+      let repoIds = [];
+
+      for(let i=0; i< tableData.length; i++) {
+        if(tableData[i].checked)
+          repoIds.push((tableData[i].id + "," + tableData[i].organization + "," + tableData[i].repository).toString());
+      }
+      console.log(repoIds);
+      axios({
+        headers: setHeaderJWT(),
+        method: "post",
+        url: this.custom.defaultURL + "/RepositorySelect",
+        data : {
+          repoIds: repoIds
+        }
+      });
+      window.location.replace(this.custom.myURL);
+    }
+
+  }
 }
 </script>
 

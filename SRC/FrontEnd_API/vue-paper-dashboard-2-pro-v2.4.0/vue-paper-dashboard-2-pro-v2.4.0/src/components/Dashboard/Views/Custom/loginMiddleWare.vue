@@ -29,13 +29,13 @@ export default {
       try {
         const response = await axios({
           method: "get",
-          url: this.defaultURL + `/login/oauth2/code/github?code=${code}&state=${state}`
+          url: this.custom.defaultURL + `/login/oauth2/code/github?code=${code}&state=${state}`
         });
         const jwtToken = response.data;
 
         console.log("JWTTOKEN", jwtToken);
         document.cookie = "rainmaker_jwt=" + jwtToken + ";path=/";
-        window.location.replace(this.myURL);
+        window.location.replace(this.custom.myURL);
       } catch (e) {
         console.error("로그인 에러. 다시시도", e);
       }
