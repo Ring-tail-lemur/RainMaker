@@ -9,7 +9,7 @@
                   header-row-class-name="text-primary"
                   fit="true"
                   :data="tableData">
-          <el-table-column type="index">
+          <el-table-column type="index" prop="id">
 
           </el-table-column>
           <el-table-column prop="organization"
@@ -30,7 +30,7 @@
             </template>
           </el-table-column>
         </el-table>
-        <button>aaaaa</button>
+        <p-button class="float-right" style="margin: 1em;" >저장하기</p-button>
       </div>
     </div>
   </div>
@@ -40,11 +40,13 @@
 import Vue from 'vue'
 import {Table, TableColumn} from 'element-ui'
 import PSwitch from 'src/components/UIComponents/Switch.vue'
+import {Button} from "@/components/UIComponents";
 Vue.use(Table)
 Vue.use(TableColumn)
 export default {
   components: {
-    PSwitch
+    PSwitch,
+    [Button.name]: Button
   },
   data () {
     return {
@@ -79,6 +81,31 @@ export default {
           pushed_at: '€ 69,201',
           active: true
         }]
+    }
+  },
+  created() {
+    this.getList();
+  },
+  methods : {
+    async getList () {
+      const RepositoryInfo = await axios({
+        headers: setHeaderJWT(),
+        method: "get",
+        url: this.custom.defaultURL + "/RepositorySelect",
+      });
+      this.tableData = RepositoryInfo.data;
+    },
+    async registerRepository() {
+      console.log("setHeaderJWT()", setHeaderJWT());
+      console.log(this.getCheckboxValue());
+      await axios({
+        headers: setHeaderJWT(),
+        method: "post",
+        url: this.defaultURL + "/RepositorySelect",
+        data : {
+          repoIds: this.getCheckboxValue()
+        }
+      });
     }
   }
 }
