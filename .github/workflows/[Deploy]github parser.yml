@@ -1,4 +1,4 @@
-    name: github parser [Delete 예정]
+    name: github parser [Deploy]
     
     on:
       push:
