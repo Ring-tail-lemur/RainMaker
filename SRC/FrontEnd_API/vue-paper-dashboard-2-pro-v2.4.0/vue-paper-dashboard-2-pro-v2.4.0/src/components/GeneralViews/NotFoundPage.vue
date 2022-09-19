@@ -21,7 +21,6 @@
             </div>
           </div>
         </div>
-        <app-footer></app-footer>
         <div class="full-page-background" style="background-image: url(static/img/background/jan-sendereks.jpg) "></div>
       </div>
     </div>
