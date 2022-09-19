@@ -1,17 +1,17 @@
 spring:
   datasource:
     driver-class-name: com.microsoft.sqlserver.jdbc.SQLServerDriver
-    url: jdbc:sqlserver://rainmaker-azure-sql-server.database.windows.net:1433;database=RainMakerSystemDB
-    username: rainmaker
-    password: dkffkrRhfldudndnjstnddl!
+    url: jdbc:sqlserver://rainmaker-azure-sql-server.
+    username: 2
+    password: 1
   security:
     oauth2:
       client:
         registration:
           github:
             redirectUri: "http://127.0.0.1:8080/login/oauth2/code/github"
-            clientId: 42286a47489496b3129b
-            clientSecret: 1f5ca003e8d738138300071d1bcf1dc6ad6372d2
+            clientId: 8189c16057d124b9324e
+            clientSecret: 2a584cc1784a26f88e207dc7ed0e2c8f11707f87
             scope:
               - repo
               - repo:status
