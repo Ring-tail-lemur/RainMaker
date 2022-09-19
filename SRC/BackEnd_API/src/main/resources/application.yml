@@ -10,8 +10,8 @@ spring:
         registration:
           github:
             redirectUri: "http://127.0.0.1:8080/login/oauth2/code/github"
-            clientId: 8189c16057d124b9324e
-            clientSecret: e5231059eb31aa50d69a6a2154708a8a3f88954d
+            clientId: 42286a47489496b3129b
+            clientSecret: 1f5ca003e8d738138300071d1bcf1dc6ad6372d2
             scope:
               - repo
               - repo:status
@@ -23,6 +23,9 @@ spring:
               - read:repo_hook
               - admin:org
               - admin:public_key
+  dev:
+    frontendUri : "http://127.0.0.1:3000"
+    backendUri : "http://127.0.0.1:8080"
   jpa:
     database: sql-server
     show-sql: true
