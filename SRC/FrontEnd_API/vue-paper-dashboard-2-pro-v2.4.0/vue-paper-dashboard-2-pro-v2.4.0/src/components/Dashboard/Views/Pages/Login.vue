@@ -9,21 +9,29 @@
             <div class="col-lg-4 col-md-6 ml-auto mr-auto">
               <form @submit.prevent="login">
                 <card type="login">
-                  <h3 slot="header" class="header text-center">Login</h3>
+                  <h3 slot="header" class="header text-center">로그인</h3>
 
-                  <fg-input v-model="form.username" addon-left-icon="nc-icon nc-single-02"
-                            placeholder="First Name..."></fg-input>
-
-                  <fg-input v-model="form.password" addon-left-icon="nc-icon nc-key-25" placeholder="Password"
-                            type="password"></fg-input>
+                  <p>팀의 생산성 향상을 원하시고,
+                    추적하시고 싶으시다면 로그인하세요. Git을 기반으로 이루어지기 때문에 필수적으로 Git의 접근권한이 필요합니다.</p>
+                  <p>아래의 서비스로 편리하게 로그인, 회원가입하세요</p>
 
                   <br>
 
-                  <p-checkbox>
-                    Subscribe to newsletter
-                  </p-checkbox>
 
-                  <p-button native-type="submit" slot="footer" type="warning" round block class="mb-3">Get started</p-button>
+                  <div class="text-center">
+                    <div class="loginInnerBox">
+                      <div v-on:click="githubChange()" class="githubIconBox">
+                          <i class="fa fa-github" style="font-size:48px"></i>
+                      </div>
+                    </div>
+                    <div class="githubLoginText">
+                      GitHub
+                    </div>
+                  </div>
+
+                  <br>
+
+                  <p-button native-type="submit" slot="footer" round block class="mb-3">회원가입</p-button>
                 </card>
               </form>
             </div>
@@ -58,6 +66,13 @@
       },
       login() {
         // handle login here
+      },
+      async githubChange() {
+        const url = this.custom.myURL;
+        console.log(`URL : , ${url}`, this.custom.clientId);
+
+        let replaceUrl = `https://github.com/login/oauth/authorize?response_type=code&client_id=${this.custom.clientId}&scope=repo%20repo:status%20repo_deployment%20public_repo%20repo:invite%20admin:repo_hook%20write:repo_hook%20read:repo_hook%20admin:org%20admin:public_key&state=8U6-X7-6MVIRmkTQbb-ySo36wSRugfaBNjpHlTVJ0hY%3D&redirect_uri=${url}/login/oauth2/code/github`;
+        window.location.replace(replaceUrl);
       }
     },
     data() {
