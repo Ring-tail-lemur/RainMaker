@@ -20,7 +20,7 @@ public class RepositoryRepository {
 				.setParameter("repositoryId", repositoryId)
 				.getResultStream()
 				.findFirst()
-				.orElseThrow(() -> new Exception("해당 Repository에 속해있는 사람의 Token을 조회할 수 없습니다."))
+				.orElseThrow(() -> new Exception(String.format("ID=%s인 Repository에 속해있는 사람의 Token을 조회할 수 없습니다.", repositoryId)))
 				.toString();
 		} catch (Throwable e) {
 			throw new RuntimeException(e);
