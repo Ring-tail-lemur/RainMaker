@@ -25,31 +25,31 @@ jobs:
     runs-on: windows-latest
     environment: dev
     steps:
-    - uses: actions/checkout@master
-    - name: 'Reset Persistence.xml'
-      env:
-          SUPER_PERSISTENCE: ${{secrets.DATABASE_PERSISTENCE_XML}}
+      - uses: actions/checkout@master
+      - name: 'Reset Persistence.xml'
+        env:
+            SUPER_PERSISTENCE: ${{secrets.DATABASE_PERSISTENCE_XML}}
+          shell: pwsh
+          run: |
+            pushd './${{ env.POM_XML_DIRECTORY }}'
+            rm ./src/main/resources/META-INF/persistence.xml -r -fo
+            echo '${{env.SUPER_PERSISTENCE}}' >> ./src/main/resources/META-INF/persistence.xml
+            chmod 777 ./src/main/resources/META-INF/persistence.xml
+            popd
+      - name: Setup Java Sdk ${{ env.JAVA_VERSION }}
+        uses: actions/setup-java@v1
+        with:
+          java-version: ${{ env.JAVA_VERSION }}
+
+      - name: 'Restore Project Dependencies Using Mvn'
         shell: pwsh
         run: |
           pushd './${{ env.POM_XML_DIRECTORY }}'
-          rm ./src/main/resources/META-INF/persistence.xml -r -fo
-          echo '${{env.SUPER_PERSISTENCE}}' >> ./src/main/resources/META-INF/persistence.xml
-          chmod 777 ./src/main/resources/META-INF/persistence.xml
+          mvn clean package
           popd
-    - name: Setup Java Sdk ${{ env.JAVA_VERSION }}
-      uses: actions/setup-java@v1
-      with:
-        java-version: ${{ env.JAVA_VERSION }}
-
-    - name: 'Restore Project Dependencies Using Mvn'
-      shell: pwsh
-      run: |
-        pushd './${{ env.POM_XML_DIRECTORY }}'
-        mvn clean package
-        popd
-    - name: 'Run Azure Functions Action'
-      uses: Azure/functions-action@v1
-      with:
-        app-name: ${{ env.AZURE_FUNCTIONAPP_NAME }}
-        package: './${{ env.POM_XML_DIRECTORY }}/target/azure-functions/${{ env.POM_FUNCTIONAPP_NAME }}'
-        publish-profile: ${{ secrets.AZURE_FUNCTIONAPP_PUBLISH_PROFILE_HISTORY_COLLECTOR }}
+      - name: 'Run Azure Functions Action'
+        uses: Azure/functions-action@v1
+        with:
+          app-name: ${{ env.AZURE_FUNCTIONAPP_NAME }}
+          package: './${{ env.POM_XML_DIRECTORY }}/target/azure-functions/${{ env.POM_FUNCTIONAPP_NAME }}'
+          publish-profile: ${{ secrets.AZURE_FUNCTIONAPP_PUBLISH_PROFILE_HISTORY_COLLECTOR }}
