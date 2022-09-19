@@ -3,7 +3,7 @@ name:  ETL Deployment Pipeline [Practice]
 on:
   push:
     branches:
-      - MUAM-366/EtlDeploymentPrivateToPublic
+      - main
     paths:
       - "SRC/ETLs/analyst/**"
 

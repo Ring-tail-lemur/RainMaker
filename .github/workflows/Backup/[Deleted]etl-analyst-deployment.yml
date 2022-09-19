@@ -3,7 +3,7 @@ name: ETL Deployment Pipeline
 on:
   push:
     branches:
-      - main
+      - byebye
     paths:
       - "SRC/ETLs/analyst/**"
 
