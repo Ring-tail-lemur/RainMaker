@@ -6,7 +6,7 @@
   "author": "Creative Tim",
   "scripts": {
     "build": "vue-cli-service build",
-    "dev": "vue-cli-service serve --open"
+    "dev": "vue-cli-service serve --open --port 3000"
   },
   "dependencies": {
     "@fullcalendar/core": "5.10.0",
