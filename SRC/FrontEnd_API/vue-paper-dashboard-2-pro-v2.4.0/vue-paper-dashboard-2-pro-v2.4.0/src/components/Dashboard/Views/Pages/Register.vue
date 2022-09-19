@@ -38,7 +38,7 @@
                   <template slot="header">
                     <h4 class="card-title">회원가입</h4>
                   </template>
-                  <p slot="footer" type="info">이미 계정이 있으시다구요? <A href="/login">로그인하기</A></p>
+                  <p slot="footer" type="info">이미 계정이 있으시다구요? <router-link to="/login">로그인하기</router-link></p>
                 </card>
               </div>
             </div>
