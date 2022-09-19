@@ -23,7 +23,7 @@ import com.microsoft.azure.functions.annotation.FunctionName;
 import com.microsoft.azure.functions.annotation.HttpTrigger;
 
 public class HttpTriggerFunction {
-
+	//deployment Test
 	ConfigReader configReader = ConfigReader.getConfigReader();
 	HttpRequestSender httpRequestSender = new HttpRequestSender();
 	QueryRunner queryRunner = QueryRunner.getQueryRunner();
