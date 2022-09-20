@@ -7,6 +7,8 @@ const deduplicationRepository = require('./deduplicate/deduplicationRepository')
 const releaseMainModule = require('./release/releaseMainModule');
 const labelMainModule = require("./label/labelMainModule");
 const issueMainModule = require('./issue/issueMainModule');
+const deleteMainModule = require("./delete/deleteMainModule");
+
 // const pool = require('./ms-sql/msSQLPool');
 
 async function controllerMain(eventObj, context, pool){
@@ -27,6 +29,9 @@ async function controllerMain(eventObj, context, pool){
             context.log("repository insert success");
         } else if (hook_event == 'create') {
             await createMainModule.createMain(pool, eventObj, context);
+            context.log("create(branch making) insert success");
+        } else if (hook_event == 'delete') {
+            await deleteMainModule.deleteMain(pool, eventObj, context);
             context.log("create(branch making) insert success");
         } else if (hook_event == 'pull_request_review') {
             await pullRequestReviewMainModule.pullRequestReviewMain(pool, eventObj, context);

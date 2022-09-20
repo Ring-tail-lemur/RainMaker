@@ -1,0 +1,21 @@
+{
+  "hook_event": "delete",
+  "source": "github",
+  "ref_type": "\"branch\"",
+  "ref_name": "\"test\"",
+  "ref_repository_id": "510731046",
+  "ref_repository_isPrivate": "false",
+  "ref_owner_id": "107110653",
+  "ref_owner_type": "Organization",
+  "ref_delete_user_id": "33488236",
+  "hookBody": "notYet",
+  "EventProcessedUtcTime": "2022-08-14T06:43:26.6499695Z",
+  "PartitionId": 1,
+  "EventEnqueuedUtcTime": "2022-08-14T06:43:26.3590000Z",
+  "id": "d38c1113-2b5d-4735-beaa-bb4e4962e346",
+  "_rid": "6LZfAJRxZZmEBQAAAAAAAA==",
+  "_self": "dbs/6LZfAA==/colls/6LZfAJRxZZk=/docs/6LZfAJRxZZmEBQAAAAAAAA==/",
+  "_etag": "\"0000931e-0000-2500-0000-62f8998f0000\"",
+  "_attachments": "attachments/",
+  "_ts": 1660459407
+}

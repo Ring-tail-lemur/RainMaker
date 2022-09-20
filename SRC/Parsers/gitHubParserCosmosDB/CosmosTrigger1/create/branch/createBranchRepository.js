@@ -14,13 +14,10 @@ async function insertBranchByRepoRemoteIdAndUserId(dbConnectionPool, branch_id, 
         console.error(e);
     }
 
-    // await dbConnectionPool.close();
 }
 
 
 async function insertBranchByRepoIdAndUserId(dbConnectionPool, branch_id, branch_name, repository_id, author_id){
-
-    // const dbConnectionPool = await pool;
 
     const sqlQuery = `
     INSERT INTO branch (name, repository_id, git_user_id)

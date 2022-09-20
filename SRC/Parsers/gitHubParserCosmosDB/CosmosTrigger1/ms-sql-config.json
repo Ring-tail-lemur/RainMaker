@@ -1,7 +1,16 @@
 {
-    "port" : "",
-    "user" : "",
-    "password" : "",
-    "server" : "",
-    "database" : ""
+    "port" : "1433",
+    "user" : "rainmaker",
+    "password" : "dkffkrRhfldudndnjstnddl!",
+    "server" : "rainmaker-azure-sql-server.database.windows.net",
+    "database" : "RainMakerSystemDB",
+    "options" : {
+        "encrypt" : true
+    },
+    "pool" : {
+        "max": 10,
+        "min" : 0,
+        "idleTimeoutMillis" : 30000
+    },
+    "trustServerCertificate" : true
 }
