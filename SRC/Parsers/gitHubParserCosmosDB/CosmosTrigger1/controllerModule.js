@@ -32,7 +32,7 @@ async function controllerMain(eventObj, context, pool){
             context.log("create(branch making) insert ");
         } else if (hook_event == 'delete') {
             await deleteMainModule.deleteMain(pool, eventObj, context);
-            context.log("create(branch making) insert ");
+            context.log("delete(branch closed) insert ");
         } else if (hook_event == 'pull_request_review') {
             await pullRequestReviewMainModule.pullRequestReviewMain(pool, eventObj, context);
             context.log("pull_request_review insert ");
