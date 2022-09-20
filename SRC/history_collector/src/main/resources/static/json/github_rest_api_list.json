@@ -80,11 +80,15 @@
       ],
       "data.repository.pullRequests.nodes.databaseId": [
         "pull_request_id",
-        "datetime2"
+        "int"
       ],
       "data.repository.pullRequests.nodes.comments.nodes.author.databaseId": [
         "git_user_id",
-        "datetime2"
+        "int"
+      ],
+      "[default]commented": [
+        "comment_type",
+        "string"
       ]
     }
   },
@@ -159,7 +163,7 @@
     }
   },
   "branch": {
-    "graphql": "pull_request_comment.graphql",
+    "graphql": "branch.graphql",
     "mapping": {
       "data.repository.refs.nodes.name": [
         "name",

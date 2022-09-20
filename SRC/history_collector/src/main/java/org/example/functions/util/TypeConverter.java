@@ -40,7 +40,7 @@ public class TypeConverter {
 	}
 
 	private String convertToQueryString(String rawString) {
-		return String.format("'%s'", rawString);
+		return String.format("N'%s'", rawString);
 	}
 
 	private String convertToQueryDatetime2(String rawString) {

@@ -1,5 +1,5 @@
 {
-    repository(owner: "{{owner_name}}", name: "{{repository_name}}") {
+    repository(owner: "Ring-tail-lemur", name: "RainMaker") {
         refs(first: 100, refPrefix: "refs/heads/") {
             nodes {
                 name
