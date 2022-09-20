@@ -1,0 +1,19 @@
+{
+    repository(owner: "Ring-tail-lemur", name: "RainMaker") {
+        refs(first: 100, refPrefix: "refs/heads/") {
+            nodes {
+                name
+                target {
+                    ... on Commit {
+                        author {
+                            user {
+                                databaseId
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        databaseId
+    }
+}

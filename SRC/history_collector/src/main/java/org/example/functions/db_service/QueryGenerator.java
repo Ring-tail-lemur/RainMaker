@@ -6,6 +6,7 @@ import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 import org.example.functions.util.StringFormatter;
 import org.example.functions.util.TypeConverter;
@@ -13,6 +14,9 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 import org.json.JSONPointer;
 
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 public class QueryGenerator {
 
 	private JSONObject jsonObjectConfig;
@@ -31,6 +35,8 @@ public class QueryGenerator {
 
 	private String generateBulkInsertQuery(String tableName, JSONArray sourceData) {
 		Map<String, String> parameters = getParametersMap(tableName, sourceData);
+		if(parameters.get("queryValues").equals(""))
+			return "";
 		String queryTemplate = "INSERT INTO {{tableName}} ({{columns}}) SELECT * FROM (VALUES {{queryValues}}) tempName ({{columns}}) EXCEPT SELECT {{columns}} from {{tableName}}";
 		return stringFormatter.bindParameters(queryTemplate, parameters).replace("''", "").replace("\n", "\\n");
 	}
@@ -39,7 +45,7 @@ public class QueryGenerator {
 		LinkedHashMap<String, JSONArray> metaDataLinkedHashMap = getMetaDataLinkedHashMap(tableName);
 		return Map.of(
 			"columns", getColumnNamesQueryString(metaDataLinkedHashMap),
-			"queryValues", getQueryValueSets(sourceData, metaDataLinkedHashMap),
+			"queryValues", getQueryValuesString(sourceData, metaDataLinkedHashMap),
 			"tableName", tableName);
 	}
 
@@ -63,22 +69,29 @@ public class QueryGenerator {
 		return String.join(", ", columnList);
 	}
 
-	private String getQueryValueSets(JSONArray sourceData, LinkedHashMap<String, JSONArray> metaDataLinkedHashMap) {
+	private String getQueryValuesString(JSONArray sourceData, LinkedHashMap<String, JSONArray> metaDataLinkedHashMap) {
 		List<String> valueList = new ArrayList<>();
 		for (int i = 0; i < sourceData.length(); i++) {
 			JSONObject targetSource = sourceData.getJSONObject(i);
-			valueList.add(getQueryValueSet(targetSource, metaDataLinkedHashMap));
+			valueList.add(getSingleQueryValueString(targetSource, metaDataLinkedHashMap));
 		}
 		return String.join(", ", valueList);
 	}
 
 
-	private String getQueryValueSet(JSONObject targetSource, LinkedHashMap<String, JSONArray> metaDataLinkedHashMap) {
+	private String getSingleQueryValueString(JSONObject targetSource, LinkedHashMap<String, JSONArray> metaDataLinkedHashMap) {
 		List<String> valueList = new ArrayList<>();
 		metaDataLinkedHashMap
 			.forEach((valuePointer, valueType) -> valueList.add(
-				getValueWithPointer(targetSource, valuePointer, valueType.getString(1))));
+				getFiledValue(targetSource, valuePointer, valueType.getString(1))));
 		return String.format("(%s)", String.join(", ", valueList));
+	}
+
+	private String getFiledValue(JSONObject targetSource, String valuePointer, String valueType) {
+		if (valuePointer.startsWith("[default]")) {
+			return typeConverter.getMssqlQueryString(valuePointer.replace("[default]", ""), "string");
+		}
+		return getValueWithPointer(targetSource, valuePointer, valueType);
 	}
 
 	private String getValueWithPointer(JSONObject targetSource, String valuePointer, String valueType) {
@@ -86,7 +99,13 @@ public class QueryGenerator {
 		JSONPointer.Builder builder = JSONPointer.builder();
 		pointerList.forEach(builder::append);
 		JSONPointer jsonPointer = builder.build();
-		String result = String.valueOf(jsonPointer.queryFrom(targetSource));
-		return typeConverter.getMssqlQueryString(result.replaceAll("'", "''"), valueType);
+		String result;
+		try {
+			Optional<String> optionalResult = Optional.of(String.valueOf(jsonPointer.queryFrom(targetSource)));
+			result = optionalResult.orElse("null");
+		} catch (Exception e) {
+			result = "null";
+		}
+		return typeConverter.getMssqlQueryString(result.replaceAll("'", "''").replace(System.getProperty("line.separator"), ""), valueType);
 	}
 }
