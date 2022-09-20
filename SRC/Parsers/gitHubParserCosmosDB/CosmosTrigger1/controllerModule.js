@@ -20,31 +20,31 @@ async function controllerMain(eventObj, context, pool){
     try {
         if (hook_event == 'pull_request') {
             await pullRequestMainModule.pullRequestMain(pool, eventObj, context);
-            context.log("pull_request insert success");
+            context.log("pull_request insert ");
         } else if (hook_event == 'commit') {
             await commitMainModule.commitMain(pool, eventObj, context);
-            context.log("commit insert success");
+            context.log("commit insert");
         } else if (hook_event == 'repository') {
             await repositoryMainModule.repositoryMain(pool, eventObj);
-            context.log("repository insert success");
+            context.log("repository insert");
         } else if (hook_event == 'create') {
             await createMainModule.createMain(pool, eventObj, context);
-            context.log("create(branch making) insert success");
+            context.log("create(branch making) insert ");
         } else if (hook_event == 'delete') {
             await deleteMainModule.deleteMain(pool, eventObj, context);
-            context.log("create(branch making) insert success");
+            context.log("create(branch making) insert ");
         } else if (hook_event == 'pull_request_review') {
             await pullRequestReviewMainModule.pullRequestReviewMain(pool, eventObj, context);
-            context.log("pull_request_review insert success");
+            context.log("pull_request_review insert ");
         } else if (hook_event == 'release') {
             await releaseMainModule.releaseMain(pool, eventObj, context);
-            context.log("release insert success");
+            context.log("release insert ");
         } else if (hook_event == 'label') {
             await labelMainModule.labelMain(pool, eventObj, context);
-            context.log("label insert(or delete or edit) success");
+            context.log("label insert(or delete or edit) ");
         } else if (hook_event == 'issues') {
             await issueMainModule.issueMain(pool, eventObj, context);
-            context.log("issue insert(or delete or edit) success");
+            context.log("issue insert(or delete or edit) ");
         }
 
         // await deduplicationRepository.insertDeduplication(pool, eventObj.id);

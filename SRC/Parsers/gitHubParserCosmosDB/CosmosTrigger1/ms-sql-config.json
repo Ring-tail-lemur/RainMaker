@@ -1,9 +1,9 @@
 {
-    "port" : "1433",
-    "user" : "rainmaker",
-    "password" : "dkffkrRhfldudndnjstnddl!",
-    "server" : "rainmaker-azure-sql-server.database.windows.net",
-    "database" : "RainMakerSystemDB",
+    "port" : "",
+    "user" : "",
+    "password" : "",
+    "server" : "",
+    "database" : "",
     "options" : {
         "encrypt" : true
     },
