@@ -38,15 +38,14 @@
                   <template slot="header">
                     <h4 class="card-title">회원가입</h4>
                   </template>
-                  <p slot="footer" type="info">이미 계정이 있으시다구요? <A href="/login">로그인하기</A></p>
+                  <p slot="footer" type="info">이미 계정이 있으시다구요? <router-link to="/login">로그인하기</router-link></p>
                 </card>
               </div>
             </div>
           </div>
         </div>
-        <app-footer></app-footer>
         <div class="full-page-background"
-             style="background-image: url(static/img/background/jan-sendereks.jpg) "></div>
+             style="background-image: url(static/img/background/background-devops-2.jpg) "></div>
       </div>
     </div>
   </div>
@@ -100,10 +99,4 @@
   }
 </script>
 <style>
-.element-center {
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-}
-
 </style>

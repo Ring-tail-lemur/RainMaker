@@ -13,15 +13,14 @@
                             description="We've created the marketing campaign of the website. It was a very interesting collaboration."
                             icon="nc-icon nc-alert-circle-i">
                 <h2 class="text-white mt-3">Page Not Found</h2>
-                <small class="text-white">Oops! It seems that this page does not exist.
+                <small class="text-white">페이지가 존재하지 않습니다
                   <br>
-                  You can navigate back <router-link to="/">to main page</router-link>
+                  돌아가기 : <router-link to="/">메인 페이지</router-link>
                 </small>
               </info-section>
             </div>
           </div>
         </div>
-        <app-footer></app-footer>
         <div class="full-page-background" style="background-image: url(static/img/background/jan-sendereks.jpg) "></div>
       </div>
     </div>
