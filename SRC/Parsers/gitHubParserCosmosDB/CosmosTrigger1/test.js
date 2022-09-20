@@ -25,7 +25,7 @@ const a = []
 // a.push(jsonData1);
 // a.push(jsonData1);
 // a.push(jsonData1);
-a.push(jsonData3);
+// a.push(jsonData3);
 // a.push(jsonData3);
 // a.push(jsonData3_2);
 // a.push(jsonData3);
@@ -40,7 +40,7 @@ a.push(jsonData3);
 // a.push(jsonData10);
 // a.push(jsonData11);
 // a.push(jsonData12);
-// a.push(jsonData13);
+a.push(jsonData13);
 
 const context = console
 index(context,a);

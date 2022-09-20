@@ -1,9 +1,20 @@
-async function updateBranchByRepoIdAndUserId(dbConnectionPool, branch_id, branch_name, repository_id, author_id){
+async function updateBranchByRepoIdAndUserId(dbConnectionPool, branch_name, repository_id, author_id){
 
 
     const sqlQuery = `
-    INSERT INTO branch (name, repository_id, git_user_id)
-    VALUES ('${branch_name}', ${repository_id}, ${author_id});
+    DECLARE @branch_id BIGINT
+    SET @branch_id = (
+           SELECT TOP 1 branch_id
+           FROM branch
+           WHERE repository_id = ${repository_id}
+           AND name = '${branch_name}'
+           AND is_closed = 'false'
+           AND create_type = 'BRANCH'
+       )
+
+    UPDATE branch
+    SET is_closed = 'true'
+    WHERE branch_id = @branch_id;
     `;
     console.log(sqlQuery);
 
