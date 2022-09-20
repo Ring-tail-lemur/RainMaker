@@ -1,5 +1,5 @@
-const pool = require('../ms-sql/msSQLPool');
-const sql = require('mssql');
+// const pool = require('../ms-sql/msSQLPool');
+// const sql = require('mssql');
 
 async function insertRepoByUserId(dbConnectionPool, repository_name, repository_remote_id, repository_owner_id){
 
