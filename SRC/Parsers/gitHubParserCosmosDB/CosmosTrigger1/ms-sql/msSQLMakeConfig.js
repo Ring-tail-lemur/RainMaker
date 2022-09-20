@@ -17,6 +17,7 @@ async function makeConfig(context){
     return msConfig;
 }
 async function readJsonSecret(context){
+    // const jsonData = require('../ms-sql-config.json');
     const jsonFile = fs.readFileSync('.\\CosmosTrigger1\\ms-sql-config.json','utf-8');
     const jsonData = await JSON.parse(jsonFile);
     return jsonData;

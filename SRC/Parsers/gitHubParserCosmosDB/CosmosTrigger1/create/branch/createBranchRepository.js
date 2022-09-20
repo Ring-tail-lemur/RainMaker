@@ -3,8 +3,8 @@
 async function insertBranchByRepoRemoteIdAndUserId(dbConnectionPool, branch_id, branch_name, repository_remote_id, author_id, context){
 
     const sqlQuery = `
-    INSERT INTO branch (branch_id, name, repository_id, git_user_id)
-    VALUES ('${branch_id}','${branch_name}', ${repository_remote_id}, ${author_id})
+    INSERT INTO branch (name, repository_id, git_user_id)
+    VALUES ('${branch_name}', ${repository_remote_id}, ${author_id})
     `;
     console.log(sqlQuery);
     try {
@@ -14,17 +14,14 @@ async function insertBranchByRepoRemoteIdAndUserId(dbConnectionPool, branch_id, 
         console.error(e);
     }
 
-    // await dbConnectionPool.close();
 }
 
 
 async function insertBranchByRepoIdAndUserId(dbConnectionPool, branch_id, branch_name, repository_id, author_id){
 
-    // const dbConnectionPool = await pool;
-
     const sqlQuery = `
-    INSERT INTO branch (branch_id, name, repository_id, git_user_id)
-    VALUES ('${branch_id}', '${branch_name}', ${repository_id}, ${author_id});
+    INSERT INTO branch (name, repository_id, git_user_id)
+    VALUES ('${branch_name}', ${repository_id}, ${author_id});
     `;
     console.log(sqlQuery);
 
