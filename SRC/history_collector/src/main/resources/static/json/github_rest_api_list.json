@@ -157,5 +157,22 @@
         "string"
       ]
     }
+  },
+  "branch": {
+    "graphql": "pull_request_comment.graphql",
+    "mapping": {
+      "data.repository.refs.nodes.name": [
+        "name",
+        "string"
+      ],
+      "data.repository.refs.nodes.target.author.user.databaseId": [
+        "git_user_id",
+        "bigint"
+      ],
+      "data.repository.databaseId": [
+        "repository_id",
+        "bigint"
+      ]
+    }
   }
 }

@@ -1,19 +1,20 @@
 {
     repository(owner: "{{owner}}", name: "{{repo}}") {
-        pullRequests(first: 100) {
+        refs(first: 1, refPrefix: "refs/heads/") {
             nodes {
-                comments(first: 100) {
-                    nodes {
-                        publishedAt
-                        databaseId
+                name
+                target {
+                    ... on Commit {
                         author {
-                            ... on User {
+                            user {
                                 databaseId
                             }
                         }
                     }
                 }
-                databaseId
+                repository {
+                    databaseId
+                }
             }
         }
     }
