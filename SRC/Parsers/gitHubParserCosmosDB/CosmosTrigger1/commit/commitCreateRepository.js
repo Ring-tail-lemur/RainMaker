@@ -1,4 +1,4 @@
-const pool = require('../ms-sql/msSQLPool');
+// const pool = require('../ms-sql/msSQLPool');
 
 async function insertCommitByUserId(dbConnectionPool, commit_sha, author_id, message, commit_time, context) {
 

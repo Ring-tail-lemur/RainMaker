@@ -1,5 +1,5 @@
 const { Octokit } = require("@octokit/core");
-const msSQLPool = require('../ms-sql/msSQLPool')
+// const msSQLPool = require('../ms-sql/msSQLPool')
 
 async function createGitHubLabel(releaseName, repositoryId, repositoryName, ownerName, token, context) {
     const octokit = new Octokit({
