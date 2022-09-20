@@ -75,8 +75,10 @@ VALUES ('repo6', 'ORGANIZATION', NULL, 2, 6);
 INSERT INTO repository (name, owner_type, owner_user_id, owner_organization_id, repository_id)
 VALUES ('repo7', 'USER', 1, NULL, 7);
 
+SET IDENTITY_INSERT repository ON;
 INSERT INTO repository (name, owner_type, owner_user_id, owner_organization_id, repository_id)
 VALUES ('repo8', 'USER', 2, NULL, 8);
+SET IDENTITY_INSERT repository OFF;
 
 INSERT INTO repository (name, owner_type, owner_user_id, owner_organization_id, repository_id)
 VALUES ('repo10', 'USER', 3, NULL, 9);
@@ -88,64 +90,64 @@ INSERT INTO repository (name, owner_type, owner_user_id, owner_organization_id, 
 VALUES ('test-for-fake-project', 'ORGANIZATION', 5, NULL, 11);
 
 
-INSERT INTO branch (branch_id, name, repository_id, git_user_id)
-VALUES ('10ff7f90-206c-11ed-982c-c290e2bd1a90','branch1', 1, 2);
+INSERT INTO branch (name, repository_id, git_user_id)
+VALUES ('branch1', 1, 2);
 
-INSERT INTO branch (branch_id, name, repository_id, git_user_id)
-VALUES ('10ff7f90-206c-11ed-982c-c290e2bd1a91','branch2', 1, 1);
+INSERT INTO branch (name, repository_id, git_user_id)
+VALUES ('branch2', 1, 1);
 
-INSERT INTO branch (branch_id, name, repository_id, git_user_id)
-VALUES ('10ff7f90-206c-11ed-982c-c290e2bd1a92','branch3', 1, 2);
+INSERT INTO branch (name, repository_id, git_user_id)
+VALUES ('branch3', 1, 2);
 
-INSERT INTO branch (branch_id, name, repository_id, git_user_id)
-VALUES ('10ff7f90-206c-11ed-982c-c290e2bd1a93','branch4', 1, 4);
+INSERT INTO branch (name, repository_id, git_user_id)
+VALUES ('branch4', 1, 4);
 
-INSERT INTO branch (branch_id, name, repository_id, git_user_id)
-VALUES ('10ff7f90-206c-11ed-982c-c290e2bd1a94','branch5', 1, 3);
+INSERT INTO branch (name, repository_id, git_user_id)
+VALUES ('branch5', 1, 3);
 
-INSERT INTO branch (branch_id, name, repository_id, git_user_id)
-VALUES ('10ff7f90-206c-11ed-982c-c290e2bd1a95','branch6', 1, 3);
+INSERT INTO branch (name, repository_id, git_user_id)
+VALUES ('branch6', 1, 3);
 
-INSERT INTO branch (branch_id, name, repository_id, git_user_id)
-VALUES ('10ff7f90-206c-11ed-982c-c290e2bd1a96','branch7', 1, 4);
+INSERT INTO branch (name, repository_id, git_user_id)
+VALUES ('branch7', 1, 4);
 
-INSERT INTO branch (branch_id, name, repository_id, git_user_id)
-VALUES ('10ff7f90-206c-11ed-982c-c290e2bd1a97','main', 10, 1);
+INSERT INTO branch (name, repository_id, git_user_id)
+VALUES ('main', 10, 1);
 
-INSERT INTO branch (branch_id, name, repository_id, git_user_id)
-VALUES ('10ff7f90-206c-11ed-982c-c290e2bd1a98','main', 11, 1);
+INSERT INTO branch (name, repository_id, git_user_id)
+VALUES ('main', 11, 1);
 
 
-INSERT INTO pull_request (pull_request_id, pull_request_number, repository_id, pull_request_open_branch_id,
-                          pull_request_close_branch_id)
+INSERT INTO pull_request (pull_request_id, pull_request_number, repository_id, pull_request_open_branch_name,
+                          pull_request_close_branch_name)
 VALUES (1, 1, 1, 1, 2);
 
-INSERT INTO pull_request (pull_request_id, pull_request_number, repository_id, pull_request_open_branch_id,
-                          pull_request_close_branch_id)
+INSERT INTO pull_request (pull_request_id, pull_request_number, repository_id, pull_request_open_branch_name,
+                          pull_request_close_branch_name)
 VALUES (2, 2, 1, 2, 3);
 
-INSERT INTO pull_request (pull_request_id, pull_request_number, repository_id, pull_request_open_branch_id,
-                          pull_request_close_branch_id)
+INSERT INTO pull_request (pull_request_id, pull_request_number, repository_id, pull_request_open_branch_name,
+                          pull_request_close_branch_name)
 VALUES (3, 3, 1, 1, 3);
 
-INSERT INTO pull_request (pull_request_id, pull_request_number, repository_id, pull_request_open_branch_id,
-                          pull_request_close_branch_id)
+INSERT INTO pull_request (pull_request_id, pull_request_number, repository_id, pull_request_open_branch_name,
+                          pull_request_close_branch_name)
 VALUES (4, 4, 1, 2, 3);
 
-INSERT INTO pull_request (pull_request_id, pull_request_number, repository_id, pull_request_open_branch_id,
-                          pull_request_close_branch_id)
+INSERT INTO pull_request (pull_request_id, pull_request_number, repository_id, pull_request_open_branch_name,
+                          pull_request_close_branch_name)
 VALUES (5, 5, 1, 3, 4);
 
-INSERT INTO pull_request (pull_request_id, pull_request_number, repository_id, pull_request_open_branch_id,
-                          pull_request_close_branch_id)
+INSERT INTO pull_request (pull_request_id, pull_request_number, repository_id, pull_request_open_branch_name,
+                          pull_request_close_branch_name)
 VALUES (6, 6, 1, 2, 6);
 
-INSERT INTO pull_request (pull_request_id, pull_request_number, repository_id, pull_request_open_branch_id,
-                          pull_request_close_branch_id)
+INSERT INTO pull_request (pull_request_id, pull_request_number, repository_id, pull_request_open_branch_name,
+                          pull_request_close_branch_name)
 VALUES (7, 7, 1, 1, 5);
 
-INSERT INTO pull_request (pull_request_id, pull_request_number, repository_id, pull_request_open_branch_id,
-                          pull_request_close_branch_id)
+INSERT INTO pull_request (pull_request_id, pull_request_number, repository_id, pull_request_open_branch_name,
+                          pull_request_close_branch_name)
 VALUES (8, 8, 1, 5, 8);
 
 
@@ -239,7 +241,7 @@ INSERT INTO pull_request_comment(pull_request_comment_id, event_time, pull_reque
 VALUES (8, DATEADD(DAY, -1, GETDATE()), 8, 2, 'idontknow');
 
 
-INSERT INTO release(release_id, pre_release, [name], author_id, tag_id, repository_id, published_at, draft)
+INSERT INTO release(release_id, pre_release, [name], author_id, tag_name, repository_id, published_at, draft)
 VALUES (1, 0, 'first_release', 1, 1, 1, GETDATE(), 0)
 
 INSERT INTO commits(commit_id, author_id, message, commit_time, release_id)

@@ -91,14 +91,14 @@ CREATE TABLE pull_request_comment
 
 CREATE TABLE branch
 (
-    branch_id     UNIQUEIDENTIFIER NOT NULL PRIMARY KEY, -- Create 시점의 X-GitHub-Delivery
-    [name]        VARCHAR(255)     NOT NULL,
-    repository_id BIGINT           NOT NULL,
+    branch_id     bigint PRIMARY KEY IDENTITY, -- Create 시점의 X-GitHub-Delivery
+    [name]        VARCHAR(255) NOT NULL,
+    repository_id BIGINT       NOT NULL,
     git_user_id   BIGINT,
-    created_date  DATETIME2        NOT NULL DEFAULT GETDATE(),
-    modified_date DATETIME2        NOT NULL DEFAULT GETDATE(),
-    is_closed     BIT              NOT NULL DEFAULT 0,
-    create_type   VARCHAR(255)     NOT NULL DEFAULT 'BRANCH'
+    created_date  DATETIME2    NOT NULL DEFAULT GETDATE(),
+    modified_date DATETIME2    NOT NULL DEFAULT GETDATE(),
+    is_closed     BIT          NOT NULL DEFAULT 0,
+    create_type   VARCHAR(255) NOT NULL DEFAULT 'BRANCH'
 );
 
 CREATE TABLE pull_request_direction -- 특수 로직
