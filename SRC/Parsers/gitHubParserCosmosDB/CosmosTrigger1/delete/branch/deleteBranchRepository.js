@@ -1,4 +1,4 @@
-async function updateBranchByRepoIdAndUserId(dbConnectionPool, branch_name, repository_id, author_id){
+async function updateBranchByRepoIdAndUserId(dbConnectionPool, context, branch_name, repository_id, author_id){
 
 
     const sqlQuery = `
@@ -16,10 +16,14 @@ async function updateBranchByRepoIdAndUserId(dbConnectionPool, branch_name, repo
     SET is_closed = 'true'
     WHERE branch_id = @branch_id;
     `;
-    console.log(sqlQuery);
+    context.log(sqlQuery);
 
-    await dbConnectionPool.request()
-        .query(sqlQuery);
+    try {
+        await dbConnectionPool.request()
+            .query(sqlQuery);
+    } catch (e) {
+        context.error(e);
+    }
 
 
 }
