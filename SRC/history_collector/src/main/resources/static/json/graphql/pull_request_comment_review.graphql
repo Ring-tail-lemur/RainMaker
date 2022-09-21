@@ -1,0 +1,20 @@
+{
+    repository(owner: "{{owner_name}}", name: "{{repository_name}}") {
+        pullRequests(last: 100) {
+            nodes {
+                reviews(last: 100) {
+                    nodes {
+                        createdAt
+                        databaseId
+                        author {
+                            ... on User {
+                                databaseId
+                            }
+                        }
+                    }
+                }
+                databaseId
+            }
+        }
+    }
+}

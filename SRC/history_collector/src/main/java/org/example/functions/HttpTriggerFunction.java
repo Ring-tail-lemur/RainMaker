@@ -45,6 +45,7 @@ public class HttpTriggerFunction {
 
 		QueryGenerator queryGenerator = new QueryGenerator(jsonObjectConfig);
 		List<String> queryList = queryGenerator.generateQueryList(responseJSONArrayList);
+		queryRunner.runInsertQueries(queryList);
 
 		return request.createResponseBuilder(HttpStatus.OK).body(queryList.toString()).build();
 	}
