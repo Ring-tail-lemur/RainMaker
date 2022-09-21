@@ -33,4 +33,8 @@ public class StringFormatter {
 		StringSubstitutor strSubstitutor = new StringSubstitutor(pathParameterMap, prefix, suffix);
 		return strSubstitutor.replace(rawUrl);
 	}
+
+	public String removeStartingSubstitutor(String string) {
+		return string.substring(string.indexOf(']')+1);
+	}
 }

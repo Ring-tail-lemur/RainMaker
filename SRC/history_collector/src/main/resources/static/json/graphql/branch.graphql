@@ -1,6 +1,6 @@
 {
     repository(owner: "{{owner_name}}", name: "{{repository_name}}") {
-        refs(first: 100, refPrefix: "refs/heads/") {
+        refs(last: 100, refPrefix: "refs/heads/") {
             nodes {
                 name
                 target {
