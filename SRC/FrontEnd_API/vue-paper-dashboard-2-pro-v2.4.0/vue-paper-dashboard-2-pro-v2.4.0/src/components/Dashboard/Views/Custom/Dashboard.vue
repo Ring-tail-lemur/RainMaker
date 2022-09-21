@@ -5,7 +5,7 @@
         <h4 class="card-title">시작 시간</h4>
         <div class="form-group">
           <el-date-picker v-model="startTime" type="date" placeholder="Pick a day"
-                          :picker-options="pickerOptions1">
+                          :picker-options="{ disabledDate: (time) => disabledEndDate(time, departureDate) }">
           </el-date-picker>
         </div>
       </div>
@@ -13,7 +13,7 @@
         <h4 class="card-title">끝 시간</h4>
         <div class="form-group">
           <el-date-picker v-model="endTime" type="date" placeholder="Pick a day"
-                          :picker-options="pickerOptions1">
+                          :picker-options="{ disabledDate: (time) => disabledEndDate(time, departureDate) }">
           </el-date-picker>
         </div>
       </div>
@@ -35,7 +35,7 @@
       </div>
       <div class="col-md-2">
         <br><br><br>
-        <p-button v-on:click="getAllDoraMetric(dateFormat(startTime), dateFormat(endTime), selects.multiple[0])">제출하기</p-button>
+        <p-button v-on:click="submitButtonPush()">제출하기</p-button>
       </div>
     </div>
 
@@ -198,6 +198,24 @@ export default {
   /**
    * Chart data used to render stats, charts. Should be replaced with server data
    */
+  watch: {
+    endTime() {
+      if(this.startTime != '') {
+        if( this.endTime < this.startTime) {
+          alert("끝시간은 시작시간보다 커야합니다");
+          this.endTime = '';
+        }
+      }
+    },
+    startTime() {
+      if(this.endTime != '') {
+        if( this.endTime < this.startTime) {
+          alert("시작시간은 끝시간보다 작아야합니다");
+          this.startTime = '';
+        }
+      }
+    }
+  },
   data () {
     return {
       LeadTimeForChange: {
@@ -244,11 +262,41 @@ export default {
           ],
         multiple: 'ARS'
       },
+      pickerOptions1: {
+
+
+
+      },
+
 
     }
   },
   methods : {
+    submitButtonPush() {
+      try {
+        this.getAllDoraMetric(this.dateFormat(this.startTime), this.dateFormat(this.endTime), this.selects.multiple[0]);
+      } catch (e) {
+        alert("잘못 입력하셨습니다.");
+        console.error(e);
+        return;
+      }
+    },
+    disabledEndDate(date, departureDate) {
+      // If departureDate then return valid dates after departureDate
+
+      if (departureDate) {
+        return date.getTime() < departureDate
+      } else {
+        // If !departureDate then return valid dates after today
+        return date.getTime() > Date.now() || date.getTime() < Date.now() - 7776000000;
+      }
+    },
     getAllDoraMetric(start_time, end_time, repo_id) {
+      console.log("now=================",);
+      if(start_time === undefined || end_time === undefined || repo_id === undefined) {
+        alert("잘못 입력하셨습니다.");
+        return;
+      }
       console.log(start_time, end_time, repo_id);
       this.getDoraMetric(start_time, end_time, repo_id,"lead-time-for-change");
       this.getDoraMetric(start_time, end_time, repo_id,"time-to-restore-service");
