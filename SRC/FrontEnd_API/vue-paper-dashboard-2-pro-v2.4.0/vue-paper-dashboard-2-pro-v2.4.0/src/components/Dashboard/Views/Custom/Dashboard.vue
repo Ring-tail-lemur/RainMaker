@@ -292,12 +292,10 @@ export default {
       }
     },
     getAllDoraMetric(start_time, end_time, repo_id) {
-      console.log("now=================",);
       if(start_time === undefined || end_time === undefined || repo_id === undefined) {
         alert("잘못 입력하셨습니다.");
         return;
       }
-      console.log(start_time, end_time, repo_id);
       this.getDoraMetric(start_time, end_time, repo_id,"lead-time-for-change");
       this.getDoraMetric(start_time, end_time, repo_id,"time-to-restore-service");
       this.getDoraMetric(start_time, end_time, repo_id,"change-failure-rate");
@@ -364,8 +362,7 @@ export default {
         this.DeploymentFrequency.rate = level;
         this.DeploymentFrequency.color = this.colorPickByLevel(level);
       }
-      console.log(MetricName, BodyData.level);
-      // console.log(date_arr, average_time);
+
     },
     dateFormat(date) {
       let month = date.getMonth() + 1;
@@ -393,7 +390,6 @@ export default {
     const FormatToday = this.dateFormat(Today);
     Today.setMonth(Today.getMonth() -1);
     const FormatLastMonth = this.dateFormat(Today);
-    console.log(FormatToday, FormatLastMonth)
     this.getAllDoraMetric(FormatLastMonth, FormatToday, "510731046");
 
   }
