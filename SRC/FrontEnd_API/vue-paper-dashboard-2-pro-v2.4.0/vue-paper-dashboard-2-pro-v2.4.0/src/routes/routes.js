@@ -45,6 +45,7 @@ const Charts = () => import(/* webpackChunkName: "widgets" */ 'src/components/Da
 // Custom
 const LoginMiddleWare = () => import(/* webpackChunkName: "widgets" */ 'src/components/Dashboard/Views/Custom/loginMiddleWare.vue')
 const RepositorySelect = () => import(/* webpackChunkName: "widgets" */ 'src/components/Dashboard/Views/Custom/RepositorySelect.vue')
+const DashBoard = () => import(/* webpackChunkName: "widgets" */ 'src/components/Dashboard/Views/Custom/Dashboard.vue')
 
 let componentsMenu = {
   path: '/components',
@@ -216,6 +217,18 @@ let RepositorySelectPage = {
   ]
 }
 
+let DashBoardPage = {
+  path: '/dashboard',
+  component: DashboardLayout,
+  children: [
+    {
+      path: '',
+      name: 'DashBoard',
+      component: DashBoard
+    }
+  ]
+}
+
 const routes = [
   {
     path: '/',
@@ -244,6 +257,7 @@ const routes = [
   lockPage,
   loginMiddleWarePage,
   RepositorySelectPage,
+  DashBoardPage,
   {
     path: '/admin',
     component: DashboardLayout,

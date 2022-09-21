@@ -1,7 +1,7 @@
 <template>
   <div class="card">
     <div class="card-header">
-      <h5 class="card-title">Table with Switches</h5>
+      <h5 class="card-title">추적할 리포지토리 등록</h5>
     </div>
     <div class="card-body row table-full-width">
       <div class="col-sm-12">

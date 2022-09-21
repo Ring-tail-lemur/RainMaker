@@ -43,6 +43,18 @@
     @include badge-color($white-color);
     color: inherit;
 }
+.badge-seed{
+    @include badge-color($danger-color);
+}
+.badge-sprout{
+  @include badge-color($warning-color);
+}
+.badge-flower{
+  @include badge-color($info-color);
+}
+.badge-fruit{
+  @include badge-color($success-color);
+}
 
 .badge-primary[href]:focus,
 .badge-primary[href]:hover{

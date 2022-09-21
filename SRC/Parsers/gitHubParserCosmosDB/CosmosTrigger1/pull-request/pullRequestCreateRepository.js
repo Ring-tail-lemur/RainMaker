@@ -24,8 +24,8 @@ async function insertPullRequestEventClosedByPullRequestIdAndUserId(dbConnection
     context.log(event_type, event_time, pull_request_id, event_sender_id);
 
     const sqlQuery = `
-    INSERT INTO pull_request_event (pull_request_event_id, pull_request_event_type, event_time, pull_request_id, event_sender_id)
-    VALUES ('${pull_request_event_id}', UPPER('${event_type}'), '${event_time}', ${pull_request_id}, ${event_sender_id});
+    INSERT INTO pull_request_event (pull_request_event_type, event_time, pull_request_id, event_sender_id)
+    VALUES (UPPER('${event_type}'), '${event_time}', ${pull_request_id}, ${event_sender_id});
     `;
     context.log(sqlQuery);
 
@@ -43,8 +43,8 @@ async function insertPullRequestEventOpenByPullRequestIdAndUserId(dbConnectionPo
     console.log(event_type, event_time, pull_request_id, event_sender_id);
 
     const sqlQuery = `
-    INSERT INTO pull_request_event (pull_request_event_id, pull_request_event_type, event_time, pull_request_id, event_sender_id)
-    VALUES ('${pull_request_event_id}', UPPER('${event_type}'), '${event_time}',  ${pull_request_id}, ${event_sender_id});
+    INSERT INTO pull_request_event (pull_request_event_type, event_time, pull_request_id, event_sender_id)
+    VALUES (UPPER('${event_type}'), '${event_time}',  ${pull_request_id}, ${event_sender_id});
     `;
     console.log(sqlQuery);
 

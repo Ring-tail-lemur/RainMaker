@@ -20,9 +20,9 @@ public class WebClientConfig {
 //	public static final String frontEndBaseUrl = "https://victorious-forest-095d4a310.1.azurestaticapps.net";
 //	public static final String backEndBaseUrl = "https://spring-api-server.azurewebsites.net";
 	@Value("${spring.security.oauth2.client.registration.github.clientId}")
-	public static String clientId;
+	public static String clientId = "8189c16057d124b9324e";
 	@Value("${spring.security.oauth2.client.registration.github.clientSecret}")
-	public static String clientSecret = "effa9cd720c3db113f3ce8f73a0d13ffd3a0633f";
+	public static String clientSecret = "e5231059eb31aa50d69a6a2154708a8a3f88954d";
 
 	@Bean
 	public WebClient webClient() {
