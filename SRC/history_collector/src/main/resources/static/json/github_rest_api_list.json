@@ -67,7 +67,7 @@
       ]
     }
   },
-  "pull_request_comment": {
+  "[comment]pull_request_comment": {
     "graphql": "pull_request_comment.graphql",
     "mapping": {
       "data.repository.pullRequests.nodes.comments.nodes.databaseId": [
@@ -86,7 +86,32 @@
         "git_user_id",
         "int"
       ],
-      "[default]commented": [
+      "[default]COMMENT": [
+        "comment_type",
+        "string"
+      ]
+    }
+  },
+  "[review]pull_request_comment": {
+    "graphql": "pull_request_comment_review.graphql",
+    "mapping": {
+      "data.repository.pullRequests.nodes.reviews.nodes.databaseId": [
+        "pull_request_comment_id",
+        "int"
+      ],
+      "data.repository.pullRequests.nodes.reviews.nodes.createdAt": [
+        "event_time",
+        "datetime2"
+      ],
+      "data.repository.pullRequests.nodes.databaseId": [
+        "pull_request_id",
+        "int"
+      ],
+      "data.repository.pullRequests.nodes.reviews.nodes.author.databaseId": [
+        "git_user_id",
+        "int"
+      ],
+      "[default]REVIEW": [
         "comment_type",
         "string"
       ]
