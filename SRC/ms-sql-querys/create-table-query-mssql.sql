@@ -39,18 +39,18 @@ CREATE TABLE pull_request
 
 CREATE TABLE pull_request_event
 (
-    pull_request_event_id   UNIQUEIDENTIFIER NOT NULL PRIMARY KEY, --X-GitHub-Delivery
-    pull_request_event_type VARCHAR(50)      NOT NULL,
-    event_time              DATETIME2        NOT NULL,
-    pull_request_id         BIGINT           NOT NULL,
+    pull_request_event_id   BIGINT      NOT NULL PRIMARY KEY IDENTITY,
+    pull_request_event_type VARCHAR(50) NOT NULL,
+    event_time              DATETIME2   NOT NULL,
+    pull_request_id         BIGINT      NOT NULL,
     event_sender_id         BIGINT,
-    created_date            DATETIME2        NOT NULL DEFAULT GETDATE(),
-    modified_date           DATETIME2        NOT NULL DEFAULT GETDATE()
+    created_date            DATETIME2   NOT NULL DEFAULT GETDATE(),
+    modified_date           DATETIME2   NOT NULL DEFAULT GETDATE()
 );
 
 CREATE TABLE user_organization_table -- 다대다 관계 테이블
 (
-    user_organization_table_id BIGINT PRIMARY KEY IDENTITY,
+    user_organization_table_id BIGINT    NOT NULL PRIMARY KEY IDENTITY,
     member_id                  BIGINT    NOT NULL,
     git_organization_id        BIGINT    NOT NULL,
     created_date               DATETIME2 NOT NULL DEFAULT GETDATE(),

@@ -1,8 +1,8 @@
 {
     repository(owner: "{{owner_name}}", name: "{{repository_name}}") {
-        pullRequests(first: 100) {
+        pullRequests(last: 100) {
             nodes {
-                comments(first: 100) {
+                comments(last: 100) {
                     nodes {
                         publishedAt
                         databaseId

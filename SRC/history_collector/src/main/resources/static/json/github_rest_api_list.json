@@ -178,5 +178,47 @@
         "bigint"
       ]
     }
+  },
+  "[open]pull_request_event": {
+    "graphql": "pull_request_event_open.graphql",
+    "mapping": {
+      "[default]OPENED": [
+        "pull_request_event_type",
+        "string"
+      ],
+      "data.repository.pullRequests.nodes.createdAt": [
+        "event_time",
+        "datetime2"
+      ],
+      "data.repository.pullRequests.nodes.databaseId": [
+        "pull_request_id",
+        "bigint"
+      ],
+      "data.repository.pullRequests.nodes.author.databaseId": [
+        "event_sender_id",
+        "bigint"
+      ]
+    }
+  },
+  "[close]pull_request_event": {
+    "graphql": "pull_request_event_closed.graphql",
+    "mapping": {
+      "[default]CLOSED": [
+        "pull_request_event_type",
+        "string"
+      ],
+      "data.repository.pullRequests.nodes.closedAt": [
+        "event_time",
+        "datetime2"
+      ],
+      "data.repository.pullRequests.nodes.databaseId": [
+        "pull_request_id",
+        "bigint"
+      ],
+      "data.repository.pullRequests.nodes.author.databaseId": [
+        "event_sender_id",
+        "bigint"
+      ]
+    }
   }
 }
