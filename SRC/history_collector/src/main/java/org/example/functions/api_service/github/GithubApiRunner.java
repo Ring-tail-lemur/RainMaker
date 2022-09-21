@@ -26,7 +26,7 @@ public class GithubApiRunner {
 	public Map<String, JSONArray> runGithubApi(JSONObject jsonObjectConfig,
 		HttpRequestMessage<Optional<String>> request) throws Exception {
 		apiGeneratorFactory = new ApiGeneratorFactory(request.getQueryParameters());
-		List<HttpRequestDto> httpRequestDtoList = apiGeneratorFactory.getHttpRequestDtoList(jsonObjectConfig);
+		List<HttpRequestDto> httpRequestDtoList = apiGeneratorFactory.getAllHttpRequestDtoList(jsonObjectConfig);
 		return httpRequestSender.sendAllHttpRequest(httpRequestDtoList);
 	}
 

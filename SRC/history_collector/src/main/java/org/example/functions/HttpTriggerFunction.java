@@ -40,12 +40,11 @@ public class HttpTriggerFunction {
 		JSONObject jsonObjectConfig = configReader.getJsonObjectConfig();
 
 		ApiGeneratorFactory apiGeneratorFactory = new ApiGeneratorFactory(request.getQueryParameters());
-		List<HttpRequestDto> httpRequestDtoList = apiGeneratorFactory.getHttpRequestDtoList(jsonObjectConfig);
+		List<HttpRequestDto> httpRequestDtoList = apiGeneratorFactory.getAllHttpRequestDtoList(jsonObjectConfig);
 		Map<String, JSONArray> responseJSONArrayList = httpRequestSender.sendAllHttpRequest(httpRequestDtoList);
 
 		QueryGenerator queryGenerator = new QueryGenerator(jsonObjectConfig);
 		List<String> queryList = queryGenerator.generateQueryList(responseJSONArrayList);
-		queryRunner.runInsertQueries(queryList);
 
 		return request.createResponseBuilder(HttpStatus.OK).body(queryList.toString()).build();
 	}

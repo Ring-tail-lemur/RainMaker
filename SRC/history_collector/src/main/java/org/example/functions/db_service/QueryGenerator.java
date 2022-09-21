@@ -21,7 +21,7 @@ public class QueryGenerator {
 
 	private JSONObject jsonObjectConfig;
 	private TypeConverter typeConverter = TypeConverter.getTypeConverter();
-	private StringFormatter stringFormatter = new StringFormatter();
+	private StringFormatter queryStringFormatter = new StringFormatter();
 
 	public QueryGenerator(JSONObject jsonObjectConfig) {
 		this.jsonObjectConfig = jsonObjectConfig;
@@ -38,7 +38,7 @@ public class QueryGenerator {
 		if(parameters.get("queryValues").equals(""))
 			return "";
 		String queryTemplate = "INSERT INTO {{tableName}} ({{columns}}) SELECT * FROM (VALUES {{queryValues}}) tempName ({{columns}}) EXCEPT SELECT {{columns}} from {{tableName}}";
-		return stringFormatter.bindParameters(queryTemplate, parameters).replace("''", "").replace("\n", "\\n");
+		return queryStringFormatter.bindParameters(queryTemplate, parameters).replace("''", "").replace("\n", "\\n");
 	}
 
 	private Map<String, String> getParametersMap(String tableName, JSONArray sourceData) {
@@ -46,7 +46,12 @@ public class QueryGenerator {
 		return Map.of(
 			"columns", getColumnNamesQueryString(metaDataLinkedHashMap),
 			"queryValues", getQueryValuesString(sourceData, metaDataLinkedHashMap),
-			"tableName", tableName);
+			"tableName", getPureTableName(tableName));
+	}
+
+	private String getPureTableName(String tableName) {
+		StringFormatter filedStringFormatter = new StringFormatter("[", "]");
+		return filedStringFormatter.removeStartingSubstitutor(tableName);
 	}
 
 	private LinkedHashMap<String, JSONArray> getMetaDataLinkedHashMap(String tableName) {

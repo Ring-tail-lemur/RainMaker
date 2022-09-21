@@ -1,0 +1,15 @@
+{
+    repository(owner: "Ring-tail-lemur", name: "RainMaker") {
+        pullRequests(last: 100) {
+            nodes {
+                databaseId
+                createdAt
+                author {
+                    ... on User {
+                        databaseId
+                    }
+                }
+            }
+        }
+    }
+}
