@@ -28,7 +28,7 @@ jobs:
       - uses: actions/checkout@master
       - name: 'reset persistence.xml'
         env:
-            SUPER_PERSISTENCE: ${{secrets.DATABASE_PERSISTENCE_XML}}
+            SUPER_PERSISTENCE: ${{secrets.HISTORY_COLLECTOR_PERSISTENCE_XML}}
         shell: pwsh
         run: |
           pushd './${{ env.POM_XML_DIRECTORY }}'
