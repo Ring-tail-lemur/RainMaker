@@ -32,3 +32,10 @@ local.settings.json
 *.lnk
 *.class
 ._*
+
+
+# 안전한 배포를 위한 ignore
+**/event-hub/event-hub-app-config.json
+**/ms-sql-config.json
+**/persistence.xml
+**/application.yml
