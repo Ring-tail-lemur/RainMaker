@@ -10,8 +10,8 @@ spring:
         registration:
           github:
             redirectUri: "http://127.0.0.1:8080/login/oauth2/code/github"
-            clientId: 8189cb9324e
-            clientSecret: 9d64a145b1
+            clientId: 8189c16057d124b9324e
+            clientSecret: f29fab554dc49fa720138b128839084c4d030b32
             scope:
               - repo
               - repo:status
