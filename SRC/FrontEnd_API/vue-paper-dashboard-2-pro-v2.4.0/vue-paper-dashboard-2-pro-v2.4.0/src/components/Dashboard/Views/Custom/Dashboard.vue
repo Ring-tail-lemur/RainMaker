@@ -5,7 +5,7 @@
         <h4 class="card-title">시작 시간</h4>
         <div class="form-group">
           <el-date-picker v-model="startTime" type="date" placeholder="Pick a day"
-                          :picker-options="pickerOptions1">
+                          :picker-options="{ disabledDate: (time) => disabledEndDate(time, departureDate) }">
           </el-date-picker>
         </div>
       </div>
@@ -13,7 +13,7 @@
         <h4 class="card-title">끝 시간</h4>
         <div class="form-group">
           <el-date-picker v-model="endTime" type="date" placeholder="Pick a day"
-                          :picker-options="pickerOptions1">
+                          :picker-options="{ disabledDate: (time) => disabledEndDate(time, departureDate) }">
           </el-date-picker>
         </div>
       </div>
@@ -35,7 +35,7 @@
       </div>
       <div class="col-md-2">
         <br><br><br>
-        <p-button >제출하기</p-button>
+        <p-button v-on:click="submitButtonPush()">제출하기</p-button>
       </div>
     </div>
 
@@ -170,6 +170,7 @@ import {Badge} from 'src/components/UIComponents'
 import Loading from 'src/components/Dashboard/Layout/LoadingMainPanel.vue'
 import TaskList from "src/components/Dashboard/Views/Dashboard/Widgets/TaskList";
 import {Button, DatePicker, Input, Option, Select, Slider, Tag, TimeSelect} from "element-ui";
+import axios from "axios";
 
 const WorldMap = () => ({
   component: import('./../Maps/WorldMap.vue'),
@@ -197,42 +198,26 @@ export default {
   /**
    * Chart data used to render stats, charts. Should be replaced with server data
    */
+  watch: {
+    endTime() {
+      if(this.startTime != '') {
+        if( this.endTime < this.startTime) {
+          alert("끝시간은 시작시간보다 커야합니다");
+          this.endTime = '';
+        }
+      }
+    },
+    startTime() {
+      if(this.endTime != '') {
+        if( this.endTime < this.startTime) {
+          alert("시작시간은 끝시간보다 작아야합니다");
+          this.startTime = '';
+        }
+      }
+    }
+  },
   data () {
     return {
-      statsCards: [
-        {
-          type: 'warning',
-          icon: 'nc-icon nc-globe',
-          title: 'Capacity',
-          value: '105GB',
-          footerText: 'Updated now',
-          footerIcon: 'nc-icon nc-refresh-69'
-        },
-        {
-          type: 'success',
-          icon: 'nc-icon nc-money-coins',
-          title: 'Revenue',
-          value: '$1,345',
-          footerText: 'Last day',
-          footerIcon: 'nc-icon nc-calendar-60'
-        },
-        {
-          type: 'danger',
-          icon: 'nc-icon nc-vector',
-          title: 'Errors',
-          value: '23',
-          footerText: 'In the last hour',
-          footerIcon: 'nc-icon nc-bell-55'
-        },
-        {
-          type: 'info',
-          icon: 'nc-icon nc-favourite-28',
-          title: 'Followers',
-          value: '+45',
-          footerText: 'Updated now',
-          footerIcon: 'nc-icon nc-refresh-69'
-        }
-      ],
       LeadTimeForChange: {
         color : "#ef8156",
         rate : "seed",
@@ -270,38 +255,143 @@ export default {
 
       selects: {
         simple: '',
-        countries: [{value: 'Bahasa Indonesia', label: 'Bahasa Indonesia'},
-          {value: 'Bahasa Melayu', label: 'Bahasa Melayu'},
-          {value: 'Català', label: 'Català'},
-          {value: 'Dansk', label: 'Dansk'},
-          {value: 'Deutsch', label: 'Deutsch'},
-          {value: 'English', label: 'English'},
-          {value: 'Español', label: 'Español'},
-          {value: 'Eλληνικά', label: 'Eλληνικά'},
-          {value: 'Français', label: 'Français'},
-          {value: 'Italiano', label: 'Italiano'},
-          {value: 'Magyar', label: 'Magyar'},
-          {value: 'Nederlands', label: 'Nederlands'},
-          {value: 'Norsk', label: 'Norsk'},
-          {value: 'Polski', label: 'Polski'},
-          {value: 'Português', label: 'Português'},
-          {value: 'Suomi', label: 'Suomi'},
-          {value: 'Svenska', label: 'Svenska'},
-          {value: 'Türkçe', label: 'Türkçe'},
-          {value: 'Íslenska', label: 'Íslenska'},
-          {value: 'Čeština', label: 'Čeština'},
-          {value: 'Русский', label: 'Русский'},
-          {value: 'ภาษาไทย', label: 'ภาษาไทย'},
-          {value: '中文 (简体)', label: '中文 (简体)'},
-          {value: 'W">中文 (繁體)', label: 'W">中文 (繁體)'},
-          {value: '日本語', label: '日本語'},
-          {value: '한국어', label: '한국어'}],
+        countries: [
+          {value: '510731046', label: 'RainMaker'},
+          {value: '517528822', label: 'test-for-fake-project'},
+          {value: '193281821', label: 'gugudan'},
+          ],
         multiple: 'ARS'
+      },
+      pickerOptions1: {
+
+
+
       },
 
 
-
     }
+  },
+  methods : {
+    submitButtonPush() {
+      try {
+        this.getAllDoraMetric(this.dateFormat(this.startTime), this.dateFormat(this.endTime), this.selects.multiple[0]);
+      } catch (e) {
+        alert("잘못 입력하셨습니다.");
+        console.error(e);
+        return;
+      }
+    },
+    disabledEndDate(date, departureDate) {
+      // If departureDate then return valid dates after departureDate
+
+      if (departureDate) {
+        return date.getTime() < departureDate
+      } else {
+        // If !departureDate then return valid dates after today
+        return date.getTime() > Date.now() || date.getTime() < Date.now() - 7776000000;
+      }
+    },
+    getAllDoraMetric(start_time, end_time, repo_id) {
+      if(start_time === undefined || end_time === undefined || repo_id === undefined) {
+        alert("잘못 입력하셨습니다.");
+        return;
+      }
+      this.getDoraMetric(start_time, end_time, repo_id,"lead-time-for-change");
+      this.getDoraMetric(start_time, end_time, repo_id,"time-to-restore-service");
+      this.getDoraMetric(start_time, end_time, repo_id,"change-failure-rate");
+      this.getDoraMetric(start_time, end_time, repo_id,"deployment-frequency");
+    },
+    async getDoraMetric(start_time, end_time, repo_id, MetricName) {
+      const Message = await axios.get(this.custom.defaultURL + "/dorametric/" + MetricName, {
+        params : {
+          start_time : start_time,
+          end_time : end_time,
+          repo_id : repo_id
+        }
+      })
+
+      let BodyData = Message.data;
+      let info;
+      if(BodyData.hasOwnProperty('leadTimeForChangeMap')){
+        info = BodyData.leadTimeForChangeMap;
+      } else if(BodyData.hasOwnProperty('changeFailureRateMap')) {
+        info = BodyData.changeFailureRateMap;
+      } else if(BodyData.hasOwnProperty('deploymentFrequencyMap')) {
+        info = BodyData.deploymentFrequencyMap;
+      } else if(BodyData.hasOwnProperty('timeToRestoreServiceMap')) {
+        info = BodyData.timeToRestoreServiceMap;
+      }
+
+
+      let date_arr = [];
+      let average_time = [];
+
+      const st = new Date(start_time);
+      const en = new Date(end_time);
+
+
+      while(st <= en) {
+        date_arr.push(this.dateFormat(st));
+        if( info[this.dateFormat(st)] ) {
+          average_time.push(info[this.dateFormat(st)]);
+        } else {
+          average_time.push(0);
+        }
+        st.setDate(st.getDate() + 1);
+      }
+
+      const level = BodyData.level.toLowerCase();
+      if(MetricName === "lead-time-for-change"){
+        this.LeadTimeForChange.data.labels = date_arr;
+        this.LeadTimeForChange.data.series = average_time;
+        this.LeadTimeForChange.rate = level;
+        this.LeadTimeForChange.color = this.colorPickByLevel(level);
+      } else if(MetricName === "time-to-restore-service") {
+        this.MTTR.data.labels = date_arr;
+        this.MTTR.data.series = average_time;
+        this.MTTR.rate = level;
+        this.MTTR.color = this.colorPickByLevel(level);
+      } else if(MetricName === "change-failure-rate") {
+        this.ChangeFailureRate.data.labels = date_arr;
+        this.ChangeFailureRate.data.series = average_time;
+        this.ChangeFailureRate.rate = level;
+        this.ChangeFailureRate.color = this.colorPickByLevel(level);
+      } else if(MetricName === "deployment-frequency") {
+        this.DeploymentFrequency.data.labels = date_arr;
+        this.DeploymentFrequency.data.series = average_time;
+        this.DeploymentFrequency.rate = level;
+        this.DeploymentFrequency.color = this.colorPickByLevel(level);
+      }
+
+    },
+    dateFormat(date) {
+      let month = date.getMonth() + 1;
+      let day = date.getDate();
+
+      month = month >= 10 ? month : '0' + month;
+      day = day >= 10 ? day : '0' + day;
+
+      return date.getFullYear() + '-' + month + '-' + day;
+    },
+    colorPickByLevel(level) {
+      if(level == "seed") {
+        return "#ef8156";
+      } else if(level == "sprout") {
+        return "#fcc468";
+      } else if(level == "flower") {
+        return "#68B3C8";
+      } else if(level == "fruit") {
+        return "#41B883";
+      }
+    }
+  },
+  created() {
+    let Today = new Date();
+    const FormatToday = this.dateFormat(Today);
+    Today.setMonth(Today.getMonth() -1);
+    const FormatLastMonth = this.dateFormat(Today);
+    this.getAllDoraMetric(FormatLastMonth, FormatToday, "510731046");
+
   }
 }
 
