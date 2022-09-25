@@ -1,4 +1,4 @@
-package org.example.functions.api_service.github.request_query_generator.graphql;
+package org.example.functions.collector.github.request_query_generator.graphql;
 
 import static org.assertj.core.api.Assertions.*;
 
@@ -7,7 +7,7 @@ import java.net.URL;
 import java.util.Map;
 
 import org.example.functions.TestMockData;
-import org.example.functions.api_service.github.HttpRequestDto;
+import org.example.functions.dto.HttpRequestDto;
 import org.json.JSONObject;
 import org.junit.jupiter.api.Test;
 

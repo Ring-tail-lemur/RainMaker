@@ -1,4 +1,4 @@
-package org.example.functions.api_service.restapi.github;
+package org.example.functions.collector.restapi.github;
 
 import static org.assertj.core.api.Assertions.*;
 
@@ -6,8 +6,8 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.List;
 
-import org.example.functions.api_service.github.HttpRequestDto;
-import org.example.functions.api_service.github.request_query_generator.restapi.GithubRestApiGenerator;
+import org.example.functions.dto.HttpRequestDto;
+import org.example.functions.collector.github.request_query_generator.restapi.GithubRestApiGenerator;
 import org.json.JSONObject;
 import org.junit.jupiter.api.Test;
 

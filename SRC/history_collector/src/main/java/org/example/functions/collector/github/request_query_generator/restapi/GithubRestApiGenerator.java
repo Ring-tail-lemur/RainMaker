@@ -1,4 +1,4 @@
-package org.example.functions.api_service.github.request_query_generator.restapi;
+package org.example.functions.collector.github.request_query_generator.restapi;
 
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -7,18 +7,18 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import org.example.functions.api_service.github.HttpRequestDto;
-import org.example.functions.api_service.github.request_query_generator.ApiGenerator;
+import org.example.functions.dto.HttpRequestDto;
+import org.example.functions.collector.github.request_query_generator.ApiGenerator;
 import org.example.functions.util.StringFormatter;
+import org.example.functions.util.constants.RequestPathParameter;
 import org.json.JSONObject;
 
 public class GithubRestApiGenerator implements ApiGenerator {
 
-	private String repositoryName;
-	private String ownerName;
-	private String token;
+	private final String repositoryName;
+	private final String ownerName;
+	private final String token;
 	private final StringFormatter stringFormatter = new StringFormatter();
-
 
 	public GithubRestApiGenerator(String repositoryName, String ownerName, String token) {
 		this.repositoryName = repositoryName;
@@ -27,9 +27,9 @@ public class GithubRestApiGenerator implements ApiGenerator {
 	}
 
 	public GithubRestApiGenerator(Map<String, String> requestQueryParameters) {
-		this.repositoryName = requestQueryParameters.get("repository_name");
-		this.ownerName = requestQueryParameters.get("owner_name");
-		this.token = requestQueryParameters.get("token");
+		this.repositoryName = requestQueryParameters.get(RequestPathParameter.REPOSITORY_NAME);
+		this.ownerName = requestQueryParameters.get(RequestPathParameter.OWNER_NAME);
+		this.token = requestQueryParameters.get(RequestPathParameter.TOKEN);
 	}
 
 	public List<HttpRequestDto> getHttpRequestDtoList(JSONObject configJSONObject) {

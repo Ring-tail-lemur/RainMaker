@@ -1,4 +1,4 @@
-package org.example.functions.db_service;
+package org.example.functions.dao;
 
 import java.util.List;
 

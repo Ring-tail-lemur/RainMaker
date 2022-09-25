@@ -1,4 +1,4 @@
-package org.example.functions.api_service.github.request_query_generator.graphql;
+package org.example.functions.collector.github.request_query_generator.graphql;
 
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -7,20 +7,17 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import org.example.functions.api_service.github.HttpRequestDto;
-import org.example.functions.api_service.github.request_query_generator.ApiGenerator;
+import org.example.functions.dto.HttpRequestDto;
+import org.example.functions.collector.github.request_query_generator.ApiGenerator;
 import org.example.functions.util.ConfigReader;
 import org.example.functions.util.StringFormatter;
-import org.example.functions.util.TypeConverter;
 import org.json.JSONObject;
 
 public class GithubGraphqlGenerator implements ApiGenerator {
 
-	private final TypeConverter typeConverter = TypeConverter.getTypeConverter();
-
 	private final ConfigReader configReader = ConfigReader.getConfigReader();
 	private final StringFormatter stringFormatter = new StringFormatter();
-	private Map<String, String> requestParameters;
+	private final Map<String, String> requestParameters;
 
 	public GithubGraphqlGenerator(Map<String, String> requestQueryParameters) {
 		this.requestParameters = requestQueryParameters;

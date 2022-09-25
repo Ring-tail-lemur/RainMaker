@@ -1,4 +1,4 @@
-package org.example.functions.db_service;
+package org.example.functions.parser;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -19,9 +19,9 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class QueryGenerator {
 
-	private JSONObject jsonObjectConfig;
-	private TypeConverter typeConverter = TypeConverter.getTypeConverter();
-	private StringFormatter queryStringFormatter = new StringFormatter();
+	private final JSONObject jsonObjectConfig;
+	private final TypeConverter typeConverter = TypeConverter.getTypeConverter();
+	private final StringFormatter queryStringFormatter = new StringFormatter();
 
 	public QueryGenerator(JSONObject jsonObjectConfig) {
 		this.jsonObjectConfig = jsonObjectConfig;
@@ -35,7 +35,7 @@ public class QueryGenerator {
 
 	private String generateBulkInsertQuery(String tableName, JSONArray sourceData) {
 		Map<String, String> parameters = getParametersMap(tableName, sourceData);
-		if(parameters.get("queryValues").equals(""))
+		if (parameters.get("queryValues").equals(""))
 			return "";
 		String queryTemplate = "INSERT INTO {{tableName}} ({{columns}}) SELECT * FROM (VALUES {{queryValues}}) tempName ({{columns}}) EXCEPT SELECT {{columns}} from {{tableName}}";
 		return queryStringFormatter.bindParameters(queryTemplate, parameters).replace("''", "").replace("\n", "\\n");
@@ -83,8 +83,8 @@ public class QueryGenerator {
 		return String.join(", ", valueList);
 	}
 
-
-	private String getSingleQueryValueString(JSONObject targetSource, LinkedHashMap<String, JSONArray> metaDataLinkedHashMap) {
+	private String getSingleQueryValueString(JSONObject targetSource,
+		LinkedHashMap<String, JSONArray> metaDataLinkedHashMap) {
 		List<String> valueList = new ArrayList<>();
 		metaDataLinkedHashMap
 			.forEach((valuePointer, valueType) -> valueList.add(
@@ -111,6 +111,7 @@ public class QueryGenerator {
 		} catch (Exception e) {
 			result = "null";
 		}
-		return typeConverter.getMssqlQueryString(result.replaceAll("'", "''").replace(System.getProperty("line.separator"), ""), valueType);
+		return typeConverter.getMssqlQueryString(
+			result.replaceAll("'", "''").replace(System.getProperty("line.separator"), ""), valueType);
 	}
 }

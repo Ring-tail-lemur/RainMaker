@@ -1,4 +1,4 @@
-package org.example.functions.api_service.github;
+package org.example.functions.collector.github;
 
 import java.net.URI;
 import java.util.HashMap;

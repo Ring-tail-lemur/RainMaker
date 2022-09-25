@@ -1,13 +1,13 @@
-package org.example.functions.api_service.github.request_query_generator;
+package org.example.functions.collector.github.request_query_generator;
 
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import org.example.functions.api_service.github.HttpRequestDto;
-import org.example.functions.api_service.github.request_query_generator.graphql.GithubGraphqlGenerator;
-import org.example.functions.api_service.github.request_query_generator.restapi.GithubRestApiGenerator;
+import org.example.functions.dto.HttpRequestDto;
+import org.example.functions.collector.github.request_query_generator.graphql.GithubGraphqlGenerator;
+import org.example.functions.collector.github.request_query_generator.restapi.GithubRestApiGenerator;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -57,10 +57,10 @@ public class ApiGeneratorFactory {
 
 	private HttpRequestDto getHttpRequestDto(JSONObject configJSONObject, String configElementKey) throws Exception {
 		HttpRequestDto httpRequestDto;
-		if (isRestApi(configJSONObject, configElementKey))
+		if (isRestApi(configJSONObject))
 			httpRequestDto = githubRestApiGenerator.getHttpRequestDto(
 				configJSONObject, configElementKey);
-		else if (isGraphql(configJSONObject, configElementKey)) {
+		else if (isGraphql(configJSONObject)) {
 			httpRequestDto = githubGraphqlGenerator.getHttpRequestDto(
 				configJSONObject, configElementKey);
 		} else
@@ -69,11 +69,11 @@ public class ApiGeneratorFactory {
 		return httpRequestDto;
 	}
 
-	private boolean isGraphql(JSONObject configJSONObject, String configElementKey) {
+	private boolean isGraphql(JSONObject configJSONObject) {
 		return configJSONObject.keySet().contains("graphql");
 	}
 
-	private static boolean isRestApi(JSONObject configJSONObject, String configElementKey) {
+	private static boolean isRestApi(JSONObject configJSONObject) {
 		return configJSONObject.keySet().contains("request");
 	}
 }

@@ -1,4 +1,4 @@
-package org.example.functions.api_service.github;
+package org.example.functions.collector.github;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -8,6 +8,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.example.functions.dto.HttpRequestDto;
 import org.example.functions.util.TypeConverter;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -23,6 +24,7 @@ public class HttpRequestSender {
 		}
 		return responseJSONArrayList;
 	}
+
 	public JSONArray sendHttpRequest(HttpRequestDto httpRequestDto) throws IOException {
 		HttpURLConnection httpURLConnection = httpRequestDto.getHttpURLConnection();
 		String responseString = getResponseString(httpURLConnection);

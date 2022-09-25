@@ -1,4 +1,4 @@
-package org.example.functions.config;
+package org.example.functions.util.config;
 
 import org.hibernate.boot.model.naming.Identifier;
 import org.hibernate.boot.model.naming.PhysicalNamingStrategy;

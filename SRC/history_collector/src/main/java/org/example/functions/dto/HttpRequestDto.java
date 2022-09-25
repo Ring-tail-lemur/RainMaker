@@ -1,4 +1,4 @@
-package org.example.functions.api_service.github;
+package org.example.functions.dto;
 
 import java.io.DataOutputStream;
 import java.io.IOException;
