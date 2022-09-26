@@ -39,7 +39,7 @@ async function readJsonSecret(context){
   context.log(jsonFile);
   const jsonData = JSON.parse(jsonFile);
   context.log(jsonData);
-  return jsonData.eventHubConnectionString;
+  return JSON.stringify(jsonData.eventHubConnectionString);
 }
 
 
