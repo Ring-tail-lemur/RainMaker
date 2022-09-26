@@ -24,7 +24,7 @@ jobs:
         shell: pwsh
         run: |
           pushd './src/main/resources/'
-          echo '${secrets.JAVA_SPRING_BE_APPLICATION_YML}' >> ./application.yml
+          echo '${{secrets.JAVA_SPRING_BE_APPLICATION_YML}}' >> ./application.yml
           chmod 777 ./application.yml
           ls
           cat ./application.yml
