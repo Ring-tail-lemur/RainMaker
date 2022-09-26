@@ -17,6 +17,13 @@
         runs-on: windows-latest
         steps:
         - uses: actions/checkout@v2
+          shell: pwsh
+          run: |
+            pushd './${{env.AZURE_FUNCTION_APP_PACKAGE_PATH}}/HttpTrigger-node-test/event-hub'
+            echo 'eventHubConnectionString : ""' >> event-hub-app-config.json
+            ls
+            cat ./event-hub-app-config.json
+            popd
         - uses: microsoft/variable-substitution@v1 
           with:
             files: '${{env.AZURE_FUNCTION_APP_PACKAGE_PATH}}HttpTrigger-node-test/event-hub/event-hub-app-config.json'
