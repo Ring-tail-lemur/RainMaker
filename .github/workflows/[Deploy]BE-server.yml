@@ -6,7 +6,7 @@ name: Build and deploy JAR app to Azure Web App -Backend Server
 on:
   push:
     branches:
-      - main
+      - gitIgnore-GithubAction
     paths:
       - "SRC/BackEnd_API/**"
   workflow_dispatch:
@@ -20,6 +20,14 @@ jobs:
     
     steps:
       - uses: actions/checkout@v2
+      - name: 'Set Application.yml'
+        shell: pwsh
+        run: |
+          pushd './SRC/BackEnd_API/src/main/resources/'
+          echo '${secrets.JAVA_SPRING_BE_APPLICATION_YML}' >> ./application.yml
+          chmod 777 ./application.yml
+          ls
+          popd
       - uses: microsoft/variable-substitution@v1 
         with:
           files: './SRC/BackEnd_API/src/main/resources/application.yml'
