@@ -4,10 +4,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
-import org.example.functions.dto.HttpRequestDto;
 import org.example.functions.collector.github.HttpRequestSender;
 import org.example.functions.collector.github.request_query_generator.ApiGeneratorFactory;
 import org.example.functions.dao.QueryRunner;
+import org.example.functions.dto.HttpRequestDto;
 import org.example.functions.parser.QueryGenerator;
 import org.example.functions.util.ConfigReader;
 import org.json.JSONArray;
