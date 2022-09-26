@@ -118,47 +118,37 @@
     }
   },
   "release": {
-    "request": {
-      "method": "GET",
-      "url": "https://api.github.com/repos/{{owner}}/{{repo}}/releases",
-      "header": {
-        "accept": "application/vnd.github+json"
-      },
-      "path_parameters": {},
-      "query_parameters": {
-        "per_page": "100"
-      }
-    },
+    "graphql": "release.graphql",
     "mapping": {
-      "id": [
+      "data.repository.releases.nodes.databaseId": [
         "release_id",
         "int"
       ],
-      "prerelease": [
+      "data.repository.releases.nodes.isPrerelease": [
         "pre_release",
         "bit"
       ],
-      "name": [
+      "data.repository.releases.nodes.name": [
         "name",
         "string"
       ],
-      "author.id": [
+      "data.repository.releases.nodes.author.databaseId": [
         "author_id",
         "int"
       ],
-      "tag_name": [
+      "data.repository.releases.nodes.tagName": [
         "tag_name",
         "string"
       ],
-      "이거 문제네 진짜": [
+      "data.repository.databaseId": [
         "repository_id",
         "int"
       ],
-      "published_at": [
+      "data.repository.releases.nodes.publishedAt": [
         "published_at",
         "datetime2"
       ],
-      "draft": [
+      "data.repository.releases.nodes.isDraft": [
         "draft",
         "bit"
       ]
