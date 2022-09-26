@@ -32,7 +32,7 @@ jobs:
           popd
       - uses: microsoft/variable-substitution@v1 
         with:
-          files: './SRC/BackEnd_API/src/main/resources/application.yml'
+          files: 'D:\a\RainMaker\RainMaker\SRC\BackEnd_API\src\main\resources/application.yml'
         env:
           spring.datasource.driver-class-name : ${{secrets.APPLICATION_YML_DATASOURCE_DRIVER_CLASS_NAME}}
           spring.datasource.url : ${{secrets.APPLICATION_YML_DATASOURCE_URL}}
