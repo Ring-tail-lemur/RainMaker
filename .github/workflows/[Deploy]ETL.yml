@@ -31,7 +31,9 @@ jobs:
           SUPER_PERSISTENCE: ${{secrets.DATABASE_PERSISTENCE_XML}}
         shell: pwsh
         run: |
-          pushd './${{ env.POM_XML_DIRECTORY }}/src/main/resources'
+          pushd './${{ env.POM_XML_DIRECTORY }}/src/main'
+          mkdir resources
+          pushd './resources'
           mkdir META-INF
           echo '${{env.SUPER_PERSISTENCE}}' >> ./META-INF/persistence.xml
           chmod 777 ./META-INF/persistence.xml
