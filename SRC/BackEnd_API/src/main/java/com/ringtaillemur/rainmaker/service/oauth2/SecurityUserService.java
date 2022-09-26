@@ -28,6 +28,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.ringtaillemur.rainmaker.config.DeployProperty;
 import com.ringtaillemur.rainmaker.config.JwtTokenProvider;
 import com.ringtaillemur.rainmaker.config.UserAuthentication;
 import com.ringtaillemur.rainmaker.domain.OAuthUser;
@@ -40,6 +41,9 @@ public class SecurityUserService {
 	@Autowired
 	OAuthRepository oAuthRepository;
 
+	@Autowired
+	DeployProperty deployProperty;
+
 	public Set<SimpleGrantedAuthority> setAuthorities(OauthUserLevel oauthUserLevel) {
 		Set<SimpleGrantedAuthority> grantedAuthorities = new HashSet<>();
 		SimpleGrantedAuthority simpleGrantedAuthority = new SimpleGrantedAuthority(oauthUserLevel.toString());
@@ -49,9 +53,11 @@ public class SecurityUserService {
 
 	public String getUserGitHubOAuthToken(String code) throws JsonProcessingException {
 		MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
-		params.add("client_id", clientId);
+		System.out.println(deployProperty.clientId);
+		System.out.println(deployProperty.clientSecret);
+		params.add("client_id", deployProperty.clientId);
 		params.add("code", code);
-		params.add("client_secret", clientSecret);
+		params.add("client_secret", deployProperty.clientSecret);
 
 		HttpHeaders headers = new HttpHeaders();
 		headers.add("Accept", "application/json");
