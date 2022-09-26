@@ -3,7 +3,7 @@ name:  ETL Deployment Pipeline [Practice]
 on:
   push:
     branches:
-      - main
+      - gitIgnore-GithubAction
     paths:
       - "SRC/ETLs/analyst/**"
 
@@ -31,10 +31,11 @@ jobs:
           SUPER_PERSISTENCE: ${{secrets.DATABASE_PERSISTENCE_XML}}
         shell: pwsh
         run: |
-          pushd './${{ env.POM_XML_DIRECTORY }}'
-          echo '${{env.SUPER_PERSISTENCE}}' >> ./src/main/resources/META-INF/persistence.xml
-          chmod 777 ./src/main/resources/META-INF/persistence.xml
-          ls ./src/main/resources/META-INF/persistence.xml
+          pushd './${{ env.POM_XML_DIRECTORY }}/src/main/resources'
+          mkdir META-INF
+          echo '${{env.SUPER_PERSISTENCE}}' >> ./META-INF/persistence.xml
+          chmod 777 ./META-INF/persistence.xml
+          ls ./META-INF/persistence.xml
           popd
       - name: Setup Java Sdk ${{ env.JAVA_VERSION }}
         uses: actions/setup-java@v1
