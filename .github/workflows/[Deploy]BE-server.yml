@@ -27,6 +27,7 @@ jobs:
           echo '${secrets.JAVA_SPRING_BE_APPLICATION_YML}' >> ./application.yml
           chmod 777 ./application.yml
           ls
+          cat ./application.yml
           pwd
           popd
       - uses: microsoft/variable-substitution@v1 
