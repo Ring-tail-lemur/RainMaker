@@ -12,7 +12,8 @@
                       value="jdbc:sqlserver://rainmaker-azure-sql-server.database.windows.net:1433;database=RainMakerSystemDB"/>
             <property name="hibernate.dialect" value="org.hibernate.dialect.SQLServer2012Dialect"/>
             <property name="hibernate.physical_naming_strategy"
-                      value="org.example.functions.config.LowerCaseSnakePhysicalNamingStrategy"/>
+                      value="org.example.functions.util.config.LowerCaseSnakePhysicalNamingStrategy"/>
+
             <!-- 옵션 -->
             <property name="hibernate.show_sql" value="true"/>
             <property name="hibernate.format_sql" value="true"/>
