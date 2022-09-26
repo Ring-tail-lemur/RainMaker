@@ -39,6 +39,10 @@ obj/
 
 # 안전한 배포를 위한 ignore
 **/event-hub/event-hub-app-config.json
+event-hub/event-hub-app-config.json
 **/ms-sql-config.json
+ms-sql-config.json
 **/persistence.xml
+persistence.xml
 **/application.yml
+application.yml
