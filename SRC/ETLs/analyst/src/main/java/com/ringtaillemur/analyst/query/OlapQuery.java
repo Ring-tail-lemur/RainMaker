@@ -1,6 +1,6 @@
 package com.ringtaillemur.analyst.query;
 
-//test 3
+//test 4
 public class OlapQuery {
 	public static final String MAKE_LEAD_TIME_FOR_CHANGE
 		=
@@ -145,7 +145,7 @@ public class OlapQuery {
 		+ "\t\t\t         JOIN repository\n"
 		+ "\t\t\t              ON release.repository_id = repository.repository_id\n"
 		+ "\t\t\tWHERE release.lead_time_for_change_process_end = 0\n"
-		+ "\t\t\tORDER BY release.published_at;";
+		+ "\t\t\tORDER BY release.repository_id, release.published_at;";
 	public static String PUBLISHED_AND_CALCULATED_LEAD_TIME_FOR_CHANGE_RELEASE
 		= "SELECT TOP 1 release.repository_id,\n"
 		+ "\t\t\t             release.tag_name,\n"

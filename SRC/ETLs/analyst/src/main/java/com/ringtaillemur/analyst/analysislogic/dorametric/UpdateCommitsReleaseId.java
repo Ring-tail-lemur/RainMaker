@@ -1,8 +1,10 @@
 package com.ringtaillemur.analyst.analysislogic.dorametric;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.json.JSONArray;
@@ -27,16 +29,39 @@ public class UpdateCommitsReleaseId {
 		return updateCommitsReleaseId;
 	}
 
-	public void calculateUpdateCommitsReleaseId() throws Exception {
+	public void calculateUpdateCommitsReleaseId() {
 		List<ReleaseDto> releaseDtoList = queryRunner.runSelectReleaseQuery(
 			OlapQuery.PUBLISHED_AND_NOT_CALCULATE_LEAD_TIME_FOR_CHANGE_RELEASE);
-		ReleaseDto lastCalculatedReleaseDto = queryRunner.runSelectCalculatedReleaseTop1Query(
-			OlapQuery.PUBLISHED_AND_CALCULATED_LEAD_TIME_FOR_CHANGE_RELEASE);
+		List<List<ReleaseDto>> dividedReleaseDtoList = divideReleaseDtoList(releaseDtoList);
+		for (List<ReleaseDto> releaseDtos : dividedReleaseDtoList) {
+			ReleaseDto lastCalculatedReleaseDto = queryRunner.runSelectCalculatedReleaseTop1Query(
+				OlapQuery.PUBLISHED_AND_CALCULATED_LEAD_TIME_FOR_CHANGE_RELEASE);
+			releaseDtos.add(0, lastCalculatedReleaseDto);
+			String joinMergeQuery = String.join(", ", makeJoinMergeQueryList(releaseDtos));
+			queryRunner.runUpdateInsertQuery(String.format(OlapQuery.UPDATE_COMMITS_RELEASE_ID, joinMergeQuery));
+		}
+	}
 
-		releaseDtoList.add(0, lastCalculatedReleaseDto);
+	public List<List<ReleaseDto>> divideReleaseDtoList(List<ReleaseDto> releaseDtoList) {
+		List<List<ReleaseDto>> dividedReleaseDtoList = new ArrayList<>();
+		releaseDtoList.forEach(releaseDto -> addReleaseDtoListToGroup(dividedReleaseDtoList, releaseDto));
+		return dividedReleaseDtoList;
+	}
 
-		String joinMergeQuery = String.join(", ", makeJoinMergeQueryList(releaseDtoList));
-		queryRunner.runUpdateInsertQuery(String.format(OlapQuery.UPDATE_COMMITS_RELEASE_ID, joinMergeQuery));
+	private void addReleaseDtoListToGroup(List<List<ReleaseDto>> dividedReleaseDtoList,
+		ReleaseDto releaseDto) {
+		Optional<List<ReleaseDto>> optionalRepositoryGroup = dividedReleaseDtoList.stream()
+			.filter(
+				repositoryGroup -> repositoryGroup.get(0).getRepositoryName().equals(releaseDto.getRepositoryName()))
+			.findAny();
+		if (optionalRepositoryGroup.isPresent()) {
+			List<ReleaseDto> releaseDtoList = optionalRepositoryGroup.get();
+			releaseDtoList.add(releaseDto);
+		} else {
+			ArrayList<ReleaseDto> releaseDtoList = new ArrayList<>();
+			releaseDtoList.add(releaseDto);
+			dividedReleaseDtoList.add(releaseDtoList);
+		}
 	}
 
 	public List<String> makeJoinMergeQueryList(List<ReleaseDto> releaseDtoList) {
