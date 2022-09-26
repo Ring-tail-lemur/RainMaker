@@ -8,7 +8,7 @@ import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 @EnableJpaAuditing
 public class RainmakerWebserverApplication {
 
-  //test 3
+  //test 4
   public static void main(String[] args) {
     SpringApplication.run(RainmakerWebserverApplication.class, args);
   }
