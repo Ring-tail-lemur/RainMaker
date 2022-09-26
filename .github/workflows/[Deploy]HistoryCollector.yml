@@ -3,7 +3,7 @@ name: History Collector Deployment
 on:
   push:
     branches:
-      - gitIgnore-GithubAction
+      - main
     paths:
       - "SRC/history_collector/**"
 
