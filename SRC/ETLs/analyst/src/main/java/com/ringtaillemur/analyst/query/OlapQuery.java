@@ -1,6 +1,6 @@
 package com.ringtaillemur.analyst.query;
 
-//test 3
+//test 4
 public class OlapQuery {
 	public static final String MAKE_LEAD_TIME_FOR_CHANGE
 		=
