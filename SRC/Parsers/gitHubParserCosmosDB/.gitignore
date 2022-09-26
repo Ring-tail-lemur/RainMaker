@@ -99,3 +99,9 @@ __queuestorage__
 __azurite_db*__.json
 
 CosmosTrigger1/ms-sql-config.json
+
+# 안전한 배포를 위한 ignore
+**/event-hub/event-hub-app-config.json
+**/ms-sql-config.json
+**/persistence.xml
+**/application.yml
