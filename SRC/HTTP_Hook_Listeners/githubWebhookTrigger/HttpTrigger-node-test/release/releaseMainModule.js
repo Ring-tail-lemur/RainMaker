@@ -27,16 +27,6 @@ async function releaseMain(hookBody, cloudEventObj, context) {
         context.log(cloudEventObj.action + " is not yet prepared");
     }
     
-    // if(cloudEventObj.action == 'created'){
-    //     return await createdModule.createdMain(hookBody, cloudEventObj, context);
-    // }else if(cloudEventObj.action == 'released'){
-        
-    // }else if(cloudEventObj.action == 'prereleased'){
 
-    // }else if(cloudEventObj.action == 'published'){
-
-    // }else{
-
-    // }
 }
 module.exports.releaseMain = releaseMain;
