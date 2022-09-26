@@ -33,11 +33,10 @@ jobs:
         run: |
           pushd './${{ env.POM_XML_DIRECTORY }}/src/main'
           mkdir resources
-          pushd './resources'
-          mkdir META-INF
-          echo '${{env.SUPER_PERSISTENCE}}' >> ./META-INF/persistence.xml
-          chmod 777 ./META-INF/persistence.xml
-          ls ./META-INF/persistence.xml
+          mkdir ./resources/META-INF
+          echo '${{env.SUPER_PERSISTENCE}}' >> ./resources/META-INF/persistence.xml
+          chmod 777 ./resources/META-INF/persistence.xml
+          ls ./resources/META-INF/persistence.xml
           popd
       - name: Setup Java Sdk ${{ env.JAVA_VERSION }}
         uses: actions/setup-java@v1
