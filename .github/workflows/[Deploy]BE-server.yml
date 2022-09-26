@@ -27,10 +27,11 @@ jobs:
           echo '${secrets.JAVA_SPRING_BE_APPLICATION_YML}' >> ./application.yml
           chmod 777 ./application.yml
           ls
+          pwd
           popd
       - uses: microsoft/variable-substitution@v1 
         with:
-          files: './application.yml'
+          files: './SRC/BackEnd_API/src/main/resources/application.yml'
         env:
           spring.datasource.driver-class-name : ${{secrets.APPLICATION_YML_DATASOURCE_DRIVER_CLASS_NAME}}
           spring.datasource.url : ${{secrets.APPLICATION_YML_DATASOURCE_URL}}
