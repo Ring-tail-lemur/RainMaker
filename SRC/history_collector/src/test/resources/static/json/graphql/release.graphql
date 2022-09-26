@@ -1,0 +1,18 @@
+{
+    repository(owner: "Ring-tail-lemur", name: "gu-gu-dan") {
+        releases(last: 100) {
+            nodes {
+                databaseId
+                name
+                author {
+                    databaseId
+                }
+                publishedAt
+                tagName
+                isPrerelease
+                isDraft
+            }
+        }
+        databaseId
+    }
+}
