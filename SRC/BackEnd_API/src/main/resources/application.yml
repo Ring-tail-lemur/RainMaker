@@ -1,7 +1,7 @@
 spring:
   datasource:
     driver-class-name: com.
-    url: jdbc:
+    url: jdbc:ddfs
     username: R
     password: d
   security:
