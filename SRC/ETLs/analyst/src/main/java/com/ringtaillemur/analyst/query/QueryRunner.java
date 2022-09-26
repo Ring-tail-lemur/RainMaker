@@ -8,13 +8,10 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
 import javax.persistence.Persistence;
 
-import org.qlrm.mapper.JpaResultMapper;
-
 import com.ringtaillemur.analyst.dto.ReleaseDto;
 
 public class QueryRunner {
 	private static final QueryRunner queryRunner = new QueryRunner();
-	private final JpaResultMapper jpaResultMapper = new JpaResultMapper();
 
 	private QueryRunner() {
 	}
