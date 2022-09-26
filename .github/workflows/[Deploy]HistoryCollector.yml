@@ -3,7 +3,7 @@ name: History Collector Deployment
 on:
   push:
     branches:
-      - MUAM-383/HistoryCollector자동배포
+      - gitIgnore-GithubAction
     paths:
       - "SRC/history_collector/**"
 
