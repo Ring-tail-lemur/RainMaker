@@ -1,14 +1,19 @@
 package com.ringtaillemur.rainmaker;
 
+import com.ringtaillemur.rainmaker.domain.LeadTimeForChange;
 import com.ringtaillemur.rainmaker.domain.Repository;
 import com.ringtaillemur.rainmaker.dto.webdto.responsedto.UserRepositoryDto;
+import com.ringtaillemur.rainmaker.repository.LeadTimeForChangeRepository;
 import com.ringtaillemur.rainmaker.service.UserConfigService;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 @SpringBootTest
@@ -16,6 +21,8 @@ class RainmakerWebserverApplicationTests {
 
 	@Autowired
 	UserConfigService userConfigService;
+	@Autowired
+	LeadTimeForChangeRepository leadTimeForChangeRepository;
 	@Test
 	void contextLoads() {
 	}
@@ -49,5 +56,15 @@ class RainmakerWebserverApplicationTests {
 	void 웹훅트리거링가능(){
 		String s = userConfigService.triggerHistoryCollector("Ring-tail-lemur", "private_fake", "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");
 		System.out.println(s);
+	}
+
+	@Test
+	void 여러개의리포지토리로지표뽑아와보기() {
+		LocalDate startTime = LocalDate.parse("2022-08-01");
+		LocalDate endTime = LocalDate.parse("2022-09-28");
+		LocalDateTime startDateTime = startTime.atStartOfDay();
+		LocalDateTime endDateTime = endTime.plusDays(1).atStartOfDay();
+		List<Long> repositories = new ArrayList<>(Arrays.asList(517528822L, 510731046L));
+		List<LeadTimeForChange> byRepositoryIdInAndDeploymentTimeBetween = leadTimeForChangeRepository.findByRepositoryIdInAndDeploymentTimeBetween(repositories, startDateTime, endDateTime);
 	}
 }

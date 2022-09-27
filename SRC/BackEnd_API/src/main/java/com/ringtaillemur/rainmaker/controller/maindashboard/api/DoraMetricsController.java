@@ -1,6 +1,7 @@
 package com.ringtaillemur.rainmaker.controller.maindashboard.api;
 
 import java.time.LocalDate;
+import java.util.List;
 
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
@@ -33,8 +34,8 @@ public class DoraMetricsController {
 	public LeadTimeForChangeByTimeDto doraLeadTimeForChangeForRestApi(
 		@RequestParam("start_time") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate startTime,
 		@RequestParam("end_time") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate endTime,
-		@RequestParam("repo_id") Long repositoryId) {
-		return leadTimeForChangeService.getLeadTimeForChangeByTime(repositoryId, startTime, endTime);
+		@RequestParam("repo_ids") List<Long> repositoryIds) {
+		return leadTimeForChangeService.getLeadTimeForChangeByTime(repositoryIds, startTime, endTime);
 	}
 
 	@ResponseBody
