@@ -18,8 +18,10 @@ async function createGitHubLabel(releaseName, repositoryId, repositoryName, owne
         });
     } catch (e){
         if (e.status === 401) {
+            context.log("토큰 인증 에러");
             throw "토큰 인증 에러";
         } else if(e.status === 422) {
+            context.log("같은 이름의 Label이 이미 존재합니다.");
             throw "같은 이름의 Label이 이미 존재합니다.";
             //처리해야함
         } else if(e.status === 404) {
