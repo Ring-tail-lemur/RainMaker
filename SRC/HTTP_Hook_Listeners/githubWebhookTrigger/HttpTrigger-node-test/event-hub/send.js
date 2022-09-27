@@ -56,7 +56,7 @@ async function readJsonSecret(context){
     try{
       context.log("not Parsing");
       context.log(JSON.stringify(jsonFile.eventHubConnectionString));
-      return JSON.stringify(jsonFile.eventHubConnectionString).replace(/['"]+/g, '');
+      return JSON.stringify(jsonFile.eventHubConnectionString);
     }catch(e2){
       context.log(e2);
     }
