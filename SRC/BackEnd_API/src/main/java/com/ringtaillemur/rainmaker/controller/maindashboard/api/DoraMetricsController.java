@@ -34,7 +34,7 @@ public class DoraMetricsController {
 	public LeadTimeForChangeByTimeDto doraLeadTimeForChangeForRestApi(
 		@RequestParam("start_time") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate startTime,
 		@RequestParam("end_time") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate endTime,
-		@RequestParam("repo_ids") List<Long> repositoryIds) {
+		@RequestParam("repo_id") List<Long> repositoryIds) {
 		return leadTimeForChangeService.getLeadTimeForChangeByTime(repositoryIds, startTime, endTime);
 	}
 
@@ -43,8 +43,8 @@ public class DoraMetricsController {
 	public DeploymentFrequencyDto doraDeploymentFrequencyForRestApi(
 		@RequestParam("start_time") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate startTime,
 		@RequestParam("end_time") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate endTime,
-		@RequestParam("repo_id") Long repositoryId) {
-		return deploymentFrequencyService.getDeploymentFrequency(repositoryId, startTime, endTime);
+		@RequestParam("repo_id") List<Long> repositoryIds) {
+		return deploymentFrequencyService.getDeploymentFrequency(repositoryIds, startTime, endTime);
 	}
 
 	@ResponseBody
@@ -52,8 +52,8 @@ public class DoraMetricsController {
 	public ChangeFailureRateDto doraChangeFailureRateApi(
 		@RequestParam("start_time") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate startTime,
 		@RequestParam("end_time") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate endTime,
-		@RequestParam("repo_id") Long repositoryId) {
-		return changeFailureRateService.getChangeFailureRate(repositoryId, startTime, endTime);
+		@RequestParam("repo_id") List<Long> repositoryIds) {
+		return changeFailureRateService.getChangeFailureRate(repositoryIds, startTime, endTime);
 	}
 
 	@ResponseBody
@@ -61,7 +61,7 @@ public class DoraMetricsController {
 	public TimeToRestoreServiceDto doraTimeToRestoreServiceApi(
 		@RequestParam("start_time") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate startTime,
 		@RequestParam("end_time") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate endTime,
-		@RequestParam("repo_id") Long repositoryId) {
-		return timeToRestoreServiceService.getTimeToRestoreService(repositoryId, startTime, endTime);
+		@RequestParam("repo_id") List<Long> repositoryIds) {
+		return timeToRestoreServiceService.getTimeToRestoreService(repositoryIds, startTime, endTime);
 	}
 }
