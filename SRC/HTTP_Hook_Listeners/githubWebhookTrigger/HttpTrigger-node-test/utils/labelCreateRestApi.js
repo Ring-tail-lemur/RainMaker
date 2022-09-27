@@ -9,7 +9,7 @@ async function createGitHubLabel(releaseName, repositoryId, repositoryName, owne
     try {
         context.log(`POST /repos/${ownerName}/${repositoryName}/labels`);
         context.log(`ownerName : ${ownerName}, repo : ${repositoryName}, name : ${releaseName}`);
-        response = await octokit.request(`POST /repos/${ownerName}/${repositoryName}/labels`, {
+        response = await octokit.request(`POST https://api.github.com/repos/${ownerName}/${repositoryName}/labels`, {
             owner: ownerName,
             repo: repositoryName,
             name: `[RainMaker]runtime-error-${releaseName}`,
