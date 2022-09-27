@@ -16,8 +16,8 @@ async function sender(cloudEventObj, context) {
   context.log("-----------------------------------");
   context.log(connectionString === TestConnectionString);
   context.log(connectionString == TestConnectionString);
-  context.log(connectionString.length());
-  context.log(TestConnectionString.length());
+  context.log(connectionString.length);
+  context.log(TestConnectionString.length);
   context.log("-----------------------------------");
   try{
     const producer = new EventHubProducerClient(TestConnectionString, eventHubName, {"retryDelayInMs":60000});
