@@ -1,6 +1,7 @@
 const { EventHubProducerClient } = require("@azure/event-hubs");
 const fs = require("fs");
 
+
 async function sender(cloudEventObj, context) {
 
   const eventHubName = 'githubhttpeventhub';   
@@ -29,7 +30,6 @@ async function sender(cloudEventObj, context) {
   }catch (e) {
     context.log("err");
     context.log(e);
-    // test
   }
 }
 
