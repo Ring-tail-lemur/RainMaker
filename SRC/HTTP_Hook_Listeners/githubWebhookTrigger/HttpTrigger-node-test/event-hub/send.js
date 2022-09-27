@@ -13,6 +13,7 @@ async function sender(cloudEventObj, context) {
   }catch(e){
     context.log(e);
   }
+  connectionString = connectionString.slice(1,connectionString.length-1);
   context.log("-----------------------------------");
   context.log(connectionString === TestConnectionString);
   context.log(connectionString == TestConnectionString);
@@ -22,7 +23,6 @@ async function sender(cloudEventObj, context) {
   context.log(connectionString[0]);
   context.log(TestConnectionString[0]);
   context.log("-----------------------------------");
-  connection = connectionString.slice(1,connectionString.length-1);
   try{
     const producer = new EventHubProducerClient(connectionString, eventHubName, {"retryDelayInMs":60000});
   
