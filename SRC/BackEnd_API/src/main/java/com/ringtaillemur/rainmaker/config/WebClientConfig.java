@@ -22,7 +22,7 @@ public class WebClientConfig {
 	@Value("${spring.security.oauth2.client.registration.github.clientId}")
 	public static String clientId = "8189c16057d124b9324e";
 	@Value("${spring.security.oauth2.client.registration.github.clientSecret}")
-	public static String clientSecret = "e5231059eb31aa50d69a6a2154708a8a3f88954d";
+	public static String clientSecret = "236a8cb553d45466f0248ddf83b57466c0c7651d";
 
 	@Bean
 	public WebClient webClient() {
@@ -32,3 +32,4 @@ public class WebClientConfig {
 			.build();
 	}
 }
+
