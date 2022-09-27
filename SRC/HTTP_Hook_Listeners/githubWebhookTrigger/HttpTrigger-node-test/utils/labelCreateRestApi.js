@@ -9,13 +9,22 @@ async function createGitHubLabel(releaseName, repositoryId, repositoryName, owne
     try {
         context.log(`POST /repos/${ownerName}/${repositoryName}/labels`);
         context.log(`ownerName : ${ownerName}, repo : ${repositoryName}, name : ${releaseName}`);
-        response = await octokit.request(`POST https://api.github.com/repos/${ownerName}/${repositoryName}/labels`, {
+        response = await octokit.request(`POST /repos/${ownerName}/${repositoryName}/labels`, {
             owner: ownerName,
             repo: repositoryName,
             name: `[RainMaker]runtime-error-${releaseName}`,
             description: 'RainMaker runtime error label',
             color: 'f213be'
         });
+        context.log("response : " + response);
+        response = await octokit.request(`POST /repos/${ownerName}/${repositoryName}/labels`, {
+            owner: ownerName,
+            repo: repositoryName,
+            name: `[RainMaker]runtime-error-${releaseName}`,
+            description: 'RainMaker runtime error label',
+            color: 'f29513'
+        })
+        context.log("response2 : " + response);
     } catch (e){
         if (e.status === 401) {
             context.log("토큰 인증 에러");
