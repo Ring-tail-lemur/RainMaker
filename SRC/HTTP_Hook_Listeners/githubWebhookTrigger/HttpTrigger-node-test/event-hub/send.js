@@ -38,7 +38,7 @@ async function readJsonSecret(context){
   const jsonFile = fs.readFileSync('.\\HttpTrigger-node-test\\event-hub\\event-hub-app-config.json','utf-8');
   context.log(jsonFile);
   const jsonData = JSON.parse(jsonFile);
-  context.log(jsonData);
+  context.log(jsonData.eventHubConnectionString);
   return JSON.stringify(jsonData.eventHubConnectionString);
 }
 
