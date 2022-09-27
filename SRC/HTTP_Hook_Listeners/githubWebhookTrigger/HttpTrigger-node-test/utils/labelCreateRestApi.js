@@ -7,6 +7,8 @@ async function createGitHubLabel(releaseName, repositoryId, repositoryName, owne
     })
     let response;
     try {
+        context.log(`POST /repos/${ownerName}/${repositoryName}/labels`);
+        context.log(`ownerName : ${ownerName}, repo : ${repositoryName}, name : ${releaseName}`);
         response = await octokit.request(`POST /repos/${ownerName}/${repositoryName}/labels`, {
             owner: ownerName,
             repo: repositoryName,
