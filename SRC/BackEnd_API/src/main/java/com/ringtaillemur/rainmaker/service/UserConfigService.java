@@ -107,13 +107,12 @@ public class UserConfigService {
 
 
 		repositoryRepository.saveAll(repositories);
-//		oAuthUserRepositoryRepository.deleteByRepositoryIsIn(repositories.get(0));
 		oAuthUserRepositoryRepository.deleteByOAuthUserIdQuery(getUserId());
 		oAuthUserRepositoryRepository.saveAll(oAuthUserRepositoryTableList);
 	}
 
 	/**
-	 * 토큰을 넣어주면 유저의 모든 Repository 정보를 뺴내오는 Method
+	 * 토큰을 넣어주면 유저의 모든 Repository 정보를 뺴내오는 Method. Checked 된 값도 가져온다.
 	 * */
 	public ArrayList<UserRepositoryDto> getUserRepositoryDtoByToken(String token) {
 
@@ -123,12 +122,7 @@ public class UserConfigService {
 		for (var organization : OrganizationArray) {
 			String organizationName = ((JSONObject)organization).getString("login");
 			Long organization_id = Long.valueOf(((JSONObject)organization).getInt("id"));
-
-			List<Repository> checkedRepository = repositoryRepository.findByOwnerOrganizationId(organization_id);
-			List<Long> repositoryIds = new ArrayList<>();
-			for (var repository : checkedRepository) {
-				repositoryIds.add(repository.getId());
-			}
+			List<Long> repositoryIds = getCheckedRepoIds();
 
 			ArrayList<UserRepositoryDto> repositoryListByGithubApi = getRepositoryListByGithubApi(organizationName,
 				token, repositoryIds);
@@ -136,6 +130,18 @@ public class UserConfigService {
 		}
 
 		return repositoryList;
+	}
+
+	/**
+	 * 체크된 RepoIds List를 반환
+	 * */
+	public List<Long> getCheckedRepoIds() {
+		List<OAuthUserRepositoryTable> oAuthUserRepositories = oAuthUserRepositoryRepository.findByOAuthUserIdQuery(getUserId());
+		List<Long> repositoryIds = new ArrayList<>();
+		for (var oAuthUserRepository : oAuthUserRepositories) {
+			repositoryIds.add(oAuthUserRepository.getRepository().getId());
+		}
+		return repositoryIds;
 	}
 
 	public String triggerHistoryCollector(String organizationName, String repositoryName, String token) {
@@ -328,4 +334,5 @@ public class UserConfigService {
 			return null;
 		}
 	}
+
 }

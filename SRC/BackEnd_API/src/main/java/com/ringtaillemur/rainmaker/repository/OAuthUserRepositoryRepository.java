@@ -18,4 +18,6 @@ public interface OAuthUserRepositoryRepository extends JpaRepository<OAuthUserRe
     @Query(value = "DELETE FROM OAuthUserRepositoryTable o WHERE o.oAuthUser.userRemoteId = :userRemoteId")
     void deleteByOAuthUserIdQuery(@Param("userRemoteId") Long userRemoteId);
 
+    @Query(value = "SELECT o FROM OAuthUserRepositoryTable o WHERE o.oAuthUser.userRemoteId = :userRemoteId")
+    List<OAuthUserRepositoryTable> findByOAuthUserIdQuery(@Param("userRemoteId") Long userRemoteId);
 }
