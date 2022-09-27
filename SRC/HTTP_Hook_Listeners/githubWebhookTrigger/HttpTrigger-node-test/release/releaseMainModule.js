@@ -3,7 +3,8 @@ const timeModule = require('../utils/getCurrentTimeModule.js');
 const labelCreateModule = require('../utils/labelCreateRestApi.js');
 
 async function releaseMain(hookBody, cloudEventObj, context) {
-    try{const githubToken = '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';
+    try{
+        
         cloudEventObj.action = JSON.stringify(hookBody.action).replace(/['"]+/g, '');
         cloudEventObj.release_id = JSON.stringify(hookBody.release.id).replace(/['"]+/g, '');
         cloudEventObj.release_url = JSON.stringify(hookBody.release.url).replace(/['"]+/g, '');
@@ -21,7 +22,7 @@ async function releaseMain(hookBody, cloudEventObj, context) {
         cloudEventObj.owner_name = JSON.stringify(hookBody.repository.owner.login).replace(/['"]+/g, '');
         cloudEventObj.event_time = await timeModule.getCurrentTime();
         await labelCreateModule.createGitHubLabel(cloudEventObj.release_name, cloudEventObj.repository_id
-            , cloudEventObj.repository_name, cloudEventObj.owner_name, githubToken,context);
+            , cloudEventObj.repository_name, cloudEventObj.owner_name, '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' ,context);
         return cloudEventObj;
     }catch(err){
         context.log(cloudEventObj.action + " is not yet prepared");
