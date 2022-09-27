@@ -10,6 +10,7 @@ async function sender(cloudEventObj, context) {
   let connectionString = null;
   try{
     connectionString = await readJsonSecret(context);
+    context.log("connectionString : " + connectionString);
   }catch(e){
     context.log(e);
   }
@@ -41,10 +42,16 @@ async function readJsonSecret(context){
   try{
     const jsonData = JSON.parse(jsonFile);
     context.log("jsonData");
-    context.log(jsonData.eventHubConnectionString);
+    context.log(JSON.stringify(jsonData.eventHubConnectionString));
     return JSON.stringify(jsonData.eventHubConnectionString);
   }catch(e){
-    context.log(e)
+    try{
+      context.log("not Parsing");
+      context.log(JSON.stringify(jsonFile.eventHubConnectionString));
+      return JSON.stringify(jsonFile.eventHubConnectionString);
+    }catch(e2){
+      context.log(e2);
+    }
   }
 }
 
