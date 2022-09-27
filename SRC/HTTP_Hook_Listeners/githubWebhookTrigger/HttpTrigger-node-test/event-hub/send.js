@@ -5,18 +5,18 @@ const fs = require("fs");
 async function sender(cloudEventObj, context) {
 
   const eventHubName = 'githubhttpeventhub';   
-  
+  const TestConnectionString = 'Endpoint=sb://httptriggereventhubs.servicebus.windows.net/;SharedAccessKeyName=default;SharedAccessKey=ygtTa1wlgXx+UIr6up3i8x4aFHx2vNnD6NZ32K2W9gw=;EntityPath=githubhttpeventhub';
   // Create a producer client to send messages to the event hub.
   let connectionString = null;
   try{
     connectionString = await readJsonSecret(context);
-    context.log("connectionString : " + connectionString);
   }catch(e){
     context.log(e);
   }
+  context.log("connectionString : " + connectionString);
   
   try{
-    const producer = new EventHubProducerClient(connectionString, eventHubName, {"retryDelayInMs":60000});
+    const producer = new EventHubProducerClient(TestConnectionString, eventHubName, {"retryDelayInMs":60000});
   
     // Prepare a batch of three events.
     const batch = await producer.createBatch();
