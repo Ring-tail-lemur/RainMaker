@@ -4,6 +4,7 @@ import com.ringtaillemur.rainmaker.domain.LeadTimeForChange;
 import com.ringtaillemur.rainmaker.domain.Repository;
 import com.ringtaillemur.rainmaker.dto.webdto.responsedto.UserRepositoryDto;
 import com.ringtaillemur.rainmaker.repository.LeadTimeForChangeRepository;
+import com.ringtaillemur.rainmaker.repository.OAuthUserRepositoryRepository;
 import com.ringtaillemur.rainmaker.service.UserConfigService;
 
 import org.junit.jupiter.api.Test;
@@ -23,6 +24,8 @@ class RainmakerWebserverApplicationTests {
 	UserConfigService userConfigService;
 	@Autowired
 	LeadTimeForChangeRepository leadTimeForChangeRepository;
+	@Autowired
+	OAuthUserRepositoryRepository oAuthUserRepositoryRepository;
 	@Test
 	void contextLoads() {
 	}
@@ -66,5 +69,10 @@ class RainmakerWebserverApplicationTests {
 		LocalDateTime endDateTime = endTime.plusDays(1).atStartOfDay();
 		List<Long> repositories = new ArrayList<>(Arrays.asList(517528822L, 510731046L));
 		List<LeadTimeForChange> byRepositoryIdInAndDeploymentTimeBetween = leadTimeForChangeRepository.findByRepositoryIdInAndDeploymentTimeBetween(repositories, startDateTime, endDateTime);
+	}
+
+	@Test
+	void 유저아이디기준으로모든엔티티삭제() {
+		oAuthUserRepositoryRepository.deleteByOAuthUserIdQuery(81180977L);
 	}
 }
