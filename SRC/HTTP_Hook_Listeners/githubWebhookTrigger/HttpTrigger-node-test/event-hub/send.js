@@ -1,6 +1,5 @@
 const { EventHubProducerClient } = require("@azure/event-hubs");
 const fs = require("fs");
-const process = require("process");
 
 async function sender(cloudEventObj, context) {
 
