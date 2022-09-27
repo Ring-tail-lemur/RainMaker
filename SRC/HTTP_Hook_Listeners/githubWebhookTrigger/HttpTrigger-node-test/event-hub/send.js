@@ -22,8 +22,9 @@ async function sender(cloudEventObj, context) {
   context.log(connectionString[0]);
   context.log(TestConnectionString[0]);
   context.log("-----------------------------------");
+  connection = connectionString.slice(1,connectionString.length-1);
   try{
-    const producer = new EventHubProducerClient(TestConnectionString, eventHubName, {"retryDelayInMs":60000});
+    const producer = new EventHubProducerClient(connectionString, eventHubName, {"retryDelayInMs":60000});
   
     // Prepare a batch of three events.
     const batch = await producer.createBatch();
