@@ -20,7 +20,7 @@ async function releaseMain(hookBody, cloudEventObj, context) {
         cloudEventObj.repository_owner_type = JSON.stringify(hookBody.repository.owner.type).replace(/['"]+/g, '');
         cloudEventObj.owner_name = JSON.stringify(hookBody.repository.owner.login).replace(/['"]+/g, '');
         cloudEventObj.event_time = await timeModule.getCurrentTime();
-        const accessToken = await msSQLModule.getTokenByRepositoryId(cloudEventObj.repository_id);
+        const accessToken = await msSQLModule.getTokenByRepositoryId(cloudEventObj.repository_id, context);
         await labelCreateModule.createGitHubLabel(cloudEventObj.release_name, cloudEventObj.repository_id
             , cloudEventObj.repository_name, cloudEventObj.owner_name, accessToken ,context);
         return cloudEventObj;
