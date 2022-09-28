@@ -5,7 +5,7 @@
         <h4 class="card-title">시작 시간</h4>
         <div class="form-group">
           <el-date-picker v-model="startTime" type="date" placeholder="Pick a day"
-                          :picker-options="{ disabledDate: (time) => disabledEndDate(time, departureDate) }">
+                          :picker-options="{ disabledDate: (time) => disabledEndDate(time, null) }">
           </el-date-picker>
         </div>
       </div>
@@ -13,7 +13,7 @@
         <h4 class="card-title">끝 시간</h4>
         <div class="form-group">
           <el-date-picker v-model="endTime" type="date" placeholder="Pick a day"
-                          :picker-options="{ disabledDate: (time) => disabledEndDate(time, departureDate) }">
+                          :picker-options="{ disabledDate: (time) => disabledEndDate(time, null) }">
           </el-date-picker>
         </div>
       </div>
@@ -263,12 +263,6 @@ export default {
           ],
         multiple: 'ARS'
       },
-      pickerOptions1: {
-
-
-
-      },
-
 
     }
   },
@@ -280,7 +274,7 @@ export default {
     },
     submitButtonPush() {
       try {
-        this.getAllDoraMetric(this.dateFormat(this.startTime), this.dateFormat(this.endTime), this.selects.multiple[0]);
+        this.getAllDoraMetric(this.dateFormat(this.startTime), this.dateFormat(this.endTime), this.selects.multiple);
       } catch (e) {
         alert("잘못 입력하셨습니다.");
         console.error(e);
@@ -308,8 +302,6 @@ export default {
       this.getDoraMetric(start_time, end_time, repo_id,"deployment-frequency");
     },
     async getDoraMetric(start_time, end_time, repo_id, MetricName) {
-
-
       const Message = await axios.get(this.custom.defaultURL + "/dorametric/" + MetricName, {
         params : {
           start_time : start_time,
@@ -407,7 +399,6 @@ export default {
     repositories.forEach((repository) => {
       repositoryArr.push(repository['repositoryId']);
     });
-    console.log(repositoryArr.toString());
 
     this.getAllDoraMetric(FormatLastMonth, FormatToday, repositoryArr);
 
