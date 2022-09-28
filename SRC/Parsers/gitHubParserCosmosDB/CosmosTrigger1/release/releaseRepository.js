@@ -16,7 +16,8 @@ async function insertReleaseByUserIdAndTagIdAndRepoId(dbConnectionPool, context,
         result = await dbConnectionPool.request()
              .query(sqlQuery);
     } catch (e) {
-        context.error(e);
+        context.log("===Error FROM INSERT RELEASE===");
+        context.log(e);
     }
     return result;
 }
@@ -29,11 +30,14 @@ async function deleteReleaseByReleaseId(dbConnectionPool, context, release_event
     WHERE release_id = ${release_event_id};
     `
 
+    context.log(sqlQuery);
+
     try {
         await dbConnectionPool.request()
             .query(sqlQuery);
     } catch (e) {
-        context.error(e);
+        context.log("===Error FROM INSERT DELETE RELEASE===");
+        context.log(e);
     }
 
 }
