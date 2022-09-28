@@ -25,7 +25,9 @@
                     </div>
                   </div>
                   <p slot="footer" type="info">
-                    <input v-model="githubToken" class="w-11/12 mt-3" style="width: 100%; margin-bottom: 20px; height: 40px" type="text" placeholder="github token을 입력해주세요!" ></input>
+                    <input v-model="githubToken" class="w-11/12 mt-3"
+                           style="width: 100%; margin-bottom: 20px; height: 40px" type="text"
+                           placeholder="github token을 입력해주세요!"></input>
                     <p-button round block class="mb-3" v-on:click="saveToken()">확인</p-button>
                   </p>
                 </card>
@@ -33,7 +35,8 @@
             </div>
           </div>
         </div>
-        <div class="full-page-background" style="background-image: url(static/img/background/background-devops-2.jpg)"></div>
+        <div class="full-page-background"
+             style="background-image: url(static/img/background/background-devops-2.jpg)"></div>
       </div>
     </div>
   </div>
@@ -58,7 +61,7 @@ export default {
   },
   data() {
     return {
-      githubToken: 'hello'
+      githubToken: ''
     }
   },
   methods: {
@@ -67,10 +70,11 @@ export default {
         headers: setHeaderJWT(),
         method: "post",
         url: this.custom.defaultURL + "/token",
-        data : {
+        data: {
           token: this.githubToken
         }
       });
+      window.location.replace(this.custom.myURL + "/RepositorySelect");
     }
   },
   beforeDestroy() {

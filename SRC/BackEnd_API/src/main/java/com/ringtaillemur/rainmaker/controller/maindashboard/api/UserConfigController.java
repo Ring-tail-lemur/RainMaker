@@ -4,7 +4,6 @@ import java.util.ArrayList;
 
 import javax.servlet.http.HttpSession;
 
-import com.ringtaillemur.rainmaker.config.WebClientConfig;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -33,7 +32,7 @@ public class UserConfigController {
 	@ResponseBody
 	@GetMapping("/RepositorySelect")
 	public ArrayList<UserRepositoryDto> userRepositoryListReturnRestAPI() {
-		return userConfigService.getUserRepositoryDtoByToken(userConfigService.getToken(userConfigService.getUserId()));
+			return userConfigService.getUserRepositoryDtoByToken(userConfigService.getToken(userConfigService.getUserId()));
 	}
 
 	@PostMapping("/RepositorySelect")

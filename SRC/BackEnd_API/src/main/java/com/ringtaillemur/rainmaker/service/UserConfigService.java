@@ -12,6 +12,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
+import javax.transaction.Transactional;
+
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.http.ReactiveHttpOutputMessage;
@@ -297,4 +299,17 @@ public class UserConfigService {
 			return null;
 		}
 	}
+
+	@Transactional
+	public void setOAuthToken(String oAuthToken) throws Exception {
+		OAuthUser currentUser = getCurrentUser();
+		currentUser.setOauthToken(oAuthToken);
+	}
+
+	public OAuthUser getCurrentUser() throws Exception {
+		long currentUserId = Long.parseLong((String)SecurityContextHolder.getContext().getAuthentication().getPrincipal());
+		return oAuthRepository.findById(currentUserId)
+			.orElseThrow(() -> new Exception("로그인한 유저가 존재하지 않습니다."));
+	}
+
 }

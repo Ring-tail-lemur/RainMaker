@@ -87,6 +87,7 @@ export default {
           repoIds: repoIds
         }
       });
+      this.$router.push("/RepositorySelect")
       window.location.replace(this.custom.myURL);
     }
 
