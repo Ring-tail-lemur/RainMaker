@@ -8,7 +8,9 @@ async function issueCommentMain(context, hookBody, cloudEventObj){
     cloudEventObj.event_time = JSON.stringify(hookBody.issue.created_at).replace(/['"]+/g, '');
     cloudEventObj.repository_id = JSON.stringify(hookBody.repository.id);
     cloudEventObj.isPrivate = JSON.stringify(hookBody.repository.private);
+    context.log("[issue-comment-module.js] I'll get accessToken By RepositoryId : " + cloudEventObj.repository_id);
     const accessToken = msSQLModule.getTokenByRepositoryId(cloudEventObj.repository_id, context);
+    context.log("[issue-comment-module.js] accessToken By RepositoryId : " + accessToken);
     try{
         const pull_request_url = JSON.stringify(hookBody.issue.pull_request.url).replace(/['"]+/g, '');
         cloudEventObj.pull_request_id = await getPullRequestModule.getPullRequestMain(pull_request_url,cloudEventObj.isPrivate,context, accessToken);
