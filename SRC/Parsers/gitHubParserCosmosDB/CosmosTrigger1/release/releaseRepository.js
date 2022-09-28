@@ -1,4 +1,4 @@
-async function insertReleaseByUserIdAndTagIdAndRepoId(dbConnectionPool, release_event_id, user_id, tag_name, repo_id, remote_identifier, pre_release, name, published_at, draft, release_event_type) {
+async function insertReleaseByUserIdAndTagIdAndRepoId(dbConnectionPool, context, release_event_id, user_id, tag_name, repo_id, remote_identifier, pre_release, name, published_at, draft, release_event_type) {
 
 
     console.log(user_id, tag_name, repo_id, remote_identifier, pre_release, name, published_at, draft, release_event_type);
@@ -16,10 +16,28 @@ async function insertReleaseByUserIdAndTagIdAndRepoId(dbConnectionPool, release_
         result = await dbConnectionPool.request()
              .query(sqlQuery);
     } catch (e) {
-        console.error(e);
+        context.error(e);
     }
     return result;
 }
+
+async function deleteReleaseByReleaseId(dbConnectionPool, context, release_event_id) {
+
+    const sqlQuery = `
+    DELETE
+    FROM release
+    WHERE release_id = ${release_event_id};
+    `
+
+    try {
+        await dbConnectionPool.request()
+            .query(sqlQuery);
+    } catch (e) {
+        context.error(e);
+    }
+
+}
+
 
 /**
  * repo_id를 넣어주면 가장 최근의 release 이름을 알려주는 함수
@@ -48,3 +66,4 @@ async function selectReleaseByMaxPublishedAt(dbConnectionPool, repo_id) {
 }
 
 module.exports.insertReleaseByUserIdAndTagIdAndRepoId = insertReleaseByUserIdAndTagIdAndRepoId;
+module.exports.deleteReleaseByReleaseId = deleteReleaseByReleaseId;
