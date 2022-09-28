@@ -11,4 +11,7 @@ public interface LeadTimeForChangeRepository extends JpaRepository<LeadTimeForCh
 
 	List<LeadTimeForChange> findByRepositoryIdAndDeploymentTimeBetween(Long repository, LocalDateTime startTime,
 		LocalDateTime endTime);
+
+	List<LeadTimeForChange> findByRepositoryIdInAndDeploymentTimeBetween(List<Long> repositories, LocalDateTime startTime,
+																			   LocalDateTime endTime);
 }

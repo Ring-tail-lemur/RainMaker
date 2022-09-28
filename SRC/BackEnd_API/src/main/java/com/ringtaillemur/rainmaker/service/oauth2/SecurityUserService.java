@@ -32,6 +32,7 @@ import com.ringtaillemur.rainmaker.config.JwtTokenProvider;
 import com.ringtaillemur.rainmaker.config.UserAuthentication;
 import com.ringtaillemur.rainmaker.domain.OAuthUser;
 import com.ringtaillemur.rainmaker.domain.enumtype.OauthUserLevel;
+import com.ringtaillemur.rainmaker.dto.configdto.DeployProperties;
 import com.ringtaillemur.rainmaker.repository.OAuthRepository;
 
 @Service
@@ -39,6 +40,9 @@ public class SecurityUserService {
 
 	@Autowired
 	OAuthRepository oAuthRepository;
+
+	@Autowired
+	DeployProperties deployProperties;
 
 	public Set<SimpleGrantedAuthority> setAuthorities(OauthUserLevel oauthUserLevel) {
 		Set<SimpleGrantedAuthority> grantedAuthorities = new HashSet<>();
@@ -49,6 +53,8 @@ public class SecurityUserService {
 
 	public String getUserGitHubOAuthToken(String code) throws JsonProcessingException {
 		MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
+		String clientId = deployProperties.clientId;
+		String clientSecret = deployProperties.clientSecret;
 		params.add("client_id", clientId);
 		params.add("code", code);
 		params.add("client_secret", clientSecret);
