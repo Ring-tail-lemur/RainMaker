@@ -3,7 +3,7 @@
     on:
       push:
         branches: 
-          - main
+          - MUAM-329-ms-sql-연결
         paths: 
           - "SRC/HTTP_Hook_Listeners/githubWebhookTrigger/**"
     env:
