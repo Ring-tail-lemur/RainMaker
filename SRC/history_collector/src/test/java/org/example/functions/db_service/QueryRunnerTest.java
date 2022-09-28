@@ -1,7 +1,6 @@
 package org.example.functions.db_service;
 
-import static org.junit.jupiter.api.Assertions.*;
-
+import org.example.functions.dao.QueryRunner;
 import org.junit.jupiter.api.Test;
 
 class QueryRunnerTest {

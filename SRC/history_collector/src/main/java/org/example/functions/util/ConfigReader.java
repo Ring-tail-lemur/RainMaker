@@ -12,8 +12,10 @@ public class ConfigReader {
 
 	TypeConverter typeConverter = TypeConverter.getTypeConverter();
 
-	public static ConfigReader configReader = new ConfigReader();
-	private ConfigReader(){}
+	private static final ConfigReader configReader = new ConfigReader();
+
+	private ConfigReader() {
+	}
 
 	public static ConfigReader getConfigReader() {
 		return configReader;
