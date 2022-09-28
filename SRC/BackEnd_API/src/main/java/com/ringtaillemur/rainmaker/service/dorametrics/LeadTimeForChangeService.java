@@ -23,13 +23,13 @@ public class LeadTimeForChangeService {
 	private final LeadTimeForChangeRepository leadTimeForChangeRepository;
 	private final UtilService utilService;
 
-	public LeadTimeForChangeByTimeDto getLeadTimeForChangeByTime(Long repositoryId, LocalDate startTime,
+	public LeadTimeForChangeByTimeDto getLeadTimeForChangeByTime(List<Long> repositoryIds, LocalDate startTime,
 		LocalDate endTime) {
 		LocalDateTime startDateTime = startTime.atStartOfDay();
 		LocalDateTime endDateTime = endTime.plusDays(1).atStartOfDay();
 
-		List<LeadTimeForChange> leadTimeForChangeList = leadTimeForChangeRepository.findByRepositoryIdAndDeploymentTimeBetween(
-			repositoryId, startDateTime, endDateTime);
+		List<LeadTimeForChange> leadTimeForChangeList = leadTimeForChangeRepository.findByRepositoryIdInAndDeploymentTimeBetween(
+				repositoryIds, startDateTime, endDateTime);
 
 		Map<LocalDate, Double> leadTimeForChangeMap = utilService.makeDailyAverageMap(leadTimeForChangeList,
 			leadTimeForChange -> leadTimeForChange.getDeploymentTime().toLocalDate(),

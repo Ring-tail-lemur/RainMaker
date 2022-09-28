@@ -244,7 +244,7 @@ CREATE TABLE oauth_user
 
 CREATE TABLE oauth_user_repository_table
 (
-    id            BIGINT PRIMARY KEY,
+    id            BIGINT PRIMARY KEY IDENTITY,
     oauth_user_id BIGINT NOT NULL,
     repository_id BIGINT NOT NULL
 );

@@ -23,12 +23,12 @@ public class ChangeFailureRateService {
 	private final ReleaseSuccessRepository releaseSuccessRepository;
 	private final UtilService utilService;
 
-	public ChangeFailureRateDto getChangeFailureRate(Long repositoryId, LocalDate startTime, LocalDate endTime) {
+	public ChangeFailureRateDto getChangeFailureRate(List<Long> repositoryIds, LocalDate startTime, LocalDate endTime) {
 		LocalDateTime startDateTime = startTime.atStartOfDay();
 		LocalDateTime endDateTime = endTime.plusDays(1).atStartOfDay();
 
-		List<ReleaseSuccess> releaseSuccessList = releaseSuccessRepository.findByRepositoryIdAndReleasedAtBetween
-			(repositoryId, startDateTime, endDateTime);
+		List<ReleaseSuccess> releaseSuccessList = releaseSuccessRepository.findByRepositoryIdInAndReleasedAtBetween
+			(repositoryIds, startDateTime, endDateTime);
 
 		Map<LocalDate, Double> changeFailureRateMap = utilService.makeDailyAverageMap(releaseSuccessList,
 			releaseSuccess -> releaseSuccess.getReleasedAt().toLocalDate(),
