@@ -27,16 +27,16 @@
                 </info-section>
               </div>
               <div class="col-lg-4 col-md-6 mr-auto">
-                <card type="signup" class="text-center element-center">
+                <card type="signup" class="text-center full-height">
                   <div class="text-center">
                     <div class="loginInnerBox">
-                      <div v-on:click="githubChange()" class="githubIconBox">
-                        <i class="fa fa-github" style="font-size:48px"></i>
+                      <div v-on:click="githubChange()" class="githubIconBox element-center">
+                        <i class="fa fa-github" style="font-size:70px"></i>
                       </div>
                     </div>
                   </div>
                   <template slot="header">
-                    <h4 class="card-title">회원가입</h4>
+                    <h4 class="card-title mt-5">회원가입</h4>
                   </template>
                   <p slot="footer" type="info">이미 계정이 있으시다구요? <router-link to="/login">로그인하기</router-link></p>
                 </card>
@@ -45,7 +45,7 @@
           </div>
         </div>
         <div class="full-page-background"
-             style="background-image: url(static/img/background/background-devops-2.jpg) "></div>
+             style="background-image: url(static/img/background/background-devops-2.jpg)"></div>
       </div>
     </div>
   </div>

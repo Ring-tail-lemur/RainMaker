@@ -12,21 +12,19 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
-
 import com.ringtaillemur.rainmaker.domain.OAuthUserRepositoryTable;
 import com.ringtaillemur.rainmaker.dto.webdto.responsedto.RepositoryInfoDto;
 import com.ringtaillemur.rainmaker.repository.OAuthUserRepositoryRepository;
+import javax.transaction.Transactional;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.http.ReactiveHttpOutputMessage;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.reactive.function.BodyInserter;
 import org.springframework.web.reactive.function.BodyInserters;
 import org.springframework.web.reactive.function.client.WebClient;
-
 import com.ringtaillemur.rainmaker.domain.OAuthUser;
 import com.ringtaillemur.rainmaker.domain.Repository;
 import com.ringtaillemur.rainmaker.domain.enumtype.OwnerType;
@@ -38,7 +36,7 @@ import com.ringtaillemur.rainmaker.repository.RepositoryRepository;
 import lombok.RequiredArgsConstructor;
 
 @Service
-@Transactional(rollbackFor = Exception.class)
+@Transactional(rollbackOn = Exception.class)
 @RequiredArgsConstructor
 public class UserConfigService {
 
@@ -46,7 +44,6 @@ public class UserConfigService {
 	private final OAuthRepository oAuthRepository;
 	private final RepositoryRepository repositoryRepository;
 	private final OAuthUserRepositoryRepository oAuthUserRepositoryRepository;
-
 
 	/**
 	 * 현재 들어온 유저의 Remote_ID를 리턴하는 함수
@@ -101,26 +98,25 @@ public class UserConfigService {
 			String repo_name = strings[2];
 
 			Optional<Repository> repository = repositoryRepository.findById(repo_id);
-			if(repository.isPresent()) {
+			if (repository.isPresent()) {
 				OAuthUserRepositoryTable oAuthUserRepository = OAuthUserRepositoryTable.builder()
-						.oAuthUser(oAuthUser)
-						.repository(repository.get())
-						.build();
+					.oAuthUser(oAuthUser)
+					.repository(repository.get())
+					.build();
 				oAuthUserRepositoryTableList.add(oAuthUserRepository);
 			} else {
 				Repository newRepository = new Repository();
 				newRepository.setId(repo_id);
 				OAuthUserRepositoryTable oAuthUserRepository = OAuthUserRepositoryTable.builder()
-						.oAuthUser(oAuthUser)
-						.repository(newRepository)
-						.build();
+					.oAuthUser(oAuthUser)
+					.repository(newRepository)
+					.build();
 				repositories.add(getRepositoryInfoByGithubApi(owner_name, repo_name, token));
 				oAuthUserRepositoryTableList.add(oAuthUserRepository);
 				setUserWebhookByRepoName(token, owner_name, repo_name);
 				triggerHistoryCollector(owner_name, repo_name, token);
 			}
 		}
-
 
 		repositoryRepository.saveAll(repositories);
 		oAuthUserRepositoryRepository.deleteByOAuthUserIdQuery(getUserId());
@@ -152,7 +148,8 @@ public class UserConfigService {
 	 * 체크된 RepoIds List를 반환
 	 * */
 	public List<Long> getCheckedRepoIds() {
-		List<OAuthUserRepositoryTable> oAuthUserRepositories = oAuthUserRepositoryRepository.findByOAuthUserIdQuery(getUserId());
+		List<OAuthUserRepositoryTable> oAuthUserRepositories = oAuthUserRepositoryRepository.findByOAuthUserIdQuery(
+			getUserId());
 		List<Long> repositoryIds = new ArrayList<>();
 		for (var oAuthUserRepository : oAuthUserRepositories) {
 			repositoryIds.add(oAuthUserRepository.getRepository().getId());
@@ -351,4 +348,16 @@ public class UserConfigService {
 		}
 	}
 
+	@Transactional
+	public void setOAuthToken(String oAuthToken) throws Exception {
+		OAuthUser currentUser = getCurrentUser();
+		currentUser.setOauthToken(oAuthToken);
+	}
+
+	public OAuthUser getCurrentUser() throws Exception {
+		long currentUserId = Long.parseLong(
+			(String)SecurityContextHolder.getContext().getAuthentication().getPrincipal());
+		return oAuthRepository.findById(currentUserId)
+			.orElseThrow(() -> new Exception("로그인한 유저가 존재하지 않습니다."));
+	}
 }

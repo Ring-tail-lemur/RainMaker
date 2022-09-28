@@ -39,6 +39,7 @@ const VectorMaps = () => import(/* webpackChunkName: "maps" */ 'src/components/D
 // Calendar
 import Calendar from 'src/components/Dashboard/Views/Calendar/CalendarRoute.vue'
 import repositorySelect from "@/components/Dashboard/Views/Custom/RepositorySelect";
+import TokenSetting from "@/components/Dashboard/Views/Pages/TokenSetting";
 // Charts
 const Charts = () => import(/* webpackChunkName: "widgets" */ 'src/components/Dashboard/Views/Charts.vue')
 
@@ -187,6 +188,12 @@ let loginPage = {
   component: Login
 }
 
+let githubTokenSettingPage = {
+  path: '/register/token',
+  name: 'TokenSetting',
+  component: TokenSetting
+}
+
 let registerPage = {
   path: '/register',
   name: 'Register',
@@ -258,6 +265,7 @@ const routes = [
   loginMiddleWarePage,
   RepositorySelectPage,
   DashBoardPage,
+  githubTokenSettingPage,
   {
     path: '/admin',
     component: DashboardLayout,
