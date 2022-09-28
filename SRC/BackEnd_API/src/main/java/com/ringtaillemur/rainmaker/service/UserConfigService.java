@@ -11,8 +11,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import com.ringtaillemur.rainmaker.domain.OAuthUserRepositoryTable;
+import com.ringtaillemur.rainmaker.dto.webdto.responsedto.RepositoryInfoDto;
 import com.ringtaillemur.rainmaker.repository.OAuthUserRepositoryRepository;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -63,6 +65,20 @@ public class UserConfigService {
 	public String getToken(Long userId) {
 		Optional<OAuthUser> user = oAuthRepository.findByUserRemoteId(userId);
 		return user.get().getOauthToken();
+	}
+
+	/**
+	 * 현재 유저의 리포지토리 id, name을 return해주는 메소드
+	 */
+	public List<RepositoryInfoDto> getOAuthUserRepositoriesByUser() {
+		OAuthUser oAuthUser = oAuthRepository.findById(getUserId()).orElseThrow();
+		List<OAuthUserRepositoryTable> oAuthUserRepositories = oAuthUserRepositoryRepository.findByoAuthUser(oAuthUser);
+		List<RepositoryInfoDto> repositoryInfos = oAuthUserRepositories.stream()
+				.map(OAuthUserRepositoryTable::getRepository)
+				.map(Repository::getRepositoryInfoDto)
+				.collect(Collectors.toList());
+
+		return repositoryInfos;
 	}
 
 	/**

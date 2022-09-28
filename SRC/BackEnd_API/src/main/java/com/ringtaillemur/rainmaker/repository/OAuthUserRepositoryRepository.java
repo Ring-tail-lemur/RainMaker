@@ -20,4 +20,12 @@ public interface OAuthUserRepositoryRepository extends JpaRepository<OAuthUserRe
 
     @Query(value = "SELECT o FROM OAuthUserRepositoryTable o WHERE o.oAuthUser.userRemoteId = :userRemoteId")
     List<OAuthUserRepositoryTable> findByOAuthUserIdQuery(@Param("userRemoteId") Long userRemoteId);
+
+    List<OAuthUserRepositoryTable> findByoAuthUser(OAuthUser oAuthUser);
+
+    List<OAuthUserRepositoryTable> findByRepository(Repository repository);
+
+
+//    @Query(nativeQuery = true, value = "")
+
 }
