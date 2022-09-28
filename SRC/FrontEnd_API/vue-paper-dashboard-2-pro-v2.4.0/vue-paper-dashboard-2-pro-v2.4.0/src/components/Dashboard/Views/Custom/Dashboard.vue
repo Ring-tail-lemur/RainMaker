@@ -24,7 +24,7 @@
                      size="large"
                      v-model="selects.multiple"
                      placeholder="Multiple Select">
-            <el-option v-for="option in selects.countries"
+            <el-option v-for="option in selects.repositories"
                        class="select-primary"
                        :value="option.value"
                        :label="option.label"
@@ -255,7 +255,7 @@ export default {
 
       selects: {
         simple: '',
-        countries: [
+        repositories: [
           {value: '510731046', label: 'RainMaker'},
           {value: '517528822', label: 'test-for-fake-project'},
           {value: '193281821', label: 'gugudan'},
@@ -390,7 +390,7 @@ export default {
     const FormatToday = this.dateFormat(Today);
     Today.setMonth(Today.getMonth() -1);
     const FormatLastMonth = this.dateFormat(Today);
-    this.getAllDoraMetric(FormatLastMonth, FormatToday, "510731046");
+    this.getAllDoraMetric(FormatLastMonth, FormatToday, "510731046, 517528822");
 
   }
 }

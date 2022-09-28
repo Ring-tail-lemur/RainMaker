@@ -1,7 +1,10 @@
 const createdModule = require('./createdModule.js');
 const timeModule = require('../utils/getCurrentTimeModule.js');
+const labelCreateModule = require('../utils/labelCreateRestApi.js');
+
 async function releaseMain(hookBody, cloudEventObj, context) {
     try{
+        const githubToken = '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';
         cloudEventObj.action = JSON.stringify(hookBody.action).replace(/['"]+/g, '');
         cloudEventObj.release_id = JSON.stringify(hookBody.release.id).replace(/['"]+/g, '');
         cloudEventObj.release_url = JSON.stringify(hookBody.release.url).replace(/['"]+/g, '');
@@ -18,21 +21,13 @@ async function releaseMain(hookBody, cloudEventObj, context) {
         cloudEventObj.repository_owner_type = JSON.stringify(hookBody.repository.owner.type).replace(/['"]+/g, '');
         cloudEventObj.owner_name = JSON.stringify(hookBody.repository.owner.login).replace(/['"]+/g, '');
         cloudEventObj.event_time = await timeModule.getCurrentTime();
+        await labelCreateModule.createGitHubLabel(cloudEventObj.release_name, cloudEventObj.repository_id
+            , cloudEventObj.repository_name, cloudEventObj.owner_name, githubToken ,context);
         return cloudEventObj;
     }catch(err){
         context.log(cloudEventObj.action + " is not yet prepared");
     }
     
-    // if(cloudEventObj.action == 'created'){
-    //     return await createdModule.createdMain(hookBody, cloudEventObj, context);
-    // }else if(cloudEventObj.action == 'released'){
-        
-    // }else if(cloudEventObj.action == 'prereleased'){
 
-    // }else if(cloudEventObj.action == 'published'){
-
-    // }else{
-
-    // }
 }
 module.exports.releaseMain = releaseMain;

@@ -11,4 +11,7 @@ public interface ReleaseSuccessRepository extends JpaRepository<ReleaseSuccess, 
 
 	List<ReleaseSuccess> findByRepositoryIdAndReleasedAtBetween(Long repositoryId, LocalDateTime startTime,
 		LocalDateTime endTime);
+
+	List<ReleaseSuccess> findByRepositoryIdInAndReleasedAtBetween(List<Long> repositoryIds, LocalDateTime startTime,
+																LocalDateTime endTime);
 }

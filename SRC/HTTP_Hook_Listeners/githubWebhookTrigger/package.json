@@ -17,6 +17,7 @@
     "crypto": "^1.0.1",
     "crypto-js": "^4.1.1",
     "fs": "^0.0.1-security",
+    "octokit": "^2.0.7",
     "process": "^0.11.10",
     "request": "^2.88.2",
     "request-promise-native": "^1.0.9"
