@@ -15,7 +15,11 @@ async function executeSqlQuery(query){
         console.log(err);
     }
 }
-
+async function readJsonSecret(context){
+    const jsonFile = fs.readFileSync('.\\ms-sql-config.json','utf-8');
+    const config = JSON.parse(jsonFile);
+    return config;
+}
 console.log("hi");
 executeSqlQuery(`SELECT DISTINCT oauth_token FROM oauth_user WHERE user_remote_id = (SELECT DISTINCT oauth_user_id FROM oauth_user_repository_table WHERE repository_id =  514871723)`);
 

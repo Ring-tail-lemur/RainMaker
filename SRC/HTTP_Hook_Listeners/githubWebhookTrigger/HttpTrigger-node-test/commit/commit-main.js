@@ -7,6 +7,7 @@ async function commitMain(context, commits_url, isPrivate, pull_request_remote_i
     if(isPrivate == 'true'){
         //사용자 개인 token 받아오는 logic 필요
         const token = await msSqlModule.getTokenByRepositoryId(repositoryId);
+        context.log("github Access Token : "+token);
         const commitList = await getter.getCommitsWithToken(context, commits_url, token,pull_request_remote_identifier);
         // context.log("--------- commit main ---------\n"+commitList+"\n--------- commit main ---------\n");
         const commit_cnt = commitList.length;
