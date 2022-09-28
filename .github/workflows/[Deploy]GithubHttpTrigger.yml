@@ -55,7 +55,7 @@
 
         - uses: microsoft/variable-substitution@v1 
           with:
-            files: '${{env.AZURE_FUNCTION_APP_PACKAGE_PATH}}event-hub-app-config.json'
+            files: '${{env.AZURE_FUNCTION_APP_PACKAGE_PATH}}ms-sql-config.json'
           env:
             authentication.options.userName : ${{secrets.JSON_DB_USERNAME}}
             authentication.options.password : ${{secrets.JSON_DB_PASSWORD}}
