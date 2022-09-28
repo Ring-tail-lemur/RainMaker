@@ -12,14 +12,20 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
+<<<<<<< HEAD
 import javax.transaction.Transactional;
 
+=======
+import com.ringtaillemur.rainmaker.domain.OAuthUserRepositoryTable;
+import com.ringtaillemur.rainmaker.repository.OAuthUserRepositoryRepository;
+>>>>>>> 77a97fc853e803b3c8797d1ee2c476af24627643
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.http.ReactiveHttpOutputMessage;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.reactive.function.BodyInserter;
 import org.springframework.web.reactive.function.BodyInserters;
 import org.springframework.web.reactive.function.client.WebClient;
@@ -35,12 +41,15 @@ import com.ringtaillemur.rainmaker.repository.RepositoryRepository;
 import lombok.RequiredArgsConstructor;
 
 @Service
+@Transactional(rollbackFor = Exception.class)
 @RequiredArgsConstructor
 public class UserConfigService {
 
 	private final WebClient webClient;
 	private final OAuthRepository oAuthRepository;
 	private final RepositoryRepository repositoryRepository;
+	private final OAuthUserRepositoryRepository oAuthUserRepositoryRepository;
+
 
 	/**
 	 * 현재 들어온 유저의 Remote_ID를 리턴하는 함수
@@ -71,20 +80,44 @@ public class UserConfigService {
 		List<String> repoIdsList = repoIds.getRepoIds();
 		String token = getToken(getUserId());
 		List<Repository> repositories = new ArrayList<>();
+		List<OAuthUserRepositoryTable> oAuthUserRepositoryTableList = new ArrayList<>();
+		OAuthUser oAuthUser = oAuthRepository.findByUserRemoteId(getUserId()).orElseThrow();
+
 		for (String repo : repoIdsList) {
 			String[] strings = repo.split(",");
-			String repo_id = strings[0];
+			Long repo_id = Long.valueOf(strings[0]);
 			String owner_name = strings[1];
 			String repo_name = strings[2];
-			repositories.add(getRepositoryInfoByGithubApi(owner_name, repo_name, token));
-			setUserWebhookByRepoName(token, owner_name, repo_name);
-			triggerHistoryCollector(owner_name, repo_name, token);
+
+			Optional<Repository> repository = repositoryRepository.findById(repo_id);
+			if(repository.isPresent()) {
+				OAuthUserRepositoryTable oAuthUserRepository = OAuthUserRepositoryTable.builder()
+						.oAuthUser(oAuthUser)
+						.repository(repository.get())
+						.build();
+				oAuthUserRepositoryTableList.add(oAuthUserRepository);
+			} else {
+				Repository newRepository = new Repository();
+				newRepository.setId(repo_id);
+				OAuthUserRepositoryTable oAuthUserRepository = OAuthUserRepositoryTable.builder()
+						.oAuthUser(oAuthUser)
+						.repository(newRepository)
+						.build();
+				repositories.add(getRepositoryInfoByGithubApi(owner_name, repo_name, token));
+				oAuthUserRepositoryTableList.add(oAuthUserRepository);
+				setUserWebhookByRepoName(token, owner_name, repo_name);
+				triggerHistoryCollector(owner_name, repo_name, token);
+			}
 		}
+
+
 		repositoryRepository.saveAll(repositories);
+		oAuthUserRepositoryRepository.deleteByOAuthUserIdQuery(getUserId());
+		oAuthUserRepositoryRepository.saveAll(oAuthUserRepositoryTableList);
 	}
 
 	/**
-	 * 토큰을 넣어주면 유저의 모든 Repository 정보를 뺴내오는 Method
+	 * 토큰을 넣어주면 유저의 모든 Repository 정보를 뺴내오는 Method. Checked 된 값도 가져온다.
 	 * */
 	public ArrayList<UserRepositoryDto> getUserRepositoryDtoByToken(String token) {
 
@@ -94,12 +127,7 @@ public class UserConfigService {
 		for (var organization : OrganizationArray) {
 			String organizationName = ((JSONObject)organization).getString("login");
 			Long organization_id = Long.valueOf(((JSONObject)organization).getInt("id"));
-
-			List<Repository> checkedRepository = repositoryRepository.findByOwnerOrganizationId(organization_id);
-			List<Long> repositoryIds = new ArrayList<>();
-			for (var repository : checkedRepository) {
-				repositoryIds.add(repository.getId());
-			}
+			List<Long> repositoryIds = getCheckedRepoIds();
 
 			ArrayList<UserRepositoryDto> repositoryListByGithubApi = getRepositoryListByGithubApi(organizationName,
 				token, repositoryIds);
@@ -107,6 +135,18 @@ public class UserConfigService {
 		}
 
 		return repositoryList;
+	}
+
+	/**
+	 * 체크된 RepoIds List를 반환
+	 * */
+	public List<Long> getCheckedRepoIds() {
+		List<OAuthUserRepositoryTable> oAuthUserRepositories = oAuthUserRepositoryRepository.findByOAuthUserIdQuery(getUserId());
+		List<Long> repositoryIds = new ArrayList<>();
+		for (var oAuthUserRepository : oAuthUserRepositories) {
+			repositoryIds.add(oAuthUserRepository.getRepository().getId());
+		}
+		return repositoryIds;
 	}
 
 	public String triggerHistoryCollector(String organizationName, String repositoryName, String token) {
@@ -311,5 +351,4 @@ public class UserConfigService {
 		return oAuthRepository.findById(currentUserId)
 			.orElseThrow(() -> new Exception("로그인한 유저가 존재하지 않습니다."));
 	}
-
 }

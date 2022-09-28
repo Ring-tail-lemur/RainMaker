@@ -23,22 +23,19 @@ import com.microsoft.azure.functions.annotation.FunctionName;
 import com.microsoft.azure.functions.annotation.HttpTrigger;
 
 public class HttpTriggerFunction {
-	//deployment Test
+
+	//deployment Test1
 	ConfigReader configReader = ConfigReader.getConfigReader();
 	HttpRequestSender httpRequestSender = new HttpRequestSender();
 	QueryRunner queryRunner = QueryRunner.getQueryRunner();
 
 	@FunctionName("HttpExample")
 	public HttpResponseMessage run(
-		@HttpTrigger(
-			name = "req",
+		@HttpTrigger(name = "req",
 			methods = {HttpMethod.GET, HttpMethod.POST},
-			authLevel = AuthorizationLevel.ANONYMOUS)
-		HttpRequestMessage<Optional<String>> request,
+			authLevel = AuthorizationLevel.ANONYMOUS) HttpRequestMessage<Optional<String>> request,
 		final ExecutionContext context) throws Exception {
-
 		JSONObject jsonObjectConfig = configReader.getJsonObjectConfig();
-
 		ApiGeneratorFactory apiGeneratorFactory = new ApiGeneratorFactory(request.getQueryParameters());
 		List<HttpRequestDto> httpRequestDtoList = apiGeneratorFactory.getAllHttpRequestDtoList(jsonObjectConfig);
 		Map<String, JSONArray> responseJSONArrayList = httpRequestSender.sendAllHttpRequest(httpRequestDtoList);
@@ -47,6 +44,9 @@ public class HttpTriggerFunction {
 		List<String> queryList = queryGenerator.generateQueryList(responseJSONArrayList);
 		queryRunner.runInsertQueries(queryList);
 
-		return request.createResponseBuilder(HttpStatus.OK).body(queryList.toString()).build();
+		return request
+			.createResponseBuilder(HttpStatus.OK)
+			.body(queryList.toString())
+			.build();
 	}
 }

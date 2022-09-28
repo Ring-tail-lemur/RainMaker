@@ -3,7 +3,7 @@ name: History Collector Deployment
 on:
   push:
     branches:
-      - MUAM-383/HistoryCollector자동배포
+      - main
     paths:
       - "SRC/history_collector/**"
 
@@ -31,11 +31,12 @@ jobs:
             SUPER_PERSISTENCE: ${{secrets.HISTORY_COLLECTOR_PERSISTENCE_XML}}
         shell: pwsh
         run: |
-          pushd './${{ env.POM_XML_DIRECTORY }}'
-          mkdir ./src/main/resources/META-INF
-          echo '${{env.SUPER_PERSISTENCE}}' >> ./src/main/resources/META-INF/persistence.xml
-          chmod 777 ./src/main/resources/META-INF/persistence.xml
-          ls ./src/main/resources/META-INF/persistence.xml
+          pushd './${{ env.POM_XML_DIRECTORY }}/src/main/resources'
+          mkdir ./META-INF
+          echo '${{env.SUPER_PERSISTENCE}}' >> ./META-INF/persistence.xml
+          chmod 777 ./META-INF/persistence.xml
+          ls ./META-INF/persistence.xml
+          cat ./META-INF/persistence.xml
           popd
       - name: Setup Java Sdk ${{ env.JAVA_VERSION }}
         uses: actions/setup-java@v1

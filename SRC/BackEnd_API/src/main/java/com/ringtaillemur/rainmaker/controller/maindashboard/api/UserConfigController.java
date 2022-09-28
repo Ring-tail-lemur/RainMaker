@@ -35,8 +35,10 @@ public class UserConfigController {
 			return userConfigService.getUserRepositoryDtoByToken(userConfigService.getToken(userConfigService.getUserId()));
 	}
 
+	@ResponseBody
 	@PostMapping("/RepositorySelect")
 	public void userRepositoryRegisterRestAPI(@RequestBody RegisterRepoIdDto repoIds) {
 		userConfigService.registerRepository(repoIds);
+		return;
 	}
 }

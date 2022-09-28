@@ -17,9 +17,10 @@ import com.ringtaillemur.rainmaker.domain.enumtype.OwnerType;
 import lombok.*;
 
 @Entity
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@NoArgsConstructor
 @AllArgsConstructor
 @Getter
+@Setter
 @Builder
 public class Repository extends BaseEntity {
 	@Id
