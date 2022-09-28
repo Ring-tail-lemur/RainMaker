@@ -3,7 +3,7 @@ const request =require('request');
 const getModule = require('./http-protocol-module');
 
 async function getCommitsWithToken(context, uri, gitHubtokenP,pull_request_remote_identifier){
-  const githubToken = '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';
+  const githubToken = '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';
   const options = {
   uri: uri,
   headers: {'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_5_2) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/32.webkit', 'Authorization': 'Bearer ' + githubToken}

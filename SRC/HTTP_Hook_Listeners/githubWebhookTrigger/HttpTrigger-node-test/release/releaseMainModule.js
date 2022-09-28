@@ -4,7 +4,7 @@ const labelCreateModule = require('../utils/labelCreateRestApi.js');
 
 async function releaseMain(hookBody, cloudEventObj, context) {
     try{
-        const githubToken = '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';
+        const githubToken = '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';
         cloudEventObj.action = JSON.stringify(hookBody.action).replace(/['"]+/g, '');
         cloudEventObj.release_id = JSON.stringify(hookBody.release.id).replace(/['"]+/g, '');
         cloudEventObj.release_url = JSON.stringify(hookBody.release.url).replace(/['"]+/g, '');
