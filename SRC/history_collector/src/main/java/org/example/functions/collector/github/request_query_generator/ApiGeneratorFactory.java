@@ -5,9 +5,9 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import org.example.functions.dto.HttpRequestDto;
 import org.example.functions.collector.github.request_query_generator.graphql.GithubGraphqlGenerator;
 import org.example.functions.collector.github.request_query_generator.restapi.GithubRestApiGenerator;
+import org.example.functions.dto.HttpRequestDto;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
