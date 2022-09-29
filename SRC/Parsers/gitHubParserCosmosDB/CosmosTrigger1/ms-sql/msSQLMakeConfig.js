@@ -1,6 +1,6 @@
 const fs = require("fs");
     async function makeConfig(context){
-        //test0
+        //test1
     const ConfigClass = await readJsonSecret(context);
     msConfig = {
         port : parseInt(JSON.stringify(ConfigClass.port).replace(/['"]+/g, '')),
