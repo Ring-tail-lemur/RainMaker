@@ -28,7 +28,7 @@ async function executeSqlQuery(query){
 }
 
 async function getTokenByRepositoryId(repositoryId,context){
-    newQuery = `SELECT DISTINCT oauth_token FROM oauth_user WHERE user_remote_id = (SELECT TOP 1 oauth_user_id FROM oauth_user_repository_table WHERE repository_id =  ${Number(repositoryId)})`;
+    newQuery = `SELECT TOP 1 oauth_token FROM oauth_user WHERE user_remote_id = (SELECT TOP 1 oauth_user_id FROM oauth_user_repository_table WHERE repository_id =  ${Number(repositoryId)})`;
     console.log(newQuery);
     const queryResult =  await executeSqlQuery(newQuery);
     console.log(queryResult) 
