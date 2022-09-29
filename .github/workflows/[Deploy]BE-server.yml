@@ -6,7 +6,7 @@ name: Build and deploy JAR app to Azure Web App -Backend Server
 on:
   push:
     branches:
-      - main
+      - MUAM-410-JWT-Refresh
     paths:
       - "SRC/BackEnd_API/**"
   workflow_dispatch:

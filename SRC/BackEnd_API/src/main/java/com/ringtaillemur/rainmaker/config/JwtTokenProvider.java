@@ -2,9 +2,11 @@ package com.ringtaillemur.rainmaker.config;
 
 import java.util.Date;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 
 import com.ringtaillemur.rainmaker.domain.enumtype.OauthUserLevel;
+import com.ringtaillemur.rainmaker.dto.configdto.JwtTokenConfig;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
@@ -17,8 +19,12 @@ import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 public class JwtTokenProvider {
-	private static final String JWT_SECRET = "secretKey";
-	private static final String AUTHORITIES_KEY = "ring-tail-lemur";
+	@Autowired
+	static
+	JwtTokenConfig jwtTokenConfig;
+
+	private static final String JWT_SECRET = jwtTokenConfig.jwtSecret;
+	private static final String AUTHORITIES_KEY = jwtTokenConfig.jwtAuthoritiesKey;
 
 	// 토큰 유효시간
 	private static final int JWT_EXPIRATION_MS = 604800000;
