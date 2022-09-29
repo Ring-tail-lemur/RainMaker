@@ -1,23 +1,32 @@
 package com.ringtaillemur.rainmaker;
 
 import com.ringtaillemur.rainmaker.domain.LeadTimeForChange;
+import com.ringtaillemur.rainmaker.domain.OAuthUser;
+import com.ringtaillemur.rainmaker.domain.OAuthUserRepositoryTable;
 import com.ringtaillemur.rainmaker.domain.Repository;
+import com.ringtaillemur.rainmaker.dto.webdto.responsedto.RepositoryInfoDto;
 import com.ringtaillemur.rainmaker.dto.webdto.responsedto.UserRepositoryDto;
 import com.ringtaillemur.rainmaker.repository.LeadTimeForChangeRepository;
+import com.ringtaillemur.rainmaker.repository.OAuthRepository;
 import com.ringtaillemur.rainmaker.repository.OAuthUserRepositoryRepository;
+import com.ringtaillemur.rainmaker.repository.RepositoryRepository;
 import com.ringtaillemur.rainmaker.service.UserConfigService;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 @SpringBootTest
+@Transactional
 class RainmakerWebserverApplicationTests {
 
 	@Autowired
@@ -26,6 +35,11 @@ class RainmakerWebserverApplicationTests {
 	LeadTimeForChangeRepository leadTimeForChangeRepository;
 	@Autowired
 	OAuthUserRepositoryRepository oAuthUserRepositoryRepository;
+	@Autowired
+	OAuthRepository oAuthRepository;
+	@Autowired
+	RepositoryRepository repositoryRepository;
+
 	@Test
 	void contextLoads() {
 	}
@@ -72,7 +86,16 @@ class RainmakerWebserverApplicationTests {
 	}
 
 	@Test
+	@Transactional(rollbackFor = Exception.class)
 	void 유저아이디기준으로모든엔티티삭제() {
-		oAuthUserRepositoryRepository.deleteByOAuthUserIdQuery(81180977L);
+
+		OAuthUser oAuthUser = oAuthRepository.findById(81180977L).get();
+		List<OAuthUserRepositoryTable> oAuthUserRepositories = oAuthUserRepositoryRepository.findByoAuthUser(oAuthUser);
+		List<RepositoryInfoDto> collect = oAuthUserRepositories.stream()
+				.map(OAuthUserRepositoryTable::getRepository)
+				.map(Repository::getRepositoryInfoDto)
+				.collect(Collectors.toList());
+
+		return;
 	}
 }
