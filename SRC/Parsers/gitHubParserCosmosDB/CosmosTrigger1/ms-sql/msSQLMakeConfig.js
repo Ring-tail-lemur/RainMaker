@@ -4,8 +4,8 @@ const fs = require("fs");
     const ConfigClass = await readJsonSecret(context);
     msConfig = {
         port : parseInt(JSON.stringify(ConfigClass.port).replace(/['"]+/g, '')),
-        user : JSON.stringify(ConfigClass.authentication.userName).replace(/['"]+/g, ''),
-        password : JSON.stringify(ConfigClass.authentication.password).replace(/['"]+/g, ''),
+        user : JSON.stringify(ConfigClass.authentication.options.userName).replace(/['"]+/g, ''),
+        password : JSON.stringify(ConfigClass.authentication.options.password).replace(/['"]+/g, ''),
         server : JSON.stringify(ConfigClass.server).replace(/['"]+/g, ''),
         database : JSON.stringify(ConfigClass.options.database).replace(/['"]+/g, ''),
         options: {
@@ -14,7 +14,6 @@ const fs = require("fs");
         pool: { max: 10, min: 0, idleTimeoutMillis: 30000, },
         trustServerCertificate: true
     };
-    context.log(msConfig);
     return msConfig;
 }
 async function readJsonSecret(context){
@@ -23,4 +22,5 @@ async function readJsonSecret(context){
     const jsonData = await JSON.parse(jsonFile);
     return jsonData;
 }
+
 module.exports.makeConfig = makeConfig;
