@@ -1,12 +1,15 @@
 const getter = require('../http-get/get-commits.js');
 const sendModule = require('../event-hub/send.js');
 const parsingModule = require('./commit-parsing.js');
-
-async function commitMain(context, commits_url, isPrivate, pull_request_remote_identifier){
+const msSqlModule = require('../ms-sql/msSQLModule.js');
+async function commitMain(context, commits_url, isPrivate, pull_request_remote_identifier,repositoryId){
 
     if(isPrivate == 'true'){
         //사용자 개인 token 받아오는 logic 필요
-        const token = '자신의 토큰을 넣도록 하자. 우리는 척척척 스스로 어린이.';
+        context.log("[commit-main.js] I'll get accessToken By RepositoryId : " + repositoryId);
+        const token = await msSqlModule.getTokenByRepositoryId(repositoryId, context);
+        context.log("[commit-main.js] accessToken By RepositoryId : " + token);
+        context.log("github Access Token : "+token);
         const commitList = await getter.getCommitsWithToken(context, commits_url, token,pull_request_remote_identifier);
         // context.log("--------- commit main ---------\n"+commitList+"\n--------- commit main ---------\n");
         const commit_cnt = commitList.length;

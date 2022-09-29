@@ -1,10 +1,7 @@
 const axios = require('axios');
-const sendModule = require('../event-hub/send');
 async function checkSuiteGetParentWithToken(context, uri, cloudEventObj, inputToken){
-    const gitToken = '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';
-
     const options = {
-        headers: {'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_5_2) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/32.webkit', 'Authorization': 'Bearer ' + gitToken}
+        headers: {'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_5_2) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/32.webkit', 'Authorization': 'Bearer ' + inputToken}
     };
     const resultObj = await axios({
         method: 'GET',

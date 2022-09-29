@@ -1,6 +1,6 @@
 const httpModule = require('../http-get/http-protocol-module.js');
-async function getPullRequestMain(inputUri, isPrivate, context){
-    const tmpHeaders = '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'
+async function getPullRequestMain(inputUri, isPrivate, context, accessToken){
+    const tmpHeaders = accessToken;
     if(isPrivate == "true"){
         const options = {
             uri: inputUri,
