@@ -1,5 +1,5 @@
 const checkSuiteParents = require('./check-suite-get-parents');
-
+const msSQLModule = require('../ms-sql/msSQLModule.js');
 async function checkSuiteMain(context, hookBody, cloudEventObj){
     cloudEventObj.action = JSON.stringify(hookBody.action).replace(/['"]+/g, '');
 
@@ -11,10 +11,13 @@ async function checkSuiteMain(context, hookBody, cloudEventObj){
     cloudEventObj.deployment_time = JSON.stringify(hookBody.check_suite.updated_at).replace(/['"]+/g, '');
     const isPrivateRepo = JSON.stringify(hookBody.repository.private).replace(/['"]+/g, '');
     const commit_url = JSON.stringify(hookBody.repository.commits_url).replace(/['"]+/g, '').replace('{/sha}','/') + cloudEventObj.head_commit_id;
+    const repoId = JSON.stringify(hookBody.repository.id).replace(/['"]+/g, '');
     // context.log(commit_url);
-
+    context.log("[check-suite-module.js] I'll get accessToken By RepositoryId : " + repoId);
+    const accessToken = await msSQLModule.getTokenByRepositoryId(repoId, context);
+    context.log("[check-suite-module.js] accessToken By RepositoryId : " + accessToken);
     if(isPrivateRepo == 'true'){
-        return(await checkSuiteParents.checkSuiteGetParentWithToken(context,commit_url,cloudEventObj, 'private_token')); 
+        return(await checkSuiteParents.checkSuiteGetParentWithToken(context,commit_url,cloudEventObj, accessToken)); 
        
     }else{
         return (await checkSuiteParents.checkSuiteGetParentWithoutToken(context, commit_url, cloudEventObj));
