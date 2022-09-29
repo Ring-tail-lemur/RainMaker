@@ -25,15 +25,15 @@
             {
               "authentication": {
                   "options" : {
-                      "userName" : "rainmaker", 
-                      "password" : "dkffkrRhfldudndnjstnddl!"
+                      "userName" : "er", 
+                      "password" : "dl!"
                   },
                   "type" : "default"
               },
-              "server" : "rainmaker-azure-sql-server.database.windows.net", 
+              "server" : "rs.net", 
               "port" : 1433,
               "options": {
-              "database" : "RainMakerSystemDB",
+              "database" : "RaDB",
               "encrypt" : true
               }
             }
