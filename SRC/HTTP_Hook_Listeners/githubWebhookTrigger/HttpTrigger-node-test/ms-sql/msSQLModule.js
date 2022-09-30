@@ -17,6 +17,7 @@ async function executeSqlQuery(query){
         const connectionPool = new sql.ConnectionPool(sqlConfig);
         await connectionPool.connect();
         const result = await connectionPool.request().query(query);
+        connectionPool.close();
         if(result.recordsets != null){
             return result.recordsets;
         }else{
