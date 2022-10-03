@@ -90,7 +90,12 @@ public class TypeConverter {
 		}
 	}
 
+	public JSONArray getNormalizedJsonArray(String sourceData) {
+		return normalizeJsonObject(coverJSONObjectWithJSONArray(convertStringToJSONObject(sourceData)));
+	}
+
 	public JSONArray normalizeJsonObject(JSONArray sourceData) {
+
 		JSONArray normalizedSourceData = new JSONArray("[]");
 		if (!sourceData.isEmpty()) {
 			for (Object sourceDatum : sourceData) {
@@ -105,6 +110,7 @@ public class TypeConverter {
 		return normalizedSourceData;
 	}
 
+
 	private boolean normalizeJsonObject(Object node, JSONObject tree, List<JSONObject> treeList, String key,
 		JSONObject lastJsonObject) {
 		if (node instanceof JSONObject) {
@@ -116,6 +122,8 @@ public class TypeConverter {
 				Object nextNode = jsonObjectNode.get(nextNodeKey);
 				requireMerge =
 					requireMerge && normalizeJsonObject(nextNode, tree, treeList, nextNodeKey, jsonObjectNode);
+				if(!requireMerge)
+					break;
 			}
 			return requireMerge;
 		} else if (node instanceof JSONArray) {

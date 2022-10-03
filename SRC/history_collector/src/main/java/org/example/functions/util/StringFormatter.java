@@ -3,7 +3,6 @@ package org.example.functions.util;
 import java.util.Map;
 
 import org.apache.commons.text.StringSubstitutor;
-import org.json.JSONObject;
 
 import lombok.Setter;
 
@@ -23,15 +22,9 @@ public class StringFormatter {
 		this.suffix = "}}";
 	}
 
-	public String bindParameters(String graphqlBody, Map<String, String> requestParameters) {
-		StringSubstitutor strSubstitutor = new StringSubstitutor(requestParameters, prefix, suffix);
-		return strSubstitutor.replace(graphqlBody);
-	}
-
-	public String bindParameters(String rawUrl, JSONObject pathParameters) {
-		Map<String, String> pathParameterMap = (Map)pathParameters.toMap();
-		StringSubstitutor strSubstitutor = new StringSubstitutor(pathParameterMap, prefix, suffix);
-		return strSubstitutor.replace(rawUrl);
+	public String bindParameters(String string, Map<String, String> parameterMap) {
+		StringSubstitutor strSubstitutor = new StringSubstitutor(parameterMap, prefix, suffix);
+		return strSubstitutor.replace(string);
 	}
 
 	public String removeStartingSubstitutor(String string) {
