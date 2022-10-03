@@ -130,6 +130,7 @@ public class SecurityUserService {
 		}
 	}
 
+
 	private static class JsonUser {
 		String oauthToken;
 		Long id;

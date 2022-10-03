@@ -1,9 +1,9 @@
 import axios from "axios";
 
 function setHeaderJWT() {
-    const jwtToken = getCookie("rainmaker_jwt");
+    const jwtToken = getCookie("SESSIONID");
     return {
-        Authorization: 'Bearer '+ jwtToken
+        SessionID: jwtToken
     };
 }
 
