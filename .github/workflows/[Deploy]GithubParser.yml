@@ -17,15 +17,38 @@
         runs-on: windows-latest
         steps:
           - uses: actions/checkout@v2
+
+          - name: 'push ms-config.js'
+            shell: pwsh
+            run: |
+              pushd ./${{ env.AZURE_FUNCTION_APP_PACKAGE_PATH}}
+              echo '
+              {
+                "authentication": {
+                    "options" : {
+                        "userName" : "rr", 
+                        "password" : "dkfl!"
+                    },
+                    "type" : "default"
+                },
+                "server" : "raet", 
+                "port" : 1433,
+                "options": {
+                "database" : "DB",
+                "encrypt" : true
+                }
+              }' >> ./ms-sql-config.json
+              cat ./ms-sql-config.json
+              popd
           - uses: microsoft/variable-substitution@v1 
             with: 
-              files: '${{env.AZURE_FUNCTION_APP_PACKAGE_PATH}}CosmosTrigger1/ms-sql-config.json'
-            env: 
-              port : '${{secrets.MS_SQL_PORT}}'
-              user : '${{secrets.MS_SQL_USER}}'
-              password : '${{secrets.MS_SQL_PASSWORD}}'
-              server : '${{secrets.MS_SQL_SERVER}}'
-              database : '${{secrets.MS_SQL_DATABASE}}'
+              files: '${{env.AZURE_FUNCTION_APP_PACKAGE_PATH}}ms-sql-config.json'
+            env:
+              authentication.options.userName : ${{secrets.JSON_DB_USERNAME}}
+              authentication.options.password : ${{secrets.JSON_DB_PASSWORD}}
+              server: ${{secrets.JSON_DB_SERVER}}
+              options.database: ${{secrets.JSON_DB_DATABASE}}
+
 
           - name: Setup Node ${{ env.NODE_VERSION }} Environment
             uses: actions/setup-node@v2
@@ -35,7 +58,6 @@
           - name: 'Resolve Project Dependencies Using Npm'
             shell: pwsh
             run: |
-              cat ./${{ env.AZURE_FUNCTION_APP_PACKAGE_PATH }}/CosmosTrigger1/ms-sql-config.json
               pushd './${{ env.AZURE_FUNCTION_APP_PACKAGE_PATH }}'
               npm install
               npm run build --if-present

@@ -5,7 +5,7 @@
         <h4 class="card-title">시작 시간</h4>
         <div class="form-group">
           <el-date-picker v-model="startTime" type="date" placeholder="Pick a day"
-                          :picker-options="{ disabledDate: (time) => disabledEndDate(time, departureDate) }">
+                          :picker-options="{ disabledDate: (time) => disabledEndDate(time, null) }">
           </el-date-picker>
         </div>
       </div>
@@ -13,7 +13,7 @@
         <h4 class="card-title">끝 시간</h4>
         <div class="form-group">
           <el-date-picker v-model="endTime" type="date" placeholder="Pick a day"
-                          :picker-options="{ disabledDate: (time) => disabledEndDate(time, departureDate) }">
+                          :picker-options="{ disabledDate: (time) => disabledEndDate(time, null) }">
           </el-date-picker>
         </div>
       </div>
@@ -26,9 +26,9 @@
                      placeholder="Multiple Select">
             <el-option v-for="option in selects.repositories"
                        class="select-primary"
-                       :value="option.value"
-                       :label="option.label"
-                       :key="option.label">
+                       :value="option.repositoryId"
+                       :label="option.repositoryName"
+                       :key="option.repositoryName">
             </el-option>
           </el-select>
         </fg-input>
@@ -171,6 +171,7 @@ import Loading from 'src/components/Dashboard/Layout/LoadingMainPanel.vue'
 import TaskList from "src/components/Dashboard/Views/Dashboard/Widgets/TaskList";
 import {Button, DatePicker, Input, Option, Select, Slider, Tag, TimeSelect} from "element-ui";
 import axios from "axios";
+import setHeaderJWT from "@/util/setHeaderJWT";
 
 const WorldMap = () => ({
   component: import('./../Maps/WorldMap.vue'),
@@ -262,19 +263,18 @@ export default {
           ],
         multiple: 'ARS'
       },
-      pickerOptions1: {
-
-
-
-      },
-
 
     }
   },
   methods : {
+    async getRepositoryInfo() {
+      return (await axios.get(this.custom.defaultURL + "/user/repository-info", {
+        headers: setHeaderJWT()
+      })).data;
+    },
     submitButtonPush() {
       try {
-        this.getAllDoraMetric(this.dateFormat(this.startTime), this.dateFormat(this.endTime), this.selects.multiple[0]);
+        this.getAllDoraMetric(this.dateFormat(this.startTime), this.dateFormat(this.endTime), this.selects.multiple);
       } catch (e) {
         alert("잘못 입력하셨습니다.");
         console.error(e);
@@ -306,7 +306,7 @@ export default {
         params : {
           start_time : start_time,
           end_time : end_time,
-          repo_id : repo_id
+          repo_id : repo_id.toString()
         }
       })
 
@@ -385,12 +385,22 @@ export default {
       }
     }
   },
-  created() {
+  async created() {
     let Today = new Date();
     const FormatToday = this.dateFormat(Today);
     Today.setMonth(Today.getMonth() -1);
     const FormatLastMonth = this.dateFormat(Today);
-    this.getAllDoraMetric(FormatLastMonth, FormatToday, "510731046, 517528822");
+
+    const repositories = await this.getRepositoryInfo();
+    this.selects.repositories = repositories;
+
+    const repositoryArr = [];
+
+    repositories.forEach((repository) => {
+      repositoryArr.push(repository['repositoryId']);
+    });
+
+    this.getAllDoraMetric(FormatLastMonth, FormatToday, repositoryArr);
 
   }
 }

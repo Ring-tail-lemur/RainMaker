@@ -20,7 +20,25 @@
         - name: 'eventHubs Config 포함'
           shell: pwsh
           run: |
-            pushd './${{env.AZURE_FUNCTION_APP_PACKAGE_PATH}}/HttpTrigger-node-test/event-hub'
+            pushd './${{env.AZURE_FUNCTION_APP_PACKAGE_PATH}}'
+            echo '
+            {
+              "authentication": {
+                  "options" : {
+                      "userName" : "er", 
+                      "password" : "dl!"
+                  },
+                  "type" : "default"
+              },
+              "server" : "rs.net", 
+              "port" : 1433,
+              "options": {
+              "database" : "RaDB",
+              "encrypt" : true
+              }
+            }
+            ' >> ./ms-sql-config.json
+            pushd './HttpTrigger-node-test/event-hub'
             echo '
               {
                   "eventHubConnectionString" : ""
@@ -34,6 +52,15 @@
             files: '${{env.AZURE_FUNCTION_APP_PACKAGE_PATH}}HttpTrigger-node-test/event-hub/event-hub-app-config.json'
           env:
             eventHubConnectionString : ${{secrets.AZURE_EVENT_HUB_CONNECTION_STRING}}
+
+        - uses: microsoft/variable-substitution@v1 
+          with:
+            files: '${{env.AZURE_FUNCTION_APP_PACKAGE_PATH}}ms-sql-config.json'
+          env:
+            authentication.options.userName : ${{secrets.JSON_DB_USERNAME}}
+            authentication.options.password : ${{secrets.JSON_DB_PASSWORD}}
+            server: ${{secrets.JSON_DB_SERVER}}
+            options.database: ${{secrets.JSON_DB_DATABASE}}
 
         - name: Setup Node ${{ env.NODE_VERSION }} Environment
           uses: actions/setup-node@v2

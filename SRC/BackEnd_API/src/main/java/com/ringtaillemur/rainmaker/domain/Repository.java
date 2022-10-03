@@ -14,6 +14,7 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 
 import com.ringtaillemur.rainmaker.domain.enumtype.OwnerType;
+import com.ringtaillemur.rainmaker.dto.webdto.responsedto.RepositoryInfoDto;
 import lombok.*;
 
 @Entity
@@ -39,4 +40,8 @@ public class Repository extends BaseEntity {
 
 	@OneToMany(mappedBy = "repository")
 	private List<OAuthUserRepositoryTable> oAuthUserRepositoryTableList = new ArrayList<>();
+
+	public RepositoryInfoDto getRepositoryInfoDto() {
+		return new RepositoryInfoDto(this.id, this.name);
+	}
 }

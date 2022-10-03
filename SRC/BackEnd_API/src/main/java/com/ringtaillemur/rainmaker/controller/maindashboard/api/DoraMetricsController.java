@@ -3,16 +3,14 @@ package com.ringtaillemur.rainmaker.controller.maindashboard.api;
 import java.time.LocalDate;
 import java.util.List;
 
+import com.ringtaillemur.rainmaker.dto.webdto.responsedto.*;
+import com.ringtaillemur.rainmaker.service.UserConfigService;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.ringtaillemur.rainmaker.dto.webdto.responsedto.ChangeFailureRateDto;
-import com.ringtaillemur.rainmaker.dto.webdto.responsedto.DeploymentFrequencyDto;
-import com.ringtaillemur.rainmaker.dto.webdto.responsedto.LeadTimeForChangeByTimeDto;
-import com.ringtaillemur.rainmaker.dto.webdto.responsedto.TimeToRestoreServiceDto;
 import com.ringtaillemur.rainmaker.service.dorametrics.ChangeFailureRateService;
 import com.ringtaillemur.rainmaker.service.dorametrics.DeploymentFrequencyService;
 import com.ringtaillemur.rainmaker.service.dorametrics.LeadTimeForChangeService;
@@ -28,6 +26,13 @@ public class DoraMetricsController {
 	private final DeploymentFrequencyService deploymentFrequencyService;
 	private final ChangeFailureRateService changeFailureRateService;
 	private final TimeToRestoreServiceService timeToRestoreServiceService;
+	private final UserConfigService userConfigService;
+
+	@ResponseBody
+	@GetMapping("/user/repository-info")
+	public List<RepositoryInfoDto> getUserRegisteredRepositoryInfo() {
+		return userConfigService.getOAuthUserRepositoriesByUser();
+	}
 
 	@ResponseBody
 	@GetMapping("/dorametric/lead-time-for-change")

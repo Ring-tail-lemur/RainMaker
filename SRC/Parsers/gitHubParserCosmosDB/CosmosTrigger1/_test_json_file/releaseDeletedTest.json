@@ -1,0 +1,22 @@
+{
+  "hook_event": "release",
+  "X_GitHub_Delivery": "724ef4c6-3faf-11ed-932d-0212d68d0b77",
+  "event_triggered_time": "2022-9-29T04:30:29Z",
+  "source": "github",
+  "action": "deleted",
+  "release_id": "78527488",
+  "release_url": "https://api.github.com/repos/Ring-tail-lemur/test-for-fake-project/releases/78527488",
+  "release_author_id": "81180977",
+  "release_tag_name": "v1.5.2",
+  "release_name": "sssssssssssssssss",
+  "draft": "false",
+  "published_at": "2022-09-29T04:29:40Z",
+  "pre_release": "false",
+  "repository_id": "510731046",
+  "repository_name": "test-for-fake-project",
+  "repository_owner_id": "107110653",
+  "repository_private": "false",
+  "repository_owner_type": "Organization",
+  "owner_name": "Ring-tail-lemur",
+  "event_time": "2022-9-29T04:30:29Z"
+}
