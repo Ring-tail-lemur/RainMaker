@@ -249,6 +249,13 @@ CREATE TABLE oauth_user_repository_table
     repository_id BIGINT NOT NULL
 );
 
+CREATE TABLE refresh_token
+(
+    refresh_token_id BIGINT PRIMARY KEY,
+    refresh_token VARCHAR(255) NOT NULL,
+    user_remote_id BIGINT
+);
+
 alter table oauth_user_repository_table
     add constraint foreign_key_name
         foreign key (oauth_user_id) references oauth_user (user_remote_id);

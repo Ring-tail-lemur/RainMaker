@@ -1,16 +1,9 @@
 package com.ringtaillemur.rainmaker.controller.maindashboard.api;
 
-import static com.ringtaillemur.rainmaker.config.WebClientConfig.*;
-
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.util.Optional;
-
-import javax.annotation.security.RolesAllowed;
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
-
-import com.ringtaillemur.rainmaker.config.Token;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -28,7 +21,7 @@ public class OAuthContoller {
 	private SecurityUserService securityUserService;
 
 	@GetMapping("/login/oauth2/code/github")
-	@RolesAllowed("FIRST_AUTH_USER")
+	// @RolesAllowed("FIRST_AUTH_USER")
 	@ResponseBody
 	public String testMap2(@RequestParam(value = "code", required = false, defaultValue = "test") String code,
 						   @RequestParam(value = "state", required = false, defaultValue = "test") String state,
@@ -51,8 +44,9 @@ public class OAuthContoller {
 			String token = securityUserService.setJwtTokenWithUserInfo(nowUser.get());
 			//Bearer이라는 토큰 생성(jwt 토큰이 담김)
 			return token;
-
 		}
 		return null;
 	}
+
+
 }

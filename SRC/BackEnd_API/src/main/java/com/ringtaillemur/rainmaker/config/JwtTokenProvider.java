@@ -4,6 +4,7 @@ import java.util.Date;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
+import org.springframework.stereotype.Component;
 
 import com.ringtaillemur.rainmaker.domain.enumtype.OauthUserLevel;
 import com.ringtaillemur.rainmaker.dto.configdto.JwtTokenConfig;
@@ -20,12 +21,13 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class JwtTokenProvider {
 	@Autowired
-	static
-	JwtTokenConfig jwtTokenConfig;
+	private static JwtTokenConfig jwtTokenConfig;
 
-	private static final String JWT_SECRET = jwtTokenConfig.jwtSecret;
-	private static final String AUTHORITIES_KEY = jwtTokenConfig.jwtAuthoritiesKey;
+	// private static final String JWT_SECRET = jwtTokenConfig.jwtSecret;
+	// private static final String AUTHORITIES_KEY = jwtTokenConfig.jwtAuthoritiesKey;
 
+	private static final String JWT_SECRET = "secretKey";
+	private static final String AUTHORITIES_KEY = "ring-tail-lemur";
 	// 토큰 유효시간
 	private static final int JWT_EXPIRATION_MS = 604800000;
 
@@ -34,6 +36,8 @@ public class JwtTokenProvider {
 
 		Date now = new Date();
 		Date expiryDate = new Date(now.getTime() + JWT_EXPIRATION_MS);
+		String refreshToken = generateRefreshToken(authentication);
+
 		return Jwts.builder()
 			.setSubject((String)authentication.getPrincipal()) // 사용자
 			.setIssuedAt(new Date()) // 현재 시간 기반으로 생성
@@ -41,7 +45,12 @@ public class JwtTokenProvider {
 			.signWith(SignatureAlgorithm.HS512, JWT_SECRET) // 사용할 암호화 알고리즘, signature에 들어갈 secret 값 세팅
 			.compact();
 	}
-
+	public static String generateRefreshToken(Authentication authentication){
+		Date now = new Date();
+		Date expiryDate = new Date(now.getTime() + Integer.MAX_VALUE);
+		return Jwts.builder().setIssuedAt(now).setExpiration(expiryDate)
+			.signWith(SignatureAlgorithm.HS512, JWT_SECRET).compact();
+	}
 	public static String generateToken(Authentication authentication, OauthUserLevel oauthUserLevel) {
 
 		Date now = new Date();
@@ -91,6 +100,18 @@ public class JwtTokenProvider {
 			log.error("JWT claims string is empty.");
 		}
 		return false;
+	}
+
+	public static boolean expiredCheck(String token){
+		try{
+			Jwts.parser().setSigningKey(JWT_SECRET).parseClaimsJws(token);
+			return false;
+		}catch(ExpiredJwtException ex){
+			return true;
+		}finally {
+			return false;
+		}
+
 	}
 
 }

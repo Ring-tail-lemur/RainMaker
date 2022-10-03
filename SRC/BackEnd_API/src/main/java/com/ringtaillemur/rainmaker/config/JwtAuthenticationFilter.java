@@ -47,7 +47,12 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 				}
 
 				if (JwtTokenProvider.validateToken(jwt)) {
-					request.setAttribute("unauthorization", "401-001 인증키 만료.");
+					if(JwtTokenProvider.expiredCheck(jwt)){
+						request.setAttribute("unauthorization", "401-001 인증키 만료.");
+					}else{
+						request.setAttribute("unauthorization", "401-002 인증키 유효하지 않음.");
+					}
+
 				}
 			}
 		} catch (Exception ex) {

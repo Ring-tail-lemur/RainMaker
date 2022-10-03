@@ -40,4 +40,7 @@ public class SecurityConfig {
 		return http.build();
 	}
 
+	protected void sessionConfig(HttpSecurity httpSecurity) throws Exception{
+		
+	}
 }
