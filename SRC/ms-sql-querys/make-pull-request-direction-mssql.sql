@@ -33,6 +33,9 @@ WITH COMMIT_ID_MIN_TIME AS (SELECT DISTINCT commit_id,
                            JOIN SECOND_TIME ST
                                 ON ST.commit_id = PRCT.commit_id
                                     AND ST.SECOND_MIN_TIME = PR.created_date)
+INSERT
+INTO pull_request_direction (source_pull_request_id, outgoing_pull_request_id)
+OUTPUT inserted.source_pull_request_id, inserted.outgoing_pull_request_id
 SELECT DISTINCT S.pull_request_id, O.pull_request_id
 FROM OUTGOING O
          JOIN SOURCE S
