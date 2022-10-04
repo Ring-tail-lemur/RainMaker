@@ -3,10 +3,7 @@ package com.ringtaillemur.analyst;
 import com.microsoft.azure.functions.ExecutionContext;
 import com.microsoft.azure.functions.annotation.FunctionName;
 import com.microsoft.azure.functions.annotation.TimerTrigger;
-import com.ringtaillemur.analyst.analysislogic.dorametric.ChangeFailureRate;
-import com.ringtaillemur.analyst.analysislogic.dorametric.LeadTimeForChange;
-import com.ringtaillemur.analyst.analysislogic.dorametric.TimeToRestoreService;
-import com.ringtaillemur.analyst.analysislogic.dorametric.UpdateCommitsReleaseId;
+import com.ringtaillemur.analyst.analysislogic.dorametric.*;
 
 // test3
 public class TimerTriggerFunction {
@@ -16,6 +13,7 @@ public class TimerTriggerFunction {
   ChangeFailureRate changeFailureRate = ChangeFailureRate.getChangeFailureRate();
   TimeToRestoreService timeToRestoreService = TimeToRestoreService.getTimeToRestoreService();
   UpdateCommitsReleaseId updateCommitsReleaseId = UpdateCommitsReleaseId.getUpdateCommitsReleaseId();
+  PullRequestDirection pullRequestDirection = PullRequestDirection.getPullRequestDirection();
 
   @FunctionName("TimerTrigger-Java")
   public void run(
@@ -27,6 +25,7 @@ public class TimerTriggerFunction {
   )
     throws Exception {
     updateCommitsReleaseId.calculateUpdateCommitsReleaseId();
+    pullRequestDirection.MakePullRequestDirection();
     leadTimeForChange.calculateLeadTimeForChange();
     changeFailureRate.calculateChangeFailureRate();
     timeToRestoreService.calculateTimeToRestoreService();
