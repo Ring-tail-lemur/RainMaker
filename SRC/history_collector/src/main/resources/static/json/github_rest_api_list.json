@@ -6,8 +6,7 @@
         "file_name": "commits.graphql",
         "pagination": {
           "has_next": "data.repository.defaultBranchRef.target.history.pageInfo.hasNextPage",
-          "end_cursor": "data.repository.defaultBranchRef.target.history.pageInfo.endCursor",
-          "target": "data.repository.defaultBranchRef.target.history"
+          "end_cursor": "data.repository.defaultBranchRef.target.history.pageInfo.endCursor"
         }
       }
     },
@@ -19,10 +18,6 @@
       "data.repository.defaultBranchRef.target.history.nodes.author.user.databaseId": [
         "author_id",
         "int"
-      ],
-      "data.repository.defaultBranchRef.target.history.nodes.message": [
-        "message",
-        "string"
       ],
       "data.repository.defaultBranchRef.target.history.nodes.committedDate": [
         "commit_time",
@@ -69,8 +64,7 @@
         "variable_list": "pull_request_number_list",
         "pagination": {
           "has_next": "data.repository.pullRequest.comments.pageInfo.hasNextPage",
-          "end_cursor": "data.repository.pullRequest.comments.pageInfo.endCursor",
-          "target": "data.repository.pullRequest.comments"
+          "end_cursor": "data.repository.pullRequest.comments.pageInfo.endCursor"
         }
       }
     },
@@ -104,9 +98,8 @@
         "file_name": "pull_request_comment_review.graphql",
         "variable_list": "pull_request_number_list",
         "pagination": {
-          "has_next": "data.repository.pullRequest.comments.pageInfo.hasNextPage",
-          "end_cursor": "data.repository.pullRequest.comments.pageInfo.endCursor",
-          "target": "data.repository.pullRequest.comments"
+          "has_next": "data.repository.pullRequest.reviews.pageInfo.hasNextPage",
+          "end_cursor": "data.repository.pullRequest.reviews.pageInfo.endCursor"
         }
       }
     },
@@ -140,8 +133,7 @@
         "file_name": "release.graphql",
         "pagination": {
           "has_next": "data.repository.releases.pageInfo.hasNextPage",
-          "end_cursor": "data.repository.releases.pageInfo.endCursor",
-          "target": "data.repository.releases"
+          "end_cursor": "data.repository.releases.pageInfo.endCursor"
         }
       }
     },
@@ -212,8 +204,7 @@
         "file_name": "branch.graphql",
         "pagination": {
           "has_next": "data.repository.refs.pageInfo.hasNextPage",
-          "end_cursor": "data.repository.refs.pageInfo.endCursor",
-          "target": "data.repository.refs"
+          "end_cursor": "data.repository.refs.pageInfo.endCursor"
         }
       }
     },

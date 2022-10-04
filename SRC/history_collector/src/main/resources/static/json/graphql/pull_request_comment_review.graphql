@@ -1,7 +1,7 @@
 {
     repository(owner: "{{owner}}", name: "{{repo}}") {
         pullRequest(number: $[[pull_request_number_list]]) {
-            reviews(last: 100) {
+            reviews(last: 100{{pageElement}}) {
                 nodes {
                     createdAt
                     databaseId

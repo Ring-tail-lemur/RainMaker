@@ -4,9 +4,11 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.HashMap;
 import java.util.Iterator;
 
 import org.example.functions.dto.extracting.DataSourceInterfaceConfigDtoInterface;
+import org.example.functions.util.StringFormatter;
 import org.json.JSONObject;
 
 import lombok.Data;
@@ -31,6 +33,33 @@ public class HttpRequestDto {
 		this.method = method;
 		this.body = body;
 	}
+
+	public HttpRequestDto getPaginatedDto(String endCursor) {
+		HttpRequestDto paginatedDto = new HttpRequestDto(url, header, method, body);
+		if (endCursor == null) {
+			paginatedDto.setFirstPage();
+		} else{
+			paginatedDto.setNextPage(endCursor);
+		}
+		return paginatedDto;
+	}
+
+	private void setNextPage(String endCursor) {
+		StringFormatter stringFormatter = new StringFormatter();
+		HashMap<String, String> parameterMap = new HashMap<>();
+		parameterMap.put("page", String.format("(after: \\\"%s\\\")", endCursor));
+		parameterMap.put("pageElement", String.format(", after: \\\"%s\\\"", endCursor));
+		body = stringFormatter.bindParameters(body, parameterMap);
+	}
+
+	private void setFirstPage() {
+		StringFormatter stringFormatter = new StringFormatter();
+		HashMap<String, String> parameterMap = new HashMap<>();
+		parameterMap.put("page", "");
+		parameterMap.put("pageElement", "");
+		body = stringFormatter.bindParameters(body, parameterMap);
+	}
+
 
 	public HttpURLConnection getHttpURLConnection() throws IOException {
 		HttpURLConnection httpURLConnection = (HttpURLConnection)url.openConnection();

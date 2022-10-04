@@ -24,11 +24,27 @@ public class DataExtractingConfigDto {
 
 	private JSONObject dataLoadConfig; //mapping 객체가 들어감
 	private AdapterType adapterType;
-	private JSONObject dataRequestContext; //source 객체가 들어감
+	private JSONObject dataRequestContext; //graphql 객체 또는 restapi 객체가 들어감
 	private Map<String, String> requestParameter;
 
 	private DataSourceInterfaceConfigDtoInterface dataSourceInterfaceConfigDtoInterface;
 	private Map<String, List<String>> requestVariableMap;
+
+	public DataExtractingConfigDto(JSONObject dataSourceContext, JSONObject dataLoadConfig,
+		Map<String, String> requestParameter, String dataName, Map<String, List<String>> requestVariableMap) throws
+		MalformedURLException {
+		adapterType = AdapterType.determine(dataSourceContext.getString("interface_type"));
+		dataRequestContext = dataSourceContext.getJSONObject(adapterType.getInterfaceType());
+		this.dataLoadConfig = dataLoadConfig;
+		this.requestParameter = requestParameter;
+		this.dataName = dataName;
+		this.requestVariableMap = requestVariableMap;
+		setDataSourceInterface();
+	}
+
+	public Map<String, String> getPaginationInfo() {
+		return dataSourceInterfaceConfigDtoInterface.getPaginationInfo();
+	}
 
 	public static List<DataExtractingConfigDto> getDataExtractingConfigDtoList(
 		HttpRequestMessage<Optional<String>> request, Map<String, List<String>> requestVariableMap) throws
@@ -49,18 +65,6 @@ public class DataExtractingConfigDto {
 		return dataExtractingConfigDtoList;
 	}
 
-	public DataExtractingConfigDto(JSONObject dataSourceContext, JSONObject dataLoadConfig,
-		Map<String, String> requestParameter, String dataName, Map<String, List<String>> requestVariableMap) throws
-		MalformedURLException {
-		adapterType = AdapterType.determine(dataSourceContext.getString("interface_type"));
-		dataRequestContext = dataSourceContext.getJSONObject(adapterType.getInterfaceType());
-		this.dataLoadConfig = dataLoadConfig;
-		this.requestParameter = requestParameter;
-		this.dataName = dataName;
-		this.requestVariableMap = requestVariableMap;
-		setDataSourceInterface();
-	}
-
 	public boolean hasRequestVariable() {
 		return dataRequestContext.keySet().contains("variable_list");
 	}
@@ -75,6 +79,10 @@ public class DataExtractingConfigDto {
 
 	public JSONObject getHeader() {
 		return dataSourceInterfaceConfigDtoInterface.getHeader();
+	}
+
+	public boolean hasPagination() {
+		return dataRequestContext.keySet().contains("pagination");
 	}
 
 	public String getBody() {

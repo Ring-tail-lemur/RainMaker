@@ -5,6 +5,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 import org.example.functions.dto.HttpRequestDto;
 import org.example.functions.util.StringFormatter;
@@ -28,6 +29,11 @@ public class RestApiConfigDto extends DataExtractingConfigDto implements DataSou
 	@Override
 	public HttpRequestDto getHttpRequestDto() {
 		return new HttpRequestDto(this);
+	}
+
+	@Override
+	public Map<String, String> getPaginationInfo() {
+		return null;
 	}
 
 	private void init() throws MalformedURLException {

@@ -4,6 +4,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 import org.example.functions.dto.HttpRequestDto;
@@ -16,11 +17,11 @@ import lombok.Getter;
 @Getter
 public class GraphqlConfigDto extends DataExtractingConfigDto implements DataSourceInterfaceConfigDtoInterface {
 
+	private final StringFormatter variableBinder = new StringFormatter("$[[", "]]");
 	private String body;
 	private JSONObject header;
 	private URL url;
 	private String method;
-	StringFormatter stringFormatter = new StringFormatter("$[[", "]]");
 
 	public GraphqlConfigDto(DataExtractingConfigDto dataExtractingConfigDto) throws MalformedURLException {
 		super(dataExtractingConfigDto);
@@ -38,10 +39,16 @@ public class GraphqlConfigDto extends DataExtractingConfigDto implements DataSou
 			.collect(Collectors.toList());
 	}
 
+	@Override
+	public Map<String, String> getPaginationInfo() {
+		return getDataRequestContext().getJSONObject("pagination").toMap().entrySet().stream()
+			.collect(Collectors.toMap(Map.Entry::getKey, entry -> entry.getValue().toString()));
+	}
+
 	private HttpRequestDto getFormattedHttpRequestDto(String variableValue) {
 		HashMap<String, String> variableBindingMap = new HashMap<>();
 		variableBindingMap.put(getUsingRequestVariable(), variableValue);
-		String formattedBody = stringFormatter.bindParameters(body, variableBindingMap);
+		String formattedBody = variableBinder.bindParameters(body, variableBindingMap);
 		return new HttpRequestDto(url, header, method, formattedBody);
 	}
 
