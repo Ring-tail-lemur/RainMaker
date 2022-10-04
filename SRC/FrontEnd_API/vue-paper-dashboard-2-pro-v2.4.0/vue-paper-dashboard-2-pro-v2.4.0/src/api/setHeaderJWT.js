@@ -1,7 +1,8 @@
 function setHeaderJWT() {
-    const jwtToken = getCookie("rainmaker_jwt");
+    const jwtToken = getCookie("SESSIONID");
+    
     return {
-        Authorization: 'Bearer '+ jwtToken
+        SessionID: jwtToken,
     };
 }
 
@@ -20,7 +21,7 @@ function getCookie(name) {
         if (x == 0)
             break;
     }
-    return "";
+   return "";
 }
 
 export default setHeaderJWT;

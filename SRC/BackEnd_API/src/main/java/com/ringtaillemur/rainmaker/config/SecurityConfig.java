@@ -15,9 +15,10 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @EnableWebSecurity
 public class SecurityConfig {
 
+	// @Autowired
+	// private JwtAuthenticationFilter jwtAuthenticationFilter;
 	@Autowired
-	private JwtAuthenticationFilter jwtAuthenticationFilter;
-
+	private SessionFilterInternal sessionFilterInternal;
 	@Bean
 	public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 		http
@@ -25,10 +26,7 @@ public class SecurityConfig {
 			.and()
 			.csrf() //(2)
 			.disable()
-			.sessionManagement() //(4)
-			.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-			.and()
-			.addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
+			.addFilterBefore(sessionFilterInternal, UsernamePasswordAuthenticationFilter.class)
 			.authorizeRequests(a -> a
 				.antMatchers("/", "/error", "/webjars/**", "/login/**", "/login/oauth2/code/github", "/api/cycletime",
 					"/dorametric/**").permitAll()
@@ -39,5 +37,12 @@ public class SecurityConfig {
 			).oauth2Login().redirectionEndpoint().baseUri("/oauth2/auth/code/github");
 		return http.build();
 	}
-
+	 protected void configure(HttpSecurity http) throws Exception {
+		http.sessionManagement()
+			.sessionFixation().none();
+	 }
+	 protected void configure2(HttpSecurity http) throws Exception {
+		http.sessionManagement()
+			.sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED);
+	 }
 }

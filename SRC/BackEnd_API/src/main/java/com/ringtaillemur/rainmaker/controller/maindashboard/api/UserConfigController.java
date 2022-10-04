@@ -1,16 +1,22 @@
 package com.ringtaillemur.rainmaker.controller.maindashboard.api;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.web.context.HttpSessionSecurityContextRepository;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.ringtaillemur.rainmaker.config.LoginUser;
 import com.ringtaillemur.rainmaker.dto.webdto.responsedto.RegisterRepoIdDto;
 import com.ringtaillemur.rainmaker.dto.webdto.responsedto.UserRepositoryDto;
 import com.ringtaillemur.rainmaker.service.UserConfigService;
@@ -31,7 +37,7 @@ public class UserConfigController {
 
 	@ResponseBody
 	@GetMapping("/RepositorySelect")
-	public ArrayList<UserRepositoryDto> userRepositoryListReturnRestAPI() {
+	public ArrayList<UserRepositoryDto> userRepositoryListReturnRestAPI(HttpServletRequest req) {
 			return userConfigService.getUserRepositoryDtoByToken(userConfigService.getToken(userConfigService.getUserId()));
 	}
 
