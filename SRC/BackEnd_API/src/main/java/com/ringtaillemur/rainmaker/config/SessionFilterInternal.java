@@ -36,12 +36,12 @@ public class SessionFilterInternal extends OncePerRequestFilter {
 			HttpSession httpSession = request.getSession();
 			if(sessionMemory.loginUserHashMap.containsKey(requestSessionId)){
 				LoginUser nowLoginUser = sessionMemory.loginUserHashMap.get(requestSessionId);
-				OAuthUser oAuthUser = nowLoginUser.getOAuthUser();
+				Long oAuthUserRemoteId = nowLoginUser.getUserRemoteId();
 
 				Set<SimpleGrantedAuthority> grantedAuthorities = new HashSet<>();
-				SimpleGrantedAuthority simpleGrantedAuthority = new SimpleGrantedAuthority(String.valueOf(oAuthUser.getUserLevel()));
+				SimpleGrantedAuthority simpleGrantedAuthority = new SimpleGrantedAuthority(String.valueOf(nowLoginUser.getUserLevel()));
 				grantedAuthorities.add(simpleGrantedAuthority);
-				UserAuthentication authentication = new UserAuthentication(String.valueOf(oAuthUser.getUserRemoteId()), null, grantedAuthorities);
+				UserAuthentication authentication = new UserAuthentication(String.valueOf(nowLoginUser.getUserRemoteId()), null, grantedAuthorities);
 
 				authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
 				SecurityContextHolder.getContext().setAuthentication(authentication);

@@ -4,10 +4,12 @@ import static com.ringtaillemur.rainmaker.config.WebClientConfig.*;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
+import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
 import javax.annotation.security.RolesAllowed;
+import javax.mail.Session;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -70,5 +72,25 @@ public class OAuthContoller {
 			return httpSession.getId();
 		}
 		return null;
+	}
+
+	@GetMapping("/logout")
+	@ResponseBody
+	public String logOutWithUserId(HttpServletRequest request, HttpServletResponse response){
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
+		String tmp = null;
+		Long userRemoteId = Long.parseLong((String)authentication.getPrincipal());
+		for(String key : sessionMemory.loginUserHashMap.keySet()){
+			Long sessionRemoteId = sessionMemory.loginUserHashMap.get(key).getUserRemoteId();
+			if(userRemoteId.equals(sessionRemoteId)){
+				tmp = key;
+				break;
+			}
+		}
+		if(tmp != null){
+			sessionMemory.loginUserHashMap.remove(tmp);
+		}
+		return "bye";
 	}
 }
