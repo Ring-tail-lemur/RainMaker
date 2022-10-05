@@ -9,11 +9,11 @@ import com.ringtaillemur.analyst.analysislogic.dorametric.*;
 public class TimerTriggerFunction {
 
   //test 2
-  LeadTimeForChange leadTimeForChange = LeadTimeForChange.getLeadTimeForChange();
-  ChangeFailureRate changeFailureRate = ChangeFailureRate.getChangeFailureRate();
-  TimeToRestoreService timeToRestoreService = TimeToRestoreService.getTimeToRestoreService();
-  UpdateCommitsReleaseId updateCommitsReleaseId = UpdateCommitsReleaseId.getUpdateCommitsReleaseId();
-  PullRequestDirection pullRequestDirection = PullRequestDirection.getPullRequestDirection();
+  private final LeadTimeForChange leadTimeForChange = LeadTimeForChange.getLeadTimeForChange();
+  private final ChangeFailureRate changeFailureRate = ChangeFailureRate.getChangeFailureRate();
+  private final TimeToRestoreService timeToRestoreService = TimeToRestoreService.getTimeToRestoreService();
+  private final UpdateCommitsReleaseId updateCommitsReleaseId = UpdateCommitsReleaseId.getUpdateCommitsReleaseId();
+  private final PullRequestDirection pullRequestDirection = PullRequestDirection.getPullRequestDirection();
 
   @FunctionName("TimerTrigger-Java")
   public void run(
