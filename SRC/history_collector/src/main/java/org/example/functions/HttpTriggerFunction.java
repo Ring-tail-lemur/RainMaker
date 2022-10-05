@@ -1,5 +1,8 @@
 package org.example.functions;
 
+import java.io.IOException;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.List;
 import java.util.Optional;
 
@@ -54,9 +57,22 @@ public class HttpTriggerFunction {
 			LoadingDataDto loadingDataDto = sourceDataTransformer.transformData(sourceDataDto);
 			dataLoader.load(loadingDataDto);
 		}
+
+		runAnalyst();
+
 		return request
 			.createResponseBuilder(HttpStatus.OK)
 			.body("happy!")
 			.build();
+	}
+
+	private void runAnalyst() throws IOException {
+		URL url = new URL("https://github-analystics.azurewebsites.net/api/AnalystHttpTrigger");
+		HttpURLConnection connection = (HttpURLConnection)url.openConnection();
+		connection.setRequestMethod("GET");
+		int responseCode = connection.getResponseCode();
+		if (responseCode != 200) {
+			throw new RuntimeException("analyst실행 실패");
+		}
 	}
 }
