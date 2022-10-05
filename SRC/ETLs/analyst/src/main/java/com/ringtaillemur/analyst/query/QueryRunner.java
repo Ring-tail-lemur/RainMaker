@@ -3,10 +3,7 @@ package com.ringtaillemur.analyst.query;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.EntityTransaction;
-import javax.persistence.Persistence;
+import javax.persistence.*;
 
 import com.ringtaillemur.analyst.dto.ReleaseDto;
 
@@ -63,5 +60,16 @@ public class QueryRunner {
 		entityManager.close();
 		entityManagerFactory.close();
 		return releaseDto;
+	}
+
+	public void runMakePullRequestDirection(String query) {
+		EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("azure-mssql-unit");
+		EntityManager entityManager = entityManagerFactory.createEntityManager();
+		try {
+			List list = entityManager.createNativeQuery(query).getResultList();
+		} catch (Exception e) {
+
+		}
+
 	}
 }
