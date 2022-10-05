@@ -44,6 +44,7 @@ import {Button} from "@/components/UIComponents";
 import setHeaderJWT from "@/api/setHeaderJWT";
 import axios from "axios";
 import tab from "@/components/UIComponents/Tabs/Tab";
+import pageCheckAndChange from "@/util/pageCheckAndChange";
 Vue.use(Table)
 Vue.use(TableColumn)
 export default {
@@ -62,12 +63,18 @@ export default {
   },
   methods : {
     async getList () {
-      console.log("setHeaderJWT()", setHeaderJWT());
-      const RepositoryInfo = await axios({
-        headers: setHeaderJWT(),
-        method: "get",
-        url: this.custom.defaultURL + "/RepositorySelect",
-      });
+      let RepositoryInfo;
+
+      try {
+        RepositoryInfo = await axios({
+          headers: setHeaderJWT(),
+          method: "get",
+          url: this.custom.defaultURL + "/RepositorySelect",
+        });
+      } catch (e) {
+        pageCheckAndChange(e, this);
+      }
+
       this.tableData = RepositoryInfo.data;
     },
     async registerRepository() {

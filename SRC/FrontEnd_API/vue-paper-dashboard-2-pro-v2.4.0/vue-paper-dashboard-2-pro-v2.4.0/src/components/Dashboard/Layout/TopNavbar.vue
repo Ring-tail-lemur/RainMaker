@@ -126,12 +126,17 @@
         this.showNavbar = !this.showNavbar;
       },
       async logout() {
-        await axios({
-          headers: setHeaderJWT(),
-          method: "get",
-          url: this.custom.defaultURL + '/custom-logout'
-        });
-        this.deleteCookie("SESSIONID");
+        try {
+          await axios({
+            headers: setHeaderJWT(),
+            method: "get",
+            url: this.custom.defaultURL + '/custom-logout'
+          });
+        } catch (e) {
+          console.log(e);
+        } finally {
+          this.deleteCookie("SESSIONID");
+        }
       },
       getCookie(name) {
         var nameOfCookie = name + "=";

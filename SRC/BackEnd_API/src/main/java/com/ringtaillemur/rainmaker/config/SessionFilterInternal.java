@@ -2,6 +2,7 @@ package com.ringtaillemur.rainmaker.config;
 
 import java.io.IOException;
 import java.util.HashSet;
+import java.util.Optional;
 import java.util.Set;
 
 import javax.servlet.FilterChain;
@@ -10,6 +11,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import com.ringtaillemur.rainmaker.domain.enumtype.OauthUserLevel;
+import com.ringtaillemur.rainmaker.repository.OAuthRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContext;
@@ -23,10 +27,11 @@ import com.ringtaillemur.rainmaker.domain.OAuthUser;
 import com.ringtaillemur.rainmaker.dto.configdto.SessionMemory;
 
 @Component
+@RequiredArgsConstructor
 public class SessionFilterInternal extends OncePerRequestFilter {
 
-	@Autowired
-	SessionMemory sessionMemory;
+	private final SessionMemory sessionMemory;
+	private final OAuthRepository oAuthRepository;
 
 	@Override
 	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response,
@@ -37,9 +42,11 @@ public class SessionFilterInternal extends OncePerRequestFilter {
 			if(sessionMemory.loginUserHashMap.containsKey(requestSessionId)){
 				LoginUser nowLoginUser = sessionMemory.loginUserHashMap.get(requestSessionId);
 				Long oAuthUserRemoteId = nowLoginUser.getUserRemoteId();
+				Optional<OAuthUser> oAuthUser = oAuthRepository.findById(oAuthUserRemoteId);
+				OauthUserLevel userLevel = oAuthUser.get().getUserLevel();
 
-				if(String.valueOf(nowLoginUser.getUserLevel()).equals("WAITING")){
-					response.setStatus(222);
+				if(oAuthUser.isPresent() && userLevel.equals(OauthUserLevel.WAITING)){
+					response.setStatus(444);
 				}
 
 

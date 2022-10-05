@@ -3,7 +3,8 @@
 
     <transition name="fade" mode="out-in">
       <!-- your content here -->
-      <router-view></router-view>
+      <router-view @waiting="waiting" @notLogin="notLogin" v-if="!wait"></router-view>
+      <loading-main-panel v-if="wait"></loading-main-panel>
     </transition>
   </div>
 </template>
@@ -13,7 +14,22 @@ import Button from "@/components/UIComponents/Button";
   export default {
     components : {
       LoadingMainPanel,
-      pbutton : Button
+      pbutton : Button,
+    },
+    data() {
+      return {
+        wait : false
+      }
+    },
+    methods: {
+      waiting() {
+        alert('Github에서 데이터를 불러오고 있습니다. 잠시만 기다려주세요.');
+        this.wait = true;
+      },
+      notLogin() {
+        alert('로그인 후 이용해주세요');
+        window.location.replace('/login');
+      }
     }
   }
 </script>
