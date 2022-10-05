@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.assertj.core.api.Assertions;
-import org.example.functions.util.ConfigReader;
+import org.example.functions.util.FileReader;
 import org.example.functions.util.TypeConverter;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -12,7 +12,7 @@ import org.junit.jupiter.api.Test;
 
 class QueryGeneratorTest {
 
-	private final ConfigReader configReader = ConfigReader.getConfigReader();
+	private final FileReader fileReader = FileReader.getInstance();
 	private final TypeConverter typeConverter = TypeConverter.getTypeConverter();
 
 	@Test
@@ -29,7 +29,7 @@ class QueryGeneratorTest {
 		JSONArray test = typeConverter.normalizeJsonObject(
 			objects.put(
 				typeConverter.convertStringToJSONObject(
-					configReader.readFile(
+					fileReader.readFile(
 						"/static/json/mock_graphql_result.json"
 					)
 				)

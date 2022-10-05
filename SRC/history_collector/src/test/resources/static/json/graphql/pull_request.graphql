@@ -1,0 +1,17 @@
+{
+    repository(owner: "Ring-tail-lemur", name: "RainMaker") {
+        pullRequests(last: 100) {
+            nodes {
+                databaseId
+                number
+                baseRef {
+                    name
+                }
+                headRef {
+                    name
+                }
+            }
+        }
+        databaseId
+    }
+}

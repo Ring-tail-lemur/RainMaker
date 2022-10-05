@@ -1,17 +1,18 @@
 package org.example.functions;
 
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 
-import org.example.functions.collector.github.HttpRequestSender;
-import org.example.functions.collector.github.request_query_generator.ApiGeneratorFactory;
-import org.example.functions.dao.QueryRunner;
-import org.example.functions.dto.HttpRequestDto;
-import org.example.functions.parser.QueryGenerator;
-import org.example.functions.util.ConfigReader;
-import org.json.JSONArray;
-import org.json.JSONObject;
+import org.example.functions.dto.LoadingDataDto;
+import org.example.functions.dto.SourceDataDto;
+import org.example.functions.dto.extracting.DataExtractingConfigDto;
+import org.example.functions.extractor.SourceDataExtractor;
+import org.example.functions.extractor.SourceDataExtractorImpl;
+import org.example.functions.loador.DataLoader;
+import org.example.functions.loador.DataLoaderImpl;
+import org.example.functions.transformer.SourceDataTransformer;
+import org.example.functions.transformer.SourceDataTransformerImpl;
+import org.example.functions.util.constants.RequestVariable;
 
 import com.microsoft.azure.functions.ExecutionContext;
 import com.microsoft.azure.functions.HttpMethod;
@@ -25,9 +26,19 @@ import com.microsoft.azure.functions.annotation.HttpTrigger;
 public class HttpTriggerFunction {
 
 	//deployment Test1
-	ConfigReader configReader = ConfigReader.getConfigReader();
-	HttpRequestSender httpRequestSender = new HttpRequestSender();
-	QueryRunner queryRunner = QueryRunner.getQueryRunner();
+	private SourceDataExtractor sourceDataExtractor;
+	private SourceDataTransformer sourceDataTransformer;
+	private DataLoader dataLoader;
+
+	private void setObjects() {
+		sourceDataExtractor = SourceDataExtractorImpl.getInstance();
+		sourceDataTransformer = SourceDataTransformerImpl.getInstance();
+		dataLoader = DataLoaderImpl.getInstance();
+	}
+
+	public HttpTriggerFunction() {
+		setObjects();
+	}
 
 	@FunctionName("HttpExample")
 	public HttpResponseMessage run(
@@ -35,18 +46,17 @@ public class HttpTriggerFunction {
 			methods = {HttpMethod.GET, HttpMethod.POST},
 			authLevel = AuthorizationLevel.ANONYMOUS) HttpRequestMessage<Optional<String>> request,
 		final ExecutionContext context) throws Exception {
-		JSONObject jsonObjectConfig = configReader.getJsonObjectConfig();
-		ApiGeneratorFactory apiGeneratorFactory = new ApiGeneratorFactory(request.getQueryParameters());
-		List<HttpRequestDto> httpRequestDtoList = apiGeneratorFactory.getAllHttpRequestDtoList(jsonObjectConfig);
-		Map<String, JSONArray> responseJSONArrayList = httpRequestSender.sendAllHttpRequest(httpRequestDtoList);
 
-		QueryGenerator queryGenerator = new QueryGenerator(jsonObjectConfig);
-		List<String> queryList = queryGenerator.generateQueryList(responseJSONArrayList);
-		queryRunner.runInsertQueries(queryList);
-
+		List<DataExtractingConfigDto> dataExtractingConfigDtoList = DataExtractingConfigDto.getDataExtractingConfigDtoList(
+			request, RequestVariable.getRequestVariableMap(request));
+		for (DataExtractingConfigDto dataExtractingConfigDto : dataExtractingConfigDtoList) {
+			SourceDataDto sourceDataDto = sourceDataExtractor.extractData(dataExtractingConfigDto);
+			LoadingDataDto loadingDataDto = sourceDataTransformer.transformData(sourceDataDto);
+			dataLoader.load(loadingDataDto);
+		}
 		return request
 			.createResponseBuilder(HttpStatus.OK)
-			.body(queryList.toString())
+			.body("happy!")
 			.build();
 	}
 }

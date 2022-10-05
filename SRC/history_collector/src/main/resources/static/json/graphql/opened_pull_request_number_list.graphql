@@ -1,0 +1,9 @@
+{
+    repository(owner: "{{owner}}", name: "{{repo}}") {
+        pullRequests(last: 100, states: OPEN) {
+            nodes {
+                number
+            }
+        }
+    }
+}

@@ -169,4 +169,47 @@ public class OlapQuery {
 		+ "WHEN MATCHED\n"
 		+ "THEN UPDATE\n"
 		+ "SET release_id = changed_release_id;";
+	public static String MAKE_PULL_REQUEST_DIRECTION
+		= "WITH COMMIT_ID_MIN_TIME AS (SELECT DISTINCT commit_id,\n" +
+		"                                            MIN(PR.created_date) OVER (PARTITION BY PRCT.commit_id) AS MIN_TIME\n" +
+		"                            FROM pull_request_commit_table PRCT\n" +
+		"                                     JOIN pull_request PR\n" +
+		"                                          ON PR.pull_request_id = PRCT.pull_request_id\n" +
+		"                            WHERE commit_id IN (SELECT commit_id\n" +
+		"                                                FROM pull_request_commit_table\n" +
+		"                                                WHERE pull_request_id NOT IN (SELECT source_pull_request_id\n" +
+		"                                                                              FROM pull_request_direction)\n" +
+		"                                                GROUP BY commit_id\n" +
+		"                                                HAVING count(commit_id) >= 2)),\n" +
+		"     SOURCE AS (SELECT distinct PR.pull_request_id, PRCT.commit_id\n" +
+		"                FROM pull_request_commit_table PRCT\n" +
+		"                         JOIN pull_request PR\n" +
+		"                              ON PR.pull_request_id = PRCT.pull_request_id\n" +
+		"                         JOIN (SELECT * FROM COMMIT_ID_MIN_TIME) temp\n" +
+		"                              ON temp.commit_id = PRCT.commit_id AND temp.MIN_TIME = PR.created_date\n" +
+		"                WHERE PR.pull_request_id NOT IN (SELECT source_pull_request_id\n" +
+		"                                                 FROM pull_request_direction)),\n" +
+		"\n" +
+		"     SECOND_TIME AS (SELECT distinct PRCT.commit_id,\n" +
+		"                                     MIN(PR.created_date) OVER (PARTITION BY PRCT.commit_id) AS SECOND_MIN_TIME\n" +
+		"                     FROM pull_request_commit_table PRCT\n" +
+		"                              JOIN pull_request PR\n" +
+		"                                   ON PR.pull_request_id = PRCT.pull_request_id\n" +
+		"                              JOIN (SELECT * FROM COMMIT_ID_MIN_TIME) temp\n" +
+		"                                   ON temp.commit_id = PRCT.commit_id AND temp.MIN_TIME < PR.created_date),\n" +
+		"\n" +
+		"     OUTGOING AS (SELECT distinct PR.pull_request_id, PRCT.commit_id\n" +
+		"                  FROM pull_request_commit_table PRCT\n" +
+		"                           JOIN pull_request PR\n" +
+		"                                ON PR.pull_request_id = PRCT.pull_request_id\n" +
+		"                           JOIN SECOND_TIME ST\n" +
+		"                                ON ST.commit_id = PRCT.commit_id\n" +
+		"                                    AND ST.SECOND_MIN_TIME = PR.created_date)\n" +
+		"INSERT\n" +
+		"INTO pull_request_direction (source_pull_request_id, outgoing_pull_request_id)\n" +
+		"OUTPUT inserted.source_pull_request_id, inserted.outgoing_pull_request_id\n" +
+		"SELECT DISTINCT S.pull_request_id, O.pull_request_id\n" +
+		"FROM OUTGOING O\n" +
+		"         JOIN SOURCE S\n" +
+		"              ON O.commit_id = S.commit_id";
 }

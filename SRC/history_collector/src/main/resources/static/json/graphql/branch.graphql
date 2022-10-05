@@ -1,6 +1,10 @@
 {
-    repository(owner: "{{owner_name}}", name: "{{repository_name}}") {
+    repository(owner: "{{owner}}", name: "{{repo}}") {
         refs(last: 100, refPrefix: "refs/heads/") {
+            pageInfo {
+                endCursor
+                hasNextPage
+            }
             nodes {
                 name
                 target {

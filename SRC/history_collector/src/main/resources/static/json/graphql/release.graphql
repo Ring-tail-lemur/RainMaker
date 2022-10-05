@@ -1,5 +1,5 @@
 {
-    repository(owner: "{{owner_name}}", name: "{{repository_name}}") {
+    repository(owner: "{{owner}}", name: "{{repo}}") {
         releases(last: 100) {
             nodes {
                 databaseId
@@ -11,6 +11,10 @@
                 tagName
                 isPrerelease
                 isDraft
+            }
+            pageInfo {
+                endCursor
+                hasNextPage
             }
         }
         databaseId

@@ -1,88 +1,87 @@
 {
   "commits": {
-    "request": {
-      "method": "GET",
-      "url": "https://api.github.com/repos/{{owner}}/{{repo}}/commits",
-      "header": {
-        "accept": "application/vnd.github+json"
-      },
-      "path_parameters": {
-      },
-      "query_parameters": {
-        "per_page": "100"
+    "source": {
+      "interface_type": "graphql",
+      "graphql": {
+        "file_name": "commits.graphql",
+        "pagination": {
+          "has_next": "data.repository.defaultBranchRef.target.history.pageInfo.hasNextPage",
+          "end_cursor": "data.repository.defaultBranchRef.target.history.pageInfo.endCursor"
+        }
       }
     },
     "mapping": {
-      "sha": [
+      "data.repository.defaultBranchRef.target.history.nodes.id": [
         "commit_id",
         "string"
       ],
-      "author.id": [
+      "data.repository.defaultBranchRef.target.history.nodes.author.user.databaseId": [
         "author_id",
         "int"
       ],
-      "commit.message": [
-        "message",
-        "string"
-      ],
-      "commit.author.date": [
+      "data.repository.defaultBranchRef.target.history.nodes.committedDate": [
         "commit_time",
         "datetime2"
       ]
     }
   },
   "pull_request": {
-    "request": {
-      "method": "GET",
-      "url": "https://api.github.com/repos/{{owner}}/{{repo}}/pulls",
-      "header": {
-        "accept": "application/vnd.github+json"
-      },
-      "path_parameters": {},
-      "query_parameters": {
-        "state": "all",
-        "per_page": "100"
+    "source": {
+      "interface_type": "graphql",
+      "graphql": {
+        "file_name": "pull_request.graphql",
+        "variable_list": "pull_request_number_list"
       }
     },
     "mapping": {
-      "id": [
+      "data.repository.pullRequest.databaseId": [
         "pull_request_id",
         "int"
       ],
-      "number": [
+      "data.repository.pullRequest.number": [
         "pull_request_number",
         "int"
       ],
-      "head.ref": [
+      "data.repository.pullRequest.headRef.name": [
         "pull_request_open_branch_name",
         "string"
       ],
-      "base.ref": [
+      "data.repository.pullRequest.baseRef.name": [
         "pull_request_close_branch_name",
         "string"
       ],
-      "base.repo.id": [
+      "data.repository.databaseId": [
         "repository_id",
         "int"
       ]
     }
   },
   "[comment]pull_request_comment": {
-    "graphql": "pull_request_comment.graphql",
+    "source": {
+      "interface_type": "graphql",
+      "graphql": {
+        "file_name": "pull_request_comment.graphql",
+        "variable_list": "pull_request_number_list",
+        "pagination": {
+          "has_next": "data.repository.pullRequest.comments.pageInfo.hasNextPage",
+          "end_cursor": "data.repository.pullRequest.comments.pageInfo.endCursor"
+        }
+      }
+    },
     "mapping": {
-      "data.repository.pullRequests.nodes.comments.nodes.databaseId": [
+      "data.repository.pullRequest.comments.nodes.databaseId": [
         "pull_request_comment_id",
         "int"
       ],
-      "data.repository.pullRequests.nodes.comments.nodes.publishedAt": [
+      "data.repository.pullRequest.comments.nodes.publishedAt": [
         "event_time",
         "datetime2"
       ],
-      "data.repository.pullRequests.nodes.databaseId": [
+      "data.repository.pullRequest.databaseId": [
         "pull_request_id",
         "int"
       ],
-      "data.repository.pullRequests.nodes.comments.nodes.author.databaseId": [
+      "data.repository.pullRequest.comments.nodes.author.databaseId": [
         "git_user_id",
         "int"
       ],
@@ -93,21 +92,31 @@
     }
   },
   "[review]pull_request_comment": {
-    "graphql": "pull_request_comment_review.graphql",
+    "source": {
+      "interface_type": "graphql",
+      "graphql": {
+        "file_name": "pull_request_comment_review.graphql",
+        "variable_list": "pull_request_number_list",
+        "pagination": {
+          "has_next": "data.repository.pullRequest.reviews.pageInfo.hasNextPage",
+          "end_cursor": "data.repository.pullRequest.reviews.pageInfo.endCursor"
+        }
+      }
+    },
     "mapping": {
-      "data.repository.pullRequests.nodes.reviews.nodes.databaseId": [
+      "data.repository.pullRequest.reviews.nodes.databaseId": [
         "pull_request_comment_id",
         "int"
       ],
-      "data.repository.pullRequests.nodes.reviews.nodes.createdAt": [
+      "data.repository.pullRequest.reviews.nodes.createdAt": [
         "event_time",
         "datetime2"
       ],
-      "data.repository.pullRequests.nodes.databaseId": [
+      "data.repository.pullRequest.databaseId": [
         "pull_request_id",
         "int"
       ],
-      "data.repository.pullRequests.nodes.reviews.nodes.author.databaseId": [
+      "data.repository.pullRequest.reviews.nodes.author.databaseId": [
         "git_user_id",
         "int"
       ],
@@ -118,7 +127,16 @@
     }
   },
   "release": {
-    "graphql": "release.graphql",
+    "source": {
+      "interface_type": "graphql",
+      "graphql": {
+        "file_name": "release.graphql",
+        "pagination": {
+          "has_next": "data.repository.releases.pageInfo.hasNextPage",
+          "end_cursor": "data.repository.releases.pageInfo.endCursor"
+        }
+      }
+    },
     "mapping": {
       "data.repository.releases.nodes.databaseId": [
         "release_id",
@@ -155,15 +173,17 @@
     }
   },
   "git_user": {
-    "request": {
-      "method": "GET",
-      "url": "https://api.github.com/repos/{{owner}}/{{repo}}/contributors",
-      "header": {
-        "accept": "application/vnd.github+json"
-      },
-      "path_parameters": {},
-      "query_parameters": {
-        "per_page": "100"
+    "source": {
+      "interface_type": "restapi",
+      "restapi": {
+        "method": "GET",
+        "url": "https://api.github.com/repos/{{owner}}/{{repo}}/contributors",
+        "header": {
+          "accept": "application/vnd.github+json"
+        },
+        "query_parameters": {
+          "per_page": "100"
+        }
       }
     },
     "mapping": {
@@ -178,7 +198,16 @@
     }
   },
   "branch": {
-    "graphql": "branch.graphql",
+    "source": {
+      "interface_type": "graphql",
+      "graphql": {
+        "file_name": "branch.graphql",
+        "pagination": {
+          "has_next": "data.repository.refs.pageInfo.hasNextPage",
+          "end_cursor": "data.repository.refs.pageInfo.endCursor"
+        }
+      }
+    },
     "mapping": {
       "data.repository.refs.nodes.name": [
         "name",
@@ -195,42 +224,54 @@
     }
   },
   "[open]pull_request_event": {
-    "graphql": "pull_request_event_open.graphql",
+    "source": {
+      "interface_type": "graphql",
+      "graphql": {
+        "file_name": "pull_request_event_open.graphql",
+        "variable_list": "opened_pull_request_number_list"
+      }
+    },
     "mapping": {
       "[default]OPENED": [
         "pull_request_event_type",
         "string"
       ],
-      "data.repository.pullRequests.nodes.createdAt": [
+      "data.repository.pullRequest.createdAt": [
         "event_time",
         "datetime2"
       ],
-      "data.repository.pullRequests.nodes.databaseId": [
+      "data.repository.pullRequest.databaseId": [
         "pull_request_id",
         "bigint"
       ],
-      "data.repository.pullRequests.nodes.author.databaseId": [
+      "data.repository.pullRequest.author.databaseId": [
         "event_sender_id",
         "bigint"
       ]
     }
   },
   "[close]pull_request_event": {
-    "graphql": "pull_request_event_closed.graphql",
+    "source": {
+      "interface_type": "graphql",
+      "graphql": {
+        "file_name": "pull_request_event_closed.graphql",
+        "variable_list": "merged_pull_request_number_list"
+      }
+    },
     "mapping": {
       "[default]CLOSED": [
         "pull_request_event_type",
         "string"
       ],
-      "data.repository.pullRequests.nodes.closedAt": [
+      "data.repository.pullRequest.closedAt": [
         "event_time",
         "datetime2"
       ],
-      "data.repository.pullRequests.nodes.databaseId": [
+      "data.repository.pullRequest.databaseId": [
         "pull_request_id",
         "bigint"
       ],
-      "data.repository.pullRequests.nodes.author.databaseId": [
+      "data.repository.pullRequest.author.databaseId": [
         "event_sender_id",
         "bigint"
       ]

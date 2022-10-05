@@ -1,0 +1,25 @@
+{
+    repository(owner: "{{owner}}", name: "{{repo}}") {
+        defaultBranchRef {
+            target {
+                ... on Commit {
+                    history{{page}} {
+                        nodes {
+                            id
+                            committedDate
+                            author {
+                                user {
+                                    databaseId
+                                }
+                            }
+                        }
+                        pageInfo {
+                            endCursor
+                            hasNextPage
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

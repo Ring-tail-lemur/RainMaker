@@ -1,13 +1,11 @@
 {
-    repository(owner: "{{owner_name}}", name: "{{repository_name}}") {
-        pullRequests(last: 100, states: MERGED) {
-            nodes {
-                databaseId
-                closedAt
-                author {
-                    ... on User {
-                        databaseId
-                    }
+    repository(owner: "{{owner}}", name: "{{repo}}") {
+        pullRequest(number: $[[merged_pull_request_number_list]]) {
+            databaseId
+            closedAt
+            author {
+                ... on User {
+                    databaseId
                 }
             }
         }

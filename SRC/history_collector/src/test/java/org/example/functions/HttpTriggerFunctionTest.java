@@ -3,6 +3,7 @@ package org.example.functions;
 import java.util.HashMap;
 
 import org.example.functions.mock.HttpRequestMessageMock;
+import org.json.JSONArray;
 import org.junit.jupiter.api.Test;
 
 class HttpTriggerFunctionTest {
@@ -20,7 +21,7 @@ class HttpTriggerFunctionTest {
 
 	@Test
 	void run() throws Exception {
-		httpTriggerFunction.run(request, null);
+		new JSONArray("[{\"hello\":\"okd\"},{\"hello\":\"okd\"}]");
 	}
 
 }

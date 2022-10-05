@@ -1,0 +1,26 @@
+{
+    repository(owner: "Ring-tail-lemur", name: "RainMaker") {
+        defaultBranchRef {
+            target {
+                ... on Commit {
+                    history {
+                        nodes {
+                            id
+                            committedDate
+                            author {
+                                user {
+                                    databaseId
+                                }
+                            }
+                            message
+                        }
+                        pageInfo {
+                            endCursor
+                            hasNextPage
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
