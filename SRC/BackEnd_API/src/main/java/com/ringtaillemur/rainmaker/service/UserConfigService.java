@@ -105,22 +105,30 @@ public class UserConfigService {
 					.build();
 				oAuthUserRepositoryTableList.add(oAuthUserRepository);
 			} else {
-				Repository newRepository = new Repository();
-				newRepository.setId(repo_id);
-				OAuthUserRepositoryTable oAuthUserRepository = OAuthUserRepositoryTable.builder()
-					.oAuthUser(oAuthUser)
-					.repository(newRepository)
-					.build();
-				repositories.add(getRepositoryInfoByGithubApi(owner_name, repo_name, token));
+				OAuthUserRepositoryTable oAuthUserRepository = getoAuthUserRepositoryTable(token, repositories, oAuthUser, repo_id, owner_name, repo_name);
 				oAuthUserRepositoryTableList.add(oAuthUserRepository);
 				setUserWebhookByRepoName(token, owner_name, repo_name);
 				triggerHistoryCollector(owner_name, repo_name, token);
 			}
 		}
+		saveRepositoryAndOAuthUserRepositoryTable(repositories, oAuthUserRepositoryTableList);
+	}
 
+	private void saveRepositoryAndOAuthUserRepositoryTable(List<Repository> repositories, List<OAuthUserRepositoryTable> oAuthUserRepositoryTableList) {
 		repositoryRepository.saveAll(repositories);
 		oAuthUserRepositoryRepository.deleteByOAuthUserIdQuery(getUserId());
 		oAuthUserRepositoryRepository.saveAll(oAuthUserRepositoryTableList);
+	}
+
+	private OAuthUserRepositoryTable getoAuthUserRepositoryTable(String token, List<Repository> repositories, OAuthUser oAuthUser, Long repo_id, String owner_name, String repo_name) {
+		Repository newRepository = new Repository();
+		newRepository.setId(repo_id);
+		OAuthUserRepositoryTable oAuthUserRepository = OAuthUserRepositoryTable.builder()
+			.oAuthUser(oAuthUser)
+			.repository(newRepository)
+			.build();
+		repositories.add(getRepositoryInfoByGithubApi(owner_name, repo_name, token));
+		return oAuthUserRepository;
 	}
 
 	/**
