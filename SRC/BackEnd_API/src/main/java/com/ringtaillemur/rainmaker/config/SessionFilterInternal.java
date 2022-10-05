@@ -48,6 +48,11 @@ public class SessionFilterInternal extends OncePerRequestFilter {
 				}
 
 
+				if(String.valueOf(nowLoginUser.getUserLevel()).equals("WAITING")){
+					response.setStatus(222);
+				}
+
+
 				Set<SimpleGrantedAuthority> grantedAuthorities = new HashSet<>();
 				SimpleGrantedAuthority simpleGrantedAuthority = new SimpleGrantedAuthority(String.valueOf(nowLoginUser.getUserLevel()));
 				grantedAuthorities.add(simpleGrantedAuthority);
