@@ -12,7 +12,7 @@
 
         </navbar-toggle-button>
       </div>
-      <a class="navbar-brand" href="#pablo">Vue Paper Dashboard 2 PRO</a>
+      <a class="navbar-brand" href="#pablo">RainMaker</a>
     </div>
 
     <template slot="navbar-menu">
@@ -35,6 +35,19 @@
             </p>
           </a>
         </li>
+
+        <li class="nav-item logoutBox" v-if="this.isLogin" v-on:click="logout()">
+          <a class="nav-link btn-magnify">
+            로그아웃
+          </a>
+        </li>
+
+        <li class="nav-item" v-else>
+          <a class="nav-link btn-magnify" href="/login">
+            로그인
+          </a>
+        </li>
+
         <drop-down icon="nc-icon nc-bell-55" tag="li"
                    position="right"
                    direction="none"
@@ -69,6 +82,7 @@
 <script>
   import { Navbar, NavbarToggleButton } from 'src/components/UIComponents'
 
+
   export default {
     components: {
       Navbar,
@@ -77,7 +91,14 @@
     data() {
       return {
         activeNotifications: false,
-        showNavbar: false
+        showNavbar: false,
+        isLogin : false
+      }
+    },
+    created() {
+      let cookie = this.getCookie("SESSIONID");
+      if(cookie) {
+        this.isLogin = true;
       }
     },
     methods: {
@@ -101,6 +122,30 @@
       },
       toggleNavbar() {
         this.showNavbar = !this.showNavbar;
+      },
+      logout() {
+        this.deleteCookie("SESSIONID");
+      },
+      getCookie(name) {
+        var nameOfCookie = name + "=";
+        var x = 0;
+        while (x <= document.cookie.length) {
+          var y = (x + nameOfCookie.length);
+          if (document.cookie.substring(x, y) == nameOfCookie) {
+            let endOfCookie;
+            if ((endOfCookie = document.cookie.indexOf(";", y)) == -1)
+              endOfCookie = document.cookie.length;
+            return unescape(document.cookie.substring(y, endOfCookie));
+          }
+          x = document.cookie.indexOf(" ", x) + 1;
+          if (x == 0)
+            break;
+        }
+        return null;
+      },
+      deleteCookie(name) {
+        document.cookie = name + '=; expires=Thu, 01 Jan 1970 00:00:01 GMT;';
+        location.reload();
       }
     }
   }

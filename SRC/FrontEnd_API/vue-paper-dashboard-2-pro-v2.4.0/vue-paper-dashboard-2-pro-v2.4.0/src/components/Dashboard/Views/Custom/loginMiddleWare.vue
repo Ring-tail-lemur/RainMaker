@@ -34,7 +34,11 @@ export default {
         const jwtToken = response.data;
 
         console.log("SESSIONID", jwtToken);
-        document.cookie = "SESSIONID=" + jwtToken + ";path=/";
+
+        let date = new Date();
+        date.setTime(date.getTime() + (1 * 24 * 60 * 60 * 1000));
+        const expires = " expires=" + date.toGMTString() + "; ";
+        document.cookie = "SESSIONID=" + jwtToken + ";path=/; " + expires;
         window.location.replace(this.custom.myURL);
       } catch (e) {
         console.error("로그인 에러. 다시시도", e);
