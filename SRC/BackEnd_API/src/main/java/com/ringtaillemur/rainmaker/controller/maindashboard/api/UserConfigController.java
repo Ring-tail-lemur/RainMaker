@@ -28,8 +28,8 @@ import lombok.RequiredArgsConstructor;
 @Controller
 public class UserConfigController {
 
-	@Autowired
-	private JwtUtils jwtUtils;
+
+	private final JwtUtils jwtUtils;
 
 	private final HttpSession session;
 

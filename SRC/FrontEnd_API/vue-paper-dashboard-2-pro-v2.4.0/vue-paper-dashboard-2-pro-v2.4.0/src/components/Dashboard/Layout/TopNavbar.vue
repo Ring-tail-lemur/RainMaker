@@ -81,6 +81,8 @@
 </template>
 <script>
   import { Navbar, NavbarToggleButton } from 'src/components/UIComponents'
+  import axios from "axios";
+  import setHeaderJWT from "@/util/setHeaderJWT";
 
 
   export default {
@@ -123,7 +125,12 @@
       toggleNavbar() {
         this.showNavbar = !this.showNavbar;
       },
-      logout() {
+      async logout() {
+        await axios({
+          headers: setHeaderJWT(),
+          method: "get",
+          url: this.custom.defaultURL + '/custom-logout'
+        });
         this.deleteCookie("SESSIONID");
       },
       getCookie(name) {

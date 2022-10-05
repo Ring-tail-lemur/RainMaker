@@ -38,6 +38,11 @@ public class SessionFilterInternal extends OncePerRequestFilter {
 				LoginUser nowLoginUser = sessionMemory.loginUserHashMap.get(requestSessionId);
 				Long oAuthUserRemoteId = nowLoginUser.getUserRemoteId();
 
+				if(String.valueOf(nowLoginUser.getUserLevel()).equals("WAITING")){
+					response.setStatus(222);
+				}
+
+
 				Set<SimpleGrantedAuthority> grantedAuthorities = new HashSet<>();
 				SimpleGrantedAuthority simpleGrantedAuthority = new SimpleGrantedAuthority(String.valueOf(nowLoginUser.getUserLevel()));
 				grantedAuthorities.add(simpleGrantedAuthority);

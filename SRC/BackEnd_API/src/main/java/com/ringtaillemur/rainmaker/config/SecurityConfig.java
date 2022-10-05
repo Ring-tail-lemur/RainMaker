@@ -30,7 +30,7 @@ public class SecurityConfig {
 			.authorizeRequests(a -> a
 				.antMatchers("/", "/error", "/webjars/**", "/login/**", "/login/oauth2/code/github", "/api/cycletime",
 					"/dorametric/**").permitAll()
-				.anyRequest().hasAnyAuthority("FIRST_AUTH_USER")
+				.anyRequest().hasAnyAuthority("FIRST_AUTH_USER", "WAITING")
 			)
 			.exceptionHandling(e -> e
 				.authenticationEntryPoint(new HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED))
