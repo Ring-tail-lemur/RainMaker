@@ -4,23 +4,62 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.HashMap;
 import java.util.Iterator;
 
+import org.example.functions.dto.extracting.DataSourceInterfaceConfigDtoInterface;
+import org.example.functions.util.StringFormatter;
 import org.json.JSONObject;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
 
 @Data
-@AllArgsConstructor
-@Builder
 public class HttpRequestDto {
-	private String requestType;
 	private URL url;
 	private JSONObject header;
 	private String method;
 	private String body;
+
+	public HttpRequestDto(DataSourceInterfaceConfigDtoInterface dataSourceInterfaceConfigDtoInterface) {
+		url = dataSourceInterfaceConfigDtoInterface.getUrl();
+		header = dataSourceInterfaceConfigDtoInterface.getHeader();
+		method = dataSourceInterfaceConfigDtoInterface.getMethod();
+		body = dataSourceInterfaceConfigDtoInterface.getBody();
+	}
+
+	public HttpRequestDto(URL url, JSONObject header, String method, String body) {
+		this.url = url;
+		this.header = header;
+		this.method = method;
+		this.body = body;
+	}
+
+	public HttpRequestDto getPaginatedDto(String endCursor) {
+		HttpRequestDto paginatedDto = new HttpRequestDto(url, header, method, body);
+		if (endCursor == null) {
+			paginatedDto.setFirstPage();
+		} else{
+			paginatedDto.setNextPage(endCursor);
+		}
+		return paginatedDto;
+	}
+
+	private void setNextPage(String endCursor) {
+		StringFormatter stringFormatter = new StringFormatter();
+		HashMap<String, String> parameterMap = new HashMap<>();
+		parameterMap.put("page", String.format("(after: \\\"%s\\\")", endCursor));
+		parameterMap.put("pageElement", String.format(", after: \\\"%s\\\"", endCursor));
+		body = stringFormatter.bindParameters(body, parameterMap);
+	}
+
+	private void setFirstPage() {
+		StringFormatter stringFormatter = new StringFormatter();
+		HashMap<String, String> parameterMap = new HashMap<>();
+		parameterMap.put("page", "");
+		parameterMap.put("pageElement", "");
+		body = stringFormatter.bindParameters(body, parameterMap);
+	}
+
 
 	public HttpURLConnection getHttpURLConnection() throws IOException {
 		HttpURLConnection httpURLConnection = (HttpURLConnection)url.openConnection();

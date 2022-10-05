@@ -5,30 +5,22 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
 
-import org.example.functions.util.constants.FilePathConstant;
-import org.json.JSONObject;
+public class FileReader {
 
-public class ConfigReader {
+	public static final FileReader fileReader = new FileReader();
 
-	TypeConverter typeConverter = TypeConverter.getTypeConverter();
-
-	private static final ConfigReader configReader = new ConfigReader();
-
-	private ConfigReader() {
+	private FileReader() {
 	}
 
-	public static ConfigReader getConfigReader() {
-		return configReader;
+	public static FileReader getInstance() {
+		return fileReader;
 	}
 
-	public JSONObject getJsonObjectConfig() {
-		return typeConverter.convertStringToJSONObject(getStringConfig(FilePathConstant.CONFIG_FILE_PATH));
-	}
-
-	public String getStringConfig(String filePath) {
-		return readFile(filePath);
-	}
-
+	/**
+	 * 인자로 받은 filePath에 있는 파일을 읽어와서 String으로 반환한다.
+	 * @param filePath 읽어올 파일의 Path
+	 * @return String 형식의 파일
+	 */
 	public String readFile(String filePath) {
 		InputStream input = this.getClass().getResourceAsStream(filePath);
 		ByteArrayOutputStream result = new ByteArrayOutputStream();

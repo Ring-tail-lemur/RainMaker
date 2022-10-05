@@ -1,20 +1,22 @@
 {
-    repository(owner: "{{owner_name}}", name: "{{repository_name}}") {
-        pullRequests(last: 100) {
-            nodes {
-                comments(last: 100) {
-                    nodes {
-                        publishedAt
-                        databaseId
-                        author {
-                            ... on User {
-                                databaseId
-                            }
+    repository(owner: "{{owner}}", name: "{{repo}}") {
+        pullRequest(number: $[[pull_request_number_list]]) {
+            comments(last: 100{{pageElement}}) {
+                nodes {
+                    publishedAt
+                    databaseId
+                    author {
+                        ... on User {
+                            databaseId
                         }
                     }
                 }
-                databaseId
+                pageInfo {
+                    endCursor
+                    hasNextPage
+                }
             }
+            databaseId
         }
     }
 }

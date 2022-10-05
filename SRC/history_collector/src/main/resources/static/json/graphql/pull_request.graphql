@@ -2,12 +2,14 @@
     repository(owner: "{{owner}}", name: "{{repo}}") {
         pullRequest(number: $[[pull_request_number_list]]) {
             databaseId
-            createdAt
-            author {
-                ... on User {
-                    databaseId
-                }
+            number
+            baseRef {
+                name
+            }
+            headRef {
+                name
             }
         }
+        databaseId
     }
 }
