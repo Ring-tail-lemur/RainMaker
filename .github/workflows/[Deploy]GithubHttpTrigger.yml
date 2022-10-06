@@ -1,4 +1,4 @@
-    name: github trigger [Deploy]
+    name: '[DEPLOY] Github Listener Code'
     
     on:
       push:

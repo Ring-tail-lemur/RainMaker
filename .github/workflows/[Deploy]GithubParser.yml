@@ -1,4 +1,4 @@
-    name: github parser [Deploy]
+    name: '[DEPLOY] Github Parser Code'
     
     on:
       push:

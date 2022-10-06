@@ -1,4 +1,4 @@
-name: History Collector Deployment
+name: '[DEPLOY] History Collector Code'
 
 on:
   push:
