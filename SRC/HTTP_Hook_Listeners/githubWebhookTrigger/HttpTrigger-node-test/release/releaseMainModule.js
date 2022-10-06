@@ -1,4 +1,3 @@
-const createdModule = require('./createdModule.js');
 const timeModule = require('../utils/getCurrentTimeModule.js');
 const labelCreateModule = require('../utils/labelCreateRestApi.js');
 const msSQLModule = require('../ms-sql/msSQLModule.js');

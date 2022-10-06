@@ -33,7 +33,6 @@ async function commitMain(context, commits_url, isPrivate, pull_request_remote_i
     }catch(e){
         err_log_module.log(e, "Commit-main.js");
     }
-    
 }
 
 module.exports.commitMain = commitMain;

@@ -1,4 +1,3 @@
-const requestModule = require('./workflowRunRequestedModule.js');
 const completeModule = require('./workflowRunCompletedModule.js');
 //test for deploy
 async function workflowRunMain(hookBody, cloudEventObj, context){
@@ -21,13 +20,5 @@ async function workflowRunMain(hookBody, cloudEventObj, context){
         cloudEventObj.source = 'not yet';
         return cloudEventObj;
     }
-    // if(cloudEventObj.action == 'requested'){
-    //     return await requestModule.workflowRunRequestMain(hookBody,cloudEventObj,context);
-    // }else if(cloudEventObj.action == 'completed'){
-    //     return await completeModule.workflowRunCompleteMain(hookBody,cloudEventObj,context);
-    // }else{
-    //     context.log(cloudEventObj.action + ' ' + "action is not yet checked&&developed!");
-    //     return cloudEventObj;
-    // }
 }
 module.exports.workflowRunMain = workflowRunMain;
