@@ -12,15 +12,13 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.web.authentication.WebAuthenticationDetails;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
-import com.ringtaillemur.rainmaker.domain.OAuthUser;
-import com.ringtaillemur.rainmaker.dto.configdto.SessionMemory;
+import com.ringtaillemur.rainmaker.dto.securitydto.LoginUser;
+import com.ringtaillemur.rainmaker.dto.securitydto.SessionMemory;
 
 @Component
 public class SessionFilterInternal extends OncePerRequestFilter {
