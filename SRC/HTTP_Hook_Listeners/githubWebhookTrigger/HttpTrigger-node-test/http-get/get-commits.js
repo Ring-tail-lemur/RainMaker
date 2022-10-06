@@ -1,5 +1,3 @@
-const request =require('request');
-
 const getModule = require('./http-protocol-module');
 const err_log_module = require('../utils/slackLogBot.js');
 async function getCommitsWithToken(context, uri, gitHubTokenP,pull_request_remote_identifier){

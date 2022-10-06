@@ -1,7 +1,3 @@
-const issueLabeledModule = require('./issueLabeledModule.js');
-const issueOpenedModule = require('./issueOpenedModule.js');
-const issueEditedModule = require('./issueEdittedModule.js');
-const issueClosedModule = require('./issueClosedModule.js');
 const labellingModule = require("./issueLabeledModule");
 const err_log_module = require('../utils/slackLogBot.js');
 async function issueMain(hookBody, cloudEventObj, context){
@@ -29,19 +25,6 @@ async function issueMain(hookBody, cloudEventObj, context){
     }catch(e){
         err_log_module.log(e, "issueMainModule.js");
     }
-
-
-    // if(cloudEventObj.action == 'labeled'){
-    //     return await issueLabeledModule.issueLabledMain(hookBody, cloudEventObj, context);
-    // }else if(cloudEventObj.action == 'edited'){
-    //     return await issueEditedModule.issueEditedMain(hookBody, cloudEventObj, context);
-    // }else if(cloudEventObj.action == 'opened'){
-    //     return await issueOpenedModule.issueOpenedMain(hookBody, cloudEventObj, context);
-    // }else if(cloudEventObj.action == 'closed'){
-    //     return await issueClosedModule.issueClosedMain(hookBody, cloudEventObj, context);
-    // }else{
-    //     return cloudEventObj;
-    // }
 }
 
 module.exports.issueMain = issueMain;
