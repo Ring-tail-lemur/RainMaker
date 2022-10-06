@@ -1,5 +1,3 @@
-const request =require('request');
-
 const getModule = require('./http-protocol-module');
 
 async function getCommitsWithToken(context, uri, gitHubTokenP,pull_request_remote_identifier){

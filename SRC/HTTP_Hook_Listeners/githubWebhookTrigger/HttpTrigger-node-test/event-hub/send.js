@@ -5,7 +5,7 @@ const fs = require("fs");
 async function sender(cloudEventObj, context) {
 
   const eventHubName = 'githubhttpeventhub';   
-  // Create a producer client to send messages to the event hub.
+  
   let connectionString = null;
   try{
     connectionString = await readJsonSecret(context);
@@ -16,14 +16,11 @@ async function sender(cloudEventObj, context) {
   try{
     const producer = new EventHubProducerClient(connectionString, eventHubName, {"retryDelayInMs":60000});
   
-    // Prepare a batch of three events.
     const batch = await producer.createBatch();
     batch.tryAdd({ body: cloudEventObj});
   
-    // Send the batch to the event hub.
     await producer.sendBatch(batch);
   
-    // Close the producer client.
     await producer.close();
     context.log(JSON.stringify(cloudEventObj));
   }catch (e) {
