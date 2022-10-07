@@ -48,11 +48,7 @@ public class OAuthContoller {
 		//Repository 에 들어가 있는 상태의 OauthUser Entity 리턴
 		Optional<OAuthUser> nowUser = securityUserService.checkDuplicationAndCommitUser(nowLoginUser);
 
-		if (nowUser.isPresent()) {
-			userGithubToken.replace("\"", ""));
-		//Repository 에 들어가 있는 상태의 OauthUser Entity 리턴
-		Optional<OAuthUser> nowUser = securityUserService.checkDuplicationAndCommitUser(nowLoginUser);
-
+		if (nowUser.isPresent()){
 			LoginUser newLoginUser = new LoginUser(nowUser.get());
 			HttpSession httpSession = req.getSession();
 			httpSession.setAttribute("user", newLoginUser);
