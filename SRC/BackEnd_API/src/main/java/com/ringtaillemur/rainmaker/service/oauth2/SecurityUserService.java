@@ -99,13 +99,14 @@ public class SecurityUserService {
 	public Optional<OAuthUser> checkDuplicationAndCommitUser(OAuthUser oAuthUser) {
 		try {
 			Optional<OAuthUser> presentUser = oAuthRepository.findByUserRemoteId(oAuthUser.getUserRemoteId());
-			presentUser.get().update(oAuthUser.getOauthToken());
-			oAuthRepository.save(presentUser.get());
-			return presentUser;
+			if(presentUser.isPresent()) {
+				return presentUser;
+			}
 		} catch (Exception e) {
 			oAuthRepository.save(oAuthUser);
 			return Optional.of(oAuthUser);
 		}
+		return Optional.empty();
 	}
 
 	private static class JsonUser {
