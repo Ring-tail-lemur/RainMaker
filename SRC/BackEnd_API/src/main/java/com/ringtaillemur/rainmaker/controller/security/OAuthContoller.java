@@ -23,7 +23,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.ringtaillemur.rainmaker.domain.OAuthUser;
 import com.ringtaillemur.rainmaker.dto.securitydto.SessionMemory;
 import com.ringtaillemur.rainmaker.service.oauth2.SecurityUserService;
-
+// 머지 테스트
 @Controller
 public class OAuthContoller {
 
