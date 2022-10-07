@@ -43,13 +43,9 @@ public class SessionFilterInternal extends OncePerRequestFilter {
 				Optional<OAuthUser> oAuthUser = oAuthRepository.findById(oAuthUserRemoteId);
 				OauthUserLevel userLevel = oAuthUser.get().getUserLevel();
 
+
 				if(oAuthUser.isPresent() && userLevel.equals(OauthUserLevel.WAITING)){
 					response.setStatus(444);
-				}
-
-
-				if(String.valueOf(nowLoginUser.getUserLevel()).equals("WAITING")){
-					response.setStatus(222);
 				}
 
 
