@@ -1,4 +1,4 @@
-name: History Collector PR Test
+name: '[PR-TEST] History Collector Code'
 
 on:
   pull_request:

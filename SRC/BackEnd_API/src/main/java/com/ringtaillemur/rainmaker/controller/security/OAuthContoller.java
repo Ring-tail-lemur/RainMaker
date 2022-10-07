@@ -1,41 +1,28 @@
-package com.ringtaillemur.rainmaker.controller.maindashboard.api;
-
-import static com.ringtaillemur.rainmaker.config.WebClientConfig.*;
+package com.ringtaillemur.rainmaker.controller.security;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
-import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 
 import javax.annotation.security.RolesAllowed;
-import javax.mail.Session;
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import com.ringtaillemur.rainmaker.config.LoginUser;
-import com.ringtaillemur.rainmaker.config.Token;
+import com.ringtaillemur.rainmaker.dto.securitydto.LoginUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import com.ringtaillemur.rainmaker.config.UserAuthentication;
 import com.ringtaillemur.rainmaker.domain.OAuthUser;
-import com.ringtaillemur.rainmaker.domain.enumtype.OauthUserLevel;
-import com.ringtaillemur.rainmaker.dto.configdto.SessionMemory;
+import com.ringtaillemur.rainmaker.dto.securitydto.SessionMemory;
 import com.ringtaillemur.rainmaker.service.oauth2.SecurityUserService;
-
-import jdk.jfr.Frequency;
 
 @Controller
 public class OAuthContoller {

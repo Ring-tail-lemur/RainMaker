@@ -1,4 +1,4 @@
-package com.ringtaillemur.rainmaker.config;
+package com.ringtaillemur.rainmaker.dto.securitydto;
 
 import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.userdetails.User;
