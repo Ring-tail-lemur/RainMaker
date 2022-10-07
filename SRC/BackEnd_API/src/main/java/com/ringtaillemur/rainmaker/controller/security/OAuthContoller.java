@@ -44,8 +44,7 @@ public class OAuthContoller {
 		
 		String userInfoLine = securityUserService.getUserInfoWithToken(userGithubToken);
 		// userInfoLine -> OauthUser로 변환(OauthUserLevel == FIRST_AUTH_USER)
-		OAuthUser nowLoginUser = securityUserService.stringToUserFirstAuthUserEntity(userInfoLine,
-				userGithubToken.replace("\"", ""));
+		OAuthUser nowLoginUser = securityUserService.stringToUserFirstAuthUserEntity(userInfoLine, userGithubToken.replace("\"", ""));
 		//Repository 에 들어가 있는 상태의 OauthUser Entity 리턴
 		Optional<OAuthUser> nowUser = securityUserService.checkDuplicationAndCommitUser(nowLoginUser);
 
