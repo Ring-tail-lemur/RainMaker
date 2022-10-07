@@ -54,6 +54,7 @@ public class SessionFilterInternal extends OncePerRequestFilter {
 			logger.error(exception);
 		}
 		filterChain.doFilter(request,response);
+
 	}
 	private void updateSessionMap(LoginUser loginUser, String sessionId){
 		Optional<OAuthUser> nowUser = oAuthRepository.findByUserRemoteId(loginUser.getUserRemoteId());
