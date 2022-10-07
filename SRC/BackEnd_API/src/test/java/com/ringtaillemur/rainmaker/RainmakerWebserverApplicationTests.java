@@ -4,6 +4,7 @@ import com.ringtaillemur.rainmaker.domain.LeadTimeForChange;
 import com.ringtaillemur.rainmaker.domain.OAuthUser;
 import com.ringtaillemur.rainmaker.domain.OAuthUserRepositoryTable;
 import com.ringtaillemur.rainmaker.domain.Repository;
+import com.ringtaillemur.rainmaker.domain.enumtype.OauthUserLevel;
 import com.ringtaillemur.rainmaker.dto.webdto.responsedto.RepositoryInfoDto;
 import com.ringtaillemur.rainmaker.dto.webdto.responsedto.UserRepositoryDto;
 import com.ringtaillemur.rainmaker.repository.LeadTimeForChangeRepository;
@@ -15,7 +16,13 @@ import com.ringtaillemur.rainmaker.service.UserConfigService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.reactive.function.client.ClientResponse;
+import org.springframework.web.reactive.function.client.WebClient;
+import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -27,6 +34,7 @@ import java.util.stream.Collectors;
 
 @SpringBootTest
 @Transactional
+
 class RainmakerWebserverApplicationTests {
 
 	@Autowired
@@ -98,4 +106,39 @@ class RainmakerWebserverApplicationTests {
 
 		return;
 	}
+
+	@Test
+	void WebClient테스트() {
+		final int abcd = 3;
+		WebClient webClient = WebClient.builder()
+				.baseUrl("https://jsonplaceholder.typicode.com/comments")
+				.build();
+		webClient.get().accept(MediaType.APPLICATION_JSON).exchange().flux()
+				.subscribe( (result) -> {
+					extracted(abcd, result);
+				});
+
+
+		try {
+			Thread.sleep(10000);
+		} catch (InterruptedException e) {
+			System.out.println(e.getMessage());
+		} finally {
+			System.out.println("==========END==========");
+		}
+	}
+
+	private void extracted(int abcd, ClientResponse result) {
+		HttpStatus httpStatus = result.statusCode();
+		System.out.println(httpStatus);
+		if (result.statusCode().is2xxSuccessful()) {
+			Optional<OAuthUser> id = oAuthRepository.findById(81180977L);
+			OAuthUser oAuthUser = id.orElseThrow();
+			oAuthUser.setUserLevel(OauthUserLevel.FIRST_AUTH_USER);
+			oAuthRepository.save(oAuthUser);
+			System.out.println(abcd);
+		}
+	}
+
+
 }

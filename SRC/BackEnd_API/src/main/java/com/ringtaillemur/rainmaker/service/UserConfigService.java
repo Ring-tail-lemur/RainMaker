@@ -74,7 +74,6 @@ public class UserConfigService {
 				.map(OAuthUserRepositoryTable::getRepository)
 				.map(Repository::getRepositoryInfoDto)
 				.collect(Collectors.toList());
-
 		return repositoryInfos;
 	}
 
