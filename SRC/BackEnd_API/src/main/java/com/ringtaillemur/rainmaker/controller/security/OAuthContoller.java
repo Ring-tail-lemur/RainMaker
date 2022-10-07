@@ -23,7 +23,6 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.ringtaillemur.rainmaker.domain.OAuthUser;
 import com.ringtaillemur.rainmaker.dto.securitydto.SessionMemory;
 import com.ringtaillemur.rainmaker.service.oauth2.SecurityUserService;
-// 머지 테스트
 @Controller
 public class OAuthContoller {
 
@@ -40,10 +39,9 @@ public class OAuthContoller {
 						   @RequestParam(value = "state", required = false, defaultValue = "test") String state,
 						   RedirectAttributes redirectAttributes, HttpServletRequest req
 			, HttpServletResponse res, Model model) throws IOException, URISyntaxException {
-
 		String userGithubToken = securityUserService.getUserGitHubOAuthToken(code);
 
-		//http GET을 통하여 Github 고유 JWT 가져오는 메서드
+		
 		String userInfoLine = securityUserService.getUserInfoWithToken(userGithubToken);
 		// userInfoLine -> OauthUser로 변환(OauthUserLevel == FIRST_AUTH_USER)
 		OAuthUser nowLoginUser = securityUserService.stringToUserFirstAuthUserEntity(userInfoLine,
@@ -52,6 +50,10 @@ public class OAuthContoller {
 		Optional<OAuthUser> nowUser = securityUserService.checkDuplicationAndCommitUser(nowLoginUser);
 
 		if (nowUser.isPresent()) {
+			userGithubToken.replace("\"", ""));
+		//Repository 에 들어가 있는 상태의 OauthUser Entity 리턴
+		Optional<OAuthUser> nowUser = securityUserService.checkDuplicationAndCommitUser(nowLoginUser);
+
 			LoginUser newLoginUser = new LoginUser(nowUser.get());
 			HttpSession httpSession = req.getSession();
 			httpSession.setAttribute("user", newLoginUser);
