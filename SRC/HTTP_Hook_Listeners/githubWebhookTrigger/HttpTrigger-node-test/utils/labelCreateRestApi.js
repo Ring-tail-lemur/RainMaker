@@ -1,6 +1,5 @@
 const { Octokit } = require("@octokit/core");
 const err_log_module = require('slackLogBot.js');
-// const msSQLPool = require('../ms-sql/msSQLPool')
 
 async function createGitHubLabel(releaseName, repositoryId, repositoryName, ownerName, token, context) {
     let response;
