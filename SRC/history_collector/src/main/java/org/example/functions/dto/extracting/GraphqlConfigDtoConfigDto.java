@@ -15,7 +15,7 @@ import org.json.JSONObject;
 import lombok.Getter;
 
 @Getter
-public class GraphqlConfigDto extends DataExtractingConfigDto implements DataSourceInterfaceConfigDtoInterface {
+public class GraphqlConfigDtoConfigDto extends DataExtractingConfigDto implements DataSourceInterfaceConfigDto {
 
 	private final StringFormatter variableBinder = new StringFormatter("$[[", "]]");
 	private String body;
@@ -23,7 +23,7 @@ public class GraphqlConfigDto extends DataExtractingConfigDto implements DataSou
 	private URL url;
 	private String method;
 
-	public GraphqlConfigDto(DataExtractingConfigDto dataExtractingConfigDto) throws MalformedURLException {
+	public GraphqlConfigDtoConfigDto(DataExtractingConfigDto dataExtractingConfigDto) throws MalformedURLException {
 		super(dataExtractingConfigDto);
 		init();
 	}
