@@ -23,9 +23,10 @@
             pushd './${{env.AZURE_FUNCTION_APP_PACKAGE_PATH}}'
             echo ' 
             {
-              ""slack-bot-uri"" : ""
+              ""slack-bot-uri"" : "ddd"
             }
             ' >> ./slack-config.json
+            pushd './'
             echo '
             {
               "authentication": {
@@ -60,7 +61,7 @@
 
         - uses: microsoft/variable-substitution@v1 
           with:
-            files: '${{env.AZURE_FUNCTION_APP_PACKAGE_PATH}}HttpTrigger-node-test/slack-config.json'
+            files: '${{env.AZURE_FUNCTION_APP_PACKAGE_PATH}}slack-config.json'
           env:
             slack-bot-uri: ${{secrets.GL_SLACK_WEBHOOK_URI}}
 
