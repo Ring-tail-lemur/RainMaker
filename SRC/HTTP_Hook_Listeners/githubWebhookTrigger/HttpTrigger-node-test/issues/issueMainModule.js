@@ -1,7 +1,3 @@
-const issueLabeledModule = require('./issueLabeledModule.js');
-const issueOpenedModule = require('./issueOpenedModule.js');
-const issueEditedModule = require('./issueEdittedModule.js');
-const issueClosedModule = require('./issueClosedModule.js');
 const labellingModule = require("./issueLabeledModule");
 async function issueMain(hookBody, cloudEventObj, context){
     cloudEventObj.action = JSON.stringify(hookBody.action).replace(/['"]+/g, '');
@@ -17,26 +13,12 @@ async function issueMain(hookBody, cloudEventObj, context){
     cloudEventObj.state = JSON.stringify(hookBody.issue.state).replace(/['"]+/g, '');
 
     try{
-        //label이 되어있으면 그냥 집어넣자~
         cloudEventObj.label_name_list = await labellingModule.issueLabeling(hookBody, context);
         cloudEventObj.label_id_list = await labellingModule.issueLabelingId(hookBody, context);
         return cloudEventObj;
     }catch(e){
         return cloudEventObj;
     }
-
-
-    // if(cloudEventObj.action == 'labeled'){
-    //     return await issueLabeledModule.issueLabledMain(hookBody, cloudEventObj, context);
-    // }else if(cloudEventObj.action == 'edited'){
-    //     return await issueEditedModule.issueEditedMain(hookBody, cloudEventObj, context);
-    // }else if(cloudEventObj.action == 'opened'){
-    //     return await issueOpenedModule.issueOpenedMain(hookBody, cloudEventObj, context);
-    // }else if(cloudEventObj.action == 'closed'){
-    //     return await issueClosedModule.issueClosedMain(hookBody, cloudEventObj, context);
-    // }else{
-    //     return cloudEventObj;
-    // }
 }
 
 module.exports.issueMain = issueMain;

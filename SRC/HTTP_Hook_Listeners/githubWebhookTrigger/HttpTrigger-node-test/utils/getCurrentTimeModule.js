@@ -8,9 +8,6 @@ async function getCurrentTime(){
     const sec = ('0'+date.getUTCSeconds()).slice(-2);
     return `${year}-${month}-${day}T${hour}:${minute}:${sec}Z`;
 }
-
-console.log(getCurrentTime());
-
 module.exports.getCurrentTime = getCurrentTime;
 
 

@@ -12,13 +12,9 @@ async function checkSuiteMain(context, hookBody, cloudEventObj){
     const isPrivateRepo = JSON.stringify(hookBody.repository.private).replace(/['"]+/g, '');
     const commit_url = JSON.stringify(hookBody.repository.commits_url).replace(/['"]+/g, '').replace('{/sha}','/') + cloudEventObj.head_commit_id;
     const repoId = JSON.stringify(hookBody.repository.id).replace(/['"]+/g, '');
-    // context.log(commit_url);
-    context.log("[check-suite-module.js] I'll get accessToken By RepositoryId : " + repoId);
     const accessToken = await msSQLModule.getTokenByRepositoryId(repoId, context);
-    context.log("[check-suite-module.js] accessToken By RepositoryId : " + accessToken);
     if(isPrivateRepo == 'true'){
         return(await checkSuiteParents.checkSuiteGetParentWithToken(context,commit_url,cloudEventObj, accessToken)); 
-       
     }else{
         return (await checkSuiteParents.checkSuiteGetParentWithoutToken(context, commit_url, cloudEventObj));
     }

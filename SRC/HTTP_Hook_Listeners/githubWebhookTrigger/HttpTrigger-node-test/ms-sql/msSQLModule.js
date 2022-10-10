@@ -1,6 +1,6 @@
 const sql = require("mssql");
 const fs = require("fs");
-async function readJsonSecret(context){
+async function readJsonSecret(){
     const jsonFile = fs.readFileSync('.\\ms-sql-config.json','utf-8');
     const config = JSON.parse(jsonFile);
     return config;
@@ -9,9 +9,7 @@ async function readJsonSecret(context){
 
 
 async function executeSqlQuery(query){
-    sqlConfig =  await readJsonSecret('hi');
-    // console.log(query);
-    // console.log(sqlConfig);
+    let sqlConfig =  await readJsonSecret();
     try{
         // make sure that any items are correctly URL encoded in the connection string
         const connectionPool = new sql.ConnectionPool(sqlConfig);
@@ -29,16 +27,9 @@ async function executeSqlQuery(query){
 }
 
 async function getTokenByRepositoryId(repositoryId,context){
-    newQuery = `SELECT TOP 1 oauth_token FROM oauth_user WHERE user_remote_id = (SELECT TOP 1 oauth_user_id FROM oauth_user_repository_table WHERE repository_id =  ${Number(repositoryId)})`;
-    console.log(newQuery);
+    const newQuery = `SELECT TOP 1 oauth_token FROM oauth_user WHERE user_remote_id = (SELECT TOP 1 oauth_user_id FROM oauth_user_repository_table WHERE repository_id =  ${Number(repositoryId)})`;
     const queryResult =  await executeSqlQuery(newQuery);
-    console.log(queryResult) 
-    console.log(queryResult[0][0]['oauth_token'])
-    // context.log(queryResult);
     return queryResult[0][0]['oauth_token']
 }
-
-getTokenByRepositoryId('528356870','');
-// console.log(result);
 
 module.exports.getTokenByRepositoryId = getTokenByRepositoryId;

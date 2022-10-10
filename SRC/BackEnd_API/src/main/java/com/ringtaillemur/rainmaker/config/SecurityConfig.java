@@ -10,6 +10,7 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.HttpStatusEntryPoint;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import com.ringtaillemur.rainmaker.config.CustomAccessDeniedHandler;
 
 @Configuration
 @EnableWebSecurity
@@ -19,6 +20,8 @@ public class SecurityConfig {
 	// private JwtAuthenticationFilter jwtAuthenticationFilter;
 	@Autowired
 	private SessionFilterInternal sessionFilterInternal;
+	@Autowired
+	private CustomAccessDeniedHandler customAccessDiniedHandler;
 	@Bean
 	public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 		http
@@ -28,12 +31,13 @@ public class SecurityConfig {
 			.disable()
 			.addFilterBefore(sessionFilterInternal, UsernamePasswordAuthenticationFilter.class)
 			.authorizeRequests(a -> a
-				.antMatchers("/", "/error", "/webjars/**", "/login/**", "/login/oauth2/code/github", "/api/cycletime",
-					"/dorametric/**").permitAll()
-				.anyRequest().hasAnyAuthority("FIRST_AUTH_USER", "WAITING")
-			)
+				.antMatchers("/getPersonalAccessToken").hasAnyAuthority("FIRST_AUTH_USER","AUTH_NOT_REPOSITORY_SELECT", "AUTHED_HISTORY_COLLECT_NOT_ENDED_USER", "AUTHED_HISTORY_COLLECT_ENDED_USER")
+					.antMatchers("/profile/**","/RepositorySelect/**").hasAnyAuthority("AUTH_NOT_REPOSITORY_SELECT", "AUTHED_HISTORY_COLLECT_NOT_ENDED_USER", "AUTHED_HISTORY_COLLECT_ENDED_USER")
+					.anyRequest().hasAnyAuthority("AUTHED_HISTORY_COLLECT_ENDED_USER")
+				)
 			.exceptionHandling(e -> e
 				.authenticationEntryPoint(new HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED))
+				.accessDeniedHandler(customAccessDiniedHandler)
 			).oauth2Login().redirectionEndpoint().baseUri("/oauth2/auth/code/github");
 		return http.build();
 	}
