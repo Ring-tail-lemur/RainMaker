@@ -1,4 +1,4 @@
-const errLogModule = require('../utils/slackLogBot.js');
+const errLogModule = require('../../utils/slackLogBot.js');
 async function insertTagByRepoIdAndUserId(dbConnectionPool, tag_id, tag_name, repository_remote_id, author_id){
 
     // const dbConnectionPool = await pool;

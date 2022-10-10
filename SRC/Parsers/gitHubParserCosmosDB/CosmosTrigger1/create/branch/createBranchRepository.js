@@ -1,5 +1,5 @@
 // const pool = require('../../ms-sql/msSQLPool');
-const errLogModule = require('../utils/slackLogBot.js');
+const errLogModule = require('../../utils/slackLogBot.js');
 
 async function insertBranchByRepoRemoteIdAndUserId(dbConnectionPool, branch_id, branch_name, repository_remote_id, author_id, context){
 

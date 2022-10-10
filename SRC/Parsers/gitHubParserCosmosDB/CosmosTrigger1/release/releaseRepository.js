@@ -1,3 +1,4 @@
+const err_log_module = require('../utils/slackLogBot.js');
 async function insertReleaseByUserIdAndTagIdAndRepoId(dbConnectionPool, context, release_event_id, user_id, tag_name, repo_id, remote_identifier, pre_release, name, published_at, draft, release_event_type) {
 
 
@@ -17,6 +18,7 @@ async function insertReleaseByUserIdAndTagIdAndRepoId(dbConnectionPool, context,
              .query(sqlQuery);
     } catch (e) {
         context.log("===Error FROM INSERT RELEASE===");
+        err_log_module.log(e, "releaseRepository.js // insertReleaseByUserIdAndTagIdAndRepoId");
         context.log(e);
     }
     return result;
@@ -37,6 +39,7 @@ async function deleteReleaseByReleaseId(dbConnectionPool, context, release_event
             .query(sqlQuery);
     } catch (e) {
         context.log("===Error FROM INSERT DELETE RELEASE===");
+        err_log_module.log(e, "releaseRepository.js // deleteReleaseByReleaseId");
         context.log(e);
     }
 
@@ -61,11 +64,8 @@ async function selectReleaseByMaxPublishedAt(dbConnectionPool, repo_id) {
         max_release_name = await dbConnectionPool.request()
             .query(sqlQuery);
     } catch (e) {
+        err_log_module.log(e, "releaseRepository.js // selectReleaseByMaxPublishedAt");
         console.error(e);
-    }
-
-    if(max_release_name) {
-
     }
 }
 

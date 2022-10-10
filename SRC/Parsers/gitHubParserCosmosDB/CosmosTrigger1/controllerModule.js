@@ -8,6 +8,7 @@ const releaseMainModule = require('./release/releaseMainModule');
 const labelMainModule = require("./label/labelMainModule");
 const issueMainModule = require('./issue/issueMainModule');
 const deleteMainModule = require("./delete/deleteMainModule");
+const err_log_module = require("./utils/slackLogBot.js");
 
 // const pool = require('./ms-sql/msSQLPool');
 
@@ -49,6 +50,7 @@ async function controllerMain(eventObj, context, pool){
 
         // await deduplicationRepository.insertDeduplication(pool, eventObj.id);
     } catch (e) {
+        err_log_module.log(e, "main.js");
         console.log(e);
     } finally {
 

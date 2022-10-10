@@ -1,7 +1,7 @@
 // const pool = require('../../ms-sql/msSQLPool');
 const repoCheckModule = require('../../check-error/repoCheckModule');
 const createBranchRepository = require('./createBranchRepository');
-const errLogModule = require('../utils/slackLogBot.js');
+const errLogModule = require('../../utils/slackLogBot.js');
 
 async function createBranchMain(dbConnectionPool, eventObject, context) {
     // branch entity 생성 및 삽입
