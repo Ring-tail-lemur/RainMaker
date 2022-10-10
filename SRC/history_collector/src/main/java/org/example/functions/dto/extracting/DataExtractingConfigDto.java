@@ -27,7 +27,7 @@ public class DataExtractingConfigDto {
 	private JSONObject dataRequestContext; //graphql 객체 또는 restapi 객체가 들어감
 	private Map<String, String> requestParameter;
 
-	private DataSourceInterfaceConfigDtoInterface dataSourceInterfaceConfigDtoInterface;
+	private DataSourceInterfaceConfigDto dataSourceInterfaceConfigDto;
 	private Map<String, List<String>> requestVariableMap;
 
 	public DataExtractingConfigDto(JSONObject dataSourceContext, JSONObject dataLoadConfig,
@@ -43,7 +43,7 @@ public class DataExtractingConfigDto {
 	}
 
 	public Map<String, String> getPaginationInfo() {
-		return dataSourceInterfaceConfigDtoInterface.getPaginationInfo();
+		return dataSourceInterfaceConfigDto.getPaginationInfo();
 	}
 
 	public static List<DataExtractingConfigDto> getDataExtractingConfigDtoList(
@@ -70,15 +70,15 @@ public class DataExtractingConfigDto {
 	}
 
 	public URL getUrl() {
-		return dataSourceInterfaceConfigDtoInterface.getUrl();
+		return dataSourceInterfaceConfigDto.getUrl();
 	}
 
 	public String getMethod() {
-		return dataSourceInterfaceConfigDtoInterface.getMethod();
+		return dataSourceInterfaceConfigDto.getMethod();
 	}
 
 	public JSONObject getHeader() {
-		return dataSourceInterfaceConfigDtoInterface.getHeader();
+		return dataSourceInterfaceConfigDto.getHeader();
 	}
 
 	public boolean hasPagination() {
@@ -86,15 +86,15 @@ public class DataExtractingConfigDto {
 	}
 
 	public String getBody() {
-		return dataSourceInterfaceConfigDtoInterface.getBody();
+		return dataSourceInterfaceConfigDto.getBody();
 	}
 
 	public HttpRequestDto getHttpRequestDto() {
-		return dataSourceInterfaceConfigDtoInterface.getHttpRequestDto();
+		return dataSourceInterfaceConfigDto.getHttpRequestDto();
 	}
 
 	public List<HttpRequestDto> getAllHttpRequestDto() {
-		return dataSourceInterfaceConfigDtoInterface.getAllHttpRequestDto();
+		return dataSourceInterfaceConfigDto.getAllHttpRequestDto();
 	}
 
 	protected String getUsingRequestVariable() {
@@ -110,9 +110,9 @@ public class DataExtractingConfigDto {
 
 	private void setDataSourceInterface() throws MalformedURLException {
 		if (adapterType == AdapterType.GRAPHQL) {
-			dataSourceInterfaceConfigDtoInterface = new GraphqlConfigDto(this);
+			dataSourceInterfaceConfigDto = new GraphqlConfigDtoConfigDto(this);
 		} else if (adapterType == AdapterType.RESTAPI) {
-			dataSourceInterfaceConfigDtoInterface = new RestApiConfigDto(this);
+			dataSourceInterfaceConfigDto = new RestApiConfigDtoConfigDto(this);
 		}
 	}
 }

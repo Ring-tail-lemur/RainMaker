@@ -7,7 +7,7 @@ import java.util.Map;
 import org.example.functions.dto.HttpRequestDto;
 import org.json.JSONObject;
 
-public interface DataSourceInterfaceConfigDtoInterface {
+public interface DataSourceInterfaceConfigDto {
 
 	String getBody();
 	JSONObject getHeader();

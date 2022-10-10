@@ -7,7 +7,7 @@ import java.net.URL;
 import java.util.HashMap;
 import java.util.Iterator;
 
-import org.example.functions.dto.extracting.DataSourceInterfaceConfigDtoInterface;
+import org.example.functions.dto.extracting.DataSourceInterfaceConfigDto;
 import org.example.functions.util.StringFormatter;
 import org.json.JSONObject;
 
@@ -20,11 +20,11 @@ public class HttpRequestDto {
 	private String method;
 	private String body;
 
-	public HttpRequestDto(DataSourceInterfaceConfigDtoInterface dataSourceInterfaceConfigDtoInterface) {
-		url = dataSourceInterfaceConfigDtoInterface.getUrl();
-		header = dataSourceInterfaceConfigDtoInterface.getHeader();
-		method = dataSourceInterfaceConfigDtoInterface.getMethod();
-		body = dataSourceInterfaceConfigDtoInterface.getBody();
+	public HttpRequestDto(DataSourceInterfaceConfigDto dataSourceInterfaceConfigDto) {
+		url = dataSourceInterfaceConfigDto.getUrl();
+		header = dataSourceInterfaceConfigDto.getHeader();
+		method = dataSourceInterfaceConfigDto.getMethod();
+		body = dataSourceInterfaceConfigDto.getBody();
 	}
 
 	public HttpRequestDto(URL url, JSONObject header, String method, String body) {

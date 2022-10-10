@@ -14,14 +14,14 @@ import org.json.JSONObject;
 import lombok.Getter;
 
 @Getter
-public class RestApiConfigDto extends DataExtractingConfigDto implements DataSourceInterfaceConfigDtoInterface {
+public class RestApiConfigDtoConfigDto extends DataExtractingConfigDto implements DataSourceInterfaceConfigDto {
 
 	private String body = null;
 	private JSONObject header;
 	private URL url;
 	private String method;
 
-	public RestApiConfigDto(DataExtractingConfigDto dataExtractingConfigDto) throws MalformedURLException {
+	public RestApiConfigDtoConfigDto(DataExtractingConfigDto dataExtractingConfigDto) throws MalformedURLException {
 		super(dataExtractingConfigDto);
 		init();
 	}
