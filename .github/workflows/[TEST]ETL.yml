@@ -1,4 +1,4 @@
-name: ETL pr_test Pipeline
+name: '[PR-TEST] ETL Code'
 
 on:
   pull_request:

@@ -1,7 +1,5 @@
 package com.ringtaillemur.rainmaker.service.oauth2;
 
-import static com.ringtaillemur.rainmaker.config.WebClientConfig.*;
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -28,7 +26,6 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.ringtaillemur.rainmaker.config.JwtTokenProvider;
 import com.ringtaillemur.rainmaker.config.UserAuthentication;
 import com.ringtaillemur.rainmaker.domain.OAuthUser;
 import com.ringtaillemur.rainmaker.domain.enumtype.OauthUserLevel;
@@ -102,34 +99,15 @@ public class SecurityUserService {
 	public Optional<OAuthUser> checkDuplicationAndCommitUser(OAuthUser oAuthUser) {
 		try {
 			Optional<OAuthUser> presentUser = oAuthRepository.findByUserRemoteId(oAuthUser.getUserRemoteId());
-			presentUser.get().update(oAuthUser.getOauthToken());
-			oAuthRepository.save(presentUser.get());
-			return presentUser;
+			if(presentUser.isPresent()) {
+				return presentUser;
+			}
 		} catch (Exception e) {
 			oAuthRepository.save(oAuthUser);
 			return Optional.of(oAuthUser);
 		}
+		return Optional.empty();
 	}
-
-	public String setJwtTokenWithUserInfo(OAuthUser oAuthUser) {
-		Authentication authentication = new UserAuthentication(String.valueOf(oAuthUser.getUserRemoteId()), null, null);
-		return JwtTokenProvider.generateToken(authentication, oAuthUser.getUserLevel());
-	}
-
-	public String setNewUpdateUserAuthorityJwtToken(String jwt, OauthUserLevel oauthUserLevel) {
-		Long userRemoteIdFromJwt = Long.valueOf(JwtTokenProvider.getUserIdFromJWT(jwt));
-		try {
-			Optional<OAuthUser> oAuthUser = oAuthRepository.findByUserRemoteId(userRemoteIdFromJwt);
-			oAuthUser.get().setUserLevel(oauthUserLevel);
-			oAuthRepository.save(oAuthUser.get());
-			Authentication authentication = new UserAuthentication(String.valueOf(oAuthUser.get().getUserRemoteId()),
-				null, null);
-			return JwtTokenProvider.generateToken(authentication, oAuthUser.get().getUserLevel());
-		} catch (Exception e) {
-			return "null";
-		}
-	}
-
 
 	private static class JsonUser {
 		String oauthToken;

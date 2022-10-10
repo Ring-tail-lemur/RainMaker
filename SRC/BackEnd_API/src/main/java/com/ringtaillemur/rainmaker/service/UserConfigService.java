@@ -18,6 +18,7 @@ import com.ringtaillemur.rainmaker.repository.OAuthUserRepositoryRepository;
 import javax.transaction.Transactional;
 import org.json.JSONArray;
 import org.json.JSONObject;
+import org.springframework.http.MediaType;
 import org.springframework.http.ReactiveHttpOutputMessage;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -173,6 +174,7 @@ public class UserConfigService {
 			String block = ServerlessFunctionClient.get()
 				.uri(String.format("/api/HttpExample?owner_name=%s&repository_name=%s&token=%s", organizationName,
 					repositoryName, token))
+					.accept(MediaType.APPLICATION_JSON)
 				.retrieve()
 				.bodyToMono(String.class)
 				.toString();

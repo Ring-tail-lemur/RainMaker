@@ -1,4 +1,4 @@
-    name: github parser pull request test
+    name: '[PR-TEST] Github Parser Code'
     
     on:
       pull_request:

@@ -42,7 +42,7 @@
     props: {
       title: {
         type: String,
-        default: 'Vue PDP Pro',
+        default: 'RainMaker',
         description: 'Sidebar title'
       },
       backgroundColor: {

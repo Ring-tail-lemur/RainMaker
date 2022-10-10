@@ -1,4 +1,4 @@
-name:  ETL Deployment Pipeline [Practice]
+name:  '[DEPLOY] ETL Code'
 
 on:
   push:

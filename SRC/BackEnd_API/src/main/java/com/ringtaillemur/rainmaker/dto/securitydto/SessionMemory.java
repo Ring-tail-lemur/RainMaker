@@ -1,10 +1,10 @@
-package com.ringtaillemur.rainmaker.dto.configdto;
+package com.ringtaillemur.rainmaker.dto.securitydto;
 
 import java.util.HashMap;
 
 import org.springframework.stereotype.Component;
 
-import com.ringtaillemur.rainmaker.config.LoginUser;
+import com.ringtaillemur.rainmaker.dto.securitydto.LoginUser;
 
 import lombok.Data;
 
