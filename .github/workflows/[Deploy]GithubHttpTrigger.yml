@@ -23,7 +23,7 @@
             pushd './${{env.AZURE_FUNCTION_APP_PACKAGE_PATH}}'
             echo ' 
             {
-              ""slack-bot-uri"" : "ddd"
+              "slack-bot-uri" : "ddd"
             }
             ' >> ./slack-config.json
             pushd './'
