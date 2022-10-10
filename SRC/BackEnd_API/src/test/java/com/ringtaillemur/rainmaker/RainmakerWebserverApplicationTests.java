@@ -4,6 +4,8 @@ import com.ringtaillemur.rainmaker.domain.LeadTimeForChange;
 import com.ringtaillemur.rainmaker.domain.OAuthUser;
 import com.ringtaillemur.rainmaker.domain.OAuthUserRepositoryTable;
 import com.ringtaillemur.rainmaker.domain.Repository;
+import com.ringtaillemur.rainmaker.domain.enumtype.OauthUserLevel;
+import com.ringtaillemur.rainmaker.dto.historycollectordto.HistoryCollector;
 import com.ringtaillemur.rainmaker.dto.webdto.responsedto.RepositoryInfoDto;
 import com.ringtaillemur.rainmaker.dto.webdto.responsedto.UserRepositoryDto;
 import com.ringtaillemur.rainmaker.repository.LeadTimeForChangeRepository;
@@ -15,7 +17,13 @@ import com.ringtaillemur.rainmaker.service.UserConfigService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.reactive.function.client.ClientResponse;
+import org.springframework.web.reactive.function.client.WebClient;
+import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -27,6 +35,7 @@ import java.util.stream.Collectors;
 
 @SpringBootTest
 @Transactional
+
 class RainmakerWebserverApplicationTests {
 
 	@Autowired
@@ -71,8 +80,10 @@ class RainmakerWebserverApplicationTests {
 
 	@Test
 	void 웹훅트리거링가능(){
-		String s = userConfigService.triggerHistoryCollector("Ring-tail-lemur", "private_fake", "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");
-		System.out.println(s);
+
+		List<HistoryCollector> h = new ArrayList<>();
+		h.add(new HistoryCollector("Ring-tail-lemur", "private_fake", "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"));
+		userConfigService.triggerHistoryCollector(h);
 	}
 
 	@Test
@@ -98,4 +109,74 @@ class RainmakerWebserverApplicationTests {
 
 		return;
 	}
+
+	@Test
+	void WebClient테스트() {
+
+		List<HistoryCollector> historyCollectorList = new ArrayList<>();
+		historyCollectorList.add(HistoryCollector.builder()
+				.ownerName("jonghyun").repoName("test1").token("1234").build());
+		historyCollectorList.add(HistoryCollector.builder()
+				.ownerName("jonghyun").repoName("test2").token("1234").build());
+		historyCollectorList.add(HistoryCollector.builder()
+				.ownerName("jonghyun").repoName("test3").token("1234").build());
+		historyCollectorList.add(HistoryCollector.builder()
+				.ownerName("jonghyun").repoName("test4").token("1234").build());
+		historyCollectorList.add(HistoryCollector.builder()
+				.ownerName("inhyeok").repoName("test5").token("1234").build());
+
+//		List<String> historyCollectorStringList = historyCollectorList.stream().map(HistoryCollector::toString).collect(Collectors.toList());
+//		String format = String.format("/api/HttpExample?%s", historyCollectorStringList);
+
+
+		WebClient webClient = WebClient.builder()
+				.baseUrl("https://webhook.site/05d4882c-f7cb-4ca9-97f2-36ca09c851f9")
+				.build();
+		webClient.post().accept(MediaType.APPLICATION_JSON)
+				.bodyValue(historyCollectorList)
+				.exchange()
+				.flux()
+				.subscribe( (result) -> {
+					changeAuthority(result);
+				});
+
+		try {
+			Thread.sleep(10000);
+		} catch (InterruptedException e) {
+			System.out.println(e.getMessage());
+		} finally {
+			System.out.println("==========END==========");
+		}
+	}
+
+	private void changeAuthority(ClientResponse result) {
+		HttpStatus httpStatus = result.statusCode();
+		System.out.println(httpStatus);
+		if (result.statusCode().is2xxSuccessful()) {
+			Optional<OAuthUser> id = oAuthRepository.findById(81180977L);
+			OAuthUser oAuthUser = id.orElseThrow();
+			oAuthUser.setUserLevel(OauthUserLevel.FIRST_AUTH_USER);
+			oAuthRepository.save(oAuthUser);
+		}
+	}
+
+	@Test
+	void 파라미터테스트() {
+		List<HistoryCollector> historyCollectorList = new ArrayList<>();
+		historyCollectorList.add(HistoryCollector.builder()
+				.ownerName("jonghyun").repoName("test1").token("1234").build());
+		historyCollectorList.add(HistoryCollector.builder()
+				.ownerName("jonghyun").repoName("test2").token("1234").build());
+		historyCollectorList.add(HistoryCollector.builder()
+				.ownerName("jonghyun").repoName("test3").token("1234").build());
+		historyCollectorList.add(HistoryCollector.builder()
+				.ownerName("jonghyun").repoName("test4").token("1234").build());
+		historyCollectorList.add(HistoryCollector.builder()
+				.ownerName("inhyeok").repoName("test5").token("1234").build());
+
+		List<String> historyCollectorStringList = historyCollectorList.stream().map(HistoryCollector::toString).collect(Collectors.toList());
+		String format = String.format("/api/HttpExample?%s", historyCollectorStringList);
+		System.out.println(format);
+	}
+
 }

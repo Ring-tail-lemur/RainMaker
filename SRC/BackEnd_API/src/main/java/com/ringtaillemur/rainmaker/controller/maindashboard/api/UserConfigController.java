@@ -23,8 +23,8 @@ import lombok.RequiredArgsConstructor;
 @Controller
 public class UserConfigController {
 
-	@Autowired
-	private JwtUtils jwtUtils;
+
+	private final JwtUtils jwtUtils;
 
 	private final HttpSession session;
 
@@ -32,7 +32,7 @@ public class UserConfigController {
 
 	@ResponseBody
 	@GetMapping("/RepositorySelect")
-	public ArrayList<UserRepositoryDto> userRepositoryListReturnRestAPI(HttpServletRequest req) {
+	public ArrayList<UserRepositoryDto> userRepositoryListReturnRestAPI() {
 			return userConfigService.getUserRepositoryDtoByToken(userConfigService.getToken(userConfigService.getUserId()));
 	}
 

@@ -11,6 +11,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import com.ringtaillemur.rainmaker.domain.OAuthUser;
+import com.ringtaillemur.rainmaker.domain.enumtype.OauthUserLevel;
+import com.ringtaillemur.rainmaker.repository.OAuthRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -24,13 +28,12 @@ import com.ringtaillemur.rainmaker.dto.securitydto.SessionMemory;
 import com.ringtaillemur.rainmaker.repository.OAuthRepository;
 
 @Component
+@RequiredArgsConstructor
 public class SessionFilterInternal extends OncePerRequestFilter {
 
-	@Autowired
-	SessionMemory sessionMemory;
+	private final SessionMemory sessionMemory;
+	private final OAuthRepository oAuthRepository;
 
-	@Autowired
-	OAuthRepository oAuthRepository;
 	@Override
 	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response,
 		FilterChain filterChain) throws ServletException, IOException {
@@ -38,7 +41,7 @@ public class SessionFilterInternal extends OncePerRequestFilter {
 			String requestSessionId = request.getHeader("SessionId");
 			if(sessionMemory.loginUserHashMap.containsKey(requestSessionId)){
 				LoginUser nowLoginUser = sessionMemory.loginUserHashMap.get(requestSessionId);
-				updateSessionMap(nowLoginUser, requestSessionId);
+				nowLoginUser = updateSessionMap(nowLoginUser, requestSessionId);
 				Set<SimpleGrantedAuthority> grantedAuthorities = new HashSet<>();
 				SimpleGrantedAuthority simpleGrantedAuthority = new SimpleGrantedAuthority(String.valueOf(nowLoginUser.getUserLevel()));
 				grantedAuthorities.add(simpleGrantedAuthority);
@@ -56,14 +59,18 @@ public class SessionFilterInternal extends OncePerRequestFilter {
 		filterChain.doFilter(request,response);
 
 	}
-	private void updateSessionMap(LoginUser loginUser, String sessionId){
+	private LoginUser updateSessionMap(LoginUser loginUser, String sessionId){
 		Optional<OAuthUser> nowUser = oAuthRepository.findByUserRemoteId(loginUser.getUserRemoteId());
 		if(nowUser.isPresent()){
 			if(!nowUser.get().getUserLevel().equals(loginUser.getUserLevel())){
 				loginUser.setUserLevel(nowUser.get().getUserLevel());
 				sessionMemory.loginUserHashMap.put(sessionId, loginUser);
+				return loginUser;
+			}else{
+				return loginUser;
 			}
 		}
+		return loginUser;
 	}
 
 

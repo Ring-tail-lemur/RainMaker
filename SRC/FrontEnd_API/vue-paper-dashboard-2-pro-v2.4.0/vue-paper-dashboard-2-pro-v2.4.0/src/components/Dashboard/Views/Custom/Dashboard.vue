@@ -172,6 +172,7 @@ import TaskList from "src/components/Dashboard/Views/Dashboard/Widgets/TaskList"
 import {Button, DatePicker, Input, Option, Select, Slider, Tag, TimeSelect} from "element-ui";
 import axios from "axios";
 import setHeaderJWT from "@/util/setHeaderJWT";
+import pageCheckAndChange from "@/util/pageCheckAndChange";
 
 const WorldMap = () => ({
   component: import('./../Maps/WorldMap.vue'),
@@ -268,9 +269,16 @@ export default {
   },
   methods : {
     async getRepositoryInfo() {
-      return (await axios.get(this.custom.defaultURL + "/user/repository-info", {
-        headers: setHeaderJWT()
-      })).data;
+      let axiosResponse;
+
+      try {
+        axiosResponse = await axios.get(this.custom.defaultURL + "/user/repository-info", {
+          headers: setHeaderJWT()
+        });
+      } catch (e) {
+        pageCheckAndChange(e, this);
+      }
+      return axiosResponse.data;
     },
     submitButtonPush() {
       try {

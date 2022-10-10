@@ -13,17 +13,22 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 import com.ringtaillemur.rainmaker.domain.OAuthUserRepositoryTable;
+import com.ringtaillemur.rainmaker.domain.enumtype.OauthUserLevel;
+import com.ringtaillemur.rainmaker.dto.historycollectordto.HistoryCollector;
 import com.ringtaillemur.rainmaker.dto.webdto.responsedto.RepositoryInfoDto;
 import com.ringtaillemur.rainmaker.repository.OAuthUserRepositoryRepository;
 import javax.transaction.Transactional;
 import org.json.JSONArray;
 import org.json.JSONObject;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ReactiveHttpOutputMessage;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.BodyInserter;
 import org.springframework.web.reactive.function.BodyInserters;
+import org.springframework.web.reactive.function.client.ClientResponse;
 import org.springframework.web.reactive.function.client.WebClient;
 import com.ringtaillemur.rainmaker.domain.OAuthUser;
 import com.ringtaillemur.rainmaker.domain.Repository;
@@ -74,7 +79,6 @@ public class UserConfigService {
 				.map(OAuthUserRepositoryTable::getRepository)
 				.map(Repository::getRepositoryInfoDto)
 				.collect(Collectors.toList());
-
 		return repositoryInfos;
 	}
 
@@ -85,11 +89,17 @@ public class UserConfigService {
 	 * @3. DB Repo 테이블에 등록.
 	 * */
 	public void registerRepository(RegisterRepoIdDto repoIds) {
+
+		Optional<OAuthUser> id = oAuthRepository.findById(getUserId());
+		OAuthUser oAuthUser = id.orElseThrow();
+		oAuthUser.setUserLevel(OauthUserLevel.AUTHED_HISTORY_COLLECT_NOT_ENDED_USER);
+		oAuthRepository.save(oAuthUser);
+
 		List<String> repoIdsList = repoIds.getRepoIds();
 		String token = getToken(getUserId());
 		List<Repository> repositories = new ArrayList<>();
 		List<OAuthUserRepositoryTable> oAuthUserRepositoryTableList = new ArrayList<>();
-		OAuthUser oAuthUser = oAuthRepository.findByUserRemoteId(getUserId()).orElseThrow();
+		List<HistoryCollector> repositoryListForTrigger = new ArrayList<>();
 
 		for (String repo : repoIdsList) {
 			String[] strings = repo.split(",");
@@ -105,22 +115,35 @@ public class UserConfigService {
 					.build();
 				oAuthUserRepositoryTableList.add(oAuthUserRepository);
 			} else {
-				Repository newRepository = new Repository();
-				newRepository.setId(repo_id);
-				OAuthUserRepositoryTable oAuthUserRepository = OAuthUserRepositoryTable.builder()
-					.oAuthUser(oAuthUser)
-					.repository(newRepository)
-					.build();
-				repositories.add(getRepositoryInfoByGithubApi(owner_name, repo_name, token));
+				OAuthUserRepositoryTable oAuthUserRepository = getoAuthUserRepositoryTable(token, repositories, oAuthUser, repo_id, owner_name, repo_name);
 				oAuthUserRepositoryTableList.add(oAuthUserRepository);
 				setUserWebhookByRepoName(token, owner_name, repo_name);
-				triggerHistoryCollector(owner_name, repo_name, token);
+				repositoryListForTrigger.add(HistoryCollector.builder().ownerName(owner_name).repoName(repo_name).token(token).build());
 			}
 		}
 
+		if(!repositoryListForTrigger.isEmpty()) {
+			triggerHistoryCollector(repositoryListForTrigger);
+		}
+
+		saveRepositoryAndOAuthUserRepositoryTable(repositories, oAuthUserRepositoryTableList);
+	}
+
+	private void saveRepositoryAndOAuthUserRepositoryTable(List<Repository> repositories, List<OAuthUserRepositoryTable> oAuthUserRepositoryTableList) {
 		repositoryRepository.saveAll(repositories);
 		oAuthUserRepositoryRepository.deleteByOAuthUserIdQuery(getUserId());
 		oAuthUserRepositoryRepository.saveAll(oAuthUserRepositoryTableList);
+	}
+
+	private OAuthUserRepositoryTable getoAuthUserRepositoryTable(String token, List<Repository> repositories, OAuthUser oAuthUser, Long repo_id, String owner_name, String repo_name) {
+		Repository newRepository = new Repository();
+		newRepository.setId(repo_id);
+		OAuthUserRepositoryTable oAuthUserRepository = OAuthUserRepositoryTable.builder()
+			.oAuthUser(oAuthUser)
+			.repository(newRepository)
+			.build();
+		repositories.add(getRepositoryInfoByGithubApi(owner_name, repo_name, token));
+		return oAuthUserRepository;
 	}
 
 	/**
@@ -157,24 +180,31 @@ public class UserConfigService {
 		return repositoryIds;
 	}
 
-	public String triggerHistoryCollector(String organizationName, String repositoryName, String token) {
-
+	public void triggerHistoryCollector(List<HistoryCollector> historyCollectorList) {
+		final Long userId = getUserId();
 		try {
 			WebClient ServerlessFunctionClient = WebClient.builder()
 				.baseUrl("https://github-history-collector.azurewebsites.net")
 				.build();
-			String block = ServerlessFunctionClient.get()
-				.uri(String.format("/api/HttpExample?owner_name=%s&repository_name=%s&token=%s", organizationName,
-					repositoryName, token))
-				.retrieve()
-				.bodyToMono(String.class)
-				.toString();
-			// todo : 추후 이쪽 부분 변경이 필요함. 여기서 비동기로 실행이 완료되었다면, 권한을 바꿔주는 식의 로직이 필요함.
-
-			return block;
+			ServerlessFunctionClient.post()
+				.uri("/api/HttpExample")
+				.accept(MediaType.APPLICATION_JSON)
+				.bodyValue(historyCollectorList)
+				.exchange()
+				.flux()
+				.subscribe((result) -> changeAuthority(result, userId));
 		} catch (Exception e) {
 			e.printStackTrace();
-			return null;
+		}
+	}
+
+	private void changeAuthority(ClientResponse result, Long userId) {
+		HttpStatus httpStatus = result.statusCode();
+		if (httpStatus.is2xxSuccessful()) {
+			Optional<OAuthUser> id = oAuthRepository.findById(userId);
+			OAuthUser oAuthUser = id.orElseThrow();
+			oAuthUser.setUserLevel(OauthUserLevel.AUTHED_HISTORY_COLLECT_ENDED_USER);
+			oAuthRepository.save(oAuthUser);
 		}
 	}
 
@@ -352,6 +382,13 @@ public class UserConfigService {
 	public void setOAuthToken(String oAuthToken) throws Exception {
 		OAuthUser currentUser = getCurrentUser();
 		currentUser.setOauthToken(oAuthToken);
+		changeOAuthLevel(currentUser);
+	}
+
+	private void changeOAuthLevel(OAuthUser currentUser) {
+		if(currentUser.getUserLevel() == OauthUserLevel.FIRST_AUTH_USER) {
+			currentUser.setUserLevel(OauthUserLevel.AUTH_NOT_REPOSITORY_SELECT);
+		}
 	}
 
 	public OAuthUser getCurrentUser() throws Exception {
