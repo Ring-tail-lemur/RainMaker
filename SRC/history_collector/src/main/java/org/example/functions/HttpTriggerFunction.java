@@ -4,7 +4,9 @@ import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.example.functions.dto.LoadingDataDto;
 import org.example.functions.dto.SourceDataDto;
@@ -16,8 +18,11 @@ import org.example.functions.loador.DataLoaderImpl;
 import org.example.functions.transformer.SourceDataTransformer;
 import org.example.functions.transformer.SourceDataTransformerImpl;
 import org.example.functions.util.constants.RequestVariable;
+import org.example.functions.util.exception.DataSourceAdaptorNotFindException;
+import org.example.functions.util.exception.ResponseTypeMissMatchException;
+import org.json.JSONArray;
+import org.json.JSONObject;
 
-import com.microsoft.azure.functions.ExecutionContext;
 import com.microsoft.azure.functions.HttpMethod;
 import com.microsoft.azure.functions.HttpRequestMessage;
 import com.microsoft.azure.functions.HttpResponseMessage;
@@ -47,32 +52,57 @@ public class HttpTriggerFunction {
 	public HttpResponseMessage run(
 		@HttpTrigger(name = "req",
 			methods = {HttpMethod.GET, HttpMethod.POST},
-			authLevel = AuthorizationLevel.ANONYMOUS) HttpRequestMessage<Optional<String>> request,
-		final ExecutionContext context) throws Exception {
+			authLevel = AuthorizationLevel.ANONYMOUS) HttpRequestMessage<Optional<String>> request) throws Exception {
+		JSONArray requestParameterArray = getRequestBody(request);
 
-		List<DataExtractingConfigDto> dataExtractingConfigDtoList = DataExtractingConfigDto.getDataExtractingConfigDtoList(
-			request, RequestVariable.getRequestVariableMap(request));
-		for (DataExtractingConfigDto dataExtractingConfigDto : dataExtractingConfigDtoList) {
-			SourceDataDto sourceDataDto = sourceDataExtractor.extractData(dataExtractingConfigDto);
-			LoadingDataDto loadingDataDto = sourceDataTransformer.transformData(sourceDataDto);
-			dataLoader.load(loadingDataDto);
+		for (Object requestParameter : requestParameterArray) {
+			if (requestParameter instanceof JSONObject) {
+				JSONObject requestParameterJSONObject = (JSONObject)requestParameter;
+				Map<String, String> requestParameterMap = getRequestParameterMap(requestParameterJSONObject);
+				List<DataExtractingConfigDto> dataExtractingConfigDtoList = DataExtractingConfigDto.getDataExtractingConfigDtoList(
+					requestParameterMap, RequestVariable.getRequestVariableMap(requestParameterMap));
+				runPipeLine(dataExtractingConfigDtoList);
+			} else {
+				throw new IllegalArgumentException();
+			}
 		}
-
-		runAnalyst();
-
+		runAnalystService();
 		return request
 			.createResponseBuilder(HttpStatus.OK)
 			.body("happy!")
 			.build();
 	}
 
-	private void runAnalyst() throws IOException {
+	private void runPipeLine(List<DataExtractingConfigDto> dataExtractingConfigDtoList) throws
+		DataSourceAdaptorNotFindException,
+		IOException,
+		ResponseTypeMissMatchException {
+		for (DataExtractingConfigDto dataExtractingConfigDto : dataExtractingConfigDtoList) {
+			SourceDataDto sourceDataDto = sourceDataExtractor.extractData(dataExtractingConfigDto);
+			LoadingDataDto loadingDataDto = sourceDataTransformer.transformData(sourceDataDto);
+			dataLoader.load(loadingDataDto);
+		}
+	}
+
+	private static Map<String, String> getRequestParameterMap(JSONObject requestParameter) {
+		return requestParameter.toMap().entrySet()
+			.stream()
+			.map(entry -> List.of(entry.getKey(), (String)entry.getValue()))
+			.collect(Collectors.toMap(entry -> entry.get(0), entry -> entry.get(1)));
+	}
+
+	private static JSONArray getRequestBody(HttpRequestMessage<Optional<String>> request) {
+		String body = request.getBody().orElseThrow(IllegalArgumentException::new);
+		return new JSONArray(body);
+	}
+
+	private void runAnalystService() throws IOException {
 		URL url = new URL("https://github-analystics.azurewebsites.net/api/AnalystHttpTrigger");
 		HttpURLConnection connection = (HttpURLConnection)url.openConnection();
 		connection.setRequestMethod("GET");
 		int responseCode = connection.getResponseCode();
 		if (responseCode != 200) {
-			throw new RuntimeException("analyst실행 실패");
+			throw new RuntimeException("analyst 실행 실패");
 		}
 	}
 }

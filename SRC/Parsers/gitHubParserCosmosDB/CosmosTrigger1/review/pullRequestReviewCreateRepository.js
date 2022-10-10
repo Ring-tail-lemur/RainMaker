@@ -6,7 +6,7 @@ async function insertPullRequestCommentByPullRequestIdAndUserId(dbConnectionPool
 
     const sqlQuery = `
     INSERT INTO pull_request_comment (pull_request_comment_id, event_time, pull_request_id, git_user_id, comment_type)
-    VALUES (${pull_request_comment_id}, '${event_time}', ${pull_request_id}, ${git_user_id}, '${comment_type}'
+    VALUES (${pull_request_comment_id}, '${event_time}', ${pull_request_id}, ${git_user_id}, 'REVIEW'
      )
     `;
     context.log(sqlQuery);

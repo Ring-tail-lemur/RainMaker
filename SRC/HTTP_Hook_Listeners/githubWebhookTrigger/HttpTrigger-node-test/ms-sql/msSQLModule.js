@@ -1,6 +1,7 @@
 const sql = require("mssql");
 const fs = require("fs");
-async function readJsonSecret(){
+const err_log_module = require('../utils/slackLogBot.js');
+async function readJsonSecret(context){
     const jsonFile = fs.readFileSync('.\\ms-sql-config.json','utf-8');
     const config = JSON.parse(jsonFile);
     return config;
@@ -22,7 +23,7 @@ async function executeSqlQuery(query){
             throw new Error;
         }
     } catch (err) {
-        console.log(err);
+        err_log_module.log(err, "msSQLModule.js");
     }
 }
 

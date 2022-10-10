@@ -34,7 +34,7 @@ public class SourceDataTransformerImpl implements SourceDataTransformer {
 		if (sourceData.isEmpty())
 			return "";
 		String queryTemplate = "INSERT INTO {{tableName}} ({{columns}}) SELECT * FROM (VALUES {{queryValues}}) tempName ({{columns}}) EXCEPT SELECT {{columns}} from {{tableName}}";
-		return queryStringFormatter.bindParameters(queryTemplate, parameters).replace("''", "").replace("\n", "\\n");
+		return queryStringFormatter.bindParameters(queryTemplate, parameters).replace("\n", "\\n");
 	}
 
 	/**

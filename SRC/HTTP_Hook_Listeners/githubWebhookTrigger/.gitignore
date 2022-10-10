@@ -1,2 +1,3 @@
 node_modules/*
 ms-sql-config.json
+slack-config.json

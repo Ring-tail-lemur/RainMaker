@@ -21,6 +21,12 @@
           shell: pwsh
           run: |
             pushd './${{env.AZURE_FUNCTION_APP_PACKAGE_PATH}}'
+            echo ' 
+            {
+              "slack-bot-uri" : "ddd"
+            }
+            ' >> ./slack-config.json
+            pushd './'
             echo '
             {
               "authentication": {
@@ -55,12 +61,20 @@
 
         - uses: microsoft/variable-substitution@v1 
           with:
+            files: '${{env.AZURE_FUNCTION_APP_PACKAGE_PATH}}slack-config.json'
+          env:
+            slack-bot-uri: ${{secrets.GL_SLACK_WEBHOOK_URI}}
+
+        - uses: microsoft/variable-substitution@v1 
+          with:
             files: '${{env.AZURE_FUNCTION_APP_PACKAGE_PATH}}ms-sql-config.json'
           env:
             authentication.options.userName : ${{secrets.JSON_DB_USERNAME}}
             authentication.options.password : ${{secrets.JSON_DB_PASSWORD}}
             server: ${{secrets.JSON_DB_SERVER}}
             options.database: ${{secrets.JSON_DB_DATABASE}}
+
+
 
         - name: Setup Node ${{ env.NODE_VERSION }} Environment
           uses: actions/setup-node@v2
