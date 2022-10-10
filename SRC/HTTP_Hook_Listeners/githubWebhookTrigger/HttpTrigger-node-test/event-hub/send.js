@@ -1,6 +1,6 @@
 const { EventHubProducerClient } = require("@azure/event-hubs");
 const fs = require("fs");
-
+const err_log_module = require('../utils/slackLogBot.js');
 
 async function sender(cloudEventObj, context) {
 
@@ -10,6 +10,7 @@ async function sender(cloudEventObj, context) {
   try{
     connectionString = await readJsonSecret(context);
   }catch(e){
+    err_log_module.log(e, "send.js / find config file.");
     context.log(e);
   }
   connectionString = connectionString.slice(1,connectionString.length-1);
@@ -24,7 +25,7 @@ async function sender(cloudEventObj, context) {
     await producer.close();
     context.log(JSON.stringify(cloudEventObj));
   }catch (e) {
-    context.log("err");
+    err_log_module.log(e,"send.js // Sending Data To Event Hubs");
     context.log(e);
   }
 }
