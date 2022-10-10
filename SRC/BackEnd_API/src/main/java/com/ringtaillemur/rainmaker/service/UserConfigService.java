@@ -176,27 +176,27 @@ public class UserConfigService {
 	}
 
 	public void triggerHistoryCollector(List<HistoryCollector> historyCollectorList) {
-		List<String> historyCollectorStringList = historyCollectorList.stream().map(HistoryCollector::toString).collect(Collectors.toList());
-		String format = String.format("/api/HttpExample?%s", historyCollectorStringList);
+		final Long userId = getUserId();
 		try {
 			WebClient ServerlessFunctionClient = WebClient.builder()
 				.baseUrl("https://github-history-collector.azurewebsites.net")
 				.build();
-			ServerlessFunctionClient.get()
-				.uri(format)
-				.accept(MediaType.APPLICATION_JSON).exchange().flux()
-				.subscribe( (result) -> {
-					changeAuthority(result);
-				});
+			ServerlessFunctionClient.post()
+				.uri("/api/HttpExample")
+				.accept(MediaType.APPLICATION_JSON)
+				.bodyValue(historyCollectorList)
+				.exchange()
+				.flux()
+				.subscribe((result) -> changeAuthority(result, userId));
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
 
-	private void changeAuthority(ClientResponse result) {
+	private void changeAuthority(ClientResponse result, Long userId) {
 		HttpStatus httpStatus = result.statusCode();
-		if (result.statusCode().is2xxSuccessful()) {
-			Optional<OAuthUser> id = oAuthRepository.findById(81180977L);
+		if (httpStatus.is2xxSuccessful()) {
+			Optional<OAuthUser> id = oAuthRepository.findById(userId);
 			OAuthUser oAuthUser = id.orElseThrow();
 			oAuthUser.setUserLevel(OauthUserLevel.AUTHED_HISTORY_COLLECT_ENDED_USER);
 			oAuthRepository.save(oAuthUser);

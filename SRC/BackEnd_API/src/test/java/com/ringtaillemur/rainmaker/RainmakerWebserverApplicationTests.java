@@ -112,11 +112,30 @@ class RainmakerWebserverApplicationTests {
 
 	@Test
 	void WebClient테스트() {
-		final int abcd = 3;
+
+		List<HistoryCollector> historyCollectorList = new ArrayList<>();
+		historyCollectorList.add(HistoryCollector.builder()
+				.ownerName("jonghyun").repoName("test1").token("1234").build());
+		historyCollectorList.add(HistoryCollector.builder()
+				.ownerName("jonghyun").repoName("test2").token("1234").build());
+		historyCollectorList.add(HistoryCollector.builder()
+				.ownerName("jonghyun").repoName("test3").token("1234").build());
+		historyCollectorList.add(HistoryCollector.builder()
+				.ownerName("jonghyun").repoName("test4").token("1234").build());
+		historyCollectorList.add(HistoryCollector.builder()
+				.ownerName("inhyeok").repoName("test5").token("1234").build());
+
+//		List<String> historyCollectorStringList = historyCollectorList.stream().map(HistoryCollector::toString).collect(Collectors.toList());
+//		String format = String.format("/api/HttpExample?%s", historyCollectorStringList);
+
+
 		WebClient webClient = WebClient.builder()
-				.baseUrl("https://jsonplaceholder.typicode.com/comments")
+				.baseUrl("https://webhook.site/05d4882c-f7cb-4ca9-97f2-36ca09c851f9")
 				.build();
-		webClient.get().accept(MediaType.APPLICATION_JSON).exchange().flux()
+		webClient.post().accept(MediaType.APPLICATION_JSON)
+				.bodyValue(historyCollectorList)
+				.exchange()
+				.flux()
 				.subscribe( (result) -> {
 					changeAuthority(result);
 				});

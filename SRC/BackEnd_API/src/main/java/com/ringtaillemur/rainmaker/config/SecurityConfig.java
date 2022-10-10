@@ -1,5 +1,6 @@
 package com.ringtaillemur.rainmaker.config;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -14,14 +15,10 @@ import com.ringtaillemur.rainmaker.config.CustomAccessDeniedHandler;
 
 @Configuration
 @EnableWebSecurity
+@RequiredArgsConstructor
 public class SecurityConfig {
-
-	// @Autowired
-	// private JwtAuthenticationFilter jwtAuthenticationFilter;
-	@Autowired
-	private SessionFilterInternal sessionFilterInternal;
-	@Autowired
-	private CustomAccessDeniedHandler customAccessDiniedHandler;
+	private final SessionFilterInternal sessionFilterInternal;
+	private final CustomAccessDeniedHandler customAccessDeniedHandler;
 	@Bean
 	public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 		http
@@ -37,7 +34,7 @@ public class SecurityConfig {
 				)
 			.exceptionHandling(e -> e
 				.authenticationEntryPoint(new HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED))
-				.accessDeniedHandler(customAccessDiniedHandler)
+				.accessDeniedHandler(customAccessDeniedHandler)
 			).oauth2Login().redirectionEndpoint().baseUri("/oauth2/auth/code/github");
 		return http.build();
 	}

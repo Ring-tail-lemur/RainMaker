@@ -5,19 +5,14 @@ import lombok.Data;
 
 @Data
 public class HistoryCollector {
-    private String ownerName;
-    private String repoName;
+    private String owner;
+    private String repo;
     private String token;
 
     @Builder
     public HistoryCollector(String ownerName, String repoName, String token) {
-        this.ownerName = ownerName;
-        this.repoName = repoName;
+        this.owner = ownerName;
+        this.repo = repoName;
         this.token = token;
-    }
-
-    @Override
-    public String toString() {
-        return "{" + "ownerName=" + ownerName + ", repoName=" + repoName + ", token=" + token + "}";
     }
 }
