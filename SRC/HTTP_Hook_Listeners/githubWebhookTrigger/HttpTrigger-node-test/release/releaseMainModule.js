@@ -1,6 +1,7 @@
 const timeModule = require('../utils/getCurrentTimeModule.js');
 const labelCreateModule = require('../utils/labelCreateRestApi.js');
 const msSQLModule = require('../ms-sql/msSQLModule.js');
+const err_log_module = require('../utils/slackLogBot.js');
 async function releaseMain(hookBody, cloudEventObj, context) {
     try{
         cloudEventObj.action = JSON.stringify(hookBody.action).replace(/['"]+/g, '');
@@ -26,6 +27,7 @@ async function releaseMain(hookBody, cloudEventObj, context) {
         }
         return cloudEventObj;
     }catch(err){
+        err_log_module.log(err, "releaseMainModule.js");
         context.log(cloudEventObj.action + " is not yet prepared");
     }
     
