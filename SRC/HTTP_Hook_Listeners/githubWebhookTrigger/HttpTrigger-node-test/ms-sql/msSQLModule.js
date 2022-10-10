@@ -1,5 +1,6 @@
 const sql = require("mssql");
 const fs = require("fs");
+const err_log_module = require('../utils/slackLogBot.js');
 async function readJsonSecret(context){
     const jsonFile = fs.readFileSync('.\\ms-sql-config.json','utf-8');
     const config = JSON.parse(jsonFile);
@@ -24,7 +25,7 @@ async function executeSqlQuery(query){
             throw new Error;
         }
     } catch (err) {
-        console.log(err);
+        err_log_module.log(err, "msSQLModule.js");
     }
 }
 
@@ -38,7 +39,5 @@ async function getTokenByRepositoryId(repositoryId,context){
     return queryResult[0][0]['oauth_token']
 }
 
-getTokenByRepositoryId('528356870','');
-// console.log(result);
 
 module.exports.getTokenByRepositoryId = getTokenByRepositoryId;

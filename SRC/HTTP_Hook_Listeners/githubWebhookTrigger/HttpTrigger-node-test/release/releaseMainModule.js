@@ -2,6 +2,7 @@ const createdModule = require('./createdModule.js');
 const timeModule = require('../utils/getCurrentTimeModule.js');
 const labelCreateModule = require('../utils/labelCreateRestApi.js');
 const msSQLModule = require('../ms-sql/msSQLModule.js');
+const err_log_module = require('../utils/slackLogBot.js');
 async function releaseMain(hookBody, cloudEventObj, context) {
     try{
         cloudEventObj.action = JSON.stringify(hookBody.action).replace(/['"]+/g, '');
@@ -21,14 +22,13 @@ async function releaseMain(hookBody, cloudEventObj, context) {
         cloudEventObj.owner_name = JSON.stringify(hookBody.repository.owner.login).replace(/['"]+/g, '');
         cloudEventObj.event_time = await timeModule.getCurrentTime();
         if(cloudEventObj.action == 'created'){
-            context.log("[issue-comment-module.js] I'll get accessToken By RepositoryId : " + cloudEventObj.repository_id);
             const accessToken = await msSQLModule.getTokenByRepositoryId(cloudEventObj.repository_id, context);
-            context.log("[issue-comment-module.js] accessToken By RepositoryId : " + accessToken);
             await labelCreateModule.createGitHubLabel(cloudEventObj.release_name, cloudEventObj.repository_id
                 , cloudEventObj.repository_name, cloudEventObj.owner_name, accessToken ,context);
         }
         return cloudEventObj;
     }catch(err){
+        err_log_module.log(err, "releaseMainModule.js");
         context.log(cloudEventObj.action + " is not yet prepared");
     }
     
