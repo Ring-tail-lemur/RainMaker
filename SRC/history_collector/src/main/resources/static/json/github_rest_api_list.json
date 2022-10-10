@@ -42,14 +42,6 @@
         "pull_request_number",
         "int"
       ],
-      "data.repository.pullRequest.headRef.name": [
-        "pull_request_open_branch_name",
-        "string"
-      ],
-      "data.repository.pullRequest.baseRef.name": [
-        "pull_request_close_branch_name",
-        "string"
-      ],
       "data.repository.databaseId": [
         "repository_id",
         "int"
@@ -108,7 +100,7 @@
         "pull_request_comment_id",
         "int"
       ],
-      "data.repository.pullRequest.reviews.nodes.createdAt": [
+      "data.repository.pullRequest.reviews.nodes.submittedAt": [
         "event_time",
         "datetime2"
       ],

@@ -3,12 +3,6 @@
         pullRequest(number: $[[pull_request_number_list]]) {
             databaseId
             number
-            baseRef {
-                name
-            }
-            headRef {
-                name
-            }
         }
         databaseId
     }
