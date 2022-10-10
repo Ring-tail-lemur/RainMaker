@@ -95,8 +95,11 @@ public class SourceDataDto {
 		try {
 			Optional<String> optionalResult = Optional.of(String.valueOf(jsonPointer.queryFrom(targetSource)));
 			result = optionalResult.orElse("null");
+			if (result.equals("")) {
+				throw new Exception("해당 원소가 없습니다.");
+			}
 		} catch (Exception e) {
-			result = "null";
+			return "null";
 		}
 		return TypeConverter.getTypeConverter().getMssqlQueryString(
 			result.replaceAll("'", "''").replace(System.getProperty("line.separator"), ""), valueType);
