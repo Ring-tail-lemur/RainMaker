@@ -1,5 +1,5 @@
 const commit_module = require('../commit/commit-main.js');
-// test
+
 async function pullRequestClose(context, hookBody, cloudEventObj){
     cloudEventObj.pull_request_closed_number = JSON.stringify(hookBody.number).replace(/['"]+/g, '');
     cloudEventObj.pull_request_opened_number = JSON.stringify(hookBody.pull_request.number).replace(/['"]+/g, '');
