@@ -6,7 +6,6 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.example.functions.dto.SourceDataDto;
@@ -17,11 +16,9 @@ import org.example.functions.util.exception.DataSourceAdaptorNotFindException;
 import org.example.functions.util.exception.ResponseTypeMissMatchException;
 import org.json.JSONObject;
 
-import com.microsoft.azure.functions.HttpRequestMessage;
-
 public class RequestVariable {
 
-	public static Map<String, List<String>> getRequestVariableMap(HttpRequestMessage<Optional<String>> request) throws
+	public static Map<String, List<String>> getRequestVariableMap(Map<String, String> requestParameterMap) throws
 		IOException,
 		DataSourceAdaptorNotFindException,
 		ResponseTypeMissMatchException {
@@ -37,7 +34,7 @@ public class RequestVariable {
 			JSONObject targetVariableConfig = requestVariableConfig.getJSONObject(requestVariable);
 			DataExtractingConfigDto dataExtractingConfigDto = new DataExtractingConfigDto(
 				targetVariableConfig.getJSONObject("source"), targetVariableConfig.getJSONObject("mapping"),
-				request.getQueryParameters(), requestVariable, new HashMap<>());
+				requestParameterMap, requestVariable, new HashMap<>());
 			SourceDataDto sourceDataDto = SourceDataExtractorImpl.getInstance().extractData(dataExtractingConfigDto);
 			List<String> entityList = sourceDataDto.getEntityList()
 				.stream()

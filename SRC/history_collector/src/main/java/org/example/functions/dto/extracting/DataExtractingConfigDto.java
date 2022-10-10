@@ -6,15 +6,12 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 
 import org.example.functions.dto.HttpRequestDto;
 import org.example.functions.extractor.datainterface.AdapterType;
 import org.example.functions.util.FileReader;
 import org.example.functions.util.constants.FilePathConstant;
 import org.json.JSONObject;
-
-import com.microsoft.azure.functions.HttpRequestMessage;
 
 import lombok.Data;
 
@@ -47,7 +44,7 @@ public class DataExtractingConfigDto {
 	}
 
 	public static List<DataExtractingConfigDto> getDataExtractingConfigDtoList(
-		HttpRequestMessage<Optional<String>> request, Map<String, List<String>> requestVariableMap) throws
+		Map<String, String> requestParameterMap, Map<String, List<String>> requestVariableMap) throws
 		MalformedURLException {
 		FileReader fileReader = FileReader.getInstance();
 		JSONObject configFile = new JSONObject(fileReader.readFile(FilePathConstant.CONFIG_FILE_PATH));
@@ -59,7 +56,7 @@ public class DataExtractingConfigDto {
 			JSONObject dataSourceContext = configFile.getJSONObject(key).getJSONObject("source");
 			JSONObject dataLoadConfig = configFile.getJSONObject(key).getJSONObject("mapping");
 			DataExtractingConfigDto dataExtractingConfigDto = new DataExtractingConfigDto(dataSourceContext,
-				dataLoadConfig, request.getQueryParameters(), key, requestVariableMap);
+				dataLoadConfig, requestParameterMap, key, requestVariableMap);
 			dataExtractingConfigDtoList.add(dataExtractingConfigDto);
 		}
 		return dataExtractingConfigDtoList;

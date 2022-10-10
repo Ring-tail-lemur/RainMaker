@@ -94,14 +94,15 @@ public class SourceDataDto {
 		String result;
 		try {
 			Optional<String> optionalResult = Optional.of(String.valueOf(jsonPointer.queryFrom(targetSource)));
-			result = optionalResult.orElse("null");
+			result = optionalResult.orElseThrow(() -> new Exception("해당 원소가 없습니다."));
 			if (result.equals("")) {
-				throw new Exception("해당 원소가 없습니다.");
+				result = "";
 			}
 		} catch (Exception e) {
 			return "null";
 		}
+		String test = result.replaceAll("'", "''").replace(System.getProperty("line.separator"), "");
 		return TypeConverter.getTypeConverter().getMssqlQueryString(
-			result.replaceAll("'", "''").replace(System.getProperty("line.separator"), ""), valueType);
+			test, valueType);
 	}
 }
