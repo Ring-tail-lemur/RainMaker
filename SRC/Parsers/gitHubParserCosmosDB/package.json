@@ -8,6 +8,7 @@
   },
   "dependencies": {
     "@octokit/core": "^4.0.4",
+    "axios": "^1.1.2",
     "fs": "^0.0.1-security",
     "mssql": "^8.1.2",
     "tedious": "^15.0.1"

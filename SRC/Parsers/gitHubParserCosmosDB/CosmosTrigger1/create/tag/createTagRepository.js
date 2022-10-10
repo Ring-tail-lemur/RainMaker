@@ -1,3 +1,4 @@
+const errLogModule = require('../utils/slackLogBot.js');
 async function insertTagByRepoIdAndUserId(dbConnectionPool, tag_id, tag_name, repository_remote_id, author_id){
 
     // const dbConnectionPool = await pool;
@@ -12,6 +13,7 @@ async function insertTagByRepoIdAndUserId(dbConnectionPool, tag_id, tag_name, re
         await dbConnectionPool.request()
             .query(sqlQuery);
     } catch (e) {
+        errLogModule.log(e, "createTagRepository.js // insertTagByRepoIdAndUserId");
         console.log(e);
     }
 
