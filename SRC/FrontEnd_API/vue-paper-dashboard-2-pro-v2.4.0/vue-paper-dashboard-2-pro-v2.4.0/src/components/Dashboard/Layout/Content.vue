@@ -3,7 +3,7 @@
 
     <transition name="fade" mode="out-in">
       <!-- your content here -->
-      <router-view @waiting="waiting" @notLogin="notLogin" v-if="!wait"></router-view>
+      <router-view @waiting="waiting" @notLogin="notLogin" @tokenRegister="tokenRegister" @repositorySelect="repositorySelect" v-if="!wait"></router-view>
       <loading-main-panel v-if="wait"></loading-main-panel>
     </transition>
   </div>
@@ -29,6 +29,14 @@ import Button from "@/components/UIComponents/Button";
       notLogin() {
         alert('로그인 후 이용해주세요');
         window.location.replace('/login');
+      },
+      tokenRegister() {
+        alert('토큰을 등록해주세요');
+        window.location.replace('/register/token');
+      },
+      repositorySelect() {
+        alert('리포지토리를 선택해주세요');
+        window.location.replace('/RepositorySelect');
       }
     }
   }

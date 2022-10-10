@@ -32,7 +32,7 @@ public class UserConfigController {
 
 	@ResponseBody
 	@GetMapping("/RepositorySelect")
-	public ArrayList<UserRepositoryDto> userRepositoryListReturnRestAPI(HttpServletRequest req) {
+	public ArrayList<UserRepositoryDto> userRepositoryListReturnRestAPI() {
 			return userConfigService.getUserRepositoryDtoByToken(userConfigService.getToken(userConfigService.getUserId()));
 	}
 

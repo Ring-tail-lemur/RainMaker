@@ -34,7 +34,6 @@ public class OAuthContoller {
 	private SessionMemory sessionMemory;
 
 	@GetMapping("/login/oauth2/code/github")
-	@RolesAllowed("FIRST_AUTH_USER")
 	@ResponseBody
 	public String testMap2(@RequestParam(value = "code", required = false, defaultValue = "test") String code,
 						   @RequestParam(value = "state", required = false, defaultValue = "test") String state,

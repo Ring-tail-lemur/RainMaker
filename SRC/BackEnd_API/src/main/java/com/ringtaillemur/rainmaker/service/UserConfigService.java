@@ -89,12 +89,17 @@ public class UserConfigService {
 	 * @3. DB Repo 테이블에 등록.
 	 * */
 	public void registerRepository(RegisterRepoIdDto repoIds) {
+
+		Optional<OAuthUser> id = oAuthRepository.findById(getUserId());
+		OAuthUser oAuthUser = id.orElseThrow();
+		oAuthUser.setUserLevel(OauthUserLevel.AUTHED_HISTORY_COLLECT_NOT_ENDED_USER);
+		oAuthRepository.save(oAuthUser);
+
 		List<String> repoIdsList = repoIds.getRepoIds();
 		String token = getToken(getUserId());
 		List<Repository> repositories = new ArrayList<>();
 		List<OAuthUserRepositoryTable> oAuthUserRepositoryTableList = new ArrayList<>();
 		List<HistoryCollector> repositoryListForTrigger = new ArrayList<>();
-		OAuthUser oAuthUser = oAuthRepository.findByUserRemoteId(getUserId()).orElseThrow();
 
 		for (String repo : repoIdsList) {
 			String[] strings = repo.split(",");
@@ -377,6 +382,13 @@ public class UserConfigService {
 	public void setOAuthToken(String oAuthToken) throws Exception {
 		OAuthUser currentUser = getCurrentUser();
 		currentUser.setOauthToken(oAuthToken);
+		changeOAuthLevel(currentUser);
+	}
+
+	private void changeOAuthLevel(OAuthUser currentUser) {
+		if(currentUser.getUserLevel() == OauthUserLevel.FIRST_AUTH_USER) {
+			currentUser.setUserLevel(OauthUserLevel.AUTH_NOT_REPOSITORY_SELECT);
+		}
 	}
 
 	public OAuthUser getCurrentUser() throws Exception {
