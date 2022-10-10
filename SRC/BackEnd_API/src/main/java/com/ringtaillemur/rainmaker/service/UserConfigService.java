@@ -13,11 +13,14 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 import com.ringtaillemur.rainmaker.domain.OAuthUserRepositoryTable;
+import com.ringtaillemur.rainmaker.domain.enumtype.OauthUserLevel;
+import com.ringtaillemur.rainmaker.dto.historycollectordto.HistoryCollector;
 import com.ringtaillemur.rainmaker.dto.webdto.responsedto.RepositoryInfoDto;
 import com.ringtaillemur.rainmaker.repository.OAuthUserRepositoryRepository;
 import javax.transaction.Transactional;
 import org.json.JSONArray;
 import org.json.JSONObject;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ReactiveHttpOutputMessage;
 import org.springframework.security.core.Authentication;
@@ -25,6 +28,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.BodyInserter;
 import org.springframework.web.reactive.function.BodyInserters;
+import org.springframework.web.reactive.function.client.ClientResponse;
 import org.springframework.web.reactive.function.client.WebClient;
 import com.ringtaillemur.rainmaker.domain.OAuthUser;
 import com.ringtaillemur.rainmaker.domain.Repository;
@@ -89,6 +93,7 @@ public class UserConfigService {
 		String token = getToken(getUserId());
 		List<Repository> repositories = new ArrayList<>();
 		List<OAuthUserRepositoryTable> oAuthUserRepositoryTableList = new ArrayList<>();
+		List<HistoryCollector> repositoryListForTrigger = new ArrayList<>();
 		OAuthUser oAuthUser = oAuthRepository.findByUserRemoteId(getUserId()).orElseThrow();
 
 		for (String repo : repoIdsList) {
@@ -108,9 +113,14 @@ public class UserConfigService {
 				OAuthUserRepositoryTable oAuthUserRepository = getoAuthUserRepositoryTable(token, repositories, oAuthUser, repo_id, owner_name, repo_name);
 				oAuthUserRepositoryTableList.add(oAuthUserRepository);
 				setUserWebhookByRepoName(token, owner_name, repo_name);
-				triggerHistoryCollector(owner_name, repo_name, token);
+				repositoryListForTrigger.add(HistoryCollector.builder().ownerName(owner_name).repoName(repo_name).token(token).build());
 			}
 		}
+
+		if(!repositoryListForTrigger.isEmpty()) {
+			triggerHistoryCollector(repositoryListForTrigger);
+		}
+
 		saveRepositoryAndOAuthUserRepositoryTable(repositories, oAuthUserRepositoryTableList);
 	}
 
@@ -165,25 +175,31 @@ public class UserConfigService {
 		return repositoryIds;
 	}
 
-	public String triggerHistoryCollector(String organizationName, String repositoryName, String token) {
-
+	public void triggerHistoryCollector(List<HistoryCollector> historyCollectorList) {
+		List<String> historyCollectorStringList = historyCollectorList.stream().map(HistoryCollector::toString).collect(Collectors.toList());
+		String format = String.format("/api/HttpExample?%s", historyCollectorStringList);
 		try {
 			WebClient ServerlessFunctionClient = WebClient.builder()
 				.baseUrl("https://github-history-collector.azurewebsites.net")
 				.build();
-			String block = ServerlessFunctionClient.get()
-				.uri(String.format("/api/HttpExample?owner_name=%s&repository_name=%s&token=%s", organizationName,
-					repositoryName, token))
-					.accept(MediaType.APPLICATION_JSON)
-				.retrieve()
-				.bodyToMono(String.class)
-				.toString();
-			// todo : 추후 이쪽 부분 변경이 필요함. 여기서 비동기로 실행이 완료되었다면, 권한을 바꿔주는 식의 로직이 필요함.
-
-			return block;
+			ServerlessFunctionClient.get()
+				.uri(format)
+				.accept(MediaType.APPLICATION_JSON).exchange().flux()
+				.subscribe( (result) -> {
+					changeAuthority(result);
+				});
 		} catch (Exception e) {
 			e.printStackTrace();
-			return null;
+		}
+	}
+
+	private void changeAuthority(ClientResponse result) {
+		HttpStatus httpStatus = result.statusCode();
+		if (result.statusCode().is2xxSuccessful()) {
+			Optional<OAuthUser> id = oAuthRepository.findById(81180977L);
+			OAuthUser oAuthUser = id.orElseThrow();
+			oAuthUser.setUserLevel(OauthUserLevel.AUTHED_HISTORY_COLLECT_ENDED_USER);
+			oAuthRepository.save(oAuthUser);
 		}
 	}
 

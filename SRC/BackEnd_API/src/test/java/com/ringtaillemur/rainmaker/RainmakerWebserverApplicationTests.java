@@ -5,6 +5,7 @@ import com.ringtaillemur.rainmaker.domain.OAuthUser;
 import com.ringtaillemur.rainmaker.domain.OAuthUserRepositoryTable;
 import com.ringtaillemur.rainmaker.domain.Repository;
 import com.ringtaillemur.rainmaker.domain.enumtype.OauthUserLevel;
+import com.ringtaillemur.rainmaker.dto.historycollectordto.HistoryCollector;
 import com.ringtaillemur.rainmaker.dto.webdto.responsedto.RepositoryInfoDto;
 import com.ringtaillemur.rainmaker.dto.webdto.responsedto.UserRepositoryDto;
 import com.ringtaillemur.rainmaker.repository.LeadTimeForChangeRepository;
@@ -79,8 +80,10 @@ class RainmakerWebserverApplicationTests {
 
 	@Test
 	void 웹훅트리거링가능(){
-		String s = userConfigService.triggerHistoryCollector("Ring-tail-lemur", "private_fake", "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");
-		System.out.println(s);
+
+		List<HistoryCollector> h = new ArrayList<>();
+		h.add(new HistoryCollector("Ring-tail-lemur", "private_fake", "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"));
+		userConfigService.triggerHistoryCollector(h);
 	}
 
 	@Test
@@ -115,9 +118,8 @@ class RainmakerWebserverApplicationTests {
 				.build();
 		webClient.get().accept(MediaType.APPLICATION_JSON).exchange().flux()
 				.subscribe( (result) -> {
-					extracted(abcd, result);
+					changeAuthority(result);
 				});
-
 
 		try {
 			Thread.sleep(10000);
@@ -128,7 +130,7 @@ class RainmakerWebserverApplicationTests {
 		}
 	}
 
-	private void extracted(int abcd, ClientResponse result) {
+	private void changeAuthority(ClientResponse result) {
 		HttpStatus httpStatus = result.statusCode();
 		System.out.println(httpStatus);
 		if (result.statusCode().is2xxSuccessful()) {
@@ -136,9 +138,26 @@ class RainmakerWebserverApplicationTests {
 			OAuthUser oAuthUser = id.orElseThrow();
 			oAuthUser.setUserLevel(OauthUserLevel.FIRST_AUTH_USER);
 			oAuthRepository.save(oAuthUser);
-			System.out.println(abcd);
 		}
 	}
 
+	@Test
+	void 파라미터테스트() {
+		List<HistoryCollector> historyCollectorList = new ArrayList<>();
+		historyCollectorList.add(HistoryCollector.builder()
+				.ownerName("jonghyun").repoName("test1").token("1234").build());
+		historyCollectorList.add(HistoryCollector.builder()
+				.ownerName("jonghyun").repoName("test2").token("1234").build());
+		historyCollectorList.add(HistoryCollector.builder()
+				.ownerName("jonghyun").repoName("test3").token("1234").build());
+		historyCollectorList.add(HistoryCollector.builder()
+				.ownerName("jonghyun").repoName("test4").token("1234").build());
+		historyCollectorList.add(HistoryCollector.builder()
+				.ownerName("inhyeok").repoName("test5").token("1234").build());
+
+		List<String> historyCollectorStringList = historyCollectorList.stream().map(HistoryCollector::toString).collect(Collectors.toList());
+		String format = String.format("/api/HttpExample?%s", historyCollectorStringList);
+		System.out.println(format);
+	}
 
 }
