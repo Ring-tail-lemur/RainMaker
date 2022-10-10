@@ -105,3 +105,4 @@ CosmosTrigger1/ms-sql-config.json
 **/ms-sql-config.json
 **/persistence.xml
 **/application.yml
+**/slack-config.json
