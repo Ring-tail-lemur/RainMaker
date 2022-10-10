@@ -1,5 +1,5 @@
 const { Octokit } = require("@octokit/core");
-const err_log_module = require('slackLogBot.js');
+const err_log_module = require('./slackLogBot.js');
 
 async function createGitHubLabel(releaseName, repositoryId, repositoryName, ownerName, token, context) {
     let response;
