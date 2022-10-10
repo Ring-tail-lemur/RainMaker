@@ -1,1 +1,3 @@
-{"query":"{\r\n    repository(owner: \"Ring-tail-lemur\", name: \"test-for-fake-project\") {\r\n        pullRequest(number: $[[pull_request_number_list]]) {\r\n            databaseId\r\n            createdAt\r\n            author {\r\n                ... on User {\r\n                    databaseId\r\n                }\r\n            }\r\n        }\r\n    }\r\n}\r\n"}{"query":"{\r\n    repository(owner: \"Ring-tail-lemur\", name: \"test-for-fake-project\") {\r\n        pullRequest(number: $[[pull_request_number_list]]) {\r\n            databaseId\r\n            createdAt\r\n            author {\r\n                ... on User {\r\n                    databaseId\r\n                }\r\n            }\r\n        }\r\n    }\r\n}\r\n"}
+{
+
+}
