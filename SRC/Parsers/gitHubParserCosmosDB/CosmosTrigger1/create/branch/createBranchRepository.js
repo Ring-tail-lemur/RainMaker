@@ -1,4 +1,5 @@
 // const pool = require('../../ms-sql/msSQLPool');
+const errLogModule = require('../../utils/slackLogBot.js');
 
 async function insertBranchByRepoRemoteIdAndUserId(dbConnectionPool, branch_id, branch_name, repository_remote_id, author_id, context){
 
@@ -11,6 +12,7 @@ async function insertBranchByRepoRemoteIdAndUserId(dbConnectionPool, branch_id, 
         await dbConnectionPool.request()
             .query(sqlQuery);
     } catch (e) {
+        errLogModule.log(e, "createBranchRepository.js // insertBranchByRepoRemoteIdAndUserId");
         console.error(e);
     }
 

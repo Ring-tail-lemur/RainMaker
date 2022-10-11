@@ -1,3 +1,4 @@
+const err_log_module = require('../../utils/slackLogBot.js');
 async function updateBranchByRepoIdAndUserId(dbConnectionPool, context, branch_name, repository_id, author_id){
 
 

@@ -1,5 +1,6 @@
 const { Octokit } = require("@octokit/core");
 const repositoryCreateRepository = require('../repository/repositoryCreateRepository');
+const errLogModule = require('../utils/slackLogBot.js');
 
 const owner = 'Ring-tail-lemur';
 const repo = 'test-for-fake-project';
@@ -23,7 +24,7 @@ async function repoCheckAndInsert(pool, owner, repo) {
         }
         return repo_id;
     } catch(err) {
-        console.error(err);
+        errLogModule.log(err, "repoCheckModule.js");
         return false;
     }
 

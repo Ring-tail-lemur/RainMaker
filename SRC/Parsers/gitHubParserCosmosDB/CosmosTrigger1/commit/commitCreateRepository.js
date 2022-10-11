@@ -1,5 +1,5 @@
 // const pool = require('../ms-sql/msSQLPool');
-
+const errLogModule = require('../utils/slackLogBot.js');
 async function insertCommitByUserId(dbConnectionPool, commit_sha, author_id, message, commit_time, context) {
 
     // const dbConnectionPool = await pool;
@@ -14,6 +14,7 @@ async function insertCommitByUserId(dbConnectionPool, commit_sha, author_id, mes
         await dbConnectionPool.request()
             .query(sqlQuery);
     } catch (e) {
+        errLogModule.log(e, "commitCreateRepository.js // insertCOmmitByUserId");
         context.error(e);
     }
 }
@@ -33,7 +34,7 @@ async function insertPullRequestCommitTableByPullRequestIdAndCommitId(dbConnecti
         await dbConnectionPool.request()
             .query(sqlQuery);
     } catch (e) {
-        console.error(e);
+        errLogModule.log(e, "commitCreateRepository.js // insertPullRequestCommitTableByPullRequestIdAndCommitId");
     }
 }
 module.exports.insertCommitByUserId = insertCommitByUserId;
