@@ -1,5 +1,7 @@
 package com.ringtaillemur.analyst.analysislogic.dorametric;
 
+import java.io.IOException;
+
 import com.ringtaillemur.analyst.query.OlapQuery;
 import com.ringtaillemur.analyst.query.QueryRunner;
 
@@ -14,7 +16,7 @@ public class TimeToRestoreService {
 		return timeToRestoreService;
 	}
 
-	public void calculateTimeToRestoreService() {
+	public void calculateTimeToRestoreService() throws IOException {
 		queryRunner.runUpdateInsertQuery(OlapQuery.MAKE_TIME_TO_RESTORE_SERVICE);
 	}
 }

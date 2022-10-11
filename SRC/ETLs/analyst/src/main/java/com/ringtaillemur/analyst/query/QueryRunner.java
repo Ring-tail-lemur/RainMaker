@@ -1,11 +1,13 @@
 package com.ringtaillemur.analyst.query;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.stream.Collectors;
 
 import javax.persistence.*;
 
 import com.ringtaillemur.analyst.dto.ReleaseDto;
+import com.ringtaillemur.analyst.restapi.LogModule;
 
 public class QueryRunner {
 	private static final QueryRunner queryRunner = new QueryRunner();
@@ -17,7 +19,7 @@ public class QueryRunner {
 		return queryRunner;
 	}
 
-	public void runUpdateInsertQuery(String query) {
+	public void runUpdateInsertQuery(String query) throws IOException {
 		EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("azure-mssql-unit");
 		EntityManager entityManager = entityManagerFactory.createEntityManager();
 		EntityTransaction transaction = entityManager.getTransaction();
@@ -26,6 +28,8 @@ public class QueryRunner {
 			entityManager.createNativeQuery(query).executeUpdate();
 			transaction.commit();
 		} catch (Exception e) {
+			LogModule logModule = new LogModule();
+			logModule.sendLog(e, "QueryRunner.java // runUpdateInsertQuery");
 			transaction.rollback();
 		} finally {
 			entityManager.close();
@@ -45,7 +49,7 @@ public class QueryRunner {
 		return releaseDtoList;
 	}
 
-	public ReleaseDto runSelectCalculatedReleaseTop1Query(String query) {
+	public ReleaseDto runSelectCalculatedReleaseTop1Query(String query) throws IOException {
 		EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("azure-mssql-unit");
 		EntityManager entityManager = entityManagerFactory.createEntityManager();
 		Object[] result;
@@ -55,6 +59,8 @@ public class QueryRunner {
 			releaseDto = new ReleaseDto(result[0].toString(), (String)result[1], (String)result[2],
 				(String)result[3], result[4].toString());
 		} catch (Exception e) {
+			LogModule logModule = new LogModule();
+			logModule.sendLog(e, "QueryRunner.java // runSelectCalculatedReleaseTop1Query");
 			releaseDto = new ReleaseDto();
 		}
 		entityManager.close();
@@ -62,13 +68,14 @@ public class QueryRunner {
 		return releaseDto;
 	}
 
-	public void runMakePullRequestDirection(String query) {
+	public void runMakePullRequestDirection(String query) throws IOException {
 		EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("azure-mssql-unit");
 		EntityManager entityManager = entityManagerFactory.createEntityManager();
 		try {
 			List list = entityManager.createNativeQuery(query).getResultList();
 		} catch (Exception e) {
-
+			LogModule logModule = new LogModule();
+			logModule.sendLog(e, "QueryRunner // runMakePullRequestDirection");
 		}
 
 	}

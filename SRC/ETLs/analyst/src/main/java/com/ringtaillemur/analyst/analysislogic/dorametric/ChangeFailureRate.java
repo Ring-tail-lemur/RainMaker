@@ -1,5 +1,7 @@
 package com.ringtaillemur.analyst.analysislogic.dorametric;
 
+import java.io.IOException;
+
 import com.ringtaillemur.analyst.query.OlapQuery;
 import com.ringtaillemur.analyst.query.QueryRunner;
 
@@ -15,7 +17,7 @@ public class ChangeFailureRate {
 		return changeFailureRate;
 	}
 
-	public void calculateChangeFailureRate() {
+	public void calculateChangeFailureRate() throws IOException {
 		queryRunner.runUpdateInsertQuery(OlapQuery.MAKE_CHANGE_FAILURE_RATE);
 	}
 }

@@ -1,5 +1,6 @@
 package com.ringtaillemur.analyst;
 
+import java.io.IOException;
 import java.util.logging.Logger;
 
 import com.ringtaillemur.analyst.analysislogic.dorametric.PullRequestDirection;
@@ -17,7 +18,7 @@ class TimerTriggerFunctionTest {
 	}
 
 	@Test
-	void hi() {
+	void hi() throws IOException {
 		pullRequestDirection.MakePullRequestDirection();
 	}
 }
