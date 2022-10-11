@@ -14,7 +14,6 @@ import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.stereotype.Service;
 import org.springframework.util.LinkedMultiValueMap;
@@ -26,7 +25,6 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.ringtaillemur.rainmaker.config.UserAuthentication;
 import com.ringtaillemur.rainmaker.domain.OAuthUser;
 import com.ringtaillemur.rainmaker.domain.enumtype.OauthUserLevel;
 import com.ringtaillemur.rainmaker.dto.configdto.DeployProperties;
@@ -97,16 +95,15 @@ public class SecurityUserService {
 	}
 
 	public Optional<OAuthUser> checkDuplicationAndCommitUser(OAuthUser oAuthUser) {
-		try {
-			Optional<OAuthUser> presentUser = oAuthRepository.findByUserRemoteId(oAuthUser.getUserRemoteId());
-			if(presentUser.isPresent()) {
-				return presentUser;
-			}
-		} catch (Exception e) {
-			oAuthRepository.save(oAuthUser);
-			return Optional.of(oAuthUser);
+		if (oAuthUser == null) {
+			return Optional.empty();
 		}
-		return Optional.empty();
+		Optional<OAuthUser> presentUser = oAuthRepository.findByUserRemoteId(oAuthUser.getUserRemoteId());
+		if (presentUser.isPresent()) {
+			return presentUser;
+		}
+		oAuthRepository.save(oAuthUser);
+		return Optional.of(oAuthUser);
 	}
 
 	private static class JsonUser {

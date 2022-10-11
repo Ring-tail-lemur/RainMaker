@@ -11,7 +11,7 @@
       }
     },
     "mapping": {
-      "data.repository.defaultBranchRef.target.history.nodes.id": [
+      "data.repository.defaultBranchRef.target.history.nodes.oid": [
         "commit_id",
         "string"
       ],
@@ -220,7 +220,7 @@
       "interface_type": "graphql",
       "graphql": {
         "file_name": "pull_request_event_open.graphql",
-        "variable_list": "opened_pull_request_number_list"
+        "variable_list": "pull_request_number_list"
       }
     },
     "mapping": {
@@ -267,6 +267,23 @@
         "event_sender_id",
         "bigint"
       ]
+    }
+  },
+  "pull_request_commit_table": {
+    "source": {
+      "interface_type": "graphql",
+      "graphql": {
+        "file_name": "pull_request_commit_table.graphql",
+        "variable_list": "pull_request_number_list",
+        "pagination": {
+          "has_next": "data.repository.pullRequest.commits.pageInfo.hasNextPage",
+          "end_cursor": "data.repository.pullRequest.commits.pageInfo.endCursor"
+        }
+      }
+    },
+    "mapping": {
+      "data.repository.pullRequest.commits.nodes.commit.oid": ["commit_id", "string"],
+      "data.repository.pullRequest.databaseId": ["pull_request_id", "bigint"]
     }
   }
 }

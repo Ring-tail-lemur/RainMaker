@@ -16,4 +16,5 @@ public enum OauthUserLevel {
 	AUTHED_PAID_SIZE_ONE_USER,
 	AUTHED_PAID_SIZE_TWO_USER,
 	ADMIN,
+	FAILED,
 }

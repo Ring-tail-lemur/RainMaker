@@ -1,0 +1,18 @@
+{
+    repository(owner: "{{owner}}", name: "{{repo}}") {
+        pullRequest(number: $[[pull_request_number_list]]) {
+            commits(last: 100{{pageElement}}) {
+                pageInfo {
+                    endCursor
+                    hasNextPage
+                }
+                nodes {
+                    commit {
+                        oid
+                    }
+                }
+            }
+            databaseId
+        }
+    }
+}

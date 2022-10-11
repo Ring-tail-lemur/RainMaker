@@ -5,7 +5,7 @@
                 ... on Commit {
                     history{{page}} {
                         nodes {
-                            id
+                            oid
                             committedDate
                             author {
                                 user {

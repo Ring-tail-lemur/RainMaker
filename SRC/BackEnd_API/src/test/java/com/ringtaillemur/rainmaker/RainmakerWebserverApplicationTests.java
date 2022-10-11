@@ -1,30 +1,5 @@
 package com.ringtaillemur.rainmaker;
 
-import com.ringtaillemur.rainmaker.domain.LeadTimeForChange;
-import com.ringtaillemur.rainmaker.domain.OAuthUser;
-import com.ringtaillemur.rainmaker.domain.OAuthUserRepositoryTable;
-import com.ringtaillemur.rainmaker.domain.Repository;
-import com.ringtaillemur.rainmaker.domain.enumtype.OauthUserLevel;
-import com.ringtaillemur.rainmaker.dto.historycollectordto.HistoryCollector;
-import com.ringtaillemur.rainmaker.dto.webdto.responsedto.RepositoryInfoDto;
-import com.ringtaillemur.rainmaker.dto.webdto.responsedto.UserRepositoryDto;
-import com.ringtaillemur.rainmaker.repository.LeadTimeForChangeRepository;
-import com.ringtaillemur.rainmaker.repository.OAuthRepository;
-import com.ringtaillemur.rainmaker.repository.OAuthUserRepositoryRepository;
-import com.ringtaillemur.rainmaker.repository.RepositoryRepository;
-import com.ringtaillemur.rainmaker.service.UserConfigService;
-
-import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
-import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.reactive.function.client.ClientResponse;
-import org.springframework.web.reactive.function.client.WebClient;
-import reactor.core.publisher.Flux;
-import reactor.core.publisher.Mono;
-
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -33,9 +8,34 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-@SpringBootTest
-@Transactional
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.test.annotation.Rollback;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.reactive.function.client.ClientResponse;
+import org.springframework.web.reactive.function.client.WebClient;
 
+import com.ringtaillemur.rainmaker.domain.GitOrganization;
+import com.ringtaillemur.rainmaker.domain.LeadTimeForChange;
+import com.ringtaillemur.rainmaker.domain.OAuthUser;
+import com.ringtaillemur.rainmaker.domain.OAuthUserRepositoryTable;
+import com.ringtaillemur.rainmaker.domain.Repository;
+import com.ringtaillemur.rainmaker.domain.enumtype.OauthUserLevel;
+import com.ringtaillemur.rainmaker.dto.historycollectordto.HistoryCollector;
+import com.ringtaillemur.rainmaker.dto.webdto.responsedto.RepositoryInfoDto;
+import com.ringtaillemur.rainmaker.dto.webdto.responsedto.UserRepositoryDto;
+import com.ringtaillemur.rainmaker.repository.GitOrganizationRepository;
+import com.ringtaillemur.rainmaker.repository.LeadTimeForChangeRepository;
+import com.ringtaillemur.rainmaker.repository.OAuthRepository;
+import com.ringtaillemur.rainmaker.repository.OAuthUserRepositoryRepository;
+import com.ringtaillemur.rainmaker.repository.RepositoryRepository;
+import com.ringtaillemur.rainmaker.service.UserConfigService;
+
+@SpringBootTest
+@Rollback(value = false)
 class RainmakerWebserverApplicationTests {
 
 	@Autowired
@@ -48,9 +48,19 @@ class RainmakerWebserverApplicationTests {
 	OAuthRepository oAuthRepository;
 	@Autowired
 	RepositoryRepository repositoryRepository;
-
+	@Autowired
+	GitOrganizationRepository gitOrganizationRepository;
+	@Test
+	void OrganizationInsert() {
+		GitOrganization gitOrganization = GitOrganization.builder()
+			.id(123123124L)
+			.name("ring-tail-remer")
+			.build();
+		gitOrganizationRepository.save(gitOrganization);
+	}
 	@Test
 	void contextLoads() {
+		oAuthRepository.save(new OAuthUser(123L, "helwe", "asedf.sd", "asdfas", OauthUserLevel.FIRST_AUTH_USER));
 	}
 
 	@Test
@@ -74,10 +84,9 @@ class RainmakerWebserverApplicationTests {
 
 	@Test
 	void 리포지토리정보가져오기() {
-		Repository info = userConfigService.getRepositoryInfoByGithubApi("Ring-tail-lemur", "private_fake", "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");
-		System.out.println(info);
+		// Repository info = userConfigService.getRepositoryInfoByGithubApi("Ring-tail-lemur", "private_fake", "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");
+		// System.out.println(info);
 	}
-
 	@Test
 	void 웹훅트리거링가능(){
 
