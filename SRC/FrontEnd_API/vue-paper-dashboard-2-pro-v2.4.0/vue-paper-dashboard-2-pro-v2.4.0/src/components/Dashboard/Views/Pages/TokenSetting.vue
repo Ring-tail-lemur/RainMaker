@@ -33,7 +33,7 @@
                            @blur="verifyToken()"
                            style="width: 100%; margin-bottom: 20px; height: 40px" type="text"
                            placeholder="github token을 입력해주세요!"></input>
-                    <p-button round block class="mb-3" v-on:click="saveToken">확인</p-button>
+                    <p-button round block class="mb-3" v-on:click="saveToken" :disabled="!isChecking">확인</p-button>
                   </p>
                 </card>
               </div>
@@ -68,7 +68,8 @@ export default {
     return {
       githubToken: '',
       tokenValidation: 'start',
-      checkString: ''
+      checkString: '',
+      isChecking: false
     }
   },
   methods: {
@@ -93,19 +94,22 @@ export default {
       }).then(response => {
         if (response.status === 200) {
           this.tokenValidation = true;
-          this.checkString = '토큰이 확인되었습니다!'
+          this.checkString = '토큰이 확인되었습니다!';
+          this.isChecking = true;
         } else {
           this.tokenValidation = false;
-          this.checkString = '토큰을 다시 확인해주세요!'
+          this.checkString = '토큰을 다시 확인해주세요!';
+          this.isChecking = false;
         }
       }).catch(error => {
         this.tokenValidation = false;
-        this.checkString = '토큰을 다시 확인해주세요!'
+        this.checkString = '토큰을 다시 확인해주세요!';
+        this.isChecking = false;
       });
     },
     getBorderColor() {
       if (this.tokenValidation === 'start') {
-        return 'basic'
+        return 'basic';
       }
       if (this.tokenValidation === true) {
         return 'green';
