@@ -16,8 +16,7 @@ import java.time.ZoneId;
 import org.json.JSONObject;
 
 public class LogModule {
-
-	private String slackLogBotUri = "https://hooks.slack.com/services/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";
+	private String slackLogBotUri = "https://hooks.slack.com/services/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";
 	LogModule logModule(){
 		return this;
 	}
