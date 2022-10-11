@@ -9,6 +9,7 @@ import java.net.URLEncoder;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
+import org.json.simple.parser.ParseException;
 
 import com.ringtaillemur.analyst.dto.ReleaseDto;
 
@@ -17,7 +18,9 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class GetCommitsCompare {
 
-	public JSONArray getFirstReleaseCommitsBy(ReleaseDto targetReleaseDto, String token) throws IOException {
+	public JSONArray getFirstReleaseCommitsBy(ReleaseDto targetReleaseDto, String token) throws
+		IOException,
+		ParseException {
 
 		try {
 			String owner = targetReleaseDto.getOwnerName();
@@ -50,7 +53,7 @@ public class GetCommitsCompare {
 	}
 
 	public JSONObject getCommitsCompareBy(ReleaseDto targetReleaseDto, ReleaseDto previousReleaseDto, String token) throws
-		IOException {
+		IOException, ParseException {
 		try {
 			String owner = targetReleaseDto.getOwnerName();
 			String repo = targetReleaseDto.getRepositoryName();

@@ -1,28 +1,28 @@
 package com.ringtaillemur.analyst.restapi;
 import java.io.BufferedReader;
-import java.io.DataOutputStream;
+import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.io.OutputStream;
 import java.io.OutputStreamWriter;
+import java.io.Reader;
 import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
 import java.net.URL;
-import java.nio.charset.StandardCharsets;
-import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.ZoneId;
 
 import org.json.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 
 public class LogModule {
-	private String slackLogBotUri = "https://hooks.slack.com/services/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";
-	LogModule logModule(){
-		return this;
+	private String slackLogBotUri = null;
+	public LogModule() throws IOException, ParseException {
+		slackLogBotUri = this.readJson();
 	}
 	public void sendLog(Exception e,  String message) throws IOException {
 		try {
 			LocalTime nowTime = LocalTime.now(ZoneId.of("Asia/Seoul"));
+			System.out.println(this.slackLogBotUri);
 			JSONObject newJsonObj = new JSONObject();
 			URL uri = new URL(slackLogBotUri);
 			HttpURLConnection connection = (HttpURLConnection) uri.openConnection();
@@ -53,8 +53,17 @@ public class LogModule {
 			System.err.println(exception.toString());
 		}
 	}
-	// public static void main(String[] args) throws IOException {
-	// 	LogModule logModule = new LogModule();
-	// 	logModule.sendLog(new Exception(), "dㅁㄴㄹㅇㄴㅁㄹd");
-	// }
+
+	private String readJson() throws IOException, ParseException {
+		JSONParser jsonParser = new JSONParser();
+		Reader reader = new FileReader("./slack-secret.json");
+		System.out.println("Hihi");
+		org.json.simple.JSONObject jsonObject = (org.json.simple.JSONObject) jsonParser.parse(reader);
+		System.out.println(jsonObject.toString());
+		return (String) jsonObject.get("slack_uri");
+	}
+	public static void main(String[] args) throws IOException, ParseException {
+		LogModule logModule = new LogModule();
+		logModule.sendLog(new Exception(), "ㅅㅂㅅㅂ");
+	}
 }

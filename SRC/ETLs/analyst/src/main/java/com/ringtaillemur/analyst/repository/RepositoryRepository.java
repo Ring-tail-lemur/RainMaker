@@ -6,11 +6,13 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 
+import org.json.simple.parser.ParseException;
+
 import com.ringtaillemur.analyst.restapi.LogModule;
 
 public class RepositoryRepository {
 
-	public String getOneTokenByRepositoryId(String repositoryId) throws IOException {
+	public String getOneTokenByRepositoryId(String repositoryId) throws IOException, ParseException {
 		EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("azure-mssql-unit");
 		EntityManager entityManager = entityManagerFactory.createEntityManager();
 		String token = null;

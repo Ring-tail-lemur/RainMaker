@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.util.logging.Logger;
 
 import com.ringtaillemur.analyst.analysislogic.dorametric.PullRequestDirection;
+
+import org.json.simple.parser.ParseException;
 import org.junit.jupiter.api.Test;
 
 import com.microsoft.azure.functions.ExecutionContext;
@@ -18,7 +20,7 @@ class TimerTriggerFunctionTest {
 	}
 
 	@Test
-	void hi() throws IOException {
+	void hi() throws IOException, ParseException {
 		pullRequestDirection.MakePullRequestDirection();
 	}
 }

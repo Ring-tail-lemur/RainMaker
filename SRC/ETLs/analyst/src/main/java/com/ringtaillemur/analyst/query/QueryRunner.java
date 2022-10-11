@@ -6,6 +6,8 @@ import java.util.stream.Collectors;
 
 import javax.persistence.*;
 
+import org.json.simple.parser.ParseException;
+
 import com.ringtaillemur.analyst.dto.ReleaseDto;
 import com.ringtaillemur.analyst.restapi.LogModule;
 
@@ -19,7 +21,7 @@ public class QueryRunner {
 		return queryRunner;
 	}
 
-	public void runUpdateInsertQuery(String query) throws IOException {
+	public void runUpdateInsertQuery(String query) throws IOException, ParseException {
 		EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("azure-mssql-unit");
 		EntityManager entityManager = entityManagerFactory.createEntityManager();
 		EntityTransaction transaction = entityManager.getTransaction();
@@ -49,7 +51,7 @@ public class QueryRunner {
 		return releaseDtoList;
 	}
 
-	public ReleaseDto runSelectCalculatedReleaseTop1Query(String query) throws IOException {
+	public ReleaseDto runSelectCalculatedReleaseTop1Query(String query) throws IOException, ParseException {
 		EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("azure-mssql-unit");
 		EntityManager entityManager = entityManagerFactory.createEntityManager();
 		Object[] result;
@@ -68,7 +70,7 @@ public class QueryRunner {
 		return releaseDto;
 	}
 
-	public void runMakePullRequestDirection(String query) throws IOException {
+	public void runMakePullRequestDirection(String query) throws IOException, ParseException {
 		EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("azure-mssql-unit");
 		EntityManager entityManager = entityManagerFactory.createEntityManager();
 		try {
