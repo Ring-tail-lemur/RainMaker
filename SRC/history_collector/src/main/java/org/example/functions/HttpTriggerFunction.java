@@ -97,7 +97,7 @@ public class HttpTriggerFunction {
 	}
 
 	private void runAnalystService() throws IOException {
-		URL url = new URL("http://localhost:56635/api/AnalystHttpTrigger");
+		URL url = new URL("https://github-analystics.azurewebsites.net/api/AnalystHttpTrigger");
 		HttpURLConnection connection = (HttpURLConnection)url.openConnection();
 		connection.setRequestMethod("GET");
 		int responseCode = connection.getResponseCode();

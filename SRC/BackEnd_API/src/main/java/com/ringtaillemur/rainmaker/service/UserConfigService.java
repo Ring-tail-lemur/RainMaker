@@ -189,8 +189,7 @@ public class UserConfigService {
 		final Long userId = getUserId();
 		try {
 			WebClient ServerlessFunctionClient = WebClient.builder()
-				// .baseUrl("https://github-history-collector.azurewebsites.net")
-				.baseUrl("http://localhost:56770")
+				.baseUrl("https://github-history-collector.azurewebsites.net")
 				.build();
 			ServerlessFunctionClient.post()
 				.uri("/api/HttpExample")
