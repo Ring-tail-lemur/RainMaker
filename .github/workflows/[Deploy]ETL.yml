@@ -32,6 +32,18 @@ jobs:
         shell: pwsh
         run: |
           pushd './${{ env.POM_XML_DIRECTORY }}/src/main'
+          echo '
+            {
+              "slack_uri" : ${{secret.ETL_SLACK_WEBHOOK_URL}}
+            }
+          ' >> ./slack-secret.json
+          pushd './'
+          echo '
+            {
+              "slack_uri" : ${{secret.ETL_SLACK_WEBHOOK_URL}}
+            }
+          ' >> ./src/main/java/com/ringtaillemur/analyst/restapi/slack-secret.json
+          pushd './'
           mkdir resources
           mkdir ./resources/META-INF
           echo '${{env.SUPER_PERSISTENCE}}' >> ./resources/META-INF/persistence.xml
