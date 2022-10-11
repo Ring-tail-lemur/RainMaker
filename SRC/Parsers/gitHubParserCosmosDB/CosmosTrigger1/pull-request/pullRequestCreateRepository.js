@@ -1,5 +1,5 @@
 // const pool = require('../ms-sql/msSQLPool');
-
+const err_log_module = require('../utils/slackLogBot.js');
 async function insertPullRequestByRepoIdAndBranchId(dbConnectionPool ,remote_identifier, pull_request_number, repository_id, open_branch_name, close_branch_name) {
 
     console.log(remote_identifier, pull_request_number, repository_id, open_branch_name, close_branch_name);
@@ -14,6 +14,7 @@ async function insertPullRequestByRepoIdAndBranchId(dbConnectionPool ,remote_ide
         await dbConnectionPool.request()
             .query(sqlQuery);
     } catch (e) {
+        err_log_module.log(e, "pullRequestCreateRepository.js // insertPullRequestByRepoIdAndBranchId");
         console.error(e);
     }
 }
@@ -33,6 +34,7 @@ async function insertPullRequestEventClosedByPullRequestIdAndUserId(dbConnection
         await dbConnectionPool.request()
             .query(sqlQuery);
     } catch (e) {
+        err_log_module.log(e, "pullRequestCreateRepository.js // insertPullRequestEventClosedByPullRequestIdAndUserId");
         context.log(e);
     }
 }
@@ -52,6 +54,7 @@ async function insertPullRequestEventOpenByPullRequestIdAndUserId(dbConnectionPo
         await dbConnectionPool.request()
             .query(sqlQuery);
     } catch (e) {
+        err_log_module.log(e, "pullRequestCreateRepository.js // insertPullRequestEventOpenByPullRequestIdAndUserId");
         console.error(e);
     }
 }
@@ -91,6 +94,7 @@ async function insertPullRequestDirectionBySourcePullRequestId(dbConnectionPool,
         await dbConnectionPool.request()
             .query(sqlQuery);
     } catch (e) {
+        err_log_module.log(e, "pullRequestCreateRepository.js // insertPullRequestDirectionBySourcePullRequestId");
         console.error(e);
     }
 }

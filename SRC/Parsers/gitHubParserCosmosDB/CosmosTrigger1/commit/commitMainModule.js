@@ -1,4 +1,5 @@
 const commitCreateRepository = require('./commitCreateRepository.js');
+const errLogModule = require('../utils/slackLogBot.js');
 
 async function commitMain(pool, eventObject, context){
     //commit 에 대한 것. 내가 만든 것이므로 언젠가는 바뀔 수도 있다. action마저 commit으로, 분기될만한 것이 없음.
@@ -10,6 +11,7 @@ async function commitMain(pool, eventObject, context){
     try {
         await commitCreateRepository.insertCommitByUserId(pool, eventObject.commit_sha, eventObject.commit_author_id, eventObject.commit_message, eventObject.commit_time, context);
     } catch (e) {
+        errLogModule.log(e, "commitMainModule.js // commitMain");
         context.log(e);
     }
     await commitCreateRepository.insertPullRequestCommitTableByPullRequestIdAndCommitId(pool, eventObject.parent_pull_request_remote_identifier, eventObject.commit_sha, false);

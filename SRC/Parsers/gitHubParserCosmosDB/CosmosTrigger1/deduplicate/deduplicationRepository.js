@@ -1,3 +1,5 @@
+const err_log_module = require('../utils/slackLogBot.js');
+
 async function checkDeduplication(dbConnectionPool, uuid) {
 
     const sqlQuery = `
@@ -12,6 +14,7 @@ async function checkDeduplication(dbConnectionPool, uuid) {
         result = await dbConnectionPool.request()
             .query(sqlQuery);
     } catch (e) {
+        err_log_module.log(e, "duplicationRepository.js // checkDeduplication");
         console.error(e);
     }
 
@@ -33,6 +36,7 @@ async function insertDeduplication(dbConnectionPool, uuid) {
         await dbConnectionPool.request()
             .query(sqlQuery);
     } catch (e) {
+        err_log_module.log(e, "duplicationRepository.js // insertDeduplication");
         console.error(e);
     }
 }
