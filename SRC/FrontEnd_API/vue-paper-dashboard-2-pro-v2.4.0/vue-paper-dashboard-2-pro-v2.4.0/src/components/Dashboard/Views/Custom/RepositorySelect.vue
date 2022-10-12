@@ -95,7 +95,7 @@ export default {
         }
       });
       this.$router.push("/RepositorySelect")
-      window.location.replace(this.custom.myURL);
+      window.location.replace(this.custom.myURL + "/dashboard");
     }
 
   }

@@ -1,6 +1,6 @@
 {
     repository(owner: "{{owner}}", name: "{{repo}}") {
-        pullRequest(number: $[[opened_pull_request_number_list]]) {
+        pullRequest(number: $[[pull_request_number_list]]) {
             databaseId
             createdAt
             author {

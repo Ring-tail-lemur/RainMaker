@@ -1,18 +1,18 @@
 package com.ringtaillemur.rainmaker.config;
 
-import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.HttpStatusEntryPoint;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import com.ringtaillemur.rainmaker.config.CustomAccessDeniedHandler;
+
+import com.ringtaillemur.rainmaker.domain.enumtype.OauthUserLevel;
+
+import lombok.RequiredArgsConstructor;
 
 @Configuration
 @EnableWebSecurity
@@ -32,7 +32,7 @@ public class SecurityConfig {
 				.antMatchers("/login/**").permitAll()
 				.antMatchers("/token").hasAnyAuthority("FIRST_AUTH_USER","AUTH_NOT_REPOSITORY_SELECT", "AUTHED_HISTORY_COLLECT_NOT_ENDED_USER", "AUTHED_HISTORY_COLLECT_ENDED_USER")
 				.antMatchers("/profile/**","/RepositorySelect").hasAnyAuthority("AUTH_NOT_REPOSITORY_SELECT", "AUTHED_HISTORY_COLLECT_NOT_ENDED_USER", "AUTHED_HISTORY_COLLECT_ENDED_USER")
-				.anyRequest().hasAnyAuthority("AUTHED_HISTORY_COLLECT_ENDED_USER")
+				.antMatchers("/dorametric/**", "/user/repository-info").hasAnyAuthority(OauthUserLevel.AUTHED_HISTORY_COLLECT_ENDED_USER.toString())
 				)
 			.exceptionHandling(e -> e
 				.authenticationEntryPoint(new HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED))

@@ -1,7 +1,7 @@
 package com.ringtaillemur.analyst.analysislogic.dorametric;
 
 import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -37,7 +37,8 @@ public class UpdateCommitsReleaseId {
 			ReleaseDto lastCalculatedReleaseDto = queryRunner.runSelectCalculatedReleaseTop1Query(
 				OlapQuery.PUBLISHED_AND_CALCULATED_LEAD_TIME_FOR_CHANGE_RELEASE);
 			releaseDtos.add(0, lastCalculatedReleaseDto);
-			String joinMergeQuery = String.join(", ", makeJoinMergeQueryList(releaseDtos));
+			List<String> elementList = makeJoinMergeQueryList(releaseDtos);
+			String joinMergeQuery = String.join(", ", elementList);
 			queryRunner.runUpdateInsertQuery(String.format(OlapQuery.UPDATE_COMMITS_RELEASE_ID, joinMergeQuery));
 		}
 	}
@@ -93,6 +94,10 @@ public class UpdateCommitsReleaseId {
 				joinMergeQueryList.add(mergeQueryPiece);
 			}
 		}
-		return joinMergeQueryList;
+		return removeDuplication(joinMergeQueryList);
+	}
+
+	private static List<String> removeDuplication(List<String> joinMergeQueryList) {
+		return new ArrayList<>(new HashSet<>(joinMergeQueryList));
 	}
 }

@@ -7,35 +7,38 @@ import java.net.URL;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
+import java.util.Set;
 import java.util.stream.Collectors;
-import com.ringtaillemur.rainmaker.domain.OAuthUserRepositoryTable;
-import com.ringtaillemur.rainmaker.domain.enumtype.OauthUserLevel;
-import com.ringtaillemur.rainmaker.dto.historycollectordto.HistoryCollector;
-import com.ringtaillemur.rainmaker.dto.webdto.responsedto.RepositoryInfoDto;
-import com.ringtaillemur.rainmaker.repository.OAuthUserRepositoryRepository;
+
 import javax.transaction.Transactional;
+
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
-import org.springframework.http.ReactiveHttpOutputMessage;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
-import org.springframework.web.reactive.function.BodyInserter;
 import org.springframework.web.reactive.function.BodyInserters;
 import org.springframework.web.reactive.function.client.ClientResponse;
 import org.springframework.web.reactive.function.client.WebClient;
+
+import com.ringtaillemur.rainmaker.domain.GitOrganization;
 import com.ringtaillemur.rainmaker.domain.OAuthUser;
+import com.ringtaillemur.rainmaker.domain.OAuthUserRepositoryTable;
 import com.ringtaillemur.rainmaker.domain.Repository;
+import com.ringtaillemur.rainmaker.domain.enumtype.OauthUserLevel;
 import com.ringtaillemur.rainmaker.domain.enumtype.OwnerType;
+import com.ringtaillemur.rainmaker.dto.historycollectordto.HistoryCollector;
 import com.ringtaillemur.rainmaker.dto.webdto.responsedto.RegisterRepoIdDto;
+import com.ringtaillemur.rainmaker.dto.webdto.responsedto.RepositoryInfoDto;
 import com.ringtaillemur.rainmaker.dto.webdto.responsedto.UserRepositoryDto;
+import com.ringtaillemur.rainmaker.repository.GitOrganizationRepository;
 import com.ringtaillemur.rainmaker.repository.OAuthRepository;
+import com.ringtaillemur.rainmaker.repository.OAuthUserRepositoryRepository;
 import com.ringtaillemur.rainmaker.repository.RepositoryRepository;
 
 import lombok.RequiredArgsConstructor;
@@ -49,6 +52,7 @@ public class UserConfigService {
 	private final OAuthRepository oAuthRepository;
 	private final RepositoryRepository repositoryRepository;
 	private final OAuthUserRepositoryRepository oAuthUserRepositoryRepository;
+	private final GitOrganizationRepository gitOrganizationRepository;
 
 	/**
 	 * 현재 들어온 유저의 Remote_ID를 리턴하는 함수
@@ -100,6 +104,7 @@ public class UserConfigService {
 		List<Repository> repositories = new ArrayList<>();
 		List<OAuthUserRepositoryTable> oAuthUserRepositoryTableList = new ArrayList<>();
 		List<HistoryCollector> repositoryListForTrigger = new ArrayList<>();
+		Set<GitOrganization> gitOrganizationSet = new HashSet<>();
 
 		for (String repo : repoIdsList) {
 			String[] strings = repo.split(",");
@@ -115,7 +120,7 @@ public class UserConfigService {
 					.build();
 				oAuthUserRepositoryTableList.add(oAuthUserRepository);
 			} else {
-				OAuthUserRepositoryTable oAuthUserRepository = getoAuthUserRepositoryTable(token, repositories, oAuthUser, repo_id, owner_name, repo_name);
+				OAuthUserRepositoryTable oAuthUserRepository = getoAuthUserRepositoryTable(token, repositories, oAuthUser, repo_id, owner_name, repo_name, gitOrganizationSet);
 				oAuthUserRepositoryTableList.add(oAuthUserRepository);
 				setUserWebhookByRepoName(token, owner_name, repo_name);
 				repositoryListForTrigger.add(HistoryCollector.builder().ownerName(owner_name).repoName(repo_name).token(token).build());
@@ -125,7 +130,7 @@ public class UserConfigService {
 		if(!repositoryListForTrigger.isEmpty()) {
 			triggerHistoryCollector(repositoryListForTrigger);
 		}
-
+		gitOrganizationRepository.saveAll(new ArrayList<>(gitOrganizationSet));
 		saveRepositoryAndOAuthUserRepositoryTable(repositories, oAuthUserRepositoryTableList);
 	}
 
@@ -135,14 +140,14 @@ public class UserConfigService {
 		oAuthUserRepositoryRepository.saveAll(oAuthUserRepositoryTableList);
 	}
 
-	private OAuthUserRepositoryTable getoAuthUserRepositoryTable(String token, List<Repository> repositories, OAuthUser oAuthUser, Long repo_id, String owner_name, String repo_name) {
+	private OAuthUserRepositoryTable getoAuthUserRepositoryTable(String token, List<Repository> repositories, OAuthUser oAuthUser, Long repo_id, String owner_name, String repo_name, Set<GitOrganization> gitOrganizationSet) {
 		Repository newRepository = new Repository();
 		newRepository.setId(repo_id);
 		OAuthUserRepositoryTable oAuthUserRepository = OAuthUserRepositoryTable.builder()
 			.oAuthUser(oAuthUser)
 			.repository(newRepository)
 			.build();
-		repositories.add(getRepositoryInfoByGithubApi(owner_name, repo_name, token));
+		repositories.add(getRepositoryInfoByGithubApi(owner_name, repo_name, token, gitOrganizationSet));
 		return oAuthUserRepository;
 	}
 
@@ -205,6 +210,10 @@ public class UserConfigService {
 			OAuthUser oAuthUser = id.orElseThrow();
 			oAuthUser.setUserLevel(OauthUserLevel.AUTHED_HISTORY_COLLECT_ENDED_USER);
 			oAuthRepository.save(oAuthUser);
+		} else if (!httpStatus.is2xxSuccessful()) {
+			OAuthUser loginUser = oAuthRepository.findById(userId).orElseThrow();
+			loginUser.setUserLevel(OauthUserLevel.FAILED);
+			oAuthRepository.save(loginUser);
 		}
 	}
 
@@ -313,7 +322,7 @@ public class UserConfigService {
 		}
 	}
 
-	public Repository getRepositoryInfoByGithubApi(String organizationName, String repositoryName, String token) {
+	public Repository getRepositoryInfoByGithubApi(String organizationName, String repositoryName, String token, Set<GitOrganization> gitOrganizationSet) {
 
 		try {
 			URL url = new URL(String.format("https://api.github.com/repos/%s/%s", organizationName, repositoryName));
@@ -344,6 +353,8 @@ public class UserConfigService {
 				.ownerOrganizationId(owner_organization_id)
 				.build();
 
+			gitOrganizationSet.add(GitOrganization.builder()
+				.id(owner_organization_id).name(organizationName).build());
 			return repository;
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -360,18 +371,13 @@ public class UserConfigService {
 
 	public String setUserWebhookByRepoName(String token, String owner_name, String repo_name) {
 		try {
-			Map<String, String> bodyMap = new HashMap();
 			String body = "{\"config\": { \"url\": \"https://github-listener-nodejs.azurewebsites.net\", \"content_type\":\"'json'\", \"insecure_ssl\": \"'0'\" }, \"events\": [\"pull_request\", \"push\", \"label\", \"repository\", \"release\", \"issues\", \"create\", \"delete\", \"issue_comment\", \"pull_request_review_comment\"], \"active\": true}";
-			BodyInserter<Map<String, String>, ReactiveHttpOutputMessage> inserter = BodyInserters.fromValue(bodyMap);
-
-			String responseSpec = webClient.post()
+			return webClient.post()
 				.uri(String.format("/repos/%s/%s/hooks", owner_name, repo_name))
 				.header("Authorization", "Bearer " + token)
 				.body(BodyInserters.fromValue(body))
 				.exchangeToMono(clientResponse -> clientResponse.bodyToMono(String.class))
 				.block();
-
-			return responseSpec;
 		} catch (Exception e) {
 			e.printStackTrace();
 			return null;

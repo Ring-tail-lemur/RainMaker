@@ -311,6 +311,7 @@ export default {
     },
     async getDoraMetric(start_time, end_time, repo_id, MetricName) {
       const Message = await axios.get(this.custom.defaultURL + "/dorametric/" + MetricName, {
+        headers: setHeaderJWT(),
         params : {
           start_time : start_time,
           end_time : end_time,
