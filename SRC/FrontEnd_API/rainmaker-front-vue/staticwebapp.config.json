@@ -2,13 +2,25 @@
   "trailingSlash": "auto",
   "routes": [
     {
-      "route": "/register"
+      "route": "/register/token"
     },
     {
       "route": "/login"
     },
     {
-      "route": "/*"
+      "route": "/register"
+    },
+    {
+      "route": "/login/oauth2/code/github"
+    },
+    {
+      "route": "/RepositorySelect"
+    },
+    {
+      "route": "/dashboard"
+    },
+    {
+      "route": "/admin/overview"
     }
   ],
   "navigationFallback": {
