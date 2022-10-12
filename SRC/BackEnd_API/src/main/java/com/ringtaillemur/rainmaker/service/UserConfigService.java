@@ -161,7 +161,6 @@ public class UserConfigService {
 
 		for (var organization : OrganizationArray) {
 			String organizationName = ((JSONObject)organization).getString("login");
-			Long organization_id = Long.valueOf(((JSONObject)organization).getInt("id"));
 			List<Long> repositoryIds = getCheckedRepoIds();
 
 			ArrayList<UserRepositoryDto> repositoryListByGithubApi = getRepositoryListByGithubApi(organizationName,
