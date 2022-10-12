@@ -16,6 +16,10 @@
   export default {
     components: {
       Calendar
+    },
+    beforeCreate() {
+      alert("추후 기능을 기다려주세요!");
+      location.replace('/');
     }
   }
 </script>
