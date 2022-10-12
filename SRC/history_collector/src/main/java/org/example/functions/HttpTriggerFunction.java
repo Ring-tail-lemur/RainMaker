@@ -17,11 +17,13 @@ import org.example.functions.loador.DataLoader;
 import org.example.functions.loador.DataLoaderImpl;
 import org.example.functions.transformer.SourceDataTransformer;
 import org.example.functions.transformer.SourceDataTransformerImpl;
+import org.example.functions.util.SlackLogger;
 import org.example.functions.util.constants.RequestVariable;
 import org.example.functions.util.exception.DataSourceAdaptorNotFindException;
 import org.example.functions.util.exception.ResponseTypeMissMatchException;
 import org.json.JSONArray;
 import org.json.JSONObject;
+import org.json.simple.parser.ParseException;
 
 import com.microsoft.azure.functions.HttpMethod;
 import com.microsoft.azure.functions.HttpRequestMessage;
@@ -63,6 +65,8 @@ public class HttpTriggerFunction {
 					requestParameterMap, RequestVariable.getRequestVariableMap(requestParameterMap));
 				runPipeLine(dataExtractingConfigDtoList);
 			} else {
+				SlackLogger slackLogger = new SlackLogger();
+				slackLogger.sendLog(new IllegalArgumentException(), "JSONObject is IllegalArgument!");
 				throw new IllegalArgumentException();
 			}
 		}
@@ -96,12 +100,14 @@ public class HttpTriggerFunction {
 		return new JSONArray(body);
 	}
 
-	private void runAnalystService() throws IOException {
+	private void runAnalystService() throws IOException, ParseException {
 		URL url = new URL("https://github-analystics.azurewebsites.net/api/AnalystHttpTrigger");
 		HttpURLConnection connection = (HttpURLConnection)url.openConnection();
 		connection.setRequestMethod("GET");
 		int responseCode = connection.getResponseCode();
 		if (responseCode != 200) {
+			SlackLogger slackLogger = new SlackLogger();
+			slackLogger.sendLog(new RuntimeException(), "analyst 실행 실패");
 			throw new RuntimeException("analyst 실행 실패");
 		}
 	}
