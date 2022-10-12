@@ -2,7 +2,7 @@
   <div class="wrapper">
 
     <side-bar type="sidebar" :sidebar-links="$sidebar.sidebarLinks">
-      <user-menu></user-menu>
+
     </side-bar>
 
     <div class="main-panel">

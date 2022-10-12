@@ -1,5 +1,5 @@
 <template>
-  <div class="content">
+  <div class="content" v-if="temp">
 
     <transition name="fade" mode="out-in">
       <!-- your content here -->
@@ -18,25 +18,29 @@ import Button from "@/components/UIComponents/Button";
     },
     data() {
       return {
-        wait : false
+        wait : false,
+        temp : true
       }
     },
     methods: {
-      waiting() {
+      async waiting() {
         alert('Github에서 데이터를 불러오고 있습니다. 잠시만 기다려주세요.');
         this.wait = true;
       },
-      notLogin() {
-        alert('로그인 후 이용해주세요');
-        window.location.replace('/login');
+      async notLogin() {
+        this.temp = false;
+        await window.location.replace('/login');
+        await alert('로그인 후 이용해주세요');
       },
-      tokenRegister() {
-        alert('토큰을 등록해주세요');
-        window.location.replace('/register/token');
+      async tokenRegister() {
+        this.temp = false;
+        await window.location.replace('/register/token');
+        await alert('토큰을 등록해주세요');
       },
-      repositorySelect() {
+      async repositorySelect() {
+        this.temp = false;
         alert('리포지토리를 선택해주세요');
-        window.location.replace('/RepositorySelect');
+        await window.location.replace('/RepositorySelect');
       }
     }
   }

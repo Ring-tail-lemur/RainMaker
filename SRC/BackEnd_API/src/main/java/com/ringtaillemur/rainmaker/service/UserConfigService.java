@@ -92,7 +92,7 @@ public class UserConfigService {
 	 * @2. Azure Function 호출
 	 * @3. DB Repo 테이블에 등록.
 	 * */
-	public void registerRepository(RegisterRepoIdDto repoIds) {
+	public List<HistoryCollector> registerRepository(RegisterRepoIdDto repoIds) {
 
 		Optional<OAuthUser> id = oAuthRepository.findById(getUserId());
 		OAuthUser oAuthUser = id.orElseThrow();
@@ -127,11 +127,9 @@ public class UserConfigService {
 			}
 		}
 
-		if(!repositoryListForTrigger.isEmpty()) {
-			triggerHistoryCollector(repositoryListForTrigger);
-		}
 		gitOrganizationRepository.saveAll(new ArrayList<>(gitOrganizationSet));
 		saveRepositoryAndOAuthUserRepositoryTable(repositories, oAuthUserRepositoryTableList);
+		return repositoryListForTrigger;
 	}
 
 	private void saveRepositoryAndOAuthUserRepositoryTable(List<Repository> repositories, List<OAuthUserRepositoryTable> oAuthUserRepositoryTableList) {
@@ -182,38 +180,6 @@ public class UserConfigService {
 			repositoryIds.add(oAuthUserRepository.getRepository().getId());
 		}
 		return repositoryIds;
-	}
-
-	public void triggerHistoryCollector(List<HistoryCollector> historyCollectorList) {
-		final Long userId = getUserId();
-		try {
-			WebClient ServerlessFunctionClient = WebClient.builder()
-				.baseUrl("https://github-history-collector.azurewebsites.net")
-				.build();
-			ServerlessFunctionClient.post()
-				.uri("/api/HttpExample")
-				.accept(MediaType.APPLICATION_JSON)
-				.bodyValue(historyCollectorList)
-				.exchange()
-				.flux()
-				.subscribe((result) -> changeAuthority(result, userId));
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
-
-	private void changeAuthority(ClientResponse result, Long userId) {
-		HttpStatus httpStatus = result.statusCode();
-		if (httpStatus.is2xxSuccessful()) {
-			Optional<OAuthUser> id = oAuthRepository.findById(userId);
-			OAuthUser oAuthUser = id.orElseThrow();
-			oAuthUser.setUserLevel(OauthUserLevel.AUTHED_HISTORY_COLLECT_ENDED_USER);
-			oAuthRepository.save(oAuthUser);
-		} else if (!httpStatus.is2xxSuccessful()) {
-			OAuthUser loginUser = oAuthRepository.findById(userId).orElseThrow();
-			loginUser.setUserLevel(OauthUserLevel.FAILED);
-			oAuthRepository.save(loginUser);
-		}
 	}
 
 	public JSONArray getOrganizationListByGithubApi(String token) {
