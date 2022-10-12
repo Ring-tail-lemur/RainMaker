@@ -38,18 +38,9 @@ import './assets/sass/demo.scss'
 import sidebarLinks from './sidebarLinks'
 import './registerServiceWorker'
 // plugin setup
+import URLConfig from './URLconfig.json';
 
-Vue.prototype.custom = {
-  // myURL : "http://127.0.0.1:3000",
-  myURL : "https://victorious-forest-095d4a310.1.azurestaticapps.net",
-  // defaultURL : "http://127.0.0.1:8080",
-  defaultURL : "https://spring-api-server.azurewebsites.net",
-  // clientId : "8189c16057d124b9324e",
-  clientId : "42286a47489496b3129b",
-
-
-  endURL : "/login/oauth2/code/github"
-}
+Vue.prototype.custom = URLConfig;
 
 Vue.use(VueRouter)
 Vue.use(GlobalDirectives)

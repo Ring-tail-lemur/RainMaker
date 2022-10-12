@@ -1,9 +1,10 @@
 import axios from "axios";
 import setHeaderJWT from "@/api/setHeaderJWT";
+import URLConfig from '../URLconfig.json';
 
 async function pageCheckAndChange(to, from, next) {
-  //const defaultURL = "http://127.0.0.1:8080";
-  const defaultURL = "https://spring-api-server.azurewebsites.net";
+
+  const defaultURL = URLConfig.defaultURL;
 
   try {
     let response = await axios.get(defaultURL + "/api/check", {headers: setHeaderJWT()});
