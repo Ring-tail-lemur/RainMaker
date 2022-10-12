@@ -1,10 +1,13 @@
 package com.ringtaillemur.analyst.restapi;
 import java.io.BufferedReader;
+import java.io.ByteArrayOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.io.Reader;
+import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.time.LocalTime;
@@ -45,25 +48,36 @@ public class LogModule {
 					stringBuilder.append(line).append("\n");
 				}
 				bufferedReader.close();
-				System.out.println("" + stringBuilder.toString());
 			}else{
-				System.out.println(connection.getResponseMessage());
 			}
 		}catch (Exception exception){
-			System.err.println(exception.toString());
 		}
 	}
 
-	private String readJson() throws IOException, ParseException {
-		JSONParser jsonParser = new JSONParser();
-		Reader reader = new FileReader("./slack-secret.json");
-		System.out.println("Hihi");
-		org.json.simple.JSONObject jsonObject = (org.json.simple.JSONObject) jsonParser.parse(reader);
-		System.out.println(jsonObject.toString());
-		return (String) jsonObject.get("slack_uri");
+	private String readJson(){
+		String slackSecret = readFile("/slack-secret.json");
+		JSONObject slackSecretJSONObject = new JSONObject(slackSecret);
+		return slackSecretJSONObject.getString("slack_uri");
 	}
-	public static void main(String[] args) throws IOException, ParseException {
-		LogModule logModule = new LogModule();
-		logModule.sendLog(new Exception(), "ㅅㅂㅅㅂ");
+
+	private String readFile(String filePath) {
+		InputStream input = this.getClass().getResourceAsStream(filePath);
+		ByteArrayOutputStream result = new ByteArrayOutputStream();
+		byte[] buffer = new byte[1024];
+		int length;
+		while (true) {
+			try {
+				if ((length = input.read(buffer)) == -1)
+					break;
+			} catch (IOException e) {
+				throw new RuntimeException(e);
+			}
+			result.write(buffer, 0, length);
+		}
+		try {
+			return result.toString("UTF-8");
+		} catch (UnsupportedEncodingException e) {
+			throw new RuntimeException(e);
+		}
 	}
 }

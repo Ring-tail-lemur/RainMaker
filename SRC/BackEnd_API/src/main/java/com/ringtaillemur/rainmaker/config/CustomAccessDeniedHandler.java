@@ -34,7 +34,9 @@ public class CustomAccessDeniedHandler implements AccessDeniedHandler {
                 response.setStatus(443);
             } else if(nowLoginUser.getUserLevel().equals(OauthUserLevel.AUTHED_HISTORY_COLLECT_NOT_ENDED_USER)) {
                 response.setStatus(444);
-            } else{
+            } else if (nowLoginUser.getUserLevel().equals(OauthUserLevel.FAILED)) {
+                response.setStatus(445);
+            } else {
                 response.setStatus(401);
             }
         }

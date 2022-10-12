@@ -4,23 +4,18 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
-import java.io.Reader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.time.LocalTime;
 import java.time.ZoneId;
 
-import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
-import org.json.simple.parser.ParseException;
+import org.json.JSONObject;
 
-import lombok.extern.slf4j.Slf4j;
-
-@Slf4j
 public class SlackLogger {
+	private final FileReader fileReader = FileReader.getInstance();
 	private String slackLogBotUri = null;
-	public SlackLogger() throws IOException,ParseException {
+	public SlackLogger() throws IOException {
 		slackLogBotUri = this.readJson();
 	}
 	public void sendLog(Exception e,  String message) throws IOException {
@@ -50,14 +45,12 @@ public class SlackLogger {
 				bufferedReader.close();
 			}
 		}catch (Exception exception){
-			log.error(exception.getMessage());
 		}
 	}
 
-	private String readJson() throws IOException, ParseException {
-		JSONParser jsonParser = new JSONParser();
-		Reader reader = new java.io.FileReader("./slack-secret.json");
-		org.json.simple.JSONObject jsonObject = (org.json.simple.JSONObject) jsonParser.parse(reader);
-		return (String) jsonObject.get("slack_uri");
+	private String readJson() throws IOException{
+		String slackSecret = fileReader.readFile("/slack-secret.json");
+		JSONObject slackSecretJSONObject = new JSONObject(slackSecret);
+		return slackSecretJSONObject.getString("slack_uri");
 	}
 }

@@ -1,18 +1,20 @@
 package com.ringtaillemur.rainmaker.service;
 
-import com.ringtaillemur.rainmaker.domain.OAuthUser;
-import com.ringtaillemur.rainmaker.domain.enumtype.OauthUserLevel;
-import com.ringtaillemur.rainmaker.dto.historycollectordto.HistoryCollector;
-import com.ringtaillemur.rainmaker.repository.OAuthRepository;
-import lombok.RequiredArgsConstructor;
+import java.util.List;
+import java.util.Optional;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.ClientResponse;
 import org.springframework.web.reactive.function.client.WebClient;
 
-import java.util.List;
-import java.util.Optional;
+import com.ringtaillemur.rainmaker.domain.OAuthUser;
+import com.ringtaillemur.rainmaker.domain.enumtype.OauthUserLevel;
+import com.ringtaillemur.rainmaker.dto.historycollectordto.HistoryCollector;
+import com.ringtaillemur.rainmaker.repository.OAuthRepository;
+
+import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
