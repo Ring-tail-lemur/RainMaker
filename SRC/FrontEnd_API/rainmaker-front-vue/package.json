@@ -15,7 +15,7 @@
     "@fullcalendar/timegrid": "5.10.0",
     "@fullcalendar/vue": "5.10.0",
     "axios": "^0.27.2",
-    "chart.js": "2.9.3",
+    "chart.js": "^2.9.4",
     "core-js": "3.18.3",
     "d3": "7.1.1",
     "datamaps": "0.5.9",
@@ -35,9 +35,9 @@
     "vue2-transitions": "0.3.0"
   },
   "devDependencies": {
-    "@vue/cli-plugin-babel": "4.5.14",
-    "@vue/cli-plugin-pwa": "4.5.14",
-    "@vue/cli-service": "4.5.14",
+    "@vue/cli-plugin-babel": "^5.0.8",
+    "@vue/cli-plugin-pwa": "^5.0.8",
+    "@vue/cli-service": "^5.0.8",
     "babel-plugin-component": "1.1.1",
     "sass": "1.43.2",
     "sass-loader": "10.2.0",
