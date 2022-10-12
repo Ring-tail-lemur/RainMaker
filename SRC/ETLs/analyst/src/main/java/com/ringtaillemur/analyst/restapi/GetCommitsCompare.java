@@ -1,6 +1,7 @@
 package com.ringtaillemur.analyst.restapi;
 
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
@@ -8,6 +9,7 @@ import java.net.URLEncoder;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
+import org.json.simple.parser.ParseException;
 
 import com.ringtaillemur.analyst.dto.ReleaseDto;
 
@@ -16,7 +18,9 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class GetCommitsCompare {
 
-	public JSONArray getFirstReleaseCommitsBy(ReleaseDto targetReleaseDto, String token) {
+	public JSONArray getFirstReleaseCommitsBy(ReleaseDto targetReleaseDto, String token) throws
+		IOException,
+		ParseException {
 
 		try {
 			String owner = targetReleaseDto.getOwnerName();
@@ -42,11 +46,14 @@ public class GetCommitsCompare {
 			return new JSONArray(sb.toString());
 		} catch (Exception e) {
 			e.printStackTrace();
+			LogModule logModule = new LogModule();
+			logModule.sendLog(e, "RepositoryRepository // getFirstReleaseCommitsBy");
 			return new JSONArray();
 		}
 	}
 
-	public JSONObject getCommitsCompareBy(ReleaseDto targetReleaseDto, ReleaseDto previousReleaseDto, String token) {
+	public JSONObject getCommitsCompareBy(ReleaseDto targetReleaseDto, ReleaseDto previousReleaseDto, String token) throws
+		IOException, ParseException {
 		try {
 			String owner = targetReleaseDto.getOwnerName();
 			String repo = targetReleaseDto.getRepositoryName();
@@ -72,6 +79,8 @@ public class GetCommitsCompare {
 			return new JSONObject(sb.toString());
 		} catch (Exception e) {
 			e.printStackTrace();
+			LogModule logModule = new LogModule();
+			logModule.sendLog(e, "RepositoryRepository // getCommitsCompareBy");
 			return new JSONObject();
 		}
 	}

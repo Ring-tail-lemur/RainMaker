@@ -1,5 +1,6 @@
 package com.ringtaillemur.analyst.analysislogic.dorametric;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -9,6 +10,7 @@ import java.util.stream.Collectors;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
+import org.json.simple.parser.ParseException;
 
 import com.ringtaillemur.analyst.dto.ReleaseDto;
 import com.ringtaillemur.analyst.query.OlapQuery;
@@ -29,7 +31,7 @@ public class UpdateCommitsReleaseId {
 		return updateCommitsReleaseId;
 	}
 
-	public void calculateUpdateCommitsReleaseId() {
+	public void calculateUpdateCommitsReleaseId() throws IOException, ParseException {
 		List<ReleaseDto> releaseDtoList = queryRunner.runSelectReleaseQuery(
 			OlapQuery.PUBLISHED_AND_NOT_CALCULATE_LEAD_TIME_FOR_CHANGE_RELEASE);
 		List<List<ReleaseDto>> dividedReleaseDtoList = divideReleaseDtoList(releaseDtoList);
@@ -65,7 +67,7 @@ public class UpdateCommitsReleaseId {
 		}
 	}
 
-	public List<String> makeJoinMergeQueryList(List<ReleaseDto> releaseDtoList) {
+	public List<String> makeJoinMergeQueryList(List<ReleaseDto> releaseDtoList) throws IOException, ParseException {
 
 		String mergeQueryForm = "('%s', %s)";
 		List<String> joinMergeQueryList = new ArrayList<>();

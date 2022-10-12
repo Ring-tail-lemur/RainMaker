@@ -42,3 +42,4 @@ obj/
 **/ms-sql-config.json
 **/persistence.xml
 **/application.yml
+**/slack-secret.json

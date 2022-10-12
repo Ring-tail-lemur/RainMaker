@@ -1,12 +1,18 @@
 package com.ringtaillemur.analyst.repository;
 
+import java.io.IOException;
+
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 
+import org.json.simple.parser.ParseException;
+
+import com.ringtaillemur.analyst.restapi.LogModule;
+
 public class RepositoryRepository {
 
-	public String getOneTokenByRepositoryId(String repositoryId) {
+	public String getOneTokenByRepositoryId(String repositoryId) throws IOException, ParseException {
 		EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("azure-mssql-unit");
 		EntityManager entityManager = entityManagerFactory.createEntityManager();
 		String token = null;
@@ -23,6 +29,8 @@ public class RepositoryRepository {
 				.orElseThrow(() -> new Exception(String.format("ID=%s인 Repository에 속해있는 사람의 Token을 조회할 수 없습니다.", repositoryId)))
 				.toString();
 		} catch (Throwable e) {
+			LogModule logModule = new LogModule();
+			logModule.sendLog(new RuntimeException(e), "RepositoryRepository // getOneTokenByRepositoryId");
 			throw new RuntimeException(e);
 		}
 		entityManager.close();
