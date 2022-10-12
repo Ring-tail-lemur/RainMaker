@@ -268,13 +268,31 @@ export default {
     }
   },
   methods: {
+    async createdMethod() {
+      let Today = new Date();
+      const FormatToday = this.dateFormat(Today);
+      Today.setMonth(Today.getMonth() - 1);
+      const FormatLastMonth = this.dateFormat(Today);
+
+      const repositories = await this.getRepositoryInfo();
+      this.selects.repositories = repositories;
+
+      const repositoryArr = [];
+
+      repositories.forEach((repository) => {
+        repositoryArr.push(repository['repositoryId']);
+      });
+
+      this.getAllDoraMetric(FormatLastMonth, FormatToday, repositoryArr);
+    },
     async checkWaitingStatus() {
-      console.log("쳌쳌")
       let response = await axios.get(this.custom.defaultURL + "/api/check", {headers: setHeaderJWT()});
+      console.log(response.request.status);
       if (response.request.status === 200) {
         console.log(response.request.status)
         this.waiting = true;
         clearInterval(this.interval);
+        await this.createdMethod()
       }
     }, async getRepositoryInfo() {
       let axiosResponse;
@@ -286,9 +304,7 @@ export default {
         this.waiting = true
       } catch (e) {
         if (e.request.status === 444) {
-          await this.checkWaitingStatus();
           this.interval = setInterval(() => this.checkWaitingStatus(), 5000);
-          await this.test();
         }
       }
       console.log("이제 리턴 해야할꺼아냐 어?")
@@ -409,22 +425,7 @@ export default {
     }
   },
   async created() {
-    let Today = new Date();
-    const FormatToday = this.dateFormat(Today);
-    Today.setMonth(Today.getMonth() - 1);
-    const FormatLastMonth = this.dateFormat(Today);
-
-    const repositories = await this.getRepositoryInfo();
-    this.selects.repositories = repositories;
-
-    const repositoryArr = [];
-
-    repositories.forEach((repository) => {
-      repositoryArr.push(repository['repositoryId']);
-    });
-
-    this.getAllDoraMetric(FormatLastMonth, FormatToday, repositoryArr);
-
+    await this.createdMethod();
   }
 }
 

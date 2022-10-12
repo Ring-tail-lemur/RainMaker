@@ -39,7 +39,7 @@ export default {
         date.setTime(date.getTime() + (1 * 24 * 60 * 60 * 1000));
         const expires = " expires=" + date.toGMTString() + "; ";
         document.cookie = "SESSIONID=" + jwtToken + ";path=/; " + expires;
-        window.location.replace(this.custom.myURL);
+        window.location.replace(this.custom.myURL + "/dashboard");
       } catch (e) {
         console.error("로그인 에러. 다시시도", e);
       }

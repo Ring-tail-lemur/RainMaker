@@ -18,6 +18,9 @@
     },
     {
       "route": "/dashboard"
+    },
+    {
+      "route": "/admin/overview"
     }
   ],
   "navigationFallback": {

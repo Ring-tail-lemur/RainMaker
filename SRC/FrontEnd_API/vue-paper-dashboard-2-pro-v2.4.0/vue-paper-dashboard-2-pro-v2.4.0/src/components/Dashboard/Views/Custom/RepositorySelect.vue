@@ -71,8 +71,9 @@ export default {
           method: "get",
           url: this.custom.defaultURL + "/RepositorySelect",
         });
+        console.log("inheyok  === =  " , RepositoryInfo);
       } catch (e) {
-        pageCheckAndChange(e, this);
+        // pageCheckAndChange(e, this);
       }
 
       this.tableData = RepositoryInfo.data;

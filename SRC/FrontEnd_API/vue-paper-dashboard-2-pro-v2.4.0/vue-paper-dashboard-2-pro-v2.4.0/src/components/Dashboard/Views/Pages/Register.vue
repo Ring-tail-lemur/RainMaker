@@ -45,7 +45,7 @@
           </div>
         </div>
         <div class="full-page-background"
-             style="background-image: url(static/img/background/background-devops-2.jpg)"></div>
+             style="background-image: url(/static/img/background/background-devops-2.jpg)"></div>
       </div>
     </div>
   </div>

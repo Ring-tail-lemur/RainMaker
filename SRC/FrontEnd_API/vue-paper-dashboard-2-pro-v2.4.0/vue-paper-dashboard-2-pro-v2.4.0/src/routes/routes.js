@@ -223,6 +223,9 @@ let loginMiddleWarePage = {
 let RepositorySelectPage = {
   path: '/RepositorySelect',
   component: DashboardLayout,
+  meta: {
+    keepAlive: false
+  },
   children: [
     {
       path: '',
