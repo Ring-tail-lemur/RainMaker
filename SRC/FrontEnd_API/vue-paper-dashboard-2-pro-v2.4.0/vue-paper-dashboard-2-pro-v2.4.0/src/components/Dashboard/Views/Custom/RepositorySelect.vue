@@ -86,7 +86,7 @@ export default {
           repoIds.push((tableData[i].id + "," + tableData[i].organization + "," + tableData[i].repository).toString());
       }
       console.log(repoIds);
-      axios({
+      await axios({
         headers: setHeaderJWT(),
         method: "post",
         url: this.custom.defaultURL + "/RepositorySelect",

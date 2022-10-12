@@ -1,9 +1,12 @@
 package com.ringtaillemur.rainmaker.controller.maindashboard.api;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.servlet.http.HttpSession;
 
+import com.ringtaillemur.rainmaker.dto.historycollectordto.HistoryCollector;
+import com.ringtaillemur.rainmaker.service.ServerlessFunctionTriggerService;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -20,13 +23,8 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 @Controller
 public class UserConfigController {
-
-
-	private final JwtUtils jwtUtils;
-
-	private final HttpSession session;
-
 	private final UserConfigService userConfigService;
+	private final ServerlessFunctionTriggerService serverlessFunctionTriggerService;
 
 	@ResponseBody
 	@GetMapping("/RepositorySelect")
@@ -37,6 +35,7 @@ public class UserConfigController {
 	@ResponseBody
 	@PostMapping("/RepositorySelect")
 	public void userRepositoryRegisterRestAPI(@RequestBody RegisterRepoIdDto repoIds) {
-		userConfigService.registerRepository(repoIds);
+		List<HistoryCollector> historyCollectorList = userConfigService.registerRepository(repoIds);
+		serverlessFunctionTriggerService.triggerHistoryCollector(historyCollectorList);
 	}
 }
