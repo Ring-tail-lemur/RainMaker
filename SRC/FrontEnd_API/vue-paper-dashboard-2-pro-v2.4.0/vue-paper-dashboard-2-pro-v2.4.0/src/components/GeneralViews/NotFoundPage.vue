@@ -13,6 +13,7 @@
                             description="We've created the marketing campaign of the website. It was a very interesting collaboration."
                             icon="nc-icon nc-alert-circle-i">
                 <h2 class="text-white mt-3">Page Not Found</h2>
+                관리자에게 문의해주세요: 010-2181-0467<br><br>
                 <small class="text-white">페이지가 존재하지 않습니다
                   <br>
                   돌아가기 : <router-link to="/">메인 페이지</router-link>

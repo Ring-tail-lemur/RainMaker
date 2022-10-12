@@ -40,6 +40,9 @@ const VectorMaps = () => import(/* webpackChunkName: "maps" */ 'src/components/D
 import Calendar from 'src/components/Dashboard/Views/Calendar/CalendarRoute.vue'
 import repositorySelect from "@/components/Dashboard/Views/Custom/RepositorySelect";
 import TokenSetting from "@/components/Dashboard/Views/Pages/TokenSetting";
+import axios from "axios";
+import setHeaderJWT from "@/api/setHeaderJWT";
+import pageCheckAndChange from "@/util/pageCheckAndChange";
 // Charts
 const Charts = () => import(/* webpackChunkName: "widgets" */ 'src/components/Dashboard/Views/Charts.vue')
 
@@ -47,6 +50,10 @@ const Charts = () => import(/* webpackChunkName: "widgets" */ 'src/components/Da
 const LoginMiddleWare = () => import(/* webpackChunkName: "widgets" */ 'src/components/Dashboard/Views/Custom/loginMiddleWare.vue')
 const RepositorySelect = () => import(/* webpackChunkName: "widgets" */ 'src/components/Dashboard/Views/Custom/RepositorySelect.vue')
 const DashBoard = () => import(/* webpackChunkName: "widgets" */ 'src/components/Dashboard/Views/Custom/Dashboard.vue')
+
+const requireAuth =  () => async (to, from, next) => {
+  await pageCheckAndChange(to, from, next)
+}
 
 let componentsMenu = {
   path: '/components',
@@ -191,7 +198,8 @@ let loginPage = {
 let githubTokenSettingPage = {
   path: '/register/token',
   name: 'TokenSetting',
-  component: TokenSetting
+  component: TokenSetting,
+  beforeEnter: requireAuth()
 }
 
 let registerPage = {
@@ -221,7 +229,8 @@ let RepositorySelectPage = {
       name: 'RepositorySelect',
       component: RepositorySelect
     }
-  ]
+  ],
+  beforeEnter: requireAuth()
 }
 
 let DashBoardPage = {
@@ -233,7 +242,8 @@ let DashBoardPage = {
       name: 'DashBoard',
       component: DashBoard
     }
-  ]
+  ],
+  beforeEnter: requireAuth()
 }
 
 const routes = [

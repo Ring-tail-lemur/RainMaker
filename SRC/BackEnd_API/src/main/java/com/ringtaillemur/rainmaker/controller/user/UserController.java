@@ -26,7 +26,7 @@ public class UserController {
 	}
 
 	@ResponseBody
-	@GetMapping("/api/check/login")
+	@GetMapping("/api/check")
 	public String checkLoginController() {
 		return "ok";
 	}

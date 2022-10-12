@@ -53,6 +53,7 @@ import AppNavbar from "@/components/Dashboard/Views/Pages/Layout/AppNavbar";
 import AppFooter from "@/components/Dashboard/Views/Pages/Layout/AppFooter";
 import axios from "axios";
 import setHeaderJWT from "@/api/setHeaderJWT";
+import pageCheckAndChange from "@/util/pageCheckAndChange";
 
 export default {
   name: "TokenSetting",

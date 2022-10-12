@@ -33,6 +33,8 @@ public class SecurityConfig {
 				.antMatchers("/token").hasAnyAuthority("FIRST_AUTH_USER","AUTH_NOT_REPOSITORY_SELECT", "AUTHED_HISTORY_COLLECT_NOT_ENDED_USER", "AUTHED_HISTORY_COLLECT_ENDED_USER")
 				.antMatchers("/profile/**","/RepositorySelect").hasAnyAuthority("AUTH_NOT_REPOSITORY_SELECT", "AUTHED_HISTORY_COLLECT_NOT_ENDED_USER", "AUTHED_HISTORY_COLLECT_ENDED_USER")
 				.antMatchers("/dorametric/**", "/user/repository-info").hasAnyAuthority(OauthUserLevel.AUTHED_HISTORY_COLLECT_ENDED_USER.toString())
+					.antMatchers("/api/check").hasAnyAuthority(OauthUserLevel.AUTHED_HISTORY_COLLECT_ENDED_USER.toString())
+					.anyRequest().authenticated()
 				)
 			.exceptionHandling(e -> e
 				.authenticationEntryPoint(new HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED))
