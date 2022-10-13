@@ -3,7 +3,7 @@ package org.example.functions.util.config;
 import org.hibernate.boot.model.naming.Identifier;
 import org.hibernate.boot.model.naming.PhysicalNamingStrategy;
 import org.hibernate.engine.jdbc.env.spi.JdbcEnvironment;
-
+//야호
 public class LowerCaseSnakePhysicalNamingStrategy implements PhysicalNamingStrategy {
 	@Override
 	public Identifier toPhysicalCatalogName(Identifier identifier, JdbcEnvironment jdbcEnvironment) {
