@@ -43,7 +43,7 @@ jobs:
               "slack_uri" : "${{secrets.ETL_SLACK_WEBHOOK_URI}}"
             }
           ' >> ./src/main/java/com/ringtaillemur/analyst/restapi/slack-secret.json
-          pushd './'
+          pushd './src/main/'
           mkdir resources
           mkdir ./resources/META-INF
           echo '${{env.SUPER_PERSISTENCE}}' >> ./resources/META-INF/persistence.xml
