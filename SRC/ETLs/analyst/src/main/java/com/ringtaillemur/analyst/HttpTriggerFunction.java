@@ -25,6 +25,6 @@ public class HttpTriggerFunction {
     throws Exception {
     TimerTriggerFunction timerTriggerFunction = new TimerTriggerFunction();
     timerTriggerFunction.run("HistoryCollector에 의해 호출", context);
-    return request.createResponseBuilder(HttpStatus.OK).body("happy!").build();
+    return request.createResponseBuilder(HttpStatus.OK).body("happy!!").build();
   }
 }
