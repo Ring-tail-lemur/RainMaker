@@ -139,11 +139,6 @@ public class OlapQuery {
 		+ "\t\t\tFROM release\n"
 		+ "\t\t\t         JOIN repository_owner_table\n"
 		+ "\t\t\t              on repository_owner_table.repository_id = release.repository_id\n"
-//		+ "\t\t\t         JOIN release_event\n"
-//		+ "\t\t\t              ON release.release_id = release_event.release_id\n"
-//		+ "\t\t\t                  AND release_event.release_event_type = 'PUBLISHED'\n"
-		+ "\t\t\t         JOIN repository\n"
-		+ "\t\t\t              ON release.repository_id = repository.repository_id\n"
 		+ "\t\t\tWHERE release.lead_time_for_change_process_end = 0\n"
 		+ "\t\t\tORDER BY release.repository_id, release.published_at;";
 	public static String PUBLISHED_AND_CALCULATED_LEAD_TIME_FOR_CHANGE_RELEASE
@@ -155,9 +150,6 @@ public class OlapQuery {
 		+ "\t\t\tFROM release\n"
 		+ "\t\t\t         JOIN repository_owner_table\n"
 		+ "\t\t\t              on repository_owner_table.repository_id = release.repository_id\n"
-//		+ "\t\t\t         JOIN release_event\n"
-//		+ "\t\t\t              ON release.release_id = release_event.release_id\n"
-//		+ "\t\t\t                  AND release_event.release_event_type = 'PUBLISHED'\n"
 		+ "\t\t\t         JOIN repository\n"
 		+ "\t\t\t              ON release.repository_id = repository.repository_id\n"
 		+ "\t\t\tWHERE release.lead_time_for_change_process_end = 1\n"

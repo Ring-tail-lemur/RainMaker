@@ -23,6 +23,7 @@ target/
 hs_err_pid*
 
 # IDE
+.vscode/
 .idea/
 *.iml
 .settings/

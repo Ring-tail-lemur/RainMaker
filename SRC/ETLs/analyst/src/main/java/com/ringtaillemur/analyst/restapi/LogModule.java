@@ -23,6 +23,7 @@ public class LogModule {
 		slackLogBotUri = this.readJson();
 	}
 	public void sendLog(Exception e,  String message) throws IOException {
+		System.out.println("message = " + message);
 		try {
 			LocalTime nowTime = LocalTime.now(ZoneId.of("Asia/Seoul"));
 			System.out.println(this.slackLogBotUri);
