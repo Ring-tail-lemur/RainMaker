@@ -85,7 +85,7 @@ export default {
       this.tableData = RepositoryInfo.data;
     },
     async registerRepository() {
-      this.waiting = true;
+      
       let tableData = this.tableData;
       let repoIds = [];
 
@@ -98,6 +98,8 @@ export default {
         alert("리포지토리를 선택해주세요");
         return;
       }
+      
+      this.waiting = true;
 
       await axios({
         headers: setHeaderJWT(),
