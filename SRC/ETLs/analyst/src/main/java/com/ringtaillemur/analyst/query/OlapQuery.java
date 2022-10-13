@@ -142,18 +142,19 @@ public class OlapQuery {
 		+ "\t\t\tWHERE release.lead_time_for_change_process_end = 0\n"
 		+ "\t\t\tORDER BY release.repository_id, release.published_at;";
 	public static String PUBLISHED_AND_CALCULATED_LEAD_TIME_FOR_CHANGE_RELEASE
-		= "SELECT TOP 1 release.repository_id,\n"
-		+ "\t\t\t             release.tag_name,\n"
-		+ "\t\t\t             repository_name,\n"
-		+ "\t\t\t             owner_name,\n"
-		+ "\t\t\t             release.release_id\n"
-		+ "\t\t\tFROM release\n"
-		+ "\t\t\t         JOIN repository_owner_table\n"
-		+ "\t\t\t              on repository_owner_table.repository_id = release.repository_id\n"
-		+ "\t\t\t         JOIN repository\n"
-		+ "\t\t\t              ON release.repository_id = repository.repository_id\n"
-		+ "\t\t\tWHERE release.lead_time_for_change_process_end = 1\n"
-		+ "\t\t\tORDER BY release.published_at;";
+		= "SELECT TOP 1 release.repository_id,\n" +
+			"\t\t\t             release.tag_name,\n" +
+			"\t\t\t             repository_name,\n" +
+			"\t\t\t             owner_name,\n" +
+			"\t\t\t             release.release_id\n" +
+			"\t\t\tFROM release\n" +
+			"\t\t\t         JOIN repository_owner_table\n" +
+			"\t\t\t              on repository_owner_table.repository_id = release.repository_id\n" +
+			"\t\t\t         JOIN repository\n" +
+			"\t\t\t              ON release.repository_id = repository.repository_id\n" +
+			"\t\t\tWHERE release.lead_time_for_change_process_end = 1\n" +
+			"\t\t\tAND release.repository_id = %s\n" +
+			"\t\t\tORDER BY release.published_at;";
 	public static String UPDATE_COMMITS_RELEASE_ID
 		= "MERGE commits\n"
 		+ "USING(VALUES %s) as pairs(sha,changed_release_id)\n"
