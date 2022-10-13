@@ -35,7 +35,7 @@ public class GraphqlAdapter implements DataSourceAdapter {
 		IOException, ResponseTypeMissMatchException {
 		if (dataExtractingConfigDto.hasRequestVariable()) {
 			return dataExtractingConfigDto.getAllHttpRequestDto()
-				.parallelStream()
+				.stream()
 				.map(httpRequestDto -> sendAllPage(dataExtractingConfigDto, httpRequestDto))
 				.reduce(JSONArray::putAll)
 				.orElseGet(JSONArray::new);
