@@ -108,7 +108,7 @@ public class HttpTriggerFunction {
 		if (responseCode != 200) {
 			SlackLogger slackLogger = new SlackLogger();
 			slackLogger.sendLog(new RuntimeException(), "analyst 실행 실패");
-			throw new RuntimeException("analyst 실행 실패");
+			throw new RuntimeException("analyst 실행 실패!");
 		}
 	}
 }
