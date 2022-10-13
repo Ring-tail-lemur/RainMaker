@@ -20,40 +20,52 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class ServerlessFunctionTriggerService {
 
-    private final OAuthRepository oAuthRepository;
-    private final UserConfigService userConfigService;
+	private final OAuthRepository oAuthRepository;
+	private final UserConfigService userConfigService;
 
-    public void triggerHistoryCollector(List<HistoryCollector> historyCollectorList) {
-        if(historyCollectorList.isEmpty()) return;
-        final Long userId = userConfigService.getUserId();
-        try {
-            WebClient ServerlessFunctionClient = WebClient.builder()
-                    .baseUrl("https://github-history-collector.azurewebsites.net")
-                    .build();
-            ServerlessFunctionClient.post()
-                    .uri("/api/HttpExample")
-                    .accept(MediaType.APPLICATION_JSON)
-                    .bodyValue(historyCollectorList)
-                    .exchange()
-                    .flux()
-                    .subscribe((result) -> changeAuthority(result, userId));
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
+	public void triggerHistoryCollector(List<HistoryCollector> historyCollectorList) {
+		final Long userId = userConfigService.getUserId();
+		if (checkHistoryCollectorListIsNull(historyCollectorList, userId))
+			return;
+		try {
+			WebClient ServerlessFunctionClient = WebClient.builder()
+				.baseUrl("https://github-history-collector.azurewebsites.net")
+				.build();
+			ServerlessFunctionClient.post()
+				.uri("/api/HttpExample")
+				.accept(MediaType.APPLICATION_JSON)
+				.bodyValue(historyCollectorList)
+				.exchange()
+				.flux()
+				.subscribe((result) -> changeAuthority(result, userId));
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
 
-    private void changeAuthority(ClientResponse result, Long userId) {
-        HttpStatus httpStatus = result.statusCode();
-        if (httpStatus.is2xxSuccessful()) {
-            Optional<OAuthUser> id = oAuthRepository.findById(userId);
-            OAuthUser oAuthUser = id.orElseThrow();
-            oAuthUser.setUserLevel(OauthUserLevel.AUTHED_HISTORY_COLLECT_ENDED_USER);
-            oAuthRepository.save(oAuthUser);
-        } else if (!httpStatus.is2xxSuccessful()) {
-            OAuthUser loginUser = oAuthRepository.findById(userId).orElseThrow();
-            loginUser.setUserLevel(OauthUserLevel.FAILED);
-            oAuthRepository.save(loginUser);
-        }
-    }
+	private boolean checkHistoryCollectorListIsNull(List<HistoryCollector> historyCollectorList, Long userId) {
+		if (historyCollectorList.isEmpty()) {
+			Optional<OAuthUser> id = oAuthRepository.findById(userId);
+			OAuthUser oAuthUser = id.orElseThrow();
+			oAuthUser.setUserLevel(OauthUserLevel.AUTHED_HISTORY_COLLECT_ENDED_USER);
+			oAuthRepository.save(oAuthUser);
+			return true;
+		}
+		return false;
+	}
+
+	private void changeAuthority(ClientResponse result, Long userId) {
+		HttpStatus httpStatus = result.statusCode();
+		if (httpStatus.is2xxSuccessful()) {
+			Optional<OAuthUser> id = oAuthRepository.findById(userId);
+			OAuthUser oAuthUser = id.orElseThrow();
+			oAuthUser.setUserLevel(OauthUserLevel.AUTHED_HISTORY_COLLECT_ENDED_USER);
+			oAuthRepository.save(oAuthUser);
+		} else if (!httpStatus.is2xxSuccessful()) {
+			OAuthUser loginUser = oAuthRepository.findById(userId).orElseThrow();
+			loginUser.setUserLevel(OauthUserLevel.FAILED);
+			oAuthRepository.save(loginUser);
+		}
+	}
 
 }
