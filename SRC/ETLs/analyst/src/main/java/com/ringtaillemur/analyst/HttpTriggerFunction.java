@@ -11,7 +11,7 @@ import com.microsoft.azure.functions.annotation.HttpTrigger;
 import java.util.List;
 import java.util.Optional;
 
-//deploy test
+//deploy
 public class HttpTriggerFunction {
 
   @FunctionName("AnalystHttpTrigger")
