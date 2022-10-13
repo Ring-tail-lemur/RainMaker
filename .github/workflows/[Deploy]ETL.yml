@@ -46,6 +46,12 @@ jobs:
           pushd './src/main/'
           mkdir resources
           mkdir ./resources/META-INF
+          echo '
+            {
+              "slack_uri" : "${{secrets.ETL_SLACK_WEBHOOK_URI}}"
+            }
+          ' >> ./resources/slack-secret.json
+          ls ./resources/
           echo '${{env.SUPER_PERSISTENCE}}' >> ./resources/META-INF/persistence.xml
           chmod 777 ./resources/META-INF/persistence.xml
           ls ./resources/META-INF/persistence.xml

@@ -11,6 +11,7 @@ import com.microsoft.azure.functions.annotation.HttpTrigger;
 import java.util.List;
 import java.util.Optional;
 
+//deploy
 public class HttpTriggerFunction {
 
   @FunctionName("AnalystHttpTrigger")
@@ -25,6 +26,6 @@ public class HttpTriggerFunction {
     throws Exception {
     TimerTriggerFunction timerTriggerFunction = new TimerTriggerFunction();
     timerTriggerFunction.run("HistoryCollector에 의해 호출", context);
-    return request.createResponseBuilder(HttpStatus.OK).body("happy!").build();
+    return request.createResponseBuilder(HttpStatus.OK).body("happy!!").build();
   }
 }
