@@ -8,8 +8,6 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-import org.json.JSONArray;
-import org.json.JSONObject;
 import org.json.simple.parser.ParseException;
 
 import com.ringtaillemur.analyst.dto.ReleaseDto;
@@ -77,14 +75,9 @@ public class UpdateCommitsReleaseId {
 			ReleaseDto previousReleaseDto = releaseDtoList.get(i - 1);
 			List<Object> commits;
 			if (previousReleaseDto.getReleaseId() == null) {
-				commits = getCommitsCompare.getFirstReleaseCommitsBy(
-					targetReleaseDto,
-					token).toList();
+				commits = getCommitsCompare.getFirstReleaseCommitsBy(targetReleaseDto, token).toList();
 			} else {
-				JSONObject commitsCompareResponseJson = getCommitsCompare.getCommitsCompareBy(targetReleaseDto,
-					previousReleaseDto,
-					token);
-				commits = ((JSONArray)commitsCompareResponseJson.get("commits")).toList();
+				commits = getCommitsCompare.getCommitsCompareBy(targetReleaseDto, previousReleaseDto, token).toList();
 			}
 			Map<String, String> shaToReleaseId = commits
 				.stream()

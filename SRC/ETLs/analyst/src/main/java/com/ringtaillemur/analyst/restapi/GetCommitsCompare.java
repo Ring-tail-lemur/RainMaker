@@ -26,24 +26,35 @@ public class GetCommitsCompare {
 			String owner = targetReleaseDto.getOwnerName();
 			String repo = targetReleaseDto.getRepositoryName();
 			String tagName = URLEncoder.encode(targetReleaseDto.getTagName(), "UTF-8");
-			URL url = new URL(String.format("https://api.github.com/repos/%s/%s/commits?sha=%s", owner, repo,
-				tagName));
-			HttpURLConnection conn = (HttpURLConnection)url.openConnection();
+			JSONArray resultJSONArray = new JSONArray();
+			int page = 1;
+			while (true) {
+				URL url = new URL(
+					String.format("https://api.github.com/repos/%s/%s/commits?sha=%s&per_page=100&page=%d", owner, repo,
+						tagName, page));
+				HttpURLConnection conn = (HttpURLConnection)url.openConnection();
 
-			conn.setRequestMethod("GET"); // http 메서드
-			conn.setRequestProperty("accept", "application/vnd.github+json"); // header Content-Type 정보
-			conn.setRequestProperty("Authorization", "token " + token); // header Content-Type 정보
-			conn.setDoOutput(true); // 서버로부터 받는 값이 있다면 true
+				conn.setRequestMethod("GET"); // http 메서드
+				conn.setRequestProperty("accept", "application/vnd.github+json"); // header Content-Type 정보
+				conn.setRequestProperty("Authorization", "token " + token); // header Content-Type 정보
+				conn.setDoOutput(true); // 서버로부터 받는 값이 있다면 true
 
-			// 서버로부터 데이터 읽어오기
-			BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
-			StringBuilder sb = new StringBuilder();
-			String line = null;
+				// 서버로부터 데이터 읽어오기
+				BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+				StringBuilder sb = new StringBuilder();
 
-			while ((line = br.readLine()) != null) { // 읽을 수 있을 때 까지 반복
-				sb.append(line);
+				String line = null;
+				while ((line = br.readLine()) != null) { // 읽을 수 있을 때 까지 반복
+					sb.append(line);
+				}
+				if (sb.length() == 0) {
+					break;
+				}
+				String resultString = sb.toString();
+				resultJSONArray.putAll(new JSONArray(resultString));
+				page += 1;
 			}
-			return new JSONArray(sb.toString());
+			return resultJSONArray;
 		} catch (Exception e) {
 			e.printStackTrace();
 			LogModule logModule = new LogModule();
@@ -52,36 +63,47 @@ public class GetCommitsCompare {
 		}
 	}
 
-	public JSONObject getCommitsCompareBy(ReleaseDto targetReleaseDto, ReleaseDto previousReleaseDto, String token) throws
+	public JSONArray getCommitsCompareBy(ReleaseDto targetReleaseDto, ReleaseDto previousReleaseDto,
+		String token) throws
 		IOException, ParseException {
 		try {
 			String owner = targetReleaseDto.getOwnerName();
 			String repo = targetReleaseDto.getRepositoryName();
 			String basehead2 = targetReleaseDto.getTagName();
 			String basehead1 = previousReleaseDto.getTagName();
-			URL url = new URL(
-				String.format("https://api.github.com/repos/%s/%s/compare/%s...%s", owner, repo, basehead1, basehead2));
-			HttpURLConnection conn = (HttpURLConnection)url.openConnection();
+			JSONArray result = new JSONArray();
+			int page = 1;
+			while (true) {
+				URL url = new URL(
+					String.format("https://api.github.com/repos/%s/%s/compare/%s...%s", owner, repo, basehead1,
+						basehead2));
+				HttpURLConnection conn = (HttpURLConnection)url.openConnection();
 
-			conn.setRequestMethod("GET"); // http 메서드
-			conn.setRequestProperty("accept", "application/vnd.github+json"); // header Content-Type 정보
-			conn.setRequestProperty("Authorization", "token " + token); // header Content-Type 정보
-			conn.setDoOutput(true); // 서버로부터 받는 값이 있다면 true
+				conn.setRequestMethod("GET"); // http 메서드
+				conn.setRequestProperty("accept", "application/vnd.github+json"); // header Content-Type 정보
+				conn.setRequestProperty("Authorization", "token " + token); // header Content-Type 정보
+				conn.setDoOutput(true); // 서버로부터 받는 값이 있다면 true
 
-			// 서버로부터 데이터 읽어오기
-			BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
-			StringBuilder sb = new StringBuilder();
-			String line = null;
+				// 서버로부터 데이터 읽어오기
+				BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+				StringBuilder sb = new StringBuilder();
+				String line = null;
 
-			while ((line = br.readLine()) != null) { // 읽을 수 있을 때 까지 반복
-				sb.append(line);
+				while ((line = br.readLine()) != null) { // 읽을 수 있을 때 까지 반복
+					sb.append(line);
+				}
+				if (sb.length() == 0) {
+					break;
+				}
+				JSONObject singleResult = new JSONObject(sb.toString());
+				result.putAll(singleResult.getJSONArray("commits"));
 			}
-			return new JSONObject(sb.toString());
+			return result;
 		} catch (Exception e) {
 			e.printStackTrace();
 			LogModule logModule = new LogModule();
 			logModule.sendLog(e, "RepositoryRepository // getCommitsCompareBy");
-			return new JSONObject();
+			return new JSONArray();
 		}
 	}
 }
