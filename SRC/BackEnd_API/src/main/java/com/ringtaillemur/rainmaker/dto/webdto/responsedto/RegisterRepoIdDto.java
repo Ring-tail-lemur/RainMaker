@@ -6,9 +6,13 @@ import lombok.NoArgsConstructor;
 
 import java.util.List;
 
+import javax.validation.constraints.NotNull;
+
 @Data
 @AllArgsConstructor
 public class RegisterRepoIdDto {
+
+    @NotNull
     List<String> repoIds;
 
     public RegisterRepoIdDto() {
