@@ -44,3 +44,5 @@ obj/
 **/persistence.xml
 **/application.yml
 **/slack-secret.json
+
+slack-secret.json

@@ -31,19 +31,19 @@ jobs:
           SUPER_PERSISTENCE: ${{secrets.DATABASE_PERSISTENCE_XML}}
         shell: pwsh
         run: |
-          pushd './${{ env.POM_XML_DIRECTORY }}/src/main'
+          pushd './${{ env.POM_XML_DIRECTORY }}'
           echo '
             {
-              "slack_uri" : "${{secrets.ETL_SLACK_WEBHOOK_URL}}"
+              "slack_uri" : "${{secrets.ETL_SLACK_WEBHOOK_URI}}"
             }
           ' >> ./slack-secret.json
           pushd './'
           echo '
             {
-              "slack_uri" : "${{secret.ETL_SLACK_WEBHOOK_URL}}"
+              "slack_uri" : "${{secrets.ETL_SLACK_WEBHOOK_URI}}"
             }
           ' >> ./src/main/java/com/ringtaillemur/analyst/restapi/slack-secret.json
-          pushd './'
+          pushd './src/main/'
           mkdir resources
           mkdir ./resources/META-INF
           echo '${{env.SUPER_PERSISTENCE}}' >> ./resources/META-INF/persistence.xml

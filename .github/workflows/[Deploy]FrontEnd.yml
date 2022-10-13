@@ -23,6 +23,18 @@ jobs:
       - uses: actions/checkout@v2
         with:
           submodules: true
+      - name: 'Injection URLconfig.json'
+        shell: pwsh
+        run: |
+          pushd './src'
+          echo '
+          {
+            "myURL" : "https://victorious-forest-095d4a310.1.azurestaticapps.net",
+            "defaultURL" : "https://spring-api-server.azurewebsites.net",
+            "clientId" : "42286a47489496b3129b",
+            "endURL" : "/login/oauth2/code/github"
+          }
+          ' >> ./URLconfig.json
       - name: Build And Deploy
         id: builddeploy
         uses: Azure/static-web-apps-deploy@v1
