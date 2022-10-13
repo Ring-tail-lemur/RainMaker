@@ -82,6 +82,10 @@ export default {
       let tableData = this.tableData;
       let repoIds = [];
 
+      if (tableData.length === 0) {
+        alert("리포지토리를 선택해주세요!");
+        return;
+      }
       for(let i=0; i< tableData.length; i++) {
         if(tableData[i].checked)
           repoIds.push((tableData[i].id + "," + tableData[i].organization + "," + tableData[i].repository).toString());
