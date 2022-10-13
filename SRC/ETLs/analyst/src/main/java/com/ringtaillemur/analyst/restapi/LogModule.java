@@ -66,6 +66,7 @@ public class LogModule {
   private String readJson() {
     String slackSecret = readFile("./slack-secret.json");
     JSONObject slackSecretJSONObject = new JSONObject(slackSecret);
+    System.out.println(slackSecretJSONObject);
     return slackSecretJSONObject.getString("slack_uri");
   }
 
