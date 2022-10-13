@@ -286,7 +286,15 @@ export default {
       this.getAllDoraMetric(FormatLastMonth, FormatToday, repositoryArr);
     },
     async checkWaitingStatus() {
-      let response = await axios.get(this.custom.defaultURL + "/api/check", {headers: setHeaderJWT()});
+      let response;
+      try {
+        await axios.get(this.custom.defaultURL + "/api/check", {headers: setHeaderJWT()});
+      } catch (e) {
+        if (e.request.status === 445) {
+          this.$router.push('/fakePage/CallAdminPlease');
+        }
+      }
+
       console.log(response.request.status);
       if (response.request.status === 200) {
         console.log(response.request.status)

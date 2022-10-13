@@ -34,8 +34,10 @@ public class UpdateCommitsReleaseId {
 			OlapQuery.PUBLISHED_AND_NOT_CALCULATE_LEAD_TIME_FOR_CHANGE_RELEASE);
 		List<List<ReleaseDto>> dividedReleaseDtoList = divideReleaseDtoList(releaseDtoList);
 		for (List<ReleaseDto> releaseDtos : dividedReleaseDtoList) {
+			String formattedQuery = String.format(
+				OlapQuery.PUBLISHED_AND_CALCULATED_LEAD_TIME_FOR_CHANGE_RELEASE, releaseDtos.get(0).getRepositoryId());
 			ReleaseDto lastCalculatedReleaseDto = queryRunner.runSelectCalculatedReleaseTop1Query(
-				OlapQuery.PUBLISHED_AND_CALCULATED_LEAD_TIME_FOR_CHANGE_RELEASE);
+				formattedQuery);
 			releaseDtos.add(0, lastCalculatedReleaseDto);
 			List<String> elementList = makeJoinMergeQueryList(releaseDtos);
 			String joinMergeQuery = String.join(", ", elementList);
