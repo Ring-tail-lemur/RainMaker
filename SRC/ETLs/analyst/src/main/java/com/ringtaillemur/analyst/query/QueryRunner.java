@@ -61,8 +61,6 @@ public class QueryRunner {
 			releaseDto = new ReleaseDto(result[0].toString(), (String)result[1], (String)result[2],
 				(String)result[3], result[4].toString());
 		} catch (Exception e) {
-			LogModule logModule = new LogModule();
-			logModule.sendLog(e, "QueryRunner.java // runSelectCalculatedReleaseTop1Query");
 			releaseDto = new ReleaseDto();
 		}
 		entityManager.close();
