@@ -34,7 +34,7 @@ jobs:
             "clientId" : "42286a47489496b3129b",
             "endURL" : "/login/oauth2/code/github"
           }
-          '
+          ' >> ./URLconfig.json
       - name: Build And Deploy
         id: builddeploy
         uses: Azure/static-web-apps-deploy@v1
