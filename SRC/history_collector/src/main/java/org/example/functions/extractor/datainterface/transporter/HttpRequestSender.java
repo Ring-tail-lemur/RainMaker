@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
+import java.nio.charset.StandardCharsets;
 
 import org.example.functions.dto.HttpRequestDto;
 import org.example.functions.util.exception.ResponseTypeMissMatchException;
@@ -34,7 +35,8 @@ public class HttpRequestSender {
 	}
 
 	private String getResponseString(HttpURLConnection httpURLConnection) throws IOException {
-		BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(httpURLConnection.getInputStream()));
+		BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(httpURLConnection.getInputStream(),
+			StandardCharsets.UTF_8));
 		StringBuilder stringBuilder = new StringBuilder();
 		String line;
 		while ((line = bufferedReader.readLine()) != null) {
