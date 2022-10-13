@@ -23,7 +23,7 @@ public class HttpTriggerFunction {
 		timerTriggerFunction.run("HistoryCollector에 의해 호출", context);
 		return request
 			.createResponseBuilder(HttpStatus.OK)
-			.body("happy!")
+			.body("happy!!")
 			.build();
 	}
 }
