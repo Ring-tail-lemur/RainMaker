@@ -34,13 +34,13 @@ jobs:
           pushd './${{ env.POM_XML_DIRECTORY }}'
           echo '
             {
-              "slack_uri" : "${{secrets.ETL_SLACK_WEBHOOK_URL}}"
+              "slack_uri" : "${{secrets.ETL_SLACK_WEBHOOK_URI}}"
             }
           ' >> ./slack-secret.json
           pushd './'
           echo '
             {
-              "slack_uri" : "${{secrets.ETL_SLACK_WEBHOOK_URL}}"
+              "slack_uri" : "${{secrets.ETL_SLACK_WEBHOOK_URI}}"
             }
           ' >> ./src/main/java/com/ringtaillemur/analyst/restapi/slack-secret.json
           pushd './'
