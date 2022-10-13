@@ -34,7 +34,7 @@ jobs:
           pushd './${{ env.POM_XML_DIRECTORY }}/src/main'
           echo '
             {
-              "slack_uri" : ${{secret.ETL_SLACK_WEBHOOK_URL}}
+              "slack_uri" : ${{secrets.ETL_SLACK_WEBHOOK_URL}}
             }
           ' >> ./slack-secret.json
           pushd './'
