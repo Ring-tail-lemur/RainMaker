@@ -1,5 +1,5 @@
 <template>
-  <div class="card">
+  <div class="card" v-if="!waiting">
     <div class="card-header">
       <h5 class="card-title">추적할 리포지토리 등록</h5>
     </div>
@@ -34,6 +34,8 @@
       </div>
     </div>
   </div>
+
+  <loading-main-panel v-else="waiting"></loading-main-panel>
 </template>
 
 <script>
@@ -45,10 +47,13 @@ import setHeaderJWT from "@/api/setHeaderJWT";
 import axios from "axios";
 import tab from "@/components/UIComponents/Tabs/Tab";
 import pageCheckAndChange from "@/util/pageCheckAndChange";
+import LoadingMainPanel from "@/components/Dashboard/Layout/LoadingMainPanel";
+
 Vue.use(Table)
 Vue.use(TableColumn)
 export default {
   components: {
+    LoadingMainPanel,
     PSwitch,
     [Button.name]: Button
   },
@@ -56,6 +61,7 @@ export default {
     return {
       name: "RepositorySelect",
       tableData: [],
+      waiting : false
     }
   },
   created() {
@@ -79,6 +85,7 @@ export default {
       this.tableData = RepositoryInfo.data;
     },
     async registerRepository() {
+      this.waiting = true;
       let tableData = this.tableData;
       let repoIds = [];
 
@@ -86,7 +93,12 @@ export default {
         if(tableData[i].checked)
           repoIds.push((tableData[i].id + "," + tableData[i].organization + "," + tableData[i].repository).toString());
       }
-      console.log(repoIds);
+
+      if ( repoIds.length === 0 || tableData.length === 0) {
+        alert("리포지토리를 선택해주세요");
+        return;
+      }
+
       await axios({
         headers: setHeaderJWT(),
         method: "post",
