@@ -288,7 +288,7 @@ export default {
     async checkWaitingStatus() {
       let response;
       try {
-        await axios.get(this.custom.defaultURL + "/api/check", {headers: setHeaderJWT()});
+        response = await axios.get(this.custom.defaultURL + "/api/check", {headers: setHeaderJWT()});
       } catch (e) {
         if (e.request.status === 445) {
           this.$router.push('/fakePage/CallAdminPlease');

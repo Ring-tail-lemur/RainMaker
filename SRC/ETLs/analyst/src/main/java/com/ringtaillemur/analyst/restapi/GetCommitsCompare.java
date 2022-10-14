@@ -6,6 +6,7 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -30,8 +31,8 @@ public class GetCommitsCompare {
 			int page = 1;
 			while (true) {
 				URL url = new URL(
-					String.format("https://api.github.com/repos/%s/%s/commits?sha=%s&per_page=100&page=%d", owner, repo,
-						tagName, page));
+					String.format("https://api.github.com/repos/%s/%s/commits?sha=%s&per_page=100&page=%d",
+						owner, repo, tagName, page));
 				HttpURLConnection conn = (HttpURLConnection)url.openConnection();
 
 				conn.setRequestMethod("GET"); // http 메서드
@@ -40,18 +41,19 @@ public class GetCommitsCompare {
 				conn.setDoOutput(true); // 서버로부터 받는 값이 있다면 true
 
 				// 서버로부터 데이터 읽어오기
-				BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+				BufferedReader br = new BufferedReader(
+					new InputStreamReader(conn.getInputStream(), StandardCharsets.UTF_8));
 				StringBuilder sb = new StringBuilder();
 
 				String line = null;
 				while ((line = br.readLine()) != null) { // 읽을 수 있을 때 까지 반복
 					sb.append(line);
 				}
-				if (sb.length() == 0) {
+				JSONArray resultArray = new JSONArray(sb.toString());
+				if (resultArray.isEmpty()) {
 					break;
 				}
-				String resultString = sb.toString();
-				resultJSONArray.putAll(new JSONArray(resultString));
+				resultJSONArray.putAll(resultArray);
 				page += 1;
 			}
 			return resultJSONArray;
@@ -75,8 +77,8 @@ public class GetCommitsCompare {
 			int page = 1;
 			while (true) {
 				URL url = new URL(
-					String.format("https://api.github.com/repos/%s/%s/compare/%s...%s", owner, repo, basehead1,
-						basehead2));
+					String.format("https://api.github.com/repos/%s/%s/compare/%s...%s?per_page=100&page=%d",
+						owner, repo, basehead1, basehead2, page));
 				HttpURLConnection conn = (HttpURLConnection)url.openConnection();
 
 				conn.setRequestMethod("GET"); // http 메서드
@@ -92,11 +94,13 @@ public class GetCommitsCompare {
 				while ((line = br.readLine()) != null) { // 읽을 수 있을 때 까지 반복
 					sb.append(line);
 				}
-				if (sb.length() == 0) {
+				JSONObject singleResult = new JSONObject(sb.toString());
+				JSONArray resultJOSNArray = singleResult.getJSONArray("commits");
+				if (resultJOSNArray.isEmpty()) {
 					break;
 				}
-				JSONObject singleResult = new JSONObject(sb.toString());
-				result.putAll(singleResult.getJSONArray("commits"));
+				result.putAll(resultJOSNArray);
+				page += 1;
 			}
 			return result;
 		} catch (Exception e) {

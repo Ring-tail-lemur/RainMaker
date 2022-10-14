@@ -12,9 +12,9 @@ class HttpTriggerFunctionTest {
 
 	HttpRequestMessageMock request = new HttpRequestMessageMock(){{
 		setQueryParameters(new HashMap<>(){{
-			put("owner_name", "Ring-tail-lemur");
-			put("repository_name", "test-for-fake-project");
-			put("token", "??????맟춰보세여");
+			put("owner", "Ring-tail-lemur");
+			put("repo", "RainMaker");
+			put("token", "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");
 		}});
 	}};
 

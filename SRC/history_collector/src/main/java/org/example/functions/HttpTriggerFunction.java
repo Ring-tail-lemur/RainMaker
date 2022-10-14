@@ -3,6 +3,7 @@ package org.example.functions;
 import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.time.LocalTime;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -55,6 +56,7 @@ public class HttpTriggerFunction {
 		@HttpTrigger(name = "req",
 			methods = {HttpMethod.GET, HttpMethod.POST},
 			authLevel = AuthorizationLevel.ANONYMOUS) HttpRequestMessage<Optional<String>> request) throws Exception {
+		System.out.println("start" + LocalTime.now());
 		JSONArray requestParameterArray = getRequestBody(request);
 
 		for (Object requestParameter : requestParameterArray) {
@@ -71,6 +73,7 @@ public class HttpTriggerFunction {
 			}
 		}
 		runAnalystService();
+		System.out.println("end" + LocalTime.now());
 		return request
 			.createResponseBuilder(HttpStatus.OK)
 			.body("happy!")
@@ -82,9 +85,15 @@ public class HttpTriggerFunction {
 		IOException,
 		ResponseTypeMissMatchException {
 		for (DataExtractingConfigDto dataExtractingConfigDto : dataExtractingConfigDtoList) {
+			// System.out.println(dataExtractingConfigDto.getDataName() +"E => start time : "+ LocalTime.now());
 			SourceDataDto sourceDataDto = sourceDataExtractor.extractData(dataExtractingConfigDto);
+			// System.out.println(dataExtractingConfigDto.getDataName() +"E => end time : "+ LocalTime.now());
+			// System.out.println(dataExtractingConfigDto.getDataName() +"T => start time : "+ LocalTime.now());
 			LoadingDataDto loadingDataDto = sourceDataTransformer.transformData(sourceDataDto);
+			// System.out.println(dataExtractingConfigDto.getDataName() +"T => end time : "+ LocalTime.now());
+			// System.out.println(dataExtractingConfigDto.getDataName() +"L => start time : "+ LocalTime.now());
 			dataLoader.load(loadingDataDto);
+			// System.out.println(dataExtractingConfigDto.getDataName() +"L => end time : "+ LocalTime.now());
 		}
 	}
 
