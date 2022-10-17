@@ -82,18 +82,6 @@ class RainmakerWebserverApplicationTests {
 		System.out.println(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);
 	}
 
-	@Test
-	void 리포지토리정보가져오기() {
-		// Repository info = userConfigService.getRepositoryInfoByGithubApi("Ring-tail-lemur", "private_fake", "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");
-		// System.out.println(info);
-	}
-	@Test
-	void 웹훅트리거링가능(){
-
-		List<HistoryCollector> h = new ArrayList<>();
-		h.add(new HistoryCollector("Ring-tail-lemur", "private_fake", "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"));
-		userConfigService.triggerHistoryCollector(h);
-	}
 
 	@Test
 	void 여러개의리포지토리로지표뽑아와보기() {
