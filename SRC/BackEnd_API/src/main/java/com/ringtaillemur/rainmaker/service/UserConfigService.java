@@ -54,6 +54,10 @@ public class UserConfigService {
 	private final OAuthUserRepositoryRepository oAuthUserRepositoryRepository;
 	private final GitOrganizationRepository gitOrganizationRepository;
 
+	public void saveUser(OAuthUser oAuthUser) {
+		oAuthRepository.save(oAuthUser);
+	}
+
 	/**
 	 * 현재 들어온 유저의 Remote_ID를 리턴하는 함수
 	 * @return userId
@@ -129,6 +133,10 @@ public class UserConfigService {
 
 		gitOrganizationRepository.saveAll(new ArrayList<>(gitOrganizationSet));
 		saveRepositoryAndOAuthUserRepositoryTable(repositories, oAuthUserRepositoryTableList);
+
+		if(repositories.isEmpty()) {
+
+		}
 		return repositoryListForTrigger;
 	}
 

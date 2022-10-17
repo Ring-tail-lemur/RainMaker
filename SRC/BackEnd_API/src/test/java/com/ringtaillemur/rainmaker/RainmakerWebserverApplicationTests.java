@@ -8,16 +8,21 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import org.apache.http.client.methods.RequestBuilder;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.test.annotation.Rollback;
+import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.reactive.function.client.ClientResponse;
 import org.springframework.web.reactive.function.client.WebClient;
 
+import com.ringtaillemur.rainmaker.controller.maindashboard.api.UserConfigController;
 import com.ringtaillemur.rainmaker.domain.GitOrganization;
 import com.ringtaillemur.rainmaker.domain.LeadTimeForChange;
 import com.ringtaillemur.rainmaker.domain.OAuthUser;
@@ -50,6 +55,7 @@ class RainmakerWebserverApplicationTests {
 	RepositoryRepository repositoryRepository;
 	@Autowired
 	GitOrganizationRepository gitOrganizationRepository;
+
 	@Test
 	void OrganizationInsert() {
 		GitOrganization gitOrganization = GitOrganization.builder()
@@ -58,6 +64,7 @@ class RainmakerWebserverApplicationTests {
 			.build();
 		gitOrganizationRepository.save(gitOrganization);
 	}
+
 	@Test
 	void contextLoads() {
 		oAuthRepository.save(new OAuthUser(123L, "helwe", "asedf.sd", "asdfas", OauthUserLevel.FIRST_AUTH_USER));
@@ -65,9 +72,10 @@ class RainmakerWebserverApplicationTests {
 
 	@Test
 	void 과연Repo리스트를뽑아올까요() {
-		List<UserRepositoryDto> p = userConfigService.getUserRepositoryDtoByToken("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");
+		List<UserRepositoryDto> p = userConfigService.getUserRepositoryDtoByToken(
+			"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");
 
-		for(var i : p) {
+		for (var i : p) {
 			System.out.print("id : " + i.getId());
 			System.out.print(" / Organization : " + i.getOrganization());
 			System.out.print(" / Repository : " + i.getRepository());
@@ -77,7 +85,8 @@ class RainmakerWebserverApplicationTests {
 
 	@Test
 	void 과연웹훅을등록할수있을까요() {
-		String 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 = userConfigService.setUserWebhookByRepoName("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", "Ring-tail-lemur", "test-for-fake-project");
+		String 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 = userConfigService.setUserWebhookByRepoName(
+			"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", "Ring-tail-lemur", "test-for-fake-project");
 
 		System.out.println(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);
 	}
@@ -87,13 +96,6 @@ class RainmakerWebserverApplicationTests {
 		// Repository info = userConfigService.getRepositoryInfoByGithubApi("Ring-tail-lemur", "private_fake", "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");
 		// System.out.println(info);
 	}
-	@Test
-	void 웹훅트리거링가능(){
-
-		List<HistoryCollector> h = new ArrayList<>();
-		h.add(new HistoryCollector("Ring-tail-lemur", "private_fake", "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"));
-		userConfigService.triggerHistoryCollector(h);
-	}
 
 	@Test
 	void 여러개의리포지토리로지표뽑아와보기() {
@@ -102,7 +104,8 @@ class RainmakerWebserverApplicationTests {
 		LocalDateTime startDateTime = startTime.atStartOfDay();
 		LocalDateTime endDateTime = endTime.plusDays(1).atStartOfDay();
 		List<Long> repositories = new ArrayList<>(Arrays.asList(517528822L, 510731046L));
-		List<LeadTimeForChange> byRepositoryIdInAndDeploymentTimeBetween = leadTimeForChangeRepository.findByRepositoryIdInAndDeploymentTimeBetween(repositories, startDateTime, endDateTime);
+		List<LeadTimeForChange> byRepositoryIdInAndDeploymentTimeBetween = leadTimeForChangeRepository.findByRepositoryIdInAndDeploymentTimeBetween(
+			repositories, startDateTime, endDateTime);
 	}
 
 	@Test
@@ -112,9 +115,9 @@ class RainmakerWebserverApplicationTests {
 		OAuthUser oAuthUser = oAuthRepository.findById(81180977L).get();
 		List<OAuthUserRepositoryTable> oAuthUserRepositories = oAuthUserRepositoryRepository.findByoAuthUser(oAuthUser);
 		List<RepositoryInfoDto> collect = oAuthUserRepositories.stream()
-				.map(OAuthUserRepositoryTable::getRepository)
-				.map(Repository::getRepositoryInfoDto)
-				.collect(Collectors.toList());
+			.map(OAuthUserRepositoryTable::getRepository)
+			.map(Repository::getRepositoryInfoDto)
+			.collect(Collectors.toList());
 
 		return;
 	}
@@ -124,30 +127,29 @@ class RainmakerWebserverApplicationTests {
 
 		List<HistoryCollector> historyCollectorList = new ArrayList<>();
 		historyCollectorList.add(HistoryCollector.builder()
-				.ownerName("jonghyun").repoName("test1").token("1234").build());
+			.ownerName("jonghyun").repoName("test1").token("1234").build());
 		historyCollectorList.add(HistoryCollector.builder()
-				.ownerName("jonghyun").repoName("test2").token("1234").build());
+			.ownerName("jonghyun").repoName("test2").token("1234").build());
 		historyCollectorList.add(HistoryCollector.builder()
-				.ownerName("jonghyun").repoName("test3").token("1234").build());
+			.ownerName("jonghyun").repoName("test3").token("1234").build());
 		historyCollectorList.add(HistoryCollector.builder()
-				.ownerName("jonghyun").repoName("test4").token("1234").build());
+			.ownerName("jonghyun").repoName("test4").token("1234").build());
 		historyCollectorList.add(HistoryCollector.builder()
-				.ownerName("inhyeok").repoName("test5").token("1234").build());
+			.ownerName("inhyeok").repoName("test5").token("1234").build());
 
-//		List<String> historyCollectorStringList = historyCollectorList.stream().map(HistoryCollector::toString).collect(Collectors.toList());
-//		String format = String.format("/api/HttpExample?%s", historyCollectorStringList);
-
+		//		List<String> historyCollectorStringList = historyCollectorList.stream().map(HistoryCollector::toString).collect(Collectors.toList());
+		//		String format = String.format("/api/HttpExample?%s", historyCollectorStringList);
 
 		WebClient webClient = WebClient.builder()
-				.baseUrl("https://webhook.site/05d4882c-f7cb-4ca9-97f2-36ca09c851f9")
-				.build();
+			.baseUrl("https://webhook.site/05d4882c-f7cb-4ca9-97f2-36ca09c851f9")
+			.build();
 		webClient.post().accept(MediaType.APPLICATION_JSON)
-				.bodyValue(historyCollectorList)
-				.exchange()
-				.flux()
-				.subscribe( (result) -> {
-					changeAuthority(result);
-				});
+			.bodyValue(historyCollectorList)
+			.exchange()
+			.flux()
+			.subscribe((result) -> {
+				changeAuthority(result);
+			});
 
 		try {
 			Thread.sleep(10000);
@@ -173,17 +175,22 @@ class RainmakerWebserverApplicationTests {
 	void 파라미터테스트() {
 		List<HistoryCollector> historyCollectorList = new ArrayList<>();
 		historyCollectorList.add(HistoryCollector.builder()
-				.ownerName("jonghyun").repoName("test1").token("1234").build());
+			.ownerName("jonghyun")
+			.repoName("test-for-fake-project")
+			.token("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")
+			.build());
 		historyCollectorList.add(HistoryCollector.builder()
-				.ownerName("jonghyun").repoName("test2").token("1234").build());
+			.ownerName("jonghyun").repoName("test2").token("1234").build());
 		historyCollectorList.add(HistoryCollector.builder()
-				.ownerName("jonghyun").repoName("test3").token("1234").build());
+			.ownerName("jonghyun").repoName("test3").token("1234").build());
 		historyCollectorList.add(HistoryCollector.builder()
-				.ownerName("jonghyun").repoName("test4").token("1234").build());
+			.ownerName("jonghyun").repoName("test4").token("1234").build());
 		historyCollectorList.add(HistoryCollector.builder()
-				.ownerName("inhyeok").repoName("test5").token("1234").build());
+			.ownerName("inhyeok").repoName("test5").token("1234").build());
 
-		List<String> historyCollectorStringList = historyCollectorList.stream().map(HistoryCollector::toString).collect(Collectors.toList());
+		List<String> historyCollectorStringList = historyCollectorList.stream()
+			.map(HistoryCollector::toString)
+			.collect(Collectors.toList());
 		String format = String.format("/api/HttpExample?%s", historyCollectorStringList);
 		System.out.println(format);
 	}

@@ -3,6 +3,8 @@ package com.ringtaillemur.rainmaker.service;
 import java.util.List;
 import java.util.Optional;
 
+import javax.transaction.Transactional;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
@@ -44,11 +46,16 @@ public class ServerlessFunctionTriggerService {
 	}
 
 	private boolean checkHistoryCollectorListIsNull(List<HistoryCollector> historyCollectorList, Long userId) {
+		System.out.println("문제의 서막 두둥탁!");
 		if (historyCollectorList.isEmpty()) {
 			Optional<OAuthUser> id = oAuthRepository.findById(userId);
 			OAuthUser oAuthUser = id.orElseThrow();
+			System.out.println("oAuthUser.getUserLevel() = " + oAuthUser.getUserLevel());
 			oAuthUser.setUserLevel(OauthUserLevel.AUTHED_HISTORY_COLLECT_ENDED_USER);
-			oAuthRepository.save(oAuthUser);
+			System.out.println("oAuthUser.getUserLevel() = " + oAuthUser.getUserLevel());
+			System.out.println("분명 이제 update가 때려져야해");
+			userConfigService.saveUser(oAuthUser);
+			System.out.println("해치웠나");
 			return true;
 		}
 		return false;
