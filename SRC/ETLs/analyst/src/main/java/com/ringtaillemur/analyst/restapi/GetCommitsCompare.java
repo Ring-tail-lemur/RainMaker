@@ -59,8 +59,6 @@ public class GetCommitsCompare {
 			return resultJSONArray;
 		} catch (Exception e) {
 			e.printStackTrace();
-			LogModule logModule = new LogModule();
-			logModule.sendLog(e, "RepositoryRepository // getFirstReleaseCommitsBy");
 			return new JSONArray();
 		}
 	}
@@ -105,8 +103,6 @@ public class GetCommitsCompare {
 			return result;
 		} catch (Exception e) {
 			e.printStackTrace();
-			LogModule logModule = new LogModule();
-			logModule.sendLog(e, "RepositoryRepository // getCommitsCompareBy");
 			return new JSONArray();
 		}
 	}

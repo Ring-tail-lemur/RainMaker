@@ -2,33 +2,35 @@ package com.ringtaillemur.analyst.restapi;
 
 import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
-import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
-import java.io.Reader;
 import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.time.LocalTime;
 import java.time.ZoneId;
+
 import org.json.JSONObject;
-import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
 public class LogModule {
 
-  private String slackLogBotUri = null;
-
-  public LogModule() throws IOException, ParseException {
-    slackLogBotUri = this.readJson();
+  private static LogModule logModule = new LogModule();
+  private static String slackLogBotUri = null;
+  private LogModule(){
+    slackLogBotUri = readJson();
   }
+  public static LogModule getLogModule(){
+    return logModule;
+  }
+
 
   public void sendLog(Exception e, String message) throws IOException {
     try {
       LocalTime nowTime = LocalTime.now(ZoneId.of("Asia/Seoul"));
-      System.out.println(this.slackLogBotUri);
+      System.out.println(slackLogBotUri);
       JSONObject newJsonObj = new JSONObject();
       URL uri = new URL(slackLogBotUri);
       HttpURLConnection connection = (HttpURLConnection) uri.openConnection();
@@ -37,10 +39,15 @@ public class LogModule {
       connection.setRequestProperty("Content-Type", "application/json;utf-8");
       connection.setDoOutput(true);
       connection.setDoInput(true);
+      StackTraceElement[] ste = e.getStackTrace();
+      String errStack = "";
+      for(int i = 0; i < ste.length; i++){
+        errStack = errStack + ste[i].toString();
+      }
       String newMessage =
         nowTime.toString() +
-        "\nETL Got Err! \n----------------------ErrLog : " +
-        e +
+        "\nETL Got Err! \n----------------------\nErrLog : " +
+        errStack +
         "\n----------------------\nErrMessage : " +
         message;
       newJsonObj.put("text", newMessage);
@@ -71,7 +78,7 @@ public class LogModule {
   }
 
   private String readFile(String filePath) {
-    InputStream input = this.getClass().getResourceAsStream(filePath);
+    InputStream input = ClassLoader.getSystemResourceAsStream(filePath);
     ByteArrayOutputStream result = new ByteArrayOutputStream();
     byte[] buffer = new byte[1024];
     int length;

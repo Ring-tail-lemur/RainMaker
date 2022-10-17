@@ -4,6 +4,7 @@ import com.microsoft.azure.functions.ExecutionContext;
 import com.microsoft.azure.functions.annotation.FunctionName;
 import com.microsoft.azure.functions.annotation.TimerTrigger;
 import com.ringtaillemur.analyst.analysislogic.dorametric.*;
+import com.ringtaillemur.analyst.restapi.LogModule;
 
 // test3
 public class TimerTriggerFunction {
@@ -24,6 +25,8 @@ public class TimerTriggerFunction {
     final ExecutionContext context
   )
     throws Exception {
+    LogModule logModule = LogModule.getLogModule();
+    logModule.sendLog(new Exception("실행 테스트"), "로그 모듈 테스트 중입니다. 제발 됐으면 좋겠어요. ETL!");
     System.out.println("start");
     updateCommitsReleaseId.calculateUpdateCommitsReleaseId();
     pullRequestDirection.MakePullRequestDirection();
