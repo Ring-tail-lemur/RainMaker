@@ -71,7 +71,7 @@ public class LogModule {
   }
 
   private String readJson() {
-    String slackSecret = readFile("./slack-secret.json");
+    String slackSecret = readFile("slack-secret.json");
     JSONObject slackSecretJSONObject = new JSONObject(slackSecret);
     System.out.println(slackSecretJSONObject);
     return slackSecretJSONObject.getString("slack_uri");
@@ -95,5 +95,11 @@ public class LogModule {
     } catch (UnsupportedEncodingException e) {
       throw new RuntimeException(e);
     }
+  }
+
+  public static void main(String[] args) throws IOException, ParseException {
+    LogModule logModule = new LogModule();
+    Exception e = new IOException();
+    logModule.sendLog(e, "싱글톤TEST");
   }
 }
