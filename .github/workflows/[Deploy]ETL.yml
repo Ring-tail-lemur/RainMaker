@@ -45,12 +45,13 @@ jobs:
           ' >> ./src/main/java/com/ringtaillemur/analyst/restapi/slack-secret.json
           pushd './src/main/'
           mkdir resources
+          mkdir resources/static
           mkdir ./resources/META-INF
           echo '
             {
               "slack_uri" : "${{secrets.ETL_SLACK_WEBHOOK_URI}}"
             }
-          ' >> ./resources/slack-secret.json
+          ' >> ./resources/static/slack-secret.json
           ls ./resources/
           echo '${{env.SUPER_PERSISTENCE}}' >> ./resources/META-INF/persistence.xml
           chmod 777 ./resources/META-INF/persistence.xml
