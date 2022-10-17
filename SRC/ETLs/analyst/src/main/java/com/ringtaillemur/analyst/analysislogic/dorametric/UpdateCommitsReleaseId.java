@@ -8,6 +8,7 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import com.ringtaillemur.analyst.restapi.LogModule;
 import org.json.simple.parser.ParseException;
 
 import com.ringtaillemur.analyst.dto.ReleaseDto;
@@ -21,7 +22,7 @@ public class UpdateCommitsReleaseId {
 	private final QueryRunner queryRunner = QueryRunner.getQueryRunner();
 	private final GetCommitsCompare getCommitsCompare = new GetCommitsCompare();
 	private final RepositoryRepository repositoryRepository = new RepositoryRepository();
-
+	private LogModule logModule = LogModule.getLogModule();
 	private UpdateCommitsReleaseId() {
 	}
 
@@ -30,6 +31,7 @@ public class UpdateCommitsReleaseId {
 	}
 
 	public void calculateUpdateCommitsReleaseId() throws IOException, ParseException {
+		logModule.sendLog(new Exception("hi"), "hihi");
 		List<ReleaseDto> releaseDtoList = queryRunner.runSelectReleaseQuery(
 			OlapQuery.PUBLISHED_AND_NOT_CALCULATE_LEAD_TIME_FOR_CHANGE_RELEASE);
 		List<List<ReleaseDto>> dividedReleaseDtoList = divideReleaseDtoList(releaseDtoList);

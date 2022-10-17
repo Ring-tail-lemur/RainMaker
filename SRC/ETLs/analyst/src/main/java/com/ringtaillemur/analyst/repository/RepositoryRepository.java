@@ -29,8 +29,8 @@ public class RepositoryRepository {
 				.orElseThrow(() -> new Exception(String.format("ID=%s인 Repository에 속해있는 사람의 Token을 조회할 수 없습니다.", repositoryId)))
 				.toString();
 		} catch (Throwable e) {
-			LogModule logModule = new LogModule();
-			logModule.sendLog(new RuntimeException(e), "RepositoryRepository // getOneTokenByRepositoryId");
+			LogModule logModule = LogModule.getLogModule();
+			logModule.sendLog(new RuntimeException(e), "RepositoryRepository.java");
 			throw new RuntimeException(e);
 		}
 		entityManager.close();

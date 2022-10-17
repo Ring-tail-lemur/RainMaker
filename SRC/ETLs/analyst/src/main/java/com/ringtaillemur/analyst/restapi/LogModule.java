@@ -1,34 +1,49 @@
 package com.ringtaillemur.analyst.restapi;
 
-import java.io.BufferedReader;
-import java.io.ByteArrayOutputStream;
-import java.io.FileReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
-import java.io.Reader;
-import java.io.UnsupportedEncodingException;
+import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.time.LocalTime;
 import java.time.ZoneId;
+
 import org.json.JSONObject;
-import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
 public class LogModule {
 
-  private String slackLogBotUri = null;
+  private static final LogModule logModule;
 
-  public LogModule() throws IOException, ParseException {
-    slackLogBotUri = this.readJson();
+  static {
+    try {
+      logModule = new LogModule();
+    } catch (IOException e) {
+      throw new RuntimeException(e);
+    }
   }
+
+  private static String slackLogBotUri = null;
+  private LogModule() throws IOException {
+    System.out.println("hihi");
+    try{
+      slackLogBotUri = readJson();
+      System.out.println(slackLogBotUri);
+    } catch (IOException e){
+      e.printStackTrace();
+    } catch (Exception e){
+      System.out.println("Fucked Up!");
+      e.printStackTrace();
+    }
+
+  }
+  public static synchronized LogModule getLogModule(){
+    return logModule;
+  }
+
 
   public void sendLog(Exception e, String message) throws IOException {
     try {
       LocalTime nowTime = LocalTime.now(ZoneId.of("Asia/Seoul"));
-      System.out.println(this.slackLogBotUri);
+      System.out.println(slackLogBotUri);
       JSONObject newJsonObj = new JSONObject();
       URL uri = new URL(slackLogBotUri);
       HttpURLConnection connection = (HttpURLConnection) uri.openConnection();
@@ -37,10 +52,15 @@ public class LogModule {
       connection.setRequestProperty("Content-Type", "application/json;utf-8");
       connection.setDoOutput(true);
       connection.setDoInput(true);
+      StackTraceElement[] ste = e.getStackTrace();
+      String errStack = "";
+      for(int i = 0; i < ste.length; i++){
+        errStack = errStack + ste[i].toString();
+      }
       String newMessage =
         nowTime.toString() +
-        "\nETL Got Err! \n----------------------ErrLog : " +
-        e +
+        "\nETL Got Err! \n----------------------\nErrLog : " +
+        errStack +
         "\n----------------------\nErrMessage : " +
         message;
       newJsonObj.put("text", newMessage);
@@ -63,15 +83,15 @@ public class LogModule {
     } catch (Exception exception) {}
   }
 
-  private String readJson() {
-    String slackSecret = readFile("./slack-secret.json");
+  private String readJson() throws IOException {
+    String slackSecret = readFile("static/slack-secret.json");
     JSONObject slackSecretJSONObject = new JSONObject(slackSecret);
     System.out.println(slackSecretJSONObject);
     return slackSecretJSONObject.getString("slack_uri");
   }
 
-  private String readFile(String filePath) {
-    InputStream input = this.getClass().getResourceAsStream(filePath);
+  private String readFile(String filePath) throws IOException {
+    InputStream input = ClassLoader.getSystemResourceAsStream(filePath);
     ByteArrayOutputStream result = new ByteArrayOutputStream();
     byte[] buffer = new byte[1024];
     int length;
@@ -88,5 +108,11 @@ public class LogModule {
     } catch (UnsupportedEncodingException e) {
       throw new RuntimeException(e);
     }
+  }
+
+  public static void main(String[] args) throws IOException{
+    LogModule logModule = new LogModule();
+    Exception e = new IOException();
+    logModule.sendLog(e, "싱글톤TEST");
   }
 }

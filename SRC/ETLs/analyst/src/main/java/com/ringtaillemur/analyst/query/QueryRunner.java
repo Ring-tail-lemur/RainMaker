@@ -30,8 +30,6 @@ public class QueryRunner {
 			entityManager.createNativeQuery(query).executeUpdate();
 			transaction.commit();
 		} catch (Exception e) {
-			LogModule logModule = new LogModule();
-			logModule.sendLog(e, "QueryRunner.java // runUpdateInsertQuery");
 			transaction.rollback();
 		} finally {
 			entityManager.close();
@@ -74,8 +72,6 @@ public class QueryRunner {
 		try {
 			List list = entityManager.createNativeQuery(query).getResultList();
 		} catch (Exception e) {
-			LogModule logModule = new LogModule();
-			logModule.sendLog(e, "QueryRunner // runMakePullRequestDirection");
 		}
 
 	}
