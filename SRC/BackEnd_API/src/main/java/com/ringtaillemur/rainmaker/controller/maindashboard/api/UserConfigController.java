@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
+import javax.validation.Valid;
 
 import com.ringtaillemur.rainmaker.dto.historycollectordto.HistoryCollector;
 import com.ringtaillemur.rainmaker.service.ServerlessFunctionTriggerService;
@@ -34,7 +35,7 @@ public class UserConfigController {
 
 	@ResponseBody
 	@PostMapping("/RepositorySelect")
-	public void userRepositoryRegisterRestAPI(@RequestBody RegisterRepoIdDto repoIds) {
+	public void userRepositoryRegisterRestAPI(@Valid @RequestBody RegisterRepoIdDto repoIds) {
 		List<HistoryCollector> historyCollectorList = userConfigService.registerRepository(repoIds);
 		serverlessFunctionTriggerService.triggerHistoryCollector(historyCollectorList);
 	}

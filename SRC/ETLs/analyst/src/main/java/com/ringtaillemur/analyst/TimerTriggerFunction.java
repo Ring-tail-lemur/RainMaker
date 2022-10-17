@@ -24,10 +24,12 @@ public class TimerTriggerFunction {
     final ExecutionContext context
   )
     throws Exception {
+    System.out.println("start");
     updateCommitsReleaseId.calculateUpdateCommitsReleaseId();
     pullRequestDirection.MakePullRequestDirection();
     leadTimeForChange.calculateLeadTimeForChange();
     changeFailureRate.calculateChangeFailureRate();
     timeToRestoreService.calculateTimeToRestoreService();
+    System.out.println("end");
   }
 }
