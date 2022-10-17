@@ -76,7 +76,7 @@
       },
       chartType: {
         type: String,
-        default: 'Line',
+        default: 'Bar',
         description: 'Chart type (Line|Pie|Bar)'
       },
       chartOptions: {
