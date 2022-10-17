@@ -46,7 +46,7 @@
                     chart-id="activity-chart"
                     :color="LeadTimeForChange.color"
                     chart-title="TOTAL EARNINGS IN LAST TEN QUARTERS">
-          <span slot="title">리드 타임</span>
+          <span slot="title">변경 리드 타임</span>
           <badge slot="title-label" :type="LeadTimeForChange.rate">{{ LeadTimeForChange.rate }}</badge>
 
 
@@ -67,7 +67,7 @@
         <chart-card :chart-data="ChangeFailureRate.data"
                     chart-id="active-countries-chart"
                     :color="ChangeFailureRate.color" chart-title="Active Countries">
-          <span slot="title">변화실패율</span>
+          <span slot="title">변경 실패율</span>
           <badge slot="title-label" :type="ChangeFailureRate.rate">{{ ChangeFailureRate.rate }}</badge>
 
         </chart-card>
@@ -77,7 +77,7 @@
         <chart-card :chart-data="MTTR.data"
                     chart-id="active-countries-chart"
                     :color="MTTR.color" chart-title="Active Countries">
-          <span slot="title">평균회복시간</span>
+          <span slot="title">평균 회복시간</span>
           <badge slot="title-label" :type="MTTR.rate">{{ MTTR.rate }}</badge>
 
         </chart-card>
