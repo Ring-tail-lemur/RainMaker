@@ -25,7 +25,13 @@ public class LogModule {
 
   private static String slackLogBotUri = null;
   private LogModule() throws IOException {
-    slackLogBotUri = readJson();
+    System.out.println("hihi");
+    try{
+      slackLogBotUri = readJson();
+      System.out.println(slackLogBotUri);
+    }catch (Exception e){
+      e.printStackTrace();
+    }
   }
   public static LogModule getLogModule(){
     return logModule;
