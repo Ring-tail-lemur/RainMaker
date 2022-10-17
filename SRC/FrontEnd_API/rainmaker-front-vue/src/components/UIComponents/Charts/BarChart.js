@@ -116,8 +116,7 @@ export default {
     assignChartOptions(initialConfig) {
       let color = this.color || this.fallBackColor;
       const ctx = document.getElementById(this.chartId).getContext('2d');
-      const gradientFill = ctx.createLinearGradient(0, 170, 0, 50);
-      gradientFill.addColorStop(0, "rgba(128, 182, 244, 0)");
+      const gradientFill = ctx.createLinearGradient(0, 500, 0, 0);
       gradientFill.addColorStop(1, hexToRGB(color, 0.6));
       let extraOptions = this.extraOptions || {}
       return {

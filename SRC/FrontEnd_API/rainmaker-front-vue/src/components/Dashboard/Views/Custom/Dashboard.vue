@@ -46,7 +46,7 @@
                     chart-id="activity-chart"
                     :color="LeadTimeForChange.color"
                     chart-title="TOTAL EARNINGS IN LAST TEN QUARTERS">
-          <span slot="title">리드 타임</span>
+          <span slot="title">변경 리드 타임</span>
           <badge slot="title-label" :type="LeadTimeForChange.rate">{{ LeadTimeForChange.rate }}</badge>
 
 
@@ -67,7 +67,7 @@
         <chart-card :chart-data="ChangeFailureRate.data"
                     chart-id="active-countries-chart"
                     :color="ChangeFailureRate.color" chart-title="Active Countries">
-          <span slot="title">변화실패율</span>
+          <span slot="title">변경 실패율</span>
           <badge slot="title-label" :type="ChangeFailureRate.rate">{{ ChangeFailureRate.rate }}</badge>
 
         </chart-card>
@@ -77,86 +77,13 @@
         <chart-card :chart-data="MTTR.data"
                     chart-id="active-countries-chart"
                     :color="MTTR.color" chart-title="Active Countries">
-          <span slot="title">평균회복시간</span>
+          <span slot="title">평균 회복시간</span>
           <badge slot="title-label" :type="MTTR.rate">{{ MTTR.rate }}</badge>
 
         </chart-card>
       </div>
     </div>
 
-
-    <div class="row">
-      <div class="col-lg-3 col-sm-6">
-        <circle-chart-card :percentage="70"
-                           chart-id="email-statistics-chart"
-                           title="Email Statistics"
-                           description="Last Campaign Performance"
-                           color="#4acccd">
-          <template slot="footer">
-            <div class="legend">
-              <i class="fa fa-circle text-info"></i> Open
-            </div>
-            <hr>
-            <div class="stats">
-              <i class="fa fa-calendar"></i> Number of emails sent
-            </div>
-          </template>
-        </circle-chart-card>
-      </div>
-
-      <div class="col-lg-3 col-sm-6">
-        <circle-chart-card :percentage="34"
-                           chart-id="new-visitors-chart"
-                           title="New Visitators"
-                           description="Out Of Total Number"
-                           color="#fcc468">
-          <template slot="footer">
-            <div class="legend">
-              <i class="fa fa-circle text-warning"></i> Visited
-            </div>
-            <hr>
-            <div class="stats">
-              <i class="fa fa-check"></i> Campaign sent 2 days ago
-            </div>
-          </template>
-        </circle-chart-card>
-      </div>
-
-      <div class="col-lg-3 col-sm-6">
-        <circle-chart-card :percentage="80"
-                           title="Orders"
-                           chart-id="orders-chart"
-                           description="Total Number"
-                           color="#f17e5d">
-          <template slot="footer">
-            <div class="legend">
-              <i class="fa fa-circle text-danger"></i> Completed
-            </div>
-            <hr>
-            <div class="stats">
-              <i class="fa fa-clock-o"></i> Updated 3 minutes ago
-            </div>
-          </template>
-        </circle-chart-card>
-      </div>
-
-      <div class="col-lg-3 col-sm-6">
-        <circle-chart-card :percentage="11"
-                           title="Subscriptions"
-                           description="Our Users"
-                           color="#66615b">
-          <template slot="footer">
-            <div class="legend">
-              <i class="fa fa-circle text-secondary"></i> Ended
-            </div>
-            <hr>
-            <div class="stats">
-              <i class="fa fa-history"></i> Total users
-            </div>
-          </template>
-        </circle-chart-card>
-      </div>
-    </div>
 
   </div>
   <loading-main-panel v-else="waiting"></loading-main-panel>
