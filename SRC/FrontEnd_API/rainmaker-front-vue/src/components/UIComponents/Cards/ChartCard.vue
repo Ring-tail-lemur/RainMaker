@@ -6,16 +6,26 @@
     <div class="card-body">
       <slot name="title-content">
         <div class="row">
-          <div class="col-sm-7">
+
+          <div class="col-sm-1 not-have-right-padding">
+              <div class="pull-left">
+                <slot name="hover-slot">
+                </slot>
+              </div>
+          </div>
+
+          <div class="col-sm-6 not-have-left-padding">
             <div class="numbers pull-left">
               <slot name="title"></slot>
             </div>
           </div>
+
           <div class="col-sm-5">
             <div class="pull-right">
               <slot name="title-label"></slot>
             </div>
           </div>
+
         </div>
       </slot>
       <slot name="subtitle"></slot>
@@ -131,4 +141,14 @@
   }
 </script>
 <style>
+.not-have-left-padding {
+  padding-left: 0;
+}
+
+.not-have-right-padding {
+  padding-right: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
 </style>

@@ -46,6 +46,7 @@
                     chart-id="activity-chart"
                     :color="LeadTimeForChange.color"
                     chart-title="TOTAL EARNINGS IN LAST TEN QUARTERS">
+          <span slot="hover-slot" class="tooltip-custom"><i class="nc-icon nc-alert-circle-i"></i><span class="tooltip-custom-text">information: 변경 리드 타임은 변경 리드타임입니다.</span></span>
           <span slot="title">변경 리드 타임</span>
           <badge slot="title-label" :type="LeadTimeForChange.rate">{{ LeadTimeForChange.rate }}</badge>
 
@@ -57,6 +58,7 @@
         <chart-card :chart-data="DeploymentFrequency.data"
                     chart-id="emails-chart"
                     :color="DeploymentFrequency.color" chart-title="TOTAL SUBSCRIPTIONS IN LAST 7 DAYS">
+          <span slot="hover-slot" class="tooltip-custom"><i class="nc-icon nc-alert-circle-i"></i><span class="tooltip-custom-text">information: 변경 리드 타임은 변경 리드타임입니다.</span></span>
           <span slot="title">배포 빈도</span>
           <badge slot="title-label" :type="DeploymentFrequency.rate">{{ DeploymentFrequency.rate }}</badge>
 
@@ -67,6 +69,7 @@
         <chart-card :chart-data="ChangeFailureRate.data"
                     chart-id="active-countries-chart"
                     :color="ChangeFailureRate.color" chart-title="Active Countries">
+          <span slot="hover-slot" class="tooltip-custom"><i class="nc-icon nc-alert-circle-i"></i><span class="tooltip-custom-text">information: 변경 리드 타임은 변경 리드타임입니다.</span></span>
           <span slot="title">변경 실패율</span>
           <badge slot="title-label" :type="ChangeFailureRate.rate">{{ ChangeFailureRate.rate }}</badge>
 
@@ -77,6 +80,7 @@
         <chart-card :chart-data="MTTR.data"
                     chart-id="active-countries-chart"
                     :color="MTTR.color" chart-title="Active Countries">
+          <span slot="hover-slot" class="tooltip-custom"><i class="nc-icon nc-alert-circle-i"></i><span class="tooltip-custom-text">information: 변경 리드 타임은 변경 리드타임입니다.</span></span>
           <span slot="title">평균 회복시간</span>
           <badge slot="title-label" :type="MTTR.rate">{{ MTTR.rate }}</badge>
 
@@ -195,6 +199,9 @@ export default {
     }
   },
   methods: {
+    test() {
+      alert("ㅆㅂ");
+    },
     async createdMethod() {
       let Today = new Date();
       const FormatToday = this.dateFormat(Today);
@@ -366,5 +373,24 @@ export default {
 
 </script>
 <style>
+.tooltip-custom {
+  display: inline-block;
+}
 
+.tooltip-custom-text {
+  display: none;
+  position: absolute;
+  min-width: 20vw;
+  max-width: 20vw;
+  border: 5px solid;
+  border-radius: 10px;
+  padding: 5px;
+  font-size: 1em;
+  color: white;
+  background: deeppink !important;
+}
+
+.tooltip-custom:hover .tooltip-custom-text {
+  display: block;
+}
 </style>
