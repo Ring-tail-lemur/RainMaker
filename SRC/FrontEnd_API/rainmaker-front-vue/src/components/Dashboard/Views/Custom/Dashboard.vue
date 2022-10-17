@@ -45,7 +45,7 @@
         <chart-card :chart-data="LeadTimeForChange.data"
                     chart-id="activity-chart"
                     :color="LeadTimeForChange.color"
-                    chart-title="TOTAL EARNINGS IN LAST TEN QUARTERS">
+                    chart-title="Lead Time For Change">
           <span slot="title">변경 리드 타임</span>
           <badge slot="title-label" :type="LeadTimeForChange.rate">{{ LeadTimeForChange.rate }}</badge>
 
@@ -56,7 +56,7 @@
       <div class="col-lg-5 col-sm-6">
         <chart-card :chart-data="DeploymentFrequency.data"
                     chart-id="emails-chart"
-                    :color="DeploymentFrequency.color" chart-title="TOTAL SUBSCRIPTIONS IN LAST 7 DAYS">
+                    :color="DeploymentFrequency.color" chart-title="Deployment Frequency">
           <span slot="title">배포 빈도</span>
           <badge slot="title-label" :type="DeploymentFrequency.rate">{{ DeploymentFrequency.rate }}</badge>
 
@@ -66,7 +66,7 @@
       <div class="col-lg-5 col-sm-6">
         <chart-card :chart-data="ChangeFailureRate.data"
                     chart-id="active-countries-chart"
-                    :color="ChangeFailureRate.color" chart-title="Active Countries">
+                    :color="ChangeFailureRate.color" chart-title="Change Failure Rate">
           <span slot="title">변경 실패율</span>
           <badge slot="title-label" :type="ChangeFailureRate.rate">{{ ChangeFailureRate.rate }}</badge>
 
@@ -76,7 +76,7 @@
       <div class="col-lg-5 col-sm-6">
         <chart-card :chart-data="MTTR.data"
                     chart-id="active-countries-chart"
-                    :color="MTTR.color" chart-title="Active Countries">
+                    :color="MTTR.color" chart-title="Mean Time To Recover">
           <span slot="title">평균 회복시간</span>
           <badge slot="title-label" :type="MTTR.rate">{{ MTTR.rate }}</badge>
 
