@@ -26,13 +26,18 @@ public class TimerTriggerFunction {
   )
     throws Exception {
     LogModule logModule = LogModule.getLogModule();
-    logModule.sendLog(new Exception("오류 아닙니다."), "TEST 진행중");
-    System.out.println("start");
-    updateCommitsReleaseId.calculateUpdateCommitsReleaseId();
-    pullRequestDirection.MakePullRequestDirection();
-    leadTimeForChange.calculateLeadTimeForChange();
-    changeFailureRate.calculateChangeFailureRate();
-    timeToRestoreService.calculateTimeToRestoreService();
-    System.out.println("end");
+    try{
+      logModule.sendLog(new Exception("오류 아닙니다."), "TEST 진행중");
+      System.out.println("start");
+      updateCommitsReleaseId.calculateUpdateCommitsReleaseId();
+      pullRequestDirection.MakePullRequestDirection();
+      leadTimeForChange.calculateLeadTimeForChange();
+      changeFailureRate.calculateChangeFailureRate();
+      timeToRestoreService.calculateTimeToRestoreService();
+      System.out.println("end");
+    }catch (Exception e){
+      logModule.sendLog(e,"ㅇㅇ?");
+    }
+
   }
 }
