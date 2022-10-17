@@ -16,8 +16,6 @@ public class LogModule {
   static {
     try {
       logModule = new LogModule();
-    } catch (FileNotFoundException e) {
-      throw new RuntimeException(e);
     } catch (IOException e) {
       throw new RuntimeException(e);
     }
@@ -30,6 +28,7 @@ public class LogModule {
       slackLogBotUri = readJson();
       System.out.println(slackLogBotUri);
     }catch (Exception e){
+      System.out.println("Fucked Up!");
       e.printStackTrace();
     }
   }
