@@ -27,12 +27,15 @@ public class LogModule {
     try{
       slackLogBotUri = readJson();
       System.out.println(slackLogBotUri);
-    }catch (Exception e){
+    } catch (IOException e){
+      e.printStackTrace();
+    } catch (Exception e){
       System.out.println("Fucked Up!");
       e.printStackTrace();
     }
+
   }
-  public static LogModule getLogModule(){
+  public static synchronized LogModule getLogModule(){
     return logModule;
   }
 
@@ -107,9 +110,9 @@ public class LogModule {
     }
   }
 
-//  public static void main(String[] args) throws IOException, ParseException {
-//    LogModule logModule = new LogModule();
-//    Exception e = new IOException();
-//    logModule.sendLog(e, "싱글톤TEST");
-//  }
+  public static void main(String[] args) throws IOException{
+    LogModule logModule = new LogModule();
+    Exception e = new IOException();
+    logModule.sendLog(e, "싱글톤TEST");
+  }
 }

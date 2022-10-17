@@ -26,7 +26,7 @@ public class TimerTriggerFunction {
   )
     throws Exception {
     LogModule logModule = LogModule.getLogModule();
-    logModule.sendLog(new Exception("실행 테스트"), "로그 모듈 테스트 중입니다. 제발 됐으면 좋겠어요. ETL!");
+    logModule.sendLog(new Exception("오류 아닙니다."), "TEST 진행중");
     System.out.println("start");
     updateCommitsReleaseId.calculateUpdateCommitsReleaseId();
     pullRequestDirection.MakePullRequestDirection();
