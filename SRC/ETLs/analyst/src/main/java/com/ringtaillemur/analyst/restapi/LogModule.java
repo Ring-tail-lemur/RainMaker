@@ -1,12 +1,6 @@
 package com.ringtaillemur.analyst.restapi;
 
-import java.io.BufferedReader;
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
-import java.io.UnsupportedEncodingException;
+import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.time.LocalTime;
@@ -17,9 +11,20 @@ import org.json.simple.parser.ParseException;
 
 public class LogModule {
 
-  private static LogModule logModule = new LogModule();
+  private static final LogModule logModule;
+
+  static {
+    try {
+      logModule = new LogModule();
+    } catch (FileNotFoundException e) {
+      throw new RuntimeException(e);
+    } catch (IOException e) {
+      throw new RuntimeException(e);
+    }
+  }
+
   private static String slackLogBotUri = null;
-  private LogModule(){
+  private LogModule() throws IOException {
     slackLogBotUri = readJson();
   }
   public static LogModule getLogModule(){
@@ -70,14 +75,14 @@ public class LogModule {
     } catch (Exception exception) {}
   }
 
-  private String readJson() {
-    String slackSecret = readFile("slack-secret.json");
+  private String readJson() throws IOException {
+    String slackSecret = readFile("static/slack-secret.json");
     JSONObject slackSecretJSONObject = new JSONObject(slackSecret);
     System.out.println(slackSecretJSONObject);
     return slackSecretJSONObject.getString("slack_uri");
   }
 
-  private String readFile(String filePath) {
+  private String readFile(String filePath) throws IOException {
     InputStream input = ClassLoader.getSystemResourceAsStream(filePath);
     ByteArrayOutputStream result = new ByteArrayOutputStream();
     byte[] buffer = new byte[1024];
@@ -97,9 +102,9 @@ public class LogModule {
     }
   }
 
-  public static void main(String[] args) throws IOException, ParseException {
-    LogModule logModule = new LogModule();
-    Exception e = new IOException();
-    logModule.sendLog(e, "싱글톤TEST");
-  }
+//  public static void main(String[] args) throws IOException, ParseException {
+//    LogModule logModule = new LogModule();
+//    Exception e = new IOException();
+//    logModule.sendLog(e, "싱글톤TEST");
+//  }
 }
