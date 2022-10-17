@@ -25,8 +25,8 @@ public class TimerTriggerFunction {
     final ExecutionContext context
   )
     throws Exception {
-    LogModule logModule = LogModule.getLogModule();
     try{
+      LogModule logModule = LogModule.getLogModule();
       logModule.sendLog(new Exception("오류 아닙니다."), "TEST 진행중");
       System.out.println("start");
       updateCommitsReleaseId.calculateUpdateCommitsReleaseId();
@@ -36,7 +36,8 @@ public class TimerTriggerFunction {
       timeToRestoreService.calculateTimeToRestoreService();
       System.out.println("end");
     }catch (Exception e){
-      logModule.sendLog(e,"ㅇㅇ?");
+      System.out.println("LogModule 실패");
+      e.getStackTrace();
     }
 
   }
