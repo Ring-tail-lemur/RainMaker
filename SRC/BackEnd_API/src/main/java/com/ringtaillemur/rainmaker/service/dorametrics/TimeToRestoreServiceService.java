@@ -23,12 +23,13 @@ public class TimeToRestoreServiceService {
 	private final UtilService utilService;
 	private final TimeToRestoreServiceRepository timeToRestoreServiceRepository;
 
-	public TimeToRestoreServiceDto getTimeToRestoreService(List<Long> repositoryIds, LocalDate startTime, LocalDate endTime) {
+	public TimeToRestoreServiceDto getTimeToRestoreService(List<Long> repositoryIds, LocalDate startTime,
+		LocalDate endTime) {
 		LocalDateTime startDateTime = startTime.atStartOfDay();
 		LocalDateTime endDateTime = endTime.plusDays(1).atStartOfDay();
 
 		List<TimeToRestoreService> timeToRestoreServiceList = timeToRestoreServiceRepository.findByRepositoryIdInAndRestoredAtBetween(
-				repositoryIds, startDateTime, endDateTime);
+			repositoryIds, startDateTime, endDateTime);
 
 		Map<LocalDate, Double> dailyAverageTimeToRestoreServiceTimeMap = utilService.makeDailyAverageMap(
 			timeToRestoreServiceList,

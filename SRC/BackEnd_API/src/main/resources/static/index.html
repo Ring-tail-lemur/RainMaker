@@ -9,7 +9,7 @@
     <base href="/"/>
     <script type="text/javascript" src="/webjars/jquery/jquery.min.js"></script>
     <script type="text/javascript">
-        $.get("/user", function(data) {
+        $.get("/user", function (data) {
             $("#user").html(data.name);
             $(".unauthenticated").hide()
             $(".authenticated").show()

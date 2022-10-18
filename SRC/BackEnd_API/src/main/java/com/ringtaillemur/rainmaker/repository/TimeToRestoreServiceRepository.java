@@ -12,6 +12,7 @@ public interface TimeToRestoreServiceRepository extends JpaRepository<TimeToRest
 	List<TimeToRestoreService> findByRepositoryIdAndRestoredAtBetween(Long repositoryId, LocalDateTime startTime,
 		LocalDateTime endTime);
 
-	List<TimeToRestoreService> findByRepositoryIdInAndRestoredAtBetween(List<Long> repositoryIds, LocalDateTime startTime,
-																	  LocalDateTime endTime);
+	List<TimeToRestoreService> findByRepositoryIdInAndRestoredAtBetween(List<Long> repositoryIds,
+		LocalDateTime startTime,
+		LocalDateTime endTime);
 }

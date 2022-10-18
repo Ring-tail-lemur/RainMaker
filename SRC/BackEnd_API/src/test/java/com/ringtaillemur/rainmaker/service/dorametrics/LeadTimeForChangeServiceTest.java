@@ -15,10 +15,8 @@ import com.ringtaillemur.rainmaker.dto.webdto.responsedto.LeadTimeForChangeByTim
 @ExtendWith(MockitoExtension.class)
 class LeadTimeForChangeServiceTest {
 
-
 	@Autowired
 	LeadTimeForChangeService leadTimeForChangeService;
-
 
 	@Test
 	void getLeadTimeForChangeByTimeTest() {
