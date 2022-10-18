@@ -82,8 +82,13 @@ public class HttpTriggerFunction {
 		DataSourceAdaptorNotFindException,
 		IOException,
 		ResponseTypeMissMatchException {
-		SlackLogger slackLogger = SlackLogger.getSlackLoger();
-		slackLogger.sendLogNotErr("Running History Collector Pipeline!!");
+		try{
+			SlackLogger slackLogger = SlackLogger.getSlackLoger();
+			slackLogger.sendLogNotErr("Running History Collector Pipeline!!");
+		}catch (Exception e){
+			throw e;
+		}
+
 		for (DataExtractingConfigDto dataExtractingConfigDto : dataExtractingConfigDtoList) {
 			// System.out.println(dataExtractingConfigDto.getDataName() +"E => start time : "+ LocalTime.now());
 			SourceDataDto sourceDataDto = sourceDataExtractor.extractData(dataExtractingConfigDto);
@@ -95,7 +100,6 @@ public class HttpTriggerFunction {
 			dataLoader.load(loadingDataDto);
 			// System.out.println(dataExtractingConfigDto.getDataName() +"L => end time : "+ LocalTime.now());
 		}
-		slackLogger.sendLogNotErr("End of History Collector Pipeline!");
 	}
 
 	private static Map<String, String> getRequestParameterMap(JSONObject requestParameter) {
