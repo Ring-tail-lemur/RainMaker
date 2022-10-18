@@ -11,12 +11,20 @@ import org.json.JSONObject;
 
 public class SlackLogger {
 	private static String slackLogBotUri = null;
-	private SlackLogger(){
-
+	private SlackLogger() throws IOException {
+		slackLogBotUri = this.readJson();
 	}
 
 	private static class LazyHolder{
-		public static final SlackLogger INSTANCE = new SlackLogger();
+		public static final SlackLogger INSTANCE;
+
+		static {
+			try {
+				INSTANCE = new SlackLogger();
+			} catch (IOException e) {
+				throw new RuntimeException(e);
+			}
+		}
 	}
 
 	public static SlackLogger getSlackLoger(){
@@ -127,5 +135,10 @@ public class SlackLogger {
 		} catch (UnsupportedEncodingException e) {
 			throw new RuntimeException(e);
 		}
+	}
+
+	public static void main(String[] args){
+		SlackLogger slackLogger = SlackLogger.getSlackLoger();
+		slackLogger.sendLogNotErr("hihi");
 	}
 }
