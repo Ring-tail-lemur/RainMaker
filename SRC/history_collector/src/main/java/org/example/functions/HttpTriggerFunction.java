@@ -83,7 +83,7 @@ public class HttpTriggerFunction {
 		IOException,
 		ResponseTypeMissMatchException {
 		SlackLogger slackLogger = SlackLogger.getSlackLoger();
-		slackLogger.sendLogNotErr("Running History Collector Pipeline!");
+		slackLogger.sendLogNotErr("Running History Collector Pipeline!!");
 		for (DataExtractingConfigDto dataExtractingConfigDto : dataExtractingConfigDtoList) {
 			// System.out.println(dataExtractingConfigDto.getDataName() +"E => start time : "+ LocalTime.now());
 			SourceDataDto sourceDataDto = sourceDataExtractor.extractData(dataExtractingConfigDto);
