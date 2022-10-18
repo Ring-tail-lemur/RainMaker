@@ -33,20 +33,20 @@ jobs:
         run: |
           pushd './${{ env.POM_XML_DIRECTORY }}'
           echo '
-            {
-              "slack_uri" : "${{secrets.HC_SLACK_BOT_URI}}"
-            }
+          {
+            "slack_uri" : "${{secrets.HC_SLACK_BOT_URI}}"
+          }
           ' >> ./slack-secret.json
           pushd './src/main/resources'
           echo '
-            {
-              "slack_uri" : "${{secrets.HC_SLACK_BOT_URI}}"
-            }
+          {
+            "slack_uri" : "${{secrets.HC_SLACK_BOT_URI}}"
+          }
           ' >> ./slack-secret.json
           echo '
-            {
-              "slack_uri" : "${{secrets.HC_SLACK_BOT_URI}}"
-            }
+          {
+            "slack_uri" : "${{secrets.HC_SLACK_BOT_URI}}"
+          }
           ' >> ./static/slack-secret.json
           mkdir ./META-INF
           echo '${{env.SUPER_PERSISTENCE}}' >> ./META-INF/persistence.xml
