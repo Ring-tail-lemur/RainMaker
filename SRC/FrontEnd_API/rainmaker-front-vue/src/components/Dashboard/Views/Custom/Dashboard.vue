@@ -63,6 +63,9 @@
           <span slot="hover-slot" class="tooltip-custom"><i class="nc-icon nc-alert-circle-i"></i><span class="tooltip-custom-text">배포 빈도 : 배포 빈도는 일주일 동안 배포한 횟수를 이야기합니다.</span></span>
           <span slot="title">배포 빈도</span>
           <badge slot="title-label" :type="DeploymentFrequency.rate">{{ DeploymentFrequency.rate }}</badge>
+          <p-button slot="footer-right" aria-label="add button" :type="typeChange(DeploymentFrequency.rate)" round icon size="sm">
+            <i class="nc-icon nc-simple-add"></i>
+          </p-button>
         </chart-card>
       </div>
 
@@ -73,7 +76,9 @@
           <span slot="hover-slot" class="tooltip-custom"><i class="nc-icon nc-alert-circle-i"></i><span class="tooltip-custom-text">평균회복시간: 변경 리드 타임은 변경 리드타임입니다.</span></span>
           <span slot="title">변경 실패율</span>
           <badge slot="title-label" :type="ChangeFailureRate.rate">{{ ChangeFailureRate.rate }}</badge>
-
+          <p-button slot="footer-right" aria-label="add button" :type="typeChange(ChangeFailureRate.rate)" round icon size="sm">
+            <i class="nc-icon nc-simple-add"></i>
+          </p-button>
         </chart-card>
       </div>
 
@@ -84,7 +89,9 @@
           <span slot="hover-slot" class="tooltip-custom"><i class="nc-icon nc-alert-circle-i"></i><span class="tooltip-custom-text">information: 변경 리드 타임은 변경 리드타임입니다.</span></span>
           <span slot="title">평균 회복시간</span>
           <badge slot="title-label" :type="MTTR.rate">{{ MTTR.rate }}</badge>
-
+          <p-button slot="footer-right" aria-label="add button" :type="typeChange(MTTR.rate)" round icon size="sm">
+            <i class="nc-icon nc-simple-add"></i>
+          </p-button>
         </chart-card>
       </div>
     </div>
@@ -206,7 +213,7 @@ export default {
         case 'seed':
           return 'danger';
         case 'sprout':
-          return 'waring';
+          return 'warning';
         case 'flower':
           return 'info'
         case 'fruit':
