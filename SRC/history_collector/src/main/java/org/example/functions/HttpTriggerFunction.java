@@ -67,8 +67,6 @@ public class HttpTriggerFunction {
 					requestParameterMap, RequestVariable.getRequestVariableMap(requestParameterMap));
 				runPipeLine(dataExtractingConfigDtoList);
 			} else {
-				SlackLogger slackLogger = new SlackLogger();
-				slackLogger.sendLog(new IllegalArgumentException(), "JSONObject is IllegalArgument!");
 				throw new IllegalArgumentException();
 			}
 		}
@@ -84,6 +82,8 @@ public class HttpTriggerFunction {
 		DataSourceAdaptorNotFindException,
 		IOException,
 		ResponseTypeMissMatchException {
+		SlackLogger slackLogger = SlackLogger.getSlackLoger();
+		slackLogger.sendLogNotErr("Running History Collector Pipeline!");
 		for (DataExtractingConfigDto dataExtractingConfigDto : dataExtractingConfigDtoList) {
 			// System.out.println(dataExtractingConfigDto.getDataName() +"E => start time : "+ LocalTime.now());
 			SourceDataDto sourceDataDto = sourceDataExtractor.extractData(dataExtractingConfigDto);
@@ -95,6 +95,7 @@ public class HttpTriggerFunction {
 			dataLoader.load(loadingDataDto);
 			// System.out.println(dataExtractingConfigDto.getDataName() +"L => end time : "+ LocalTime.now());
 		}
+		slackLogger.sendLogNotErr("End of History Collector Pipeline!");
 	}
 
 	private static Map<String, String> getRequestParameterMap(JSONObject requestParameter) {
@@ -115,8 +116,6 @@ public class HttpTriggerFunction {
 		connection.setRequestMethod("GET");
 		int responseCode = connection.getResponseCode();
 		if (responseCode != 200) {
-			SlackLogger slackLogger = new SlackLogger();
-			slackLogger.sendLog(new RuntimeException(), "analyst 실행 실패");
 			throw new RuntimeException("analyst 실행 실패!");
 		}
 	}
