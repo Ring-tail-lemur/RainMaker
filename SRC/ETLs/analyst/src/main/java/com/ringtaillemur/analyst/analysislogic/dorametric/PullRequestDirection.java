@@ -2,6 +2,7 @@ package com.ringtaillemur.analyst.analysislogic.dorametric;
 
 import java.io.IOException;
 
+import com.ringtaillemur.analyst.restapi.LogModule;
 import org.json.simple.parser.ParseException;
 
 import com.ringtaillemur.analyst.query.OlapQuery;
@@ -18,7 +19,12 @@ public class PullRequestDirection {
     }
 
     public void MakePullRequestDirection() throws IOException, ParseException {
+        try{
         queryRunner.runMakePullRequestDirection(OlapQuery.MAKE_PULL_REQUEST_DIRECTION);
+        }catch (Exception e){
+            LogModule logModule = LogModule.getLogModule();
+            logModule.sendLog(e, "MakePullRequestDirection");
+        }
     }
 
 }

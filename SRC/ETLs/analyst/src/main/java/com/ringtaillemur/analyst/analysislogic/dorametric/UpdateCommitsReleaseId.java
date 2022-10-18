@@ -30,8 +30,6 @@ public class UpdateCommitsReleaseId {
 	}
 
 	public void calculateUpdateCommitsReleaseId() throws IOException, ParseException {
-		LogModule logModule = LogModule.getLogModule();
-		logModule.sendLog(new Exception("hi	"), "THIS is test");
 		List<ReleaseDto> releaseDtoList = queryRunner.runSelectReleaseQuery(
 			OlapQuery.PUBLISHED_AND_NOT_CALCULATE_LEAD_TIME_FOR_CHANGE_RELEASE);
 		List<List<ReleaseDto>> dividedReleaseDtoList = divideReleaseDtoList(releaseDtoList);
