@@ -47,11 +47,10 @@
                     :color="LeadTimeForChange.color"
                     chart-title="TOTAL EARNINGS IN LAST TEN QUARTERS"
                     :class="'border-' + LeadTimeForChange.rate"
-                    >
+                    :chart-options="LeadTimeForChange.drawBaseLine">
           <span slot="hover-slot" class="tooltip-custom"><i class="nc-icon nc-alert-circle-i"></i><span class="tooltip-custom-text">변경 리드 타임: 변경 리드 타임은 변경 리드타임입니다.</span></span>
           <span slot="title">변경 리드 타임</span>
           <badge slot="title-label" :type="LeadTimeForChange.rate">{{ LeadTimeForChange.rate }}</badge>
-
           <p-button slot="footer-right" aria-label="add button" :type="typeChange(LeadTimeForChange.rate)" round icon size="sm">
             <i class="nc-icon nc-simple-add"></i>
           </p-button>
@@ -63,7 +62,8 @@
                     chart-id="emails-chart"
                     :color="DeploymentFrequency.color"
                     chart-title="TOTAL SUBSCRIPTIONS IN LAST 7 DAYS"
-                    :class="'border-' + DeploymentFrequency.rate">
+                    :class="'border-' + DeploymentFrequency.rate"
+                    :chart-options="DeploymentFrequency.drawBaseLine">
           <span slot="hover-slot" class="tooltip-custom"><i class="nc-icon nc-alert-circle-i"></i><span class="tooltip-custom-text">배포 빈도 : 배포 빈도는 일주일 동안 배포한 횟수를 이야기합니다.</span></span>
           <span slot="title">배포 빈도</span>
           <badge slot="title-label" :type="DeploymentFrequency.rate">{{ DeploymentFrequency.rate }}</badge>
@@ -78,7 +78,8 @@
                     chart-id="active-countries-chart"
                     :color="ChangeFailureRate.color"
                     chart-title="Active Countries"
-                    :class="'border-' + ChangeFailureRate.rate">
+                    :class="'border-' + ChangeFailureRate.rate"
+                    :chart-options="ChangeFailureRate.drawBaseLine">
           <span slot="hover-slot" class="tooltip-custom"><i class="nc-icon nc-alert-circle-i"></i><span class="tooltip-custom-text">평균회복시간: 변경 리드 타임은 변경 리드타임입니다.</span></span>
           <span slot="title">변경 실패율</span>
           <badge slot="title-label" :type="ChangeFailureRate.rate">{{ ChangeFailureRate.rate }}</badge>
@@ -172,7 +173,22 @@ export default {
         data: {
           labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct"],
           series: [542, 480, 430, 550, 530, 453, 380, 434, 568, 610]
-        }
+        },
+        drawBaseLine : {
+          horizontalLine: [{
+            y: 1440,
+            style: 'rgba(65,184,131,0.2)',
+            text: 'fruit'
+          }, {
+            y: 10080,
+            style: 'rgba(104,179,200,0.2)',
+            text: 'flower'
+          }, {
+            y: 43200,
+            style: 'rgba(252,196,104,0.2)',
+            text: 'sprout'
+          }]
+        },
       },
       DeploymentFrequency: {
         color: "#41B883",
@@ -180,7 +196,22 @@ export default {
         data: {
           labels: ["12pm", "3pm", "6pm", "9pm", "12am", "3am", "6am", "9am"],
           series: [40, 500, 650, 700, 1200, 1250, 1300, 1900]
-        }
+        },
+        drawBaseLine : {
+          horizontalLine: [{
+            y: 7,
+            style: 'rgba(104,179,200,0.2)',
+            text: 'flower'
+          }, {
+            y: 1,
+            style: 'rgba(252,196,104,0.2)',
+            text: 'sprout'
+          }, {
+            y: 0.25,
+            style: 'rgba(239,129,86,0.2)',
+            text: '  seed'
+          }]
+        },
       },
       ChangeFailureRate: {
         color: "#68B3C8",
@@ -188,7 +219,18 @@ export default {
         data: {
           labels: ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October"],
           series: [80, 78, 86, 96, 83, 85, 76, 75, 88, 90]
-        }
+        },
+        drawBaseLine : {
+          horizontalLine: [{
+            y: 0.15,
+            style: 'rgba(65,184,131,0.2)',
+            text: 'fruit'
+          }, {
+            y: 0.46,
+            style: 'rgba(252,196,104,0.2)',
+            text: 'sprout'
+          }]
+        },
       },
       MTTR: {
         color: "#fcc468",
@@ -196,7 +238,22 @@ export default {
         data: {
           labels: ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October"],
           series: [80, 78, 86, 96, 83, 85, 76, 75, 88, 90]
-        }
+        },
+        drawBaseLine : {
+          horizontalLine: [{
+            y: 60,
+            style: 'rgba(65,184,131,0.2)',
+            text: 'fruit'
+          }, {
+            y: 1440,
+            style: 'rgba(104,179,200,0.2)',
+            text: 'flower'
+          }, {
+            y: 10080,
+            style: 'rgba(252,196,104,0.2)',
+            text: 'sprout'
+          }]
+        },
       },
       startTime: '',
       endTime: '',
@@ -407,12 +464,12 @@ export default {
   position: absolute;
   min-width: 20vw;
   max-width: 20vw;
-  border: 5px solid;
+  border: 2px solid white;
   border-radius: 10px;
   padding: 5px;
   font-size: 1em;
-  color: white;
-  background: deeppink !important;
+  color: black;
+  background: #f4f3ef !important;
 }
 
 .tooltip-custom:hover .tooltip-custom-text {
