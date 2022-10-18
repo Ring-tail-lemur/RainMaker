@@ -8,14 +8,14 @@ import com.microsoft.azure.functions.HttpStatus;
 import com.microsoft.azure.functions.annotation.AuthorizationLevel;
 import com.microsoft.azure.functions.annotation.FunctionName;
 import com.microsoft.azure.functions.annotation.HttpTrigger;
-import java.util.List;
+import com.ringtaillemur.analyst.restapi.LogModule;
 import java.util.Optional;
 
 //deploy
 public class HttpTriggerFunction {
-
   @FunctionName("AnalystHttpTrigger")
   public HttpResponseMessage run(
+
     @HttpTrigger(
       name = "req",
       methods = { HttpMethod.GET, HttpMethod.POST },
@@ -24,8 +24,14 @@ public class HttpTriggerFunction {
     final ExecutionContext context
   )
     throws Exception {
-    TimerTriggerFunction timerTriggerFunction = new TimerTriggerFunction();
-    timerTriggerFunction.run("HistoryCollector에 의해 호출", context);
-    return request.createResponseBuilder(HttpStatus.OK).body("happy!!").build();
+      try{
+        TimerTriggerFunction timerTriggerFunction = new TimerTriggerFunction();
+        timerTriggerFunction.run("HistoryCollector에 의해 호출", context);
+        return request.createResponseBuilder(HttpStatus.OK).body("happy!!").build();
+      }catch (Exception e){
+         LogModule logModule = LogModule.getLogModule();
+         logModule.sendLog(e, "LogModule HttpTrigger 실패");
+      }
+      return null;
   }
 }

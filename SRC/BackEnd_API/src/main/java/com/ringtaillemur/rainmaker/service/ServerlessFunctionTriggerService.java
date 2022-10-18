@@ -3,6 +3,8 @@ package com.ringtaillemur.rainmaker.service;
 import java.util.List;
 import java.util.Optional;
 
+import javax.transaction.Transactional;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
@@ -48,7 +50,7 @@ public class ServerlessFunctionTriggerService {
 			Optional<OAuthUser> id = oAuthRepository.findById(userId);
 			OAuthUser oAuthUser = id.orElseThrow();
 			oAuthUser.setUserLevel(OauthUserLevel.AUTHED_HISTORY_COLLECT_ENDED_USER);
-			oAuthRepository.save(oAuthUser);
+			userConfigService.saveUser(oAuthUser);
 			return true;
 		}
 		return false;

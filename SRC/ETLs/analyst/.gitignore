@@ -45,4 +45,4 @@ obj/
 **/application.yml
 **/slack-secret.json
 
-slack-secret.json
+src/main/resources/slack-secret.json

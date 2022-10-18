@@ -4,6 +4,7 @@ import com.microsoft.azure.functions.ExecutionContext;
 import com.microsoft.azure.functions.annotation.FunctionName;
 import com.microsoft.azure.functions.annotation.TimerTrigger;
 import com.ringtaillemur.analyst.analysislogic.dorametric.*;
+import com.ringtaillemur.analyst.restapi.LogModule;
 
 // test3
 public class TimerTriggerFunction {
@@ -24,12 +25,20 @@ public class TimerTriggerFunction {
     final ExecutionContext context
   )
     throws Exception {
-    System.out.println("start");
-    updateCommitsReleaseId.calculateUpdateCommitsReleaseId();
-    pullRequestDirection.MakePullRequestDirection();
-    leadTimeForChange.calculateLeadTimeForChange();
-    changeFailureRate.calculateChangeFailureRate();
-    timeToRestoreService.calculateTimeToRestoreService();
-    System.out.println("end");
+      try{
+        System.out.println("start");
+        updateCommitsReleaseId.calculateUpdateCommitsReleaseId();
+        pullRequestDirection.MakePullRequestDirection();
+        leadTimeForChange.calculateLeadTimeForChange();
+        changeFailureRate.calculateChangeFailureRate();
+        timeToRestoreService.calculateTimeToRestoreService();
+        System.out.println("end");
+      }catch (Exception e){
+        LogModule logModule = LogModule.getLogModule();
+        logModule.sendLog(e, "LogModule, 실패");
+        System.out.println("LogModule 실패");
+        e.getStackTrace();
+      }
+
   }
 }
