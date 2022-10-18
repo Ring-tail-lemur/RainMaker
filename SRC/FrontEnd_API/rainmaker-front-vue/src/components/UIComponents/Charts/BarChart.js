@@ -3,13 +3,52 @@ import {hexToRGB} from "./utils";
 import reactiveChartMixin from "./mixins/reactiveChart";
 
 
-
 export default {
   name: 'bar-chart',
   extends: Bar,
   mixins: [reactiveChartMixin],
   data() {
     return {
+      horizontalLinePlugin : {
+        afterDraw: function (chartInstance) {
+          let yScale = chartInstance.scales["y-axis-0"];
+          let canvas = chartInstance.chart;
+          let ctx = canvas.ctx;
+          let index;
+          let line;
+          let style;
+
+          if (chartInstance.options.horizontalLine) {
+            for (index = 0; index < chartInstance.options.horizontalLine.length; index++) {
+              line = chartInstance.options.horizontalLine[index];
+              style = line.style;
+
+              let yValue;
+              if (line.y) {
+                yValue = yScale.getPixelForValue(line.y);
+              } else {
+                yValue = 0;
+              }
+
+              ctx.lineWidth = 2;
+              if (yValue) {
+                ctx.beginPath();
+                ctx.moveTo(50, yValue);
+                ctx.lineTo(canvas.width, yValue);
+                ctx.strokeStyle = style;
+                ctx.stroke();
+              }
+
+              if (line.text) {
+                ctx.fillStyle = style;
+                ctx.setLineDash([10]);
+                ctx.font = "15px sans-serif";
+                // ctx.fillText(line.text, canvas.width - 50, yValue - ctx.lineWidth - 3);
+              }
+            }
+          }
+        }
+      },
       defaultOptions: {
         tooltips: {
           tooltipFillColor: "rgba(0,0,0,0.5)",
@@ -134,7 +173,11 @@ export default {
         ...extraOptions,
         gradientFill
       };
-    }
+    },
+
+  },
+  created() {
+    Chart.pluginService.register(this.horizontalLinePlugin);
   },
   mounted() {
     this.chartData = this.assignChartData({});
