@@ -102,6 +102,8 @@ public class GetCommitsCompare {
 			}
 			return result;
 		} catch (Exception e) {
+			LogModule logModule = LogModule.getLogModule();
+			logModule.sendLog(e,"현재 위치 GetCommitsCompare.jav");
 			e.printStackTrace();
 			return new JSONArray();
 		}

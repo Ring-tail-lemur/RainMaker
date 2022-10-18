@@ -4,8 +4,6 @@ import java.util.HashMap;
 
 import org.springframework.stereotype.Component;
 
-import com.ringtaillemur.rainmaker.dto.securitydto.LoginUser;
-
 import lombok.Data;
 
 @Data

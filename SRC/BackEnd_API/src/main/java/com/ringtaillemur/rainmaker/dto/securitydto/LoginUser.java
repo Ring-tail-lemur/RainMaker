@@ -15,8 +15,9 @@ public class LoginUser extends User {
 	private Long userRemoteId;
 	private OauthUserLevel userLevel;
 
-	public LoginUser(OAuthUser oAuthUser){
-		super(oAuthUser.getUserRemoteId().toString(), oAuthUser.getName(), AuthorityUtils.createAuthorityList(oAuthUser.getUserLevel().toString()));
+	public LoginUser(OAuthUser oAuthUser) {
+		super(oAuthUser.getUserRemoteId().toString(), oAuthUser.getName(),
+			AuthorityUtils.createAuthorityList(oAuthUser.getUserLevel().toString()));
 		this.userRemoteId = oAuthUser.getUserRemoteId();
 		this.userLevel = oAuthUser.getUserLevel();
 	}

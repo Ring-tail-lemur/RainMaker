@@ -17,13 +17,10 @@ import javax.transaction.Transactional;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.BodyInserters;
-import org.springframework.web.reactive.function.client.ClientResponse;
 import org.springframework.web.reactive.function.client.WebClient;
 
 import com.ringtaillemur.rainmaker.domain.GitOrganization;
@@ -84,9 +81,9 @@ public class UserConfigService {
 		OAuthUser oAuthUser = oAuthRepository.findById(getUserId()).orElseThrow();
 		List<OAuthUserRepositoryTable> oAuthUserRepositories = oAuthUserRepositoryRepository.findByoAuthUser(oAuthUser);
 		List<RepositoryInfoDto> repositoryInfos = oAuthUserRepositories.stream()
-				.map(OAuthUserRepositoryTable::getRepository)
-				.map(Repository::getRepositoryInfoDto)
-				.collect(Collectors.toList());
+			.map(OAuthUserRepositoryTable::getRepository)
+			.map(Repository::getRepositoryInfoDto)
+			.collect(Collectors.toList());
 		return repositoryInfos;
 	}
 
@@ -124,29 +121,34 @@ public class UserConfigService {
 					.build();
 				oAuthUserRepositoryTableList.add(oAuthUserRepository);
 			} else {
-				OAuthUserRepositoryTable oAuthUserRepository = getoAuthUserRepositoryTable(token, repositories, oAuthUser, repo_id, owner_name, repo_name, gitOrganizationSet);
+				OAuthUserRepositoryTable oAuthUserRepository = getoAuthUserRepositoryTable(token, repositories,
+					oAuthUser, repo_id, owner_name, repo_name, gitOrganizationSet);
 				oAuthUserRepositoryTableList.add(oAuthUserRepository);
 				setUserWebhookByRepoName(token, owner_name, repo_name);
-				repositoryListForTrigger.add(HistoryCollector.builder().ownerName(owner_name).repoName(repo_name).token(token).build());
+				repositoryListForTrigger.add(
+					HistoryCollector.builder().ownerName(owner_name).repoName(repo_name).token(token).build());
 			}
 		}
 
 		gitOrganizationRepository.saveAll(new ArrayList<>(gitOrganizationSet));
 		saveRepositoryAndOAuthUserRepositoryTable(repositories, oAuthUserRepositoryTableList);
 
-		if(repositories.isEmpty()) {
+		if (repositories.isEmpty()) {
 
 		}
 		return repositoryListForTrigger;
 	}
 
-	private void saveRepositoryAndOAuthUserRepositoryTable(List<Repository> repositories, List<OAuthUserRepositoryTable> oAuthUserRepositoryTableList) {
+	private void saveRepositoryAndOAuthUserRepositoryTable(List<Repository> repositories,
+		List<OAuthUserRepositoryTable> oAuthUserRepositoryTableList) {
 		repositoryRepository.saveAll(repositories);
 		oAuthUserRepositoryRepository.deleteByOAuthUserIdQuery(getUserId());
 		oAuthUserRepositoryRepository.saveAll(oAuthUserRepositoryTableList);
 	}
 
-	private OAuthUserRepositoryTable getoAuthUserRepositoryTable(String token, List<Repository> repositories, OAuthUser oAuthUser, Long repo_id, String owner_name, String repo_name, Set<GitOrganization> gitOrganizationSet) {
+	private OAuthUserRepositoryTable getoAuthUserRepositoryTable(String token, List<Repository> repositories,
+		OAuthUser oAuthUser, Long repo_id, String owner_name, String repo_name,
+		Set<GitOrganization> gitOrganizationSet) {
 		Repository newRepository = new Repository();
 		newRepository.setId(repo_id);
 		OAuthUserRepositoryTable oAuthUserRepository = OAuthUserRepositoryTable.builder()
@@ -295,7 +297,8 @@ public class UserConfigService {
 		}
 	}
 
-	public Repository getRepositoryInfoByGithubApi(String organizationName, String repositoryName, String token, Set<GitOrganization> gitOrganizationSet) {
+	public Repository getRepositoryInfoByGithubApi(String organizationName, String repositoryName, String token,
+		Set<GitOrganization> gitOrganizationSet) {
 
 		try {
 			URL url = new URL(String.format("https://api.github.com/repos/%s/%s", organizationName, repositoryName));
@@ -365,7 +368,7 @@ public class UserConfigService {
 	}
 
 	private void changeOAuthLevel(OAuthUser currentUser) {
-		if(currentUser.getUserLevel() == OauthUserLevel.FIRST_AUTH_USER) {
+		if (currentUser.getUserLevel() == OauthUserLevel.FIRST_AUTH_USER) {
 			currentUser.setUserLevel(OauthUserLevel.AUTH_NOT_REPOSITORY_SELECT);
 		}
 	}

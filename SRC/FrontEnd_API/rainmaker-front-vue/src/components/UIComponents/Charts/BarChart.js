@@ -1,95 +1,12 @@
-import { Bar } from 'vue-chartjs'
-import { hexToRGB } from "./utils";
+import {Bar} from 'vue-chartjs'
+import {hexToRGB} from "./utils";
 import reactiveChartMixin from "./mixins/reactiveChart";
 
-let defaultOptions = {
 
-  tooltips: {
-    tooltipFillColor: "rgba(0,0,0,0.5)",
-    tooltipFontFamily: "'Helvetica Neue', 'Helvetica', 'Arial', sans-serif",
-    tooltipFontSize: 14,
-    tooltipFontStyle: "normal",
-    tooltipFontColor: "#fff",
-    tooltipTitleFontFamily: "'Helvetica Neue', 'Helvetica', 'Arial', sans-serif",
-    tooltipTitleFontSize: 14,
-    tooltipTitleFontStyle: "bold",
-    tooltipTitleFontColor: "#fff",
-    tooltipYPadding: 6,
-    tooltipXPadding: 6,
-    tooltipCaretSize: 8,
-    tooltipCornerRadius: 6,
-    tooltipXOffset: 10,
-  },
-
-
-  legend: {
-    display: false
-  },
-  scales: {
-
-    yAxes: [{
-      ticks: {
-        fontColor: "#9f9f9f",
-        fontStyle: "bold",
-        beginAtZero: true,
-        maxTicksLimit: 5,
-        padding: 20
-      },
-      gridLines: {
-        zeroLineColor: "transparent",
-        display: true,
-        drawBorder: false,
-        color: '#9f9f9f',
-      }
-
-    }],
-    xAxes: [{
-      barPercentage: 0.4,
-      gridLines: {
-        zeroLineColor: "white",
-        display: false,
-
-        drawBorder: false,
-        color: 'transparent',
-      },
-      ticks: {
-        padding: 20,
-        fontColor: "#9f9f9f",
-        fontStyle: "bold"
-      }
-    }]
-  },
-};
 export default {
   name: 'bar-chart',
   extends: Bar,
   mixins: [reactiveChartMixin],
-  props: {
-    labels: {
-      type: [Object, Array],
-      description: 'Chart labels. This is overridden when `data` is provided'
-    },
-    datasets: {
-      type: [Object, Array],
-      description: 'Chart datasets. This is overridden when `data` is provided'
-    },
-    data: {
-      type: [Object, Array],
-      description: 'Chart.js chart data (overrides all default data)'
-    },
-    color: {
-      type: String,
-      description: 'Chart color. This is overridden when `data` is provided'
-    },
-    extraOptions: {
-      type: Object,
-      description: 'Chart.js options'
-    },
-    title: {
-      type: String,
-      description: 'Chart title'
-    },
-  },
   data() {
     return {
       horizontalLinePlugin : {
@@ -131,12 +48,101 @@ export default {
             }
           }
         }
+      },
+      defaultOptions: {
+        tooltips: {
+          tooltipFillColor: "rgba(0,0,0,0.5)",
+          tooltipFontFamily: "'Helvetica Neue', 'Helvetica', 'Arial', sans-serif",
+          tooltipFontSize: 14,
+          tooltipFontStyle: "normal",
+          tooltipFontColor: "#fff",
+          tooltipTitleFontFamily: "'Helvetica Neue', 'Helvetica', 'Arial', sans-serif",
+          tooltipTitleFontSize: 14,
+          tooltipTitleFontStyle: "bold",
+          tooltipTitleFontColor: "#fff",
+          tooltipYPadding: 6,
+          tooltipXPadding: 6,
+          tooltipCaretSize: 8,
+          tooltipCornerRadius: 6,
+          tooltipXOffset: 10,
+        },
+        legend: {
+          display: false
+        },
+        scales: {
+          yAxes: [{
+            stacked: false,
+            ticks: {
+              fontColor: "#9f9f9f",
+              fontStyle: "bold",
+              beginAtZero: true,
+              maxTicksLimit: 5,
+              padding: 20
+            },
+            gridLines: {
+              zeroLineColor: "transparent",
+              display: true,
+              drawBorder: false,
+              color: '#9f9f9f',
+            }
+          }],
+          xAxes: [{
+            stacked: false,
+            barPercentage: 0.4,
+            gridLines: {
+              zeroLineColor: "white",
+              display: false,
+
+              drawBorder: false,
+              color: 'transparent',
+            },
+            ticks: {
+              padding: 20,
+              fontColor: "#9f9f9f",
+              fontStyle: "bold"
+            }
+          }]
+        }
       }
     }
   },
+  watch: {
+    stacked() {
+      this.defaultOptions.scales.yAxes[0].stacked = this.stacked;
+      this.defaultOptions.scales.xAxes[0].stacked = this.stacked;
+      this.renderChart(this.chartData, this.options);
+    }
+  },
+  props: {
+    stacked: {type: Boolean},
+    labels: {
+      type: [Object, Array],
+      description: 'Chart labels. This is overridden when `data` is provided'
+    },
+    datasets: {
+      type: [Object, Array],
+      description: 'Chart datasets. This is overridden when `data` is provided'
+    },
+    data: {
+      type: [Object, Array],
+      description: 'Chart.js chart data (overrides all default data)'
+    },
+    color: {
+      type: String,
+      description: 'Chart color. This is overridden when `data` is provided'
+    },
+    extraOptions: {
+      type: Object,
+      description: 'Chart.js options'
+    },
+    title: {
+      type: String,
+      description: 'Chart title'
+    },
+  },
   methods: {
     assignChartData() {
-      let { gradientFill } = this.assignChartOptions(defaultOptions);
+      let {gradientFill} = this.assignChartOptions(this.defaultOptions);
       let color = this.color || this.fallBackColor;
       return {
         labels: this.labels || [],
@@ -175,7 +181,7 @@ export default {
   },
   mounted() {
     this.chartData = this.assignChartData({});
-    this.options = this.assignChartOptions(defaultOptions);
+    this.options = this.assignChartOptions(this.defaultOptions);
     this.renderChart(this.chartData, this.options);
   }
 }
