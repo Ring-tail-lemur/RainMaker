@@ -8,8 +8,8 @@ import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 @EnableJpaAuditing
 public class RainmakerWebserverApplication {
 
-  //test 10
-  public static void main(String[] args) {
-    SpringApplication.run(RainmakerWebserverApplication.class, args);
-  }
+	//test 10
+	public static void main(String[] args) {
+		SpringApplication.run(RainmakerWebserverApplication.class, args);
+	}
 }
