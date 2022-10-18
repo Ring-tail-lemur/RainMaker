@@ -43,6 +43,11 @@ jobs:
               "slack_uri" : "${{secrets.HC_SLACK_BOT_URI}}"
             }
           ' >> ./slack-secret.json
+          echo '
+            {
+              "slack_uri" : "${{secrets.HC_SLACK_BOT_URI}}"
+            }
+          ' >> ./static/slack-secret.json
           mkdir ./META-INF
           echo '${{env.SUPER_PERSISTENCE}}' >> ./META-INF/persistence.xml
           chmod 777 ./META-INF/persistence.xml
