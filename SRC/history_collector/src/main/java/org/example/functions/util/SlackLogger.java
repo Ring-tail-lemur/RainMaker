@@ -27,7 +27,7 @@ public class SlackLogger {
 		}
 	}
 
-	public static SlackLogger getSlackLoger(){
+	public static SlackLogger getSlackLogger(){
 		return LazyHolder.INSTANCE;
 	}
 	public void sendLogNotErr(String message){
@@ -110,10 +110,17 @@ public class SlackLogger {
 	}
 
 	private String readJson() throws IOException {
-		String slackSecret = readFile("static/slack-secret.json");
-		JSONObject slackSecretJSONObject = new JSONObject(slackSecret);
-		System.out.println(slackSecretJSONObject);
-		return slackSecretJSONObject.getString("slack_uri");
+		try{
+			String slackSecret = readFile("static/slack-secret.json");
+			JSONObject slackSecretJSONObject = new JSONObject(slackSecret);
+			return slackSecretJSONObject.getString("slack_uri");
+		}catch (Exception e){
+			String slackSecret = readFile("slack-secret.json");
+			JSONObject slackSecretJSONObject = new JSONObject(slackSecret);
+			return slackSecretJSONObject.getString("slack_uri");
+		}finally {
+			return null;
+		}
 	}
 
 	private String readFile(String filePath) throws IOException {
@@ -138,7 +145,7 @@ public class SlackLogger {
 	}
 
 	public static void main(String[] args){
-		SlackLogger slackLogger = SlackLogger.getSlackLoger();
-		slackLogger.sendLogNotErr("hihi");
+		SlackLogger slackLogger = SlackLogger.getSlackLogger();
+		slackLogger.sendLogNotErr("왜 안되는겨...?");
 	}
 }
