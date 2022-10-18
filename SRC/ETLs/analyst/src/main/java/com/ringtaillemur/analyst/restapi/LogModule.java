@@ -5,15 +5,24 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.time.LocalTime;
 import java.time.ZoneId;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
+import com.microsoft.azure.functions.ExecutionContext;
 import org.json.JSONObject;
-import org.json.simple.parser.ParseException;
 
 public class LogModule {
   private static String slackLogBotUri = null;
 
+  private LogModule(ExecutionContext context) throws IOException {
+    System.out.println("hihi");
+    Logger logger = context.getLogger();
+    logger.log(Level.parse("ORG"), "hihi");
+    slackLogBotUri = this.readJson();
+  }
   private LogModule() throws IOException {
     System.out.println("hihi");
+
     slackLogBotUri = this.readJson();
   }
   private static class LazyHolder{
@@ -26,6 +35,9 @@ public class LogModule {
         throw new RuntimeException(e);
       }
     }
+  }
+  public static LogModule getLogModule(ExecutionContext context){
+    return LazyHolder.INSTANCE;
   }
   public static LogModule getLogModule(){
     return LazyHolder.INSTANCE;
