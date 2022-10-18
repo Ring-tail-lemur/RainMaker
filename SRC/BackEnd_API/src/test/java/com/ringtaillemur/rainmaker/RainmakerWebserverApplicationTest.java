@@ -12,14 +12,14 @@ import com.ringtaillemur.rainmaker.repository.GitUserRepository;
 @SpringBootTest
 class RainmakerWebserverApplicationTest {
 
-  @Autowired
-  GitUserRepository gitUserRepository;
+	@Autowired
+	GitUserRepository gitUserRepository;
 
-  @Test
-  void test() {
-    List<GitUser> all = gitUserRepository.findAll();
-    for (GitUser gitUser : all) {
-      System.out.println("gitUser = " + gitUser);
-    }
-  }
+	@Test
+	void test() {
+		List<GitUser> all = gitUserRepository.findAll();
+		for (GitUser gitUser : all) {
+			System.out.println("gitUser = " + gitUser);
+		}
+	}
 }

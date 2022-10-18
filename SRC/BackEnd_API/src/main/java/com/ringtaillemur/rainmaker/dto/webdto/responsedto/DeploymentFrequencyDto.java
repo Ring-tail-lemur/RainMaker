@@ -30,7 +30,7 @@ public class DeploymentFrequencyDto {
 		if (deploymentFrequency < 10080)
 			return ProductivityLevel.FLOWER;
 		if (deploymentFrequency < 43200)
-			return ProductivityLevel.FLOWER;
+			return ProductivityLevel.SPROUT;
 		return ProductivityLevel.SEED;
 	}
 

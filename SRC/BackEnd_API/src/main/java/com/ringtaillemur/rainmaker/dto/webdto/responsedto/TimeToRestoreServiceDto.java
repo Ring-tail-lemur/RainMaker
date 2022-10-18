@@ -30,7 +30,7 @@ public class TimeToRestoreServiceDto {
 		if (timeToRestoreService < 1440)
 			return ProductivityLevel.FLOWER;
 		if (timeToRestoreService < 10080)
-			return ProductivityLevel.FLOWER;
+			return ProductivityLevel.SPROUT;
 		return ProductivityLevel.SEED;
 	}
 

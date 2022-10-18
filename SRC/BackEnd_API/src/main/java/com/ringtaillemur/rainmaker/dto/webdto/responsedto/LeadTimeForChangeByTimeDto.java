@@ -13,13 +13,13 @@ public class LeadTimeForChangeByTimeDto {
 	private LocalDate startTime;
 	private LocalDate endTime;
 	private ProductivityLevel level;
-	private Map<LocalDate, Double> leadTimeForChangeMap;
+	private Map<LocalDate, LeadTimeForChangeDetailDto> leadTimeForChangeDetailMap;
 
 	public LeadTimeForChangeByTimeDto(LocalDate startTime, LocalDate endTime,
-		Map<LocalDate, Double> leadTimeForChangeMap) {
+		Map<LocalDate, LeadTimeForChangeDetailDto> leadTimeForChangeDetailMap) {
 		this.startTime = startTime;
 		this.endTime = endTime;
-		this.leadTimeForChangeMap = leadTimeForChangeMap;
+		this.leadTimeForChangeDetailMap = leadTimeForChangeDetailMap;
 		this.level = getLeadTimeForChangeProductivityLevel();
 	}
 
@@ -35,8 +35,8 @@ public class LeadTimeForChangeByTimeDto {
 	}
 
 	private Double getAverageLeadTimeForChange() {
-		return leadTimeForChangeMap.values().stream()
-			.mapToDouble(leadTimeForChange -> leadTimeForChange)
+		return leadTimeForChangeDetailMap.values().stream()
+			.mapToDouble(LeadTimeForChangeDetailDto::getTotalValue)
 			.average()
 			.orElse(0);
 	}

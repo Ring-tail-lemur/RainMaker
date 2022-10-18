@@ -12,12 +12,14 @@ public class UserRepositoryDto {
 	private String repository;
 	private LocalDateTime pushedAt;
 
-    private boolean isChecked;
-    public UserRepositoryDto(int id, String organization, String repository, LocalDateTime pushedAt, boolean isChecked) {
-        this.id = id;
-        this.organization = organization;
-        this.repository = repository;
-        this.pushedAt = pushedAt;
-        this.isChecked = isChecked;
-    }
+	private boolean isChecked;
+
+	public UserRepositoryDto(int id, String organization, String repository, LocalDateTime pushedAt,
+		boolean isChecked) {
+		this.id = id;
+		this.organization = organization;
+		this.repository = repository;
+		this.pushedAt = pushedAt;
+		this.isChecked = isChecked;
+	}
 }

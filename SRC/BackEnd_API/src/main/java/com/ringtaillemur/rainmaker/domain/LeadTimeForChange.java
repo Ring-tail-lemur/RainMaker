@@ -42,4 +42,20 @@ public class LeadTimeForChange extends BaseEntity {
 	public Long getLeadTimeForChange() {
 		return Duration.between(firstCommitTime, deploymentTime).toMinutes();
 	}
+
+	public Long getCodingTimePart() {
+		return Duration.between(firstCommitTime, prOpenTime).toMinutes();
+	}
+
+	public Long getPickupTimePart() {
+		return Duration.between(prOpenTime, firstReviewTime).toMinutes();
+	}
+
+	public Long getReviewTimePart() {
+		return Duration.between(firstReviewTime, prCloseTime).toMinutes();
+	}
+
+	public Long getDeploymentTimePart() {
+		return Duration.between(prCloseTime, deploymentTime).toMinutes();
+	}
 }

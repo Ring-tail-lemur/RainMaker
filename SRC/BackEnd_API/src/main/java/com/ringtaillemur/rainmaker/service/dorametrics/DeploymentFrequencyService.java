@@ -23,11 +23,13 @@ public class DeploymentFrequencyService {
 	private final ReleaseSuccessRepository releaseSuccessRepository;
 	private final UtilService utilService;
 
-	public DeploymentFrequencyDto getDeploymentFrequency(List<Long> repositoryIds, LocalDate startTime, LocalDate endTime) {
+	public DeploymentFrequencyDto getDeploymentFrequency(List<Long> repositoryIds, LocalDate startTime,
+		LocalDate endTime) {
 		LocalDateTime startDateTime = startTime.atStartOfDay();
 		LocalDateTime endDateTime = endTime.plusDays(1).atStartOfDay();
 
-		List<ReleaseSuccess> releaseList = releaseSuccessRepository.findByRepositoryIdInAndReleasedAtBetween(repositoryIds,
+		List<ReleaseSuccess> releaseList = releaseSuccessRepository.findByRepositoryIdInAndReleasedAtBetween(
+			repositoryIds,
 			startDateTime, endDateTime);
 
 		Map<LocalDate, Integer> dailyCountMap = utilService.makeDailyCountMap(releaseList,

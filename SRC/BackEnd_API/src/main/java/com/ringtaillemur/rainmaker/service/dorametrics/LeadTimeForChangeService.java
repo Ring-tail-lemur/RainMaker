@@ -2,6 +2,7 @@ package com.ringtaillemur.rainmaker.service.dorametrics;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -10,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.ringtaillemur.rainmaker.domain.LeadTimeForChange;
 import com.ringtaillemur.rainmaker.dto.webdto.responsedto.LeadTimeForChangeByTimeDto;
+import com.ringtaillemur.rainmaker.dto.webdto.responsedto.LeadTimeForChangeDetailDto;
 import com.ringtaillemur.rainmaker.repository.LeadTimeForChangeRepository;
 import com.ringtaillemur.rainmaker.service.UtilService;
 
@@ -29,12 +31,43 @@ public class LeadTimeForChangeService {
 		LocalDateTime endDateTime = endTime.plusDays(1).atStartOfDay();
 
 		List<LeadTimeForChange> leadTimeForChangeList = leadTimeForChangeRepository.findByRepositoryIdInAndDeploymentTimeBetween(
-				repositoryIds, startDateTime, endDateTime);
+			repositoryIds, startDateTime, endDateTime);
 
-		Map<LocalDate, Double> leadTimeForChangeMap = utilService.makeDailyAverageMap(leadTimeForChangeList,
+		Map<LocalDate, LeadTimeForChangeDetailDto> leadTimeForChangeDetailMap = getLocalDateLeadTimeForChangeDetailDtoMap(
+			leadTimeForChangeList);
+
+		return new LeadTimeForChangeByTimeDto(startTime, endTime, leadTimeForChangeDetailMap);
+	}
+
+	private Map<LocalDate, LeadTimeForChangeDetailDto> getLocalDateLeadTimeForChangeDetailDtoMap(
+		List<LeadTimeForChange> leadTimeForChangeList) {
+		Map<LocalDate, Double> codingTimeMap = utilService.makeDailyAverageMap(leadTimeForChangeList,
 			leadTimeForChange -> leadTimeForChange.getDeploymentTime().toLocalDate(),
-			LeadTimeForChange::getLeadTimeForChange);
+			LeadTimeForChange::getCodingTimePart);
 
-		return new LeadTimeForChangeByTimeDto(startTime, endTime, leadTimeForChangeMap);
+		Map<LocalDate, Double> pickupTimeMap = utilService.makeDailyAverageMap(leadTimeForChangeList,
+			leadTimeForChange -> leadTimeForChange.getDeploymentTime().toLocalDate(),
+			LeadTimeForChange::getPickupTimePart);
+
+		Map<LocalDate, Double> reviewTimeMap = utilService.makeDailyAverageMap(leadTimeForChangeList,
+			leadTimeForChange -> leadTimeForChange.getDeploymentTime().toLocalDate(),
+			LeadTimeForChange::getReviewTimePart);
+
+		Map<LocalDate, Double> deployTimeMap = utilService.makeDailyAverageMap(leadTimeForChangeList,
+			leadTimeForChange -> leadTimeForChange.getDeploymentTime().toLocalDate(),
+			LeadTimeForChange::getDeploymentTimePart);
+
+		Map<LocalDate, LeadTimeForChangeDetailDto> leadTimeForChangeDetailMap = new HashMap<>();
+		for (LocalDate localDate : codingTimeMap.keySet()) {
+			LeadTimeForChangeDetailDto leadTimeForChangeDetailDto = LeadTimeForChangeDetailDto.builder()
+				.codingTime(codingTimeMap.get(localDate))
+				.pickupTime(pickupTimeMap.get(localDate))
+				.reviewTime(reviewTimeMap.get(localDate))
+				.deployTime(deployTimeMap.get(localDate))
+				.build();
+			leadTimeForChangeDetailMap.put(localDate, leadTimeForChangeDetailDto);
+		}
+
+		return leadTimeForChangeDetailMap;
 	}
 }
