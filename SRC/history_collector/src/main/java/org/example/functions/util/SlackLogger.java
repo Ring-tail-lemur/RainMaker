@@ -115,11 +115,11 @@ public class SlackLogger {
 			JSONObject slackSecretJSONObject = new JSONObject(slackSecret);
 			return slackSecretJSONObject.getString("slack_uri");
 		}catch (Exception e){
+			e.printStackTrace();
 			String slackSecret = readFile("slack-secret.json");
 			JSONObject slackSecretJSONObject = new JSONObject(slackSecret);
 			return slackSecretJSONObject.getString("slack_uri");
-		}finally {
-			return null;
+
 		}
 	}
 
@@ -146,6 +146,6 @@ public class SlackLogger {
 
 	public static void main(String[] args){
 		SlackLogger slackLogger = SlackLogger.getSlackLogger();
-		slackLogger.sendLogNotErr("진짜 된다 안 되면 종현이가 내 형이다.");
+		slackLogger.sendLogNotErr("...");
 	}
 }
