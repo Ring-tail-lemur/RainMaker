@@ -45,7 +45,9 @@
         <chart-card :chart-data="LeadTimeForChange.data"
                     chart-id="activity-chart"
                     :color="LeadTimeForChange.color"
-                    chart-title="TOTAL EARNINGS IN LAST TEN QUARTERS">
+                    chart-title="TOTAL EARNINGS IN LAST TEN QUARTERS"
+                    :class="'border-' + LeadTimeForChange.rate"
+                    >
           <span slot="hover-slot" class="tooltip-custom"><i class="nc-icon nc-alert-circle-i"></i><span class="tooltip-custom-text">변경 리드 타임: 변경 리드 타임은 변경 리드타임입니다.</span></span>
           <span slot="title">변경 리드 타임</span>
           <badge slot="title-label" :type="LeadTimeForChange.rate">{{ LeadTimeForChange.rate }}</badge>
@@ -59,7 +61,9 @@
       <div class="col-lg-5 col-sm-6">
         <chart-card :chart-data="DeploymentFrequency.data"
                     chart-id="emails-chart"
-                    :color="DeploymentFrequency.color" chart-title="TOTAL SUBSCRIPTIONS IN LAST 7 DAYS">
+                    :color="DeploymentFrequency.color"
+                    chart-title="TOTAL SUBSCRIPTIONS IN LAST 7 DAYS"
+                    :class="'border-' + DeploymentFrequency.rate">
           <span slot="hover-slot" class="tooltip-custom"><i class="nc-icon nc-alert-circle-i"></i><span class="tooltip-custom-text">배포 빈도 : 배포 빈도는 일주일 동안 배포한 횟수를 이야기합니다.</span></span>
           <span slot="title">배포 빈도</span>
           <badge slot="title-label" :type="DeploymentFrequency.rate">{{ DeploymentFrequency.rate }}</badge>
@@ -72,7 +76,9 @@
       <div class="col-lg-5 col-sm-6">
         <chart-card :chart-data="ChangeFailureRate.data"
                     chart-id="active-countries-chart"
-                    :color="ChangeFailureRate.color" chart-title="Active Countries">
+                    :color="ChangeFailureRate.color"
+                    chart-title="Active Countries"
+                    :class="'border-' + ChangeFailureRate.rate">
           <span slot="hover-slot" class="tooltip-custom"><i class="nc-icon nc-alert-circle-i"></i><span class="tooltip-custom-text">평균회복시간: 변경 리드 타임은 변경 리드타임입니다.</span></span>
           <span slot="title">변경 실패율</span>
           <badge slot="title-label" :type="ChangeFailureRate.rate">{{ ChangeFailureRate.rate }}</badge>
@@ -85,7 +91,8 @@
       <div class="col-lg-5 col-sm-6">
         <chart-card :chart-data="MTTR.data"
                     chart-id="active-countries-chart"
-                    :color="MTTR.color" chart-title="Active Countries">
+                    :color="MTTR.color" chart-title="Active Countries"
+                    :class="'border-' + MTTR.rate">
           <span slot="hover-slot" class="tooltip-custom"><i class="nc-icon nc-alert-circle-i"></i><span class="tooltip-custom-text">information: 변경 리드 타임은 변경 리드타임입니다.</span></span>
           <span slot="title">평균 회복시간</span>
           <badge slot="title-label" :type="MTTR.rate">{{ MTTR.rate }}</badge>
