@@ -85,7 +85,7 @@ public class SlackLogger {
 			}
 			String newMessage =
 					nowTime.toString() +
-							"\nETL Got Err! \n----------------------\nErrLog : " +
+							"\nHistoryCollector Got Err! \n----------------------\nErrLog : " +
 							errStack +
 							"\n----------------------\nErrMessage : " +
 							message;
