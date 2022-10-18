@@ -146,6 +146,6 @@ public class SlackLogger {
 
 	public static void main(String[] args){
 		SlackLogger slackLogger = SlackLogger.getSlackLogger();
-		slackLogger.sendLogNotErr("왜 안되는겨...??");
+		slackLogger.sendLogNotErr("진짜 된다 안 되면 종현이가 내 형이다.");
 	}
 }
