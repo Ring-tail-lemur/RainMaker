@@ -17,7 +17,7 @@ public class LogModule {
   private LogModule(ExecutionContext context) throws IOException {
     System.out.println("hihi");
     Logger logger = context.getLogger();
-    logger.log(Level.parse("ORG"), "hihi");
+    logger.log(Level.parse("ORG"), "NOW LOGMODULE");
     slackLogBotUri = this.readJson();
   }
   private LogModule() throws IOException {
