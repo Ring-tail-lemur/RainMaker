@@ -41,7 +41,7 @@
 
 
     <div class="row">
-      <div class="col-lg-5 col-sm-6" @mouseover="showBreakDown" @mouseleave="hideBreakDown">
+      <div class="col-lg-6 col-sm-6" @mouseover="showBreakDown" @mouseleave="hideBreakDown">
         <chart-card :chart-data="LeadTimeForChange.data"
                     chart-id="activity-chart"
                     :color="LeadTimeForChange.color"
@@ -62,7 +62,7 @@
         </chart-card>
       </div>
 
-      <div class="col-lg-5 col-sm-6">
+      <div class="col-lg-6 col-sm-6">
         <chart-card :chart-data="DeploymentFrequency.data"
                     chart-id="emails-chart"
                     :color="DeploymentFrequency.color"
@@ -79,7 +79,7 @@
         </chart-card>
       </div>
 
-      <div class="col-lg-5 col-sm-6">
+      <div class="col-lg-6 col-sm-6">
         <chart-card :chart-data="ChangeFailureRate.data"
                     chart-id="active-countries-chart"
                     :color="ChangeFailureRate.color"
@@ -96,7 +96,7 @@
         </chart-card>
       </div>
 
-      <div class="col-lg-5 col-sm-6">
+      <div class="col-lg-6 col-sm-6">
         <chart-card :chart-data="MTTR.data"
                     chart-id="active-countries-chart"
                     :color="MTTR.color"
