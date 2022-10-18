@@ -25,20 +25,20 @@ public class TimerTriggerFunction {
     final ExecutionContext context
   )
     throws Exception {
-    try{
-      LogModule logModule = LogModule.getLogModule();
-      logModule.sendLog(new Exception("오류 아닙니다."), "TEST 진행중");
-      System.out.println("start");
-      updateCommitsReleaseId.calculateUpdateCommitsReleaseId();
-      pullRequestDirection.MakePullRequestDirection();
-      leadTimeForChange.calculateLeadTimeForChange();
-      changeFailureRate.calculateChangeFailureRate();
-      timeToRestoreService.calculateTimeToRestoreService();
-      System.out.println("end");
-    }catch (Exception e){
-      System.out.println("LogModule 실패");
-      e.getStackTrace();
-    }
+      try{
+        System.out.println("start");
+        updateCommitsReleaseId.calculateUpdateCommitsReleaseId();
+        pullRequestDirection.MakePullRequestDirection();
+        leadTimeForChange.calculateLeadTimeForChange();
+        changeFailureRate.calculateChangeFailureRate();
+        timeToRestoreService.calculateTimeToRestoreService();
+        System.out.println("end");
+      }catch (Exception e){
+        LogModule logModule = LogModule.getLogModule();
+        logModule.sendLog(e, "LogModule, 실패");
+        System.out.println("LogModule 실패");
+        e.getStackTrace();
+      }
 
   }
 }

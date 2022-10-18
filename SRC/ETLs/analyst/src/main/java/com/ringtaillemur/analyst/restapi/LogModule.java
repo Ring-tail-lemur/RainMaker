@@ -5,40 +5,43 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.time.LocalTime;
 import java.time.ZoneId;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
+import com.microsoft.azure.functions.ExecutionContext;
 import org.json.JSONObject;
-import org.json.simple.parser.ParseException;
 
 public class LogModule {
-
-  private static final LogModule logModule;
-
-  static {
-    try {
-      logModule = new LogModule();
-    } catch (IOException e) {
-      throw new RuntimeException(e);
-    }
-  }
-
   private static String slackLogBotUri = null;
+
+  private LogModule(ExecutionContext context) throws IOException {
+    System.out.println("hihi");
+    Logger logger = context.getLogger();
+    logger.log(Level.parse("ORG"), "NOW LOGMODULE");
+    slackLogBotUri = this.readJson();
+  }
   private LogModule() throws IOException {
     System.out.println("hihi");
-    try{
-      slackLogBotUri = readJson();
-      System.out.println(slackLogBotUri);
-    } catch (IOException e){
-      e.printStackTrace();
-    } catch (Exception e){
-      System.out.println("Fucked Up!");
-      e.printStackTrace();
+
+    slackLogBotUri = this.readJson();
+  }
+  private static class LazyHolder{
+    public static final LogModule INSTANCE;
+
+    static {
+      try {
+        INSTANCE = new LogModule();
+      } catch (IOException e) {
+        throw new RuntimeException(e);
+      }
     }
-
   }
-  public static synchronized LogModule getLogModule(){
-    return logModule;
+  public static LogModule getLogModule(ExecutionContext context){
+    return LazyHolder.INSTANCE;
   }
-
+  public static LogModule getLogModule(){
+    return LazyHolder.INSTANCE;
+  }
 
   public void sendLog(Exception e, String message) throws IOException {
     try {
@@ -91,6 +94,7 @@ public class LogModule {
   }
 
   private String readFile(String filePath) throws IOException {
+    System.out.println("now Reading File!");
     InputStream input = ClassLoader.getSystemResourceAsStream(filePath);
     ByteArrayOutputStream result = new ByteArrayOutputStream();
     byte[] buffer = new byte[1024];

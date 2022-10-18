@@ -1,5 +1,5 @@
 <template>
-  <div class="card" >
+  <div class="card">
     <div class="card-header" v-if="$slots.header">
       <slot name="header"></slot>
     </div>
@@ -39,6 +39,7 @@
                  :extra-options="chartOptions"
                  :height="chartHeight"
                  :datasets="chartData.datasets"
+                 :stacked="stacked"
                  :data="chartData.series">
       </component>
     </div>
@@ -76,6 +77,7 @@
       PieChart
     },
     props: {
+      stacked: false,
       footerText: {
         type: String,
         default: '',

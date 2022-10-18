@@ -41,18 +41,22 @@
 
 
     <div class="row">
-      <div class="col-lg-6 col-sm-6">
+      <div class="col-lg-6 col-sm-6" @mouseover="showBreakDown" @mouseleave="hideBreakDown">
         <chart-card :chart-data="LeadTimeForChange.data"
                     chart-id="activity-chart"
                     :color="LeadTimeForChange.color"
-                    chart-title="TOTAL EARNINGS IN LAST TEN QUARTERS"
-                    :class="'border-' + LeadTimeForChange.rate"
-                    >
-          <span slot="hover-slot" class="tooltip-custom"><i class="nc-icon nc-alert-circle-i"></i><span class="tooltip-custom-text">변경 리드 타임: 변경 리드 타임은 변경 리드타임입니다.</span></span>
+                    :stacked="stacked"
+                    chart-title="Lead Time For Change"
+                    :chart-options="chartOptions">
+          :class="'border-' + LeadTimeForChange.rate"
+          >
+          <span slot="hover-slot" class="tooltip-custom"><i class="nc-icon nc-alert-circle-i"></i><span
+            class="tooltip-custom-text">변경 리드 타임: 변경 리드 타임은 변경 리드타임입니다.</span></span>
           <span slot="title">변경 리드 타임</span>
           <badge slot="title-label" :type="LeadTimeForChange.rate">{{ LeadTimeForChange.rate }}</badge>
 
-          <p-button slot="footer-right" aria-label="add button" :type="typeChange(LeadTimeForChange.rate)" round icon size="sm">
+          <p-button slot="footer-right" aria-label="add button" :type="typeChange(LeadTimeForChange.rate)" round icon
+                    size="sm">
             <i class="nc-icon nc-simple-add"></i>
           </p-button>
         </chart-card>
@@ -62,12 +66,14 @@
         <chart-card :chart-data="DeploymentFrequency.data"
                     chart-id="emails-chart"
                     :color="DeploymentFrequency.color"
-                    chart-title="TOTAL SUBSCRIPTIONS IN LAST 7 DAYS"
+                    chart-title="Deployment Frequency"
                     :class="'border-' + DeploymentFrequency.rate">
-          <span slot="hover-slot" class="tooltip-custom"><i class="nc-icon nc-alert-circle-i"></i><span class="tooltip-custom-text">배포 빈도 : 배포 빈도는 일주일 동안 배포한 횟수를 이야기합니다.</span></span>
+          <span slot="hover-slot" class="tooltip-custom"><i class="nc-icon nc-alert-circle-i"></i><span
+            class="tooltip-custom-text">배포 빈도 : 배포 빈도는 일주일 동안 배포한 횟수를 이야기합니다.</span></span>
           <span slot="title">배포 빈도</span>
           <badge slot="title-label" :type="DeploymentFrequency.rate">{{ DeploymentFrequency.rate }}</badge>
-          <p-button slot="footer-right" aria-label="add button" :type="typeChange(DeploymentFrequency.rate)" round icon size="sm">
+          <p-button slot="footer-right" aria-label="add button" :type="typeChange(DeploymentFrequency.rate)" round icon
+                    size="sm">
             <i class="nc-icon nc-simple-add"></i>
           </p-button>
         </chart-card>
@@ -77,12 +83,14 @@
         <chart-card :chart-data="ChangeFailureRate.data"
                     chart-id="active-countries-chart"
                     :color="ChangeFailureRate.color"
-                    chart-title="Active Countries"
+                    chart-title="Change Failure Rate"
                     :class="'border-' + ChangeFailureRate.rate">
-          <span slot="hover-slot" class="tooltip-custom"><i class="nc-icon nc-alert-circle-i"></i><span class="tooltip-custom-text">평균회복시간: 변경 리드 타임은 변경 리드타임입니다.</span></span>
+          <span slot="hover-slot" class="tooltip-custom"><i class="nc-icon nc-alert-circle-i"></i><span
+            class="tooltip-custom-text">평균회복시간: 변경 리드 타임은 변경 리드타임입니다.</span></span>
           <span slot="title">변경 실패율</span>
           <badge slot="title-label" :type="ChangeFailureRate.rate">{{ ChangeFailureRate.rate }}</badge>
-          <p-button slot="footer-right" aria-label="add button" :type="typeChange(ChangeFailureRate.rate)" round icon size="sm">
+          <p-button slot="footer-right" aria-label="add button" :type="typeChange(ChangeFailureRate.rate)" round icon
+                    size="sm">
             <i class="nc-icon nc-simple-add"></i>
           </p-button>
         </chart-card>
@@ -91,9 +99,11 @@
       <div class="col-lg-6 col-sm-6">
         <chart-card :chart-data="MTTR.data"
                     chart-id="active-countries-chart"
-                    :color="MTTR.color" chart-title="Active Countries"
+                    :color="MTTR.color"
+                    chart-title="Mean Time To Recover"
                     :class="'border-' + MTTR.rate">
-          <span slot="hover-slot" class="tooltip-custom"><i class="nc-icon nc-alert-circle-i"></i><span class="tooltip-custom-text">information: 변경 리드 타임은 변경 리드타임입니다.</span></span>
+          <span slot="hover-slot" class="tooltip-custom"><i class="nc-icon nc-alert-circle-i"></i><span
+            class="tooltip-custom-text">information: 변경 리드 타임은 변경 리드타임입니다.</span></span>
           <span slot="title">평균 회복시간</span>
           <badge slot="title-label" :type="MTTR.rate">{{ MTTR.rate }}</badge>
           <p-button slot="footer-right" aria-label="add button" :type="typeChange(MTTR.rate)" round icon size="sm">
@@ -124,6 +134,8 @@ const WorldMap = () => ({
   loading: Loading,
   delay: 200
 })
+const DATA_COUNT = 7;
+const NUMBER_CFG = {count: DATA_COUNT, min: -100, max: 100};
 
 export default {
   components: {
@@ -166,11 +178,13 @@ export default {
   },
   data() {
     return {
+      stacked: false,
+      LeadTimeForChangeDetailDataSets: [],
       LeadTimeForChange: {
         color: "#ef8156",
         rate: "seed",
         data: {
-          labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct"],
+          labels: [1, 2, 3, 4, 5, 6, 7, 8, 9, 0],
           series: [542, 480, 430, 550, 530, 453, 380, 434, 568, 610]
         }
       },
@@ -214,8 +228,27 @@ export default {
     }
   },
   methods: {
+    hideBreakDown() {
+      this.stacked = false;
+      delete this.LeadTimeForChange.data.datasets
+    },
+    showBreakDown() {
+      this.stacked = true;
+      this.LeadTimeForChange.data.datasets = this.LeadTimeForChangeDetailDataSets
+    },
+    getStackedColor(detailName) {
+      switch (detailName) {
+        case "codingTime":
+          return "#AC7088"
+        case "pickupTime":
+          return "#DEB6AB"
+        case "reviewTime":
+          return "#ECCCB2"
+        case "deployTime":
+          return "#F5E8C7"
+      }
+    },
     typeChange(rate) {
-      console.log("rate::::::::::::::::::::::", rate);
       switch (rate) {
         case 'seed':
           return 'danger';
@@ -274,7 +307,6 @@ export default {
           this.interval = setInterval(() => this.checkWaitingStatus(), 5000);
         }
       }
-      console.log("이제 리턴 해야할꺼아냐 어?")
       return axiosResponse.data;
     },
     submitButtonPush() {
@@ -306,7 +338,19 @@ export default {
       this.getDoraMetric(start_time, end_time, repo_id, "change-failure-rate");
       this.getDoraMetric(start_time, end_time, repo_id, "deployment-frequency");
     },
-    async getDoraMetric(start_time, end_time, repo_id, MetricName) {
+    getMessageBody(Message) {
+      let BodyData = Message.data;
+      if (BodyData.hasOwnProperty('leadTimeForChangeDetailMap')) {
+        return BodyData.leadTimeForChangeDetailMap;
+      } else if (BodyData.hasOwnProperty('changeFailureRateMap')) {
+        return BodyData.changeFailureRateMap;
+      } else if (BodyData.hasOwnProperty('deploymentFrequencyMap')) {
+        return BodyData.deploymentFrequencyMap;
+      } else if (BodyData.hasOwnProperty('timeToRestoreServiceMap')) {
+        return BodyData.timeToRestoreServiceMap;
+      }
+    }, async getDoraMetric(start_time, end_time, repo_id, MetricName) {
+      console.log(MetricName + "이 들어왔네")
       const Message = await axios.get(this.custom.defaultURL + "/dorametric/" + MetricName, {
         headers: setHeaderJWT(),
         params: {
@@ -316,59 +360,26 @@ export default {
         }
       })
 
-      let BodyData = Message.data;
-      let info;
-      if (BodyData.hasOwnProperty('leadTimeForChangeMap')) {
-        info = BodyData.leadTimeForChangeMap;
-      } else if (BodyData.hasOwnProperty('changeFailureRateMap')) {
-        info = BodyData.changeFailureRateMap;
-      } else if (BodyData.hasOwnProperty('deploymentFrequencyMap')) {
-        info = BodyData.deploymentFrequencyMap;
-      } else if (BodyData.hasOwnProperty('timeToRestoreServiceMap')) {
-        info = BodyData.timeToRestoreServiceMap;
+      const level = Message.data.level.toLowerCase();
+      let info = this.getMessageBody(Message);
+
+      const start_date = new Date(start_time);
+      const end_date = new Date(end_time);
+
+      switch (MetricName) {
+        case "lead-time-for-change":
+          this.setLeadTimeForChange(start_date, end_date, info, level);
+          break;
+        case "time-to-restore-service":
+          this.setTimeToRestoreService(start_date, end_date, info, level);
+          break;
+        case "change-failure-rate":
+          this.setChangeFailureRate(start_date, end_date, info, level);
+          break;
+        case "deployment-frequency":
+          this.setDeploymentFrequency(start_date, end_date, info, level);
+          break;
       }
-
-
-      let date_arr = [];
-      let average_time = [];
-
-      const st = new Date(start_time);
-      const en = new Date(end_time);
-
-
-      while (st <= en) {
-        date_arr.push(this.dateFormat(st));
-        if (info[this.dateFormat(st)]) {
-          average_time.push(info[this.dateFormat(st)]);
-        } else {
-          average_time.push(0);
-        }
-        st.setDate(st.getDate() + 1);
-      }
-
-      const level = BodyData.level.toLowerCase();
-      if (MetricName === "lead-time-for-change") {
-        this.LeadTimeForChange.data.labels = date_arr;
-        this.LeadTimeForChange.data.series = average_time;
-        this.LeadTimeForChange.rate = level;
-        this.LeadTimeForChange.color = this.colorPickByLevel(level);
-      } else if (MetricName === "time-to-restore-service") {
-        this.MTTR.data.labels = date_arr;
-        this.MTTR.data.series = average_time;
-        this.MTTR.rate = level;
-        this.MTTR.color = this.colorPickByLevel(level);
-      } else if (MetricName === "change-failure-rate") {
-        this.ChangeFailureRate.data.labels = date_arr;
-        this.ChangeFailureRate.data.series = average_time;
-        this.ChangeFailureRate.rate = level;
-        this.ChangeFailureRate.color = this.colorPickByLevel(level);
-      } else if (MetricName === "deployment-frequency") {
-        this.DeploymentFrequency.data.labels = date_arr;
-        this.DeploymentFrequency.data.series = average_time;
-        this.DeploymentFrequency.rate = level;
-        this.DeploymentFrequency.color = this.colorPickByLevel(level);
-      }
-
     },
     dateFormat(date) {
       let month = date.getMonth() + 1;
@@ -389,6 +400,96 @@ export default {
       } else if (level == "fruit") {
         return "#41B883";
       }
+    },
+    setLeadTimeForChange(start_date, end_date, info, level) {
+      let date_labels = [];
+      let data_series = [];
+      const coding_time = [];
+      const pickup_time = [];
+      const review_time = [];
+      const deploy_time = [];
+
+      while (start_date <= end_date) {
+        let detail = info[this.dateFormat(start_date)] || {};
+        let totalValue = Object.values(detail).reduce((a, b) => {
+          return a + b
+        }, 0)
+        coding_time.push(detail.codingTime || 0);
+        pickup_time.push(detail.pickupTime || 0);
+        review_time.push(detail.reviewTime || 0);
+        deploy_time.push(detail.deployTime || 0);
+        date_labels.push(this.dateFormat(start_date));
+        data_series.push(totalValue);
+        start_date.setDate(start_date.getDate() + 1);
+      }
+      this.LeadTimeForChangeDetailDataSets = [
+        {
+          label: 'coding time',
+          data: coding_time,
+          backgroundColor: this.getStackedColor("codingTime"),
+        },
+        {
+          label: 'pickup time',
+          data: pickup_time,
+          backgroundColor: this.getStackedColor("codingTime"),
+        },
+        {
+          label: 'review time',
+          data: review_time,
+          backgroundColor: this.getStackedColor("reviewTime"),
+        },
+        {
+          label: 'deploy time',
+          data: deploy_time,
+          backgroundColor: this.getStackedColor("deployTime"),
+        },
+      ]
+      this.LeadTimeForChange.data.labels = date_labels;
+      this.LeadTimeForChange.data.series = data_series;
+      this.LeadTimeForChange.rate = level;
+      this.LeadTimeForChange.color = this.colorPickByLevel(level);
+    },
+    setDeploymentFrequency(start_date, end_date, info, level) {
+      let date_labels = [];
+      let data_series = [];
+
+      while (start_date <= end_date) {
+        date_labels.push(this.dateFormat(start_date));
+        data_series.push(info[this.dateFormat(start_date)] || 0);
+        start_date.setDate(start_date.getDate() + 1);
+      }
+      this.DeploymentFrequency.data.labels = date_labels;
+      this.DeploymentFrequency.data.series = data_series;
+      this.DeploymentFrequency.rate = level;
+      this.DeploymentFrequency.color = this.colorPickByLevel(level);
+    },
+    setTimeToRestoreService(start_date, end_date, info, level) {
+      let date_labels = [];
+      let data_series = [];
+
+      while (start_date <= end_date) {
+        date_labels.push(this.dateFormat(start_date));
+        data_series.push(info[this.dateFormat(start_date)] || 0);
+        start_date.setDate(start_date.getDate() + 1);
+      }
+      this.MTTR.data.labels = date_labels;
+      this.MTTR.data.series = data_series;
+      this.MTTR.rate = level;
+      this.MTTR.color = this.colorPickByLevel(level);
+    },
+    setChangeFailureRate(start_date, end_date, info, level) {
+      let date_labels = [];
+      let data_series = [];
+
+      while (start_date <= end_date) {
+        date_labels.push(this.dateFormat(start_date));
+        data_series.push(info[this.dateFormat(start_date)] || 0);
+        start_date.setDate(start_date.getDate() + 1);
+      }
+      this.ChangeFailureRate.data.labels = date_labels;
+      this.ChangeFailureRate.data.series = data_series;
+      this.ChangeFailureRate.rate = level;
+      this.ChangeFailureRate.color = this.colorPickByLevel(level);
     }
   },
   async created() {
