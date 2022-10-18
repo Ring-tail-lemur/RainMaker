@@ -27,6 +27,7 @@
                  :extra-options="chartOptions"
                  :height="chartHeight"
                  :datasets="chartData.datasets"
+                 :stacked="stacked"
                  :data="chartData.series">
       </component>
     </div>
@@ -64,6 +65,7 @@
       PieChart
     },
     props: {
+      stacked: false,
       footerText: {
         type: String,
         default: '',
