@@ -53,6 +53,7 @@ jobs:
           ls
           chmod 777 ./META-INF/persistence.xml
           cat ./META-INF/persistence.xml
+          cat ./static/slack-secret.json
           popd
       - name: Setup Java Sdk ${{ env.JAVA_VERSION }}
         uses: actions/setup-java@v1
