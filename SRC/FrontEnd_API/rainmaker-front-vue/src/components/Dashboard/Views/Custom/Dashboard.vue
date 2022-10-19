@@ -46,6 +46,7 @@
                     chart-id="activity-chart"
                     :color="LeadTimeForChange.color"
                     :stacked="stacked"
+                    :suggestedMax="50000"
                     chart-title="Lead Time For Change"
                     :chart-options="LeadTimeForChange.drawBaseLine"
                     :class="'border-' + LeadTimeForChange.rate">
@@ -65,6 +66,7 @@
                     chart-id="emails-chart"
                     :color="DeploymentFrequency.color"
                     chart-title="Deployment Frequency"
+                    :suggestedMax="10"
                     :chart-options="DeploymentFrequency.drawBaseLine"
                     :class="'border-' + DeploymentFrequency.rate">
         <span slot="hover-slot" class="tooltip-custom"><i class="nc-icon nc-alert-circle-i"></i><span
@@ -83,6 +85,7 @@
                     chart-id="active-countries-chart"
                     :color="ChangeFailureRate.color"
                     chart-title="Change Failure Rate"
+                    :suggestedMax="1"
                     :chart-options="ChangeFailureRate.drawBaseLine"
                     :class="'border-' + ChangeFailureRate.rate">
         <span slot="hover-slot" class="tooltip-custom"><i class="nc-icon nc-alert-circle-i"></i><span
@@ -101,6 +104,7 @@
                     chart-id="active-countries-chart"
                     :color="MTTR.color"
                     chart-title="Mean Time To Recover"
+                    :suggestedMax="12000"
                     :chart-options="MTTR.drawBaseLine"
                     :class="'border-' + MTTR.rate">
           <span slot="hover-slot" class="tooltip-custom"><i class="nc-icon nc-alert-circle-i"></i><span

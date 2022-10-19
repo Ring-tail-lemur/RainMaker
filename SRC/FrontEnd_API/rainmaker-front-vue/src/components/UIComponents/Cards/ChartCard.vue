@@ -40,6 +40,7 @@
                  :height="chartHeight"
                  :datasets="chartData.datasets"
                  :stacked="stacked"
+                 :suggestedMax="suggestedMax"
                  :data="chartData.series">
       </component>
     </div>
@@ -77,6 +78,7 @@
       PieChart
     },
     props: {
+      suggestedMax : 0,
       stacked: false,
       footerText: {
         type: String,
