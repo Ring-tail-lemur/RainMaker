@@ -73,6 +73,13 @@ export default {
       isChecking: false
     }
   },
+  watch: {
+    githubToken() {
+      if (this.githubToken.length === 40) {
+        this.verifyToken();
+      }
+    },
+  },
   methods: {
     async saveToken() {
       await axios({
