@@ -132,7 +132,8 @@ public class SlackLogger {
 			try {
 				if ((length = input.read(buffer)) == -1) break;
 			} catch (IOException e) {
-				throw new RuntimeException(e);
+				e.printStackTrace();
+				throw e;
 			}
 			result.write(buffer, 0, length);
 		}
