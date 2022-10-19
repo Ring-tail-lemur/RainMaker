@@ -377,10 +377,7 @@ public class UserConfigService {
 		HttpURLConnection connection = (HttpURLConnection)url.openConnection();
 		connection.setRequestMethod("GET");
 		connection.setRequestProperty("Authorization", String.format("Bearer %s", oAuthToken));
-		if (connection.getResponseCode() == 200) {
-			return true;
-		}
-		return false;
+		return connection.getResponseCode() == 200;
 	}
 
 	private void changeOAuthLevel(OAuthUser currentUser) {
