@@ -31,23 +31,14 @@ jobs:
             SUPER_PERSISTENCE: ${{secrets.HISTORY_COLLECTOR_PERSISTENCE_XML}}
         shell: pwsh
         run: |
-          pushd './${{ env.POM_XML_DIRECTORY }}'
-          echo '
-          {
-            "slack_uri" : "${{secrets.HC_SLACK_BOT_URI}}"
-          }
-          ' >> ./slack-secret.json
-          pushd './src/main/resources'
-          echo '
-          {
-            "slack_uri" : "${{secrets.HC_SLACK_BOT_URI}}"
-          }
-          ' >> ./slack-secret.json
+          pushd './${{ env.POM_XML_DIRECTORY }}/src/main/resources'
+          ls ./
           echo '
           {
             "slack_uri" : "${{secrets.HC_SLACK_BOT_URI}}"
           }
           ' >> ./static/slack-secret.json
+          ls ./static
           mkdir ./META-INF
           echo '${{env.SUPER_PERSISTENCE}}' >> ./META-INF/persistence.xml
           ls
