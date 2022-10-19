@@ -33,7 +33,6 @@ public class SlackLogger {
 	public void sendLogNotErr(String message){
 		try {
 			LocalTime nowTime = LocalTime.now(ZoneId.of("Asia/Seoul"));
-			System.out.println(slackLogBotUri);
 			JSONObject newJsonObj = new JSONObject();
 			URL uri = new URL(slackLogBotUri);
 			HttpURLConnection connection = (HttpURLConnection) uri.openConnection();

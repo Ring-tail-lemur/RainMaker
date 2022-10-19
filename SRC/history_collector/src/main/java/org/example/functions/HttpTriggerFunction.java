@@ -82,7 +82,8 @@ public class HttpTriggerFunction {
 		DataSourceAdaptorNotFindException,
 		IOException,
 		ResponseTypeMissMatchException {
-		
+		SlackLogger logger = SlackLogger.getSlackLogger();
+		logger.sendLogNotErr("TEST");
 		for (DataExtractingConfigDto dataExtractingConfigDto : dataExtractingConfigDtoList) {
 			// System.out.println(dataExtractingConfigDto.getDataName() +"E => start time : "+ LocalTime.now());
 			SourceDataDto sourceDataDto = sourceDataExtractor.extractData(dataExtractingConfigDto);
