@@ -1,21 +1,34 @@
 <template>
   <div v-if="waiting">
     <div class="row">
-      <div class="col-md-3">
-        <h4 class="card-title">시작 시간</h4>
+      <div class="col-md-4">
+        <h4 class="card-title">기간 선택</h4>
         <div class="form-group">
-          <el-date-picker v-model="startTime" type="date" placeholder="Pick a day"
+          <el-date-picker v-model="startTime" type="daterange" placeholder="Pick a day"
+                          start-placeholder="시작일"
+                          end-placeholder="종료일"
+                          align="right"
+                          range-separator="-"
                           :picker-options="{ disabledDate: (time) => disabledEndDate(time, null) }">
           </el-date-picker>
         </div>
       </div>
-      <div class="col-md-3">
-        <h4 class="card-title">끝 시간</h4>
-        <div class="form-group">
-          <el-date-picker v-model="endTime" type="date" placeholder="Pick a day"
-                          :picker-options="{ disabledDate: (time) => disabledEndDate(time, null) }">
-          </el-date-picker>
-        </div>
+      <div class="col-md-2">
+        <h4 class="card-title">단위</h4>
+        <drop-down>
+          <p-button slot="title"
+                    class="dropdown-toggle"
+                    data-toggle="dropdown"
+                    aria-haspopup="true"
+                    aria-expanded="false"
+                    type="neutral"
+                    block
+                    round>
+            {{unit}}
+          </p-button>
+          <a class="dropdown-item" v-on:click="unit = '주'">주</a>
+          <a class="dropdown-item" v-on:click="unit = '일'">일</a>
+        </drop-down>
       </div>
       <div class="col-sm-3">
         <h4 class="card-title">리포지토리 선택</h4>
@@ -179,10 +192,14 @@ export default {
           this.startTime = '';
         }
       }
+    },
+    unit() {
+
     }
   },
   data() {
     return {
+      unit : "주",
       stacked: false,
       LeadTimeForChangeDetailDataSets: [],
       LeadTimeForChange: {
@@ -212,6 +229,14 @@ export default {
         color: "#41B883",
         rate: "fruit",
         data: {
+          labels: ["12pm", "3pm", "6pm", "9pm", "12am", "3am", "6am", "9am"],
+          series: [40, 500, 650, 700, 1200, 1250, 1300, 1900]
+        },
+        day_data: {
+          labels: ["12pm", "3pm", "6pm", "9pm", "12am", "3am", "6am", "9am"],
+          series: [40, 500, 650, 700, 1200, 1250, 1300, 1900]
+        },
+        week_data: {
           labels: ["12pm", "3pm", "6pm", "9pm", "12am", "3am", "6am", "9am"],
           series: [40, 500, 650, 700, 1200, 1250, 1300, 1900]
         },
@@ -355,7 +380,8 @@ export default {
         clearInterval(this.interval);
         await this.createdMethod()
       }
-    }, async getRepositoryInfo() {
+    },
+    async getRepositoryInfo() {
       let axiosResponse;
 
       try {
@@ -372,7 +398,7 @@ export default {
     },
     submitButtonPush() {
       try {
-        this.getAllDoraMetric(this.dateFormat(this.startTime), this.dateFormat(this.endTime), this.selects.multiple);
+        this.getAllDoraMetric(this.dateFormat(this.startTime[0]), this.dateFormat(this.startTime[1]), this.selects.multiple);
       } catch (e) {
         alert("잘못 입력하셨습니다.");
         console.error(e);
@@ -410,7 +436,8 @@ export default {
       } else if (BodyData.hasOwnProperty('timeToRestoreServiceMap')) {
         return BodyData.timeToRestoreServiceMap;
       }
-    }, async getDoraMetric(start_time, end_time, repo_id, MetricName) {
+    },
+    async getDoraMetric(start_time, end_time, repo_id, MetricName) {
       console.log(MetricName + "이 들어왔네")
       const Message = await axios.get(this.custom.defaultURL + "/dorametric/" + MetricName, {
         headers: setHeaderJWT(),
@@ -511,11 +538,17 @@ export default {
       let date_labels = [];
       let data_series = [];
 
+      console.log(" 날짜 차이는 ", (end_date.getTime() - start_date.getTime()) / (1000*60*60*24) );
       while (start_date <= end_date) {
         date_labels.push(this.dateFormat(start_date));
         data_series.push(info[this.dateFormat(start_date)] || 0);
         start_date.setDate(start_date.getDate() + 1);
       }
+
+
+      console.log("data_labels :", date_labels);
+      console.log("data_series :", data_series);
+
       this.DeploymentFrequency.data.labels = date_labels;
       this.DeploymentFrequency.data.series = data_series;
       this.DeploymentFrequency.rate = level;
