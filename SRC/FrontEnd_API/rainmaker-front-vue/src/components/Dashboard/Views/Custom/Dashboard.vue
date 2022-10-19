@@ -49,8 +49,19 @@
                     chart-title="Lead Time For Change"
                     :chart-options="LeadTimeForChange.drawBaseLine"
                     :class="'border-' + LeadTimeForChange.rate">
-          <span slot="hover-slot" class="tooltip-custom"><i class="nc-icon nc-alert-circle-i"></i><span
-            class="tooltip-custom-text">변경 리드 타임: 변경 리드 타임은 변경 리드타임입니다.</span></span>
+          <span slot="hover-slot" class="tooltip-custom">
+            <i class="nc-icon nc-alert-circle-i"></i>
+            <span class="tooltip-custom-text-right">
+              <b>Lead Time For Change</b><br><br>
+              커밋이 배포되기까지 평균적으로 걸리는 시간<br>
+              <b>변경 리드 타임</b> = <i>Commit Time</i> + <i>Pickup Time</i> + <i>Review Time</i> + <i>Deploy Time</i><br><br>
+              <b>Commit Time</b> : 첫 커밋부터 PullRequest 오픈까지 걸린 시간<br>
+              <b>Pickup Time</b>: PullRequest가 열린시간부터 첫 리뷰가 달리기까지 컬린 시간<br>
+              <b>Review Time</b>: 첫 리뷰가 달린 시간부터 PullRequest가 병합될 때까지 걸린 시간<br>
+              <b>Deploy Time</b>: PullReqeust가 병합된 시간부터 배포되기까지 걸린 시간<br>
+              <small><b>변경 리드 타임은 배포된 날자를 기준으로 계산합니다.</b></small>
+            </span>
+          </span>
           <span slot="title">변경 리드 타임</span>
           <badge slot="title-label" :type="LeadTimeForChange.rate">{{ LeadTimeForChange.rate }}</badge>
           <p-button slot="footer-right" aria-label="add button" :type="typeChange(LeadTimeForChange.rate)" round icon
@@ -67,8 +78,14 @@
                     chart-title="Deployment Frequency"
                     :chart-options="DeploymentFrequency.drawBaseLine"
                     :class="'border-' + DeploymentFrequency.rate">
-        <span slot="hover-slot" class="tooltip-custom"><i class="nc-icon nc-alert-circle-i"></i><span
-          class="tooltip-custom-text">배포 빈도 : 배포 빈도는 일주일 동안 배포한 횟수를 이야기합니다.</span></span>
+        <span slot="hover-slot" class="tooltip-custom">
+          <i class="nc-icon nc-alert-circle-i"></i>
+          <span class="tooltip-custom-text-left">
+            <b>Deployment Frequency</b><br><br>
+            일정 기간동안 배포한 횟수<br>
+            <small><b>뛰어난 팀은 변경사항을 자주 배포하고 있습니다.</b></small>
+          </span>
+        </span>
           <span slot="title">배포 빈도</span>
           <badge slot="title-label" :type="DeploymentFrequency.rate">{{ DeploymentFrequency.rate }}</badge>
           <p-button slot="footer-right" aria-label="add button" :type="typeChange(DeploymentFrequency.rate)" round icon
@@ -85,8 +102,13 @@
                     chart-title="Change Failure Rate"
                     :chart-options="ChangeFailureRate.drawBaseLine"
                     :class="'border-' + ChangeFailureRate.rate">
-        <span slot="hover-slot" class="tooltip-custom"><i class="nc-icon nc-alert-circle-i"></i><span
-          class="tooltip-custom-text">평균회복시간: 변경 리드 타임은 변경 리드타임입니다.</span></span>
+        <span slot="hover-slot" class="tooltip-custom">
+          <i class="nc-icon nc-alert-circle-i"></i>
+          <span class="tooltip-custom-text-right">
+            <b>Change Failure Rate</b><br><br>
+            장애를 일으키는 배포의 비율<br>
+          </span>
+        </span>
           <span slot="title">변경 실패율</span>
           <badge slot="title-label" :type="ChangeFailureRate.rate">{{ ChangeFailureRate.rate }}</badge>
           <p-button slot="footer-right" aria-label="add button" :type="typeChange(ChangeFailureRate.rate)" round icon
@@ -103,9 +125,14 @@
                     chart-title="Mean Time To Recover"
                     :chart-options="MTTR.drawBaseLine"
                     :class="'border-' + MTTR.rate">
-          <span slot="hover-slot" class="tooltip-custom"><i class="nc-icon nc-alert-circle-i"></i><span
-            class="tooltip-custom-text">information: 변경 리드 타임은 변경 리드타임입니다.</span></span>
-          <span slot="title">평균 회복시간</span>
+          <span slot="hover-slot" class="tooltip-custom">
+            <i class="nc-icon nc-alert-circle-i"></i>
+            <span class="tooltip-custom-text-left">
+              <b>MTTR(Mean Time To Repair)</b><br><br>
+              조직이 장애로부터 서비스를 복구하는 데 걸리는 시간<br>
+          </span>
+          </span>
+          <span slot="title">평균 회복 시간</span>
           <badge slot="title-label" :type="MTTR.rate">{{ MTTR.rate }}</badge>
           <p-button slot="footer-right" aria-label="add button" :type="typeChange(MTTR.rate)" round icon size="sm">
             <i class="nc-icon nc-simple-add"></i>
@@ -557,20 +584,44 @@ export default {
   display: inline-block;
 }
 
-.tooltip-custom-text {
+.tooltip-custom-text-right {
   display: none;
   position: absolute;
-  min-width: 20vw;
-  max-width: 20vw;
+  width: max-content;
+  margin-top: 20px;
   border: 2px solid white;
   border-radius: 10px;
-  padding: 5px;
+  padding: 5px 15px;
   font-size: 1em;
   color: black;
   background: #f4f3ef !important;
+  z-index: 1;
 }
 
-.tooltip-custom:hover .tooltip-custom-text {
-  display: block;
+
+.tooltip-custom-text-left {
+  display: none;
+  position: absolute;
+  width: max-content;
+  margin-top: 20px;
+  transform: translateX(-100%);
+  border: 2px solid white;
+  border-radius: 10px;
+  padding: 5px 15px;
+  font-size: 1em;
+  color: black;
+  background: #f4f3ef !important;
+  z-index: 1;
+}
+
+
+.tooltip-custom:hover .tooltip-custom-text-right {
+  display: inline;
+}
+
+
+
+.tooltip-custom:hover .tooltip-custom-text-left {
+  display: inline;
 }
 </style>
