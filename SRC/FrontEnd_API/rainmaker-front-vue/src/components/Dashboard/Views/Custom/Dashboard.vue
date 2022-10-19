@@ -538,7 +538,11 @@ export default {
       let date_labels = [];
       let data_series = [];
 
-      console.log(" 날짜 차이는 ", (end_date.getTime() - start_date.getTime()) / (1000*60*60*24) );
+      let diffDate = (end_date.getTime() - start_date.getTime()) / (1000*60*60*24);
+      let week = diffDate/7;
+      let other = diffDate - week;
+
+
       while (start_date <= end_date) {
         date_labels.push(this.dateFormat(start_date));
         data_series.push(info[this.dateFormat(start_date)] || 0);
