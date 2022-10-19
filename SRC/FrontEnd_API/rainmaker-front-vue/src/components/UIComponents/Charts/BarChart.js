@@ -30,7 +30,7 @@ export default {
                 yValue = 0;
               }
 
-              ctx.lineWidth = 2;
+              ctx.lineWidth = 1;
               if (yValue) {
                 ctx.beginPath();
                 ctx.moveTo(50, yValue);
@@ -41,7 +41,7 @@ export default {
 
               if (line.text) {
                 ctx.fillStyle = style;
-                ctx.setLineDash([10]);
+                ctx.setLineDash([3]);
                 ctx.font = "15px sans-serif";
                 // ctx.fillText(line.text, canvas.width - 50, yValue - ctx.lineWidth - 3);
               }
