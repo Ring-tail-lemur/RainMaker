@@ -4,10 +4,15 @@
 
 @use 'sass:math';
 
+@font-face {
+  font-family: 'Nanum Gothic Coding';
+  unicode-range: U+AC00-D7A3;
+}
+
 $font-color:                 #66615b !default;
 $fill-font-color:            rgba(255, 255, 255, 0.8);
 $font-family-sans-serif:     'Montserrat', "Helvetica", Arial, sans-serif;
-$sans-serif-family:          'Montserrat', 'Helvetica Neue',  Arial, sans-serif;
+$sans-serif-family:          'Nanum Gothic Coding', 'Montserrat', 'Helvetica Neue', Arial, sans-serif;
 
 
 $none:                       0   !default;

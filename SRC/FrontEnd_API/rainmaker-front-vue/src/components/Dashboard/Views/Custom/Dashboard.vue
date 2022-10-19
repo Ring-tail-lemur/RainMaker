@@ -296,13 +296,13 @@ export default {
     getStackedColor(detailName) {
       switch (detailName) {
         case "codingTime":
-          return "#AC7088"
+          return "#874C62"
         case "pickupTime":
-          return "#DEB6AB"
+          return "#C98474"
         case "reviewTime":
-          return "#ECCCB2"
+          return "#F2D388"
         case "deployTime":
-          return "#F5E8C7"
+          return "#A7D2CB"
       }
     },
     typeChange(rate) {
@@ -485,7 +485,7 @@ export default {
         {
           label: 'pickup time',
           data: pickup_time,
-          backgroundColor: this.getStackedColor("codingTime"),
+          backgroundColor: this.getStackedColor("pickupTime"),
         },
         {
           label: 'review time',
