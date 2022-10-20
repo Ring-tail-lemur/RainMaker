@@ -57,6 +57,14 @@ jobs:
           pushd './${{ env.POM_XML_DIRECTORY }}'
           mvn clean package
           popd
+      
+      - name: '잘 있는지 확인 해봐야해요'
+        shell: pwsh
+        run : |
+          pushed './${{ env.POM_XML_DIRECTORY }}'
+          ls
+          
+
       - name: 'Run Azure Functions Action'
         uses: Azure/functions-action@v1
         with:
