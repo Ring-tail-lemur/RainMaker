@@ -714,10 +714,10 @@ export default {
       let week = parseInt(arr.length / 7);
       let day = arr.length % 7;
       if (day !== 0) {
-        ret.push([arr[0], arr[day - 1]]);
+        ret.push([arr[0], ' ~ ',arr[day - 1]]);
       }
       for (let i = 0; i < week; i++) {
-        ret.push([arr[7 * i + day], arr[(7 * (i + 1)) + day - 1]]);
+        ret.push([arr[7 * i + day], ' ~ ', arr[(7 * (i + 1)) + day - 1]]);
       }
       return ret;
     },

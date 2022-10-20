@@ -65,6 +65,11 @@ export default {
           tooltipCaretSize: 8,
           tooltipCornerRadius: 6,
           tooltipXOffset: 10,
+          callbacks: {
+            title: function(tooltipItems, data) {
+              return '기간: ' + tooltipItems[0].xLabel.join('');
+            },
+          }
         },
         legend: {
           display: false
