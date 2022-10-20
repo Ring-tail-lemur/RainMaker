@@ -24,10 +24,10 @@
                     type="neutral"
                     block
                     round>
-            {{unit}}
+            {{ unit }}
           </p-button>
-          <a class="dropdown-item" v-on:click="unit = '주'">주</a>
-          <a class="dropdown-item" v-on:click="unit = '일'">일</a>
+          <a class="dropdown-item" v-on:click="changeUnit('주')">주</a>
+          <a class="dropdown-item" v-on:click="changeUnit('일')">일</a>
         </drop-down>
       </div>
       <div class="col-sm-3">
@@ -199,15 +199,25 @@ export default {
   },
   data() {
     return {
-      unit : "주",
+      unit: "주",
       stacked: false,
       LeadTimeForChangeDetailDataSets: [],
+      LeadTimeForChangeDetailDataSetsDaily: [],
+      LeadTimeForChangeDetailDataSetsWeeks: [],
       LeadTimeForChange: {
         color: "#ef8156",
         rate: "seed",
         data: {
-          labels: [1, 2, 3, 4, 5, 6, 7, 8, 9, 0],
-          series: [542, 480, 430, 550, 530, 453, 380, 434, 568, 610]
+          labels: [],
+          series: []
+        },
+        day_data: {
+          labels: [],
+          series: []
+        },
+        week_data: {
+          labels: [],
+          series: []
         },
         drawBaseLine: {
           horizontalLine: [{
@@ -229,16 +239,16 @@ export default {
         color: "#41B883",
         rate: "fruit",
         data: {
-          labels: ["12pm", "3pm", "6pm", "9pm", "12am", "3am", "6am", "9am"],
-          series: [40, 500, 650, 700, 1200, 1250, 1300, 1900]
+          labels: [],
+          series: []
         },
         day_data: {
-          labels: ["12pm", "3pm", "6pm", "9pm", "12am", "3am", "6am", "9am"],
-          series: [40, 500, 650, 700, 1200, 1250, 1300, 1900]
+          labels: [],
+          series: []
         },
         week_data: {
-          labels: ["12pm", "3pm", "6pm", "9pm", "12am", "3am", "6am", "9am"],
-          series: [40, 500, 650, 700, 1200, 1250, 1300, 1900]
+          labels: [],
+          series: []
         },
         drawBaseLine: {
           horizontalLine: [{
@@ -260,8 +270,16 @@ export default {
         color: "#68B3C8",
         rate: "flower",
         data: {
-          labels: ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October"],
-          series: [80, 78, 86, 96, 83, 85, 76, 75, 88, 90]
+          labels: [],
+          series: []
+        },
+        day_data: {
+          labels: [],
+          series: []
+        },
+        week_data: {
+          labels: [],
+          series: []
         },
         drawBaseLine: {
           horizontalLine: [{
@@ -279,8 +297,16 @@ export default {
         color: "#fcc468",
         rate: "sprout",
         data: {
-          labels: ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October"],
-          series: [80, 78, 86, 96, 83, 85, 76, 75, 88, 90]
+          labels: [],
+          series: []
+        },
+        day_data: {
+          labels: [],
+          series: []
+        },
+        week_data: {
+          labels: [],
+          series: []
         },
         drawBaseLine: {
           horizontalLine: [{
@@ -507,7 +533,30 @@ export default {
         data_series.push(detail.totalValue);
         start_date.setDate(start_date.getDate() + 1);
       }
-      this.LeadTimeForChangeDetailDataSets = [
+
+      this.LeadTimeForChangeDetailDataSetsWeeks = [
+        {
+          label: 'coding time',
+          data: this.slice7DaysCalculateWithoutZero(coding_time),
+          backgroundColor: this.getStackedColor("codingTime"),
+        },
+        {
+          label: 'pickup time',
+          data: this.slice7DaysCalculateWithoutZero(pickup_time),
+          backgroundColor: this.getStackedColor("pickupTime"),
+        },
+        {
+          label: 'review time',
+          data: this.slice7DaysCalculateWithoutZero(review_time),
+          backgroundColor: this.getStackedColor("reviewTime"),
+        },
+        {
+          label: 'deploy time',
+          data: this.slice7DaysCalculateWithoutZero(deploy_time),
+          backgroundColor: this.getStackedColor("deployTime"),
+        },
+      ]
+      this.LeadTimeForChangeDetailDataSetsDaily = [
         {
           label: 'coding time',
           data: coding_time,
@@ -529,8 +578,16 @@ export default {
           backgroundColor: this.getStackedColor("deployTime"),
         },
       ]
-      this.LeadTimeForChange.data.labels = date_labels;
-      this.LeadTimeForChange.data.series = data_series;
+      this.LeadTimeForChangeDetailDataSets = this.LeadTimeForChangeDetailDataSetsWeeks;
+
+      let firstAndFinalDay = this.extractFirstAndFinalDay(date_labels);
+      let calculateWithoutZero = this.slice7DaysCalculateWithoutZero(data_series);
+      this.LeadTimeForChange.day_data.labels = date_labels;
+      this.LeadTimeForChange.day_data.series = data_series;
+      this.LeadTimeForChange.week_data.labels = firstAndFinalDay;
+      this.LeadTimeForChange.week_data.series = calculateWithoutZero;
+      this.LeadTimeForChange.data.labels = firstAndFinalDay;
+      this.LeadTimeForChange.data.series = calculateWithoutZero;
       this.LeadTimeForChange.rate = level;
       this.LeadTimeForChange.color = this.colorPickByLevel(level);
     },
@@ -538,8 +595,8 @@ export default {
       let date_labels = [];
       let data_series = [];
 
-      let diffDate = (end_date.getTime() - start_date.getTime()) / (1000*60*60*24);
-      let week = diffDate/7;
+      let diffDate = (end_date.getTime() - start_date.getTime()) / (1000 * 60 * 60 * 24);
+      let week = diffDate / 7;
       let other = diffDate - week;
 
 
@@ -550,11 +607,18 @@ export default {
       }
 
 
-      console.log("data_labels :", date_labels);
-      console.log("data_series :", data_series);
+      let slice7Days = this.slice7Days(data_series);
+      let firstAndFinalDay = this.extractFirstAndFinalDay(date_labels);
+      console.log("slice :", slice7Days);
+      console.log("firstAndFinalDay :", firstAndFinalDay);
 
-      this.DeploymentFrequency.data.labels = date_labels;
-      this.DeploymentFrequency.data.series = data_series;
+      this.DeploymentFrequency.week_data.labels = firstAndFinalDay;
+      this.DeploymentFrequency.week_data.series = slice7Days;
+      this.DeploymentFrequency.day_data.labels = date_labels;
+      this.DeploymentFrequency.day_data.series = data_series;
+
+      this.DeploymentFrequency.data.labels = firstAndFinalDay;
+      this.DeploymentFrequency.data.series = slice7Days;
       this.DeploymentFrequency.rate = level;
       this.DeploymentFrequency.color = this.colorPickByLevel(level);
     },
@@ -567,8 +631,14 @@ export default {
         data_series.push(info[this.dateFormat(start_date)] || 0);
         start_date.setDate(start_date.getDate() + 1);
       }
-      this.MTTR.data.labels = date_labels;
-      this.MTTR.data.series = data_series;
+      let firstAndFinalDay = this.extractFirstAndFinalDay(date_labels);
+      let calculateWithoutZero = this.slice7DaysCalculateWithoutZero(data_series);
+      this.MTTR.day_data.labels = date_labels;
+      this.MTTR.day_data.series = data_series;
+      this.MTTR.week_data.labels = firstAndFinalDay;
+      this.MTTR.week_data.series = calculateWithoutZero;
+      this.MTTR.data.labels = firstAndFinalDay;
+      this.MTTR.data.series = calculateWithoutZero;
       this.MTTR.rate = level;
       this.MTTR.color = this.colorPickByLevel(level);
     },
@@ -581,10 +651,92 @@ export default {
         data_series.push(info[this.dateFormat(start_date)] || 0);
         start_date.setDate(start_date.getDate() + 1);
       }
-      this.ChangeFailureRate.data.labels = date_labels;
-      this.ChangeFailureRate.data.series = data_series;
+      let firstAndFinalDay = this.extractFirstAndFinalDay(date_labels);
+      let calculateWithoutZero = this.slice7DaysCalculateWithoutZero(data_series);
+      console.log("calculateWithoutZero : ", calculateWithoutZero);
+      this.ChangeFailureRate.day_data.labels = date_labels;
+      this.ChangeFailureRate.day_data.series = data_series;
+      this.ChangeFailureRate.week_data.labels = firstAndFinalDay;
+      this.ChangeFailureRate.week_data.series = calculateWithoutZero;
+      this.ChangeFailureRate.data.labels = firstAndFinalDay;
+      this.ChangeFailureRate.data.series = calculateWithoutZero;
       this.ChangeFailureRate.rate = level;
       this.ChangeFailureRate.color = this.colorPickByLevel(level);
+    },
+    slice7Days(arr) {
+      arr = arr.map(element => {
+        return element || 0
+      });
+      let ret = [];
+      let week = parseInt(arr.length / 7);
+      let day = arr.length % 7;
+      let sum = 0;
+      if (day !== 0) {
+        arr.slice(0, day).forEach(element => sum += element);
+        ret.push(sum / day);
+      }
+      for (let i = 0; i < week; i++) {
+        sum = 0;
+        arr.slice(7 * i + day, 7 * (i + 1) + day).forEach(element => sum += element);
+        ret.push(sum / 7);
+      }
+      return ret;
+    },
+    slice7DaysCalculateWithoutZero(arr) {
+      arr = arr.map(element => {
+        return element || 0
+      });
+      let ret = [];
+      let week = parseInt(arr.length / 7);
+      let day = arr.length % 7;
+      let sum = 0;
+      let size = day;
+      if (day !== 0) {
+        arr.slice(0, day).forEach(element => {
+          if(element === 0) size--;
+          sum += element
+        });
+        size===0 ? ret.push(0) : ret.push(sum / size);
+      }
+      for (let i = 0; i < week; i++) {
+        sum = 0;
+        size = 7;
+        arr.slice(7 * i + day, 7 * (i + 1) + day).forEach(element => {
+          if(element === 0) size--;
+          sum += element
+        });
+        size===0 ? ret.push(0) : ret.push(sum / size);
+      }
+      return ret;
+    },
+    extractFirstAndFinalDay(arr) {
+      let ret = [];
+      let week = parseInt(arr.length / 7);
+      let day = arr.length % 7;
+      if (day !== 0) {
+        ret.push([arr[0], arr[day - 1]]);
+      }
+      for (let i = 0; i < week; i++) {
+        ret.push([arr[7 * i + day], arr[(7 * (i + 1)) + day - 1]]);
+      }
+      return ret;
+    },
+    changeUnit(unit) {
+      this.unit = unit;
+      if(unit === '주') {
+        this.LeadTimeForChangeDetailDataSets = this.LeadTimeForChangeDetailDataSetsWeeks;
+        this.LeadTimeForChange.data = this.LeadTimeForChange.week_data;
+        this.DeploymentFrequency.data = this.DeploymentFrequency.week_data;
+        this.ChangeFailureRate.data = this.ChangeFailureRate.week_data;
+        this.MTTR.data = this.MTTR.week_data;
+      }
+      if(unit === '일') {
+        this.LeadTimeForChangeDetailDataSets = this.LeadTimeForChangeDetailDataSetsDaily;
+        this.LeadTimeForChange.data = this.LeadTimeForChange.day_data;
+        this.DeploymentFrequency.data = this.DeploymentFrequency.day_data;
+        this.ChangeFailureRate.data = this.ChangeFailureRate.day_data;
+        this.MTTR.data = this.MTTR.day_data;
+      }
     }
   },
   async created() {
