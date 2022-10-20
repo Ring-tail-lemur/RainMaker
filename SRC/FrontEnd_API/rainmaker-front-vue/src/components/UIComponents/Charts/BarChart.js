@@ -67,8 +67,8 @@ export default {
           tooltipXOffset: 10,
           callbacks: {
             title: function(tooltipItems, data) {
-              return '기간: ' + tooltipItems[0].xLabel.join('');
-            },
+              return;
+            }
           }
         },
         legend: {
