@@ -638,14 +638,14 @@ export default {
 
       let slice7Days = this.slice7Days(data_series);
       let firstAndFinalDay = this.extractFirstAndFinalDay(date_labels);
-      console.log("slice :", slice7Days);
-      console.log("firstAndFinalDay :", firstAndFinalDay);
-
-      this.DeploymentFrequency.week_data.labels = firstAndFinalDay;
-      this.DeploymentFrequency.week_data.series = slice7Days;
+      console.log("slice :", data_series);
+      console.log("firstAndFinalDay :", date_labels);
+      console.log(this.DeploymentFrequency.day_data);
       this.DeploymentFrequency.day_data.labels = date_labels;
       this.DeploymentFrequency.day_data.series = data_series;
-
+      console.log(this.DeploymentFrequency.day_data);
+      this.DeploymentFrequency.week_data.labels = firstAndFinalDay;
+      this.DeploymentFrequency.week_data.series = slice7Days;
       this.DeploymentFrequency.data.labels = firstAndFinalDay;
       this.DeploymentFrequency.data.series = slice7Days;
       this.DeploymentFrequency.rate = level;
@@ -753,18 +753,18 @@ export default {
     changeUnit(unit) {
       this.unit = unit;
       if(unit === '주') {
-        this.LeadTimeForChangeDetailDataSets = this.LeadTimeForChangeDetailDataSetsWeeks;
-        this.LeadTimeForChange.data = this.LeadTimeForChange.week_data;
-        this.DeploymentFrequency.data = this.DeploymentFrequency.week_data;
-        this.ChangeFailureRate.data = this.ChangeFailureRate.week_data;
-        this.MTTR.data = this.MTTR.week_data;
+        this.LeadTimeForChangeDetailDataSets = JSON.parse(JSON.stringify(this.LeadTimeForChangeDetailDataSetsWeeks));
+        this.LeadTimeForChange.data = JSON.parse(JSON.stringify(this.LeadTimeForChange.week_data));
+        this.DeploymentFrequency.data = JSON.parse(JSON.stringify(this.DeploymentFrequency.week_data));
+        this.ChangeFailureRate.data = JSON.parse(JSON.stringify(this.ChangeFailureRate.week_data));
+        this.MTTR.data = JSON.parse(JSON.stringify(this.MTTR.week_data));
       }
       if(unit === '일') {
-        this.LeadTimeForChangeDetailDataSets = this.LeadTimeForChangeDetailDataSetsDaily;
-        this.LeadTimeForChange.data = this.LeadTimeForChange.day_data;
-        this.DeploymentFrequency.data = this.DeploymentFrequency.day_data;
-        this.ChangeFailureRate.data = this.ChangeFailureRate.day_data;
-        this.MTTR.data = this.MTTR.day_data;
+        this.LeadTimeForChangeDetailDataSets = JSON.parse(JSON.stringify(this.LeadTimeForChangeDetailDataSetsDaily));
+        this.LeadTimeForChange.data = JSON.parse(JSON.stringify(this.LeadTimeForChange.day_data));
+        this.DeploymentFrequency.data = JSON.parse(JSON.stringify(this.DeploymentFrequency.day_data));
+        this.ChangeFailureRate.data = JSON.parse(JSON.stringify(this.ChangeFailureRate.day_data));
+        this.MTTR.data = JSON.parse(JSON.stringify(this.MTTR.day_data));
       }
     }
   },
