@@ -1,6 +1,7 @@
 package com.ringtaillemur.rainmaker.service;
 
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
@@ -15,6 +16,7 @@ import java.util.stream.Collectors;
 
 import javax.transaction.Transactional;
 
+import org.apache.tomcat.websocket.AuthenticationException;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.security.core.Authentication;
@@ -362,9 +364,20 @@ public class UserConfigService {
 
 	@Transactional
 	public void setOAuthToken(String oAuthToken) throws Exception {
+		if (!verifyToken(oAuthToken)) {
+			throw new AuthenticationException("토큰이 유효하지 않습니다.");
+		}
 		OAuthUser currentUser = getCurrentUser();
 		currentUser.setOauthToken(oAuthToken);
 		changeOAuthLevel(currentUser);
+	}
+
+	private boolean verifyToken(String oAuthToken) throws IOException {
+		URL url = new URL("https://api.github.com/user");
+		HttpURLConnection connection = (HttpURLConnection)url.openConnection();
+		connection.setRequestMethod("GET");
+		connection.setRequestProperty("Authorization", String.format("Bearer %s", oAuthToken));
+		return connection.getResponseCode() == 200;
 	}
 
 	private void changeOAuthLevel(OAuthUser currentUser) {
