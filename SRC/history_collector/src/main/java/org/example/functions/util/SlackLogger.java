@@ -109,17 +109,9 @@ public class SlackLogger {
 	}
 
 	private String readJson() throws IOException {
-		try{
-			String slackSecret = readFile("static/slack-secret.json");
-			JSONObject slackSecretJSONObject = new JSONObject(slackSecret);
-			return slackSecretJSONObject.getString("slack_uri");
-		}catch (Exception e){
-			e.printStackTrace();
-			String slackSecret = readFile("slack-secret.json");
-			JSONObject slackSecretJSONObject = new JSONObject(slackSecret);
-			return slackSecretJSONObject.getString("slack_uri");
-
-		}
+		String slackSecret = readFile("static/slack-secret.json");
+		JSONObject slackSecretJSONObject = new JSONObject(slackSecret);
+		return slackSecretJSONObject.getString("slack_uri");
 	}
 
 	private String readFile(String filePath) throws IOException {
