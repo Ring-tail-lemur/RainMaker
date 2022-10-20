@@ -22,6 +22,7 @@
                     aria-haspopup="true"
                     aria-expanded="false"
                     type="neutral"
+                    style="border: 1px solid gainsboro"
                     block
                     round>
             {{ unit }}
@@ -450,6 +451,7 @@ export default {
       return axiosResponse.data;
     },
     submitButtonPush() {
+      this.unit = '주';
       try {
         this.getAllDoraMetric(this.dateFormat(this.startTime[0]), this.dateFormat(this.startTime[1]), this.selects.multiple);
       } catch (e) {
@@ -700,12 +702,12 @@ export default {
       let sum = 0;
       if (day !== 0) {
         arr.slice(0, day).forEach(element => sum += element);
-        ret.push(sum / day);
+        ret.push(sum);
       }
       for (let i = 0; i < week; i++) {
         sum = 0;
         arr.slice(7 * i + day, 7 * (i + 1) + day).forEach(element => sum += element);
-        ret.push(sum / 7);
+        ret.push(sum);
       }
       return ret;
     },
