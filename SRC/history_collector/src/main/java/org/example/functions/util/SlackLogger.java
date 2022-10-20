@@ -111,7 +111,7 @@ public class SlackLogger {
 
 	private String readJson() throws IOException {
 		try{
-			String slackSecret = readFile("static/slack-secret.json");
+			String slackSecret = readFile("/static/slack-secret.json");
 			JSONObject slackSecretJSONObject = new JSONObject(slackSecret);
 			return slackSecretJSONObject.getString("slack_uri");
 		}catch (Exception e){
@@ -125,7 +125,7 @@ public class SlackLogger {
 
 	private String readFile(String filePath) throws IOException {
 		System.out.println("now Reading File!");
-		InputStream input = ClassLoader.getSystemResourceAsStream(filePath);
+		InputStream input = this.getClass().getResourceAsStream(filePath);
 		ByteArrayOutputStream result = new ByteArrayOutputStream();
 		byte[] buffer = new byte[1024];
 		int length;
