@@ -1,21 +1,35 @@
 <template>
   <div v-if="waiting">
     <div class="row">
-      <div class="col-md-3">
-        <h4 class="card-title">시작 시간</h4>
+      <div class="col-md-4">
+        <h4 class="card-title">기간 선택</h4>
         <div class="form-group">
-          <el-date-picker v-model="startTime" type="date" placeholder="Pick a day"
+          <el-date-picker v-model="startTime" type="daterange" placeholder="Pick a day"
+                          start-placeholder="시작일"
+                          end-placeholder="종료일"
+                          align="right"
+                          range-separator="-"
                           :picker-options="{ disabledDate: (time) => disabledEndDate(time, null) }">
           </el-date-picker>
         </div>
       </div>
-      <div class="col-md-3">
-        <h4 class="card-title">끝 시간</h4>
-        <div class="form-group">
-          <el-date-picker v-model="endTime" type="date" placeholder="Pick a day"
-                          :picker-options="{ disabledDate: (time) => disabledEndDate(time, null) }">
-          </el-date-picker>
-        </div>
+      <div class="col-md-2">
+        <h4 class="card-title">단위</h4>
+        <drop-down>
+          <p-button slot="title"
+                    class="dropdown-toggle"
+                    data-toggle="dropdown"
+                    aria-haspopup="true"
+                    aria-expanded="false"
+                    type="neutral"
+                    style="border: 1px solid gainsboro"
+                    block
+                    round>
+            {{ unit }}
+          </p-button>
+          <a class="dropdown-item" v-on:click="changeUnit('주')">주</a>
+          <a class="dropdown-item" v-on:click="changeUnit('일')">일</a>
+        </drop-down>
       </div>
       <div class="col-sm-3">
         <h4 class="card-title">리포지토리 선택</h4>
@@ -46,6 +60,7 @@
                     chart-id="activity-chart"
                     :color="LeadTimeForChange.color"
                     :stacked="stacked"
+                    :suggestedMax="50000"
                     chart-title="Lead Time For Change"
                     :chart-options="LeadTimeForChange.drawBaseLine"
                     :class="'border-' + LeadTimeForChange.rate">
@@ -76,6 +91,7 @@
                     chart-id="emails-chart"
                     :color="DeploymentFrequency.color"
                     chart-title="Deployment Frequency"
+                    :suggestedMax="10"
                     :chart-options="DeploymentFrequency.drawBaseLine"
                     :class="'border-' + DeploymentFrequency.rate">
         <span slot="hover-slot" class="tooltip-custom">
@@ -100,6 +116,7 @@
                     chart-id="active-countries-chart"
                     :color="ChangeFailureRate.color"
                     chart-title="Change Failure Rate"
+                    :suggestedMax="1"
                     :chart-options="ChangeFailureRate.drawBaseLine"
                     :class="'border-' + ChangeFailureRate.rate">
         <span slot="hover-slot" class="tooltip-custom">
@@ -123,6 +140,7 @@
                     chart-id="active-countries-chart"
                     :color="MTTR.color"
                     chart-title="Mean Time To Recover"
+                    :suggestedMax="12000"
                     :chart-options="MTTR.drawBaseLine"
                     :class="'border-' + MTTR.rate">
           <span slot="hover-slot" class="tooltip-custom">
@@ -202,18 +220,32 @@ export default {
           this.startTime = '';
         }
       }
+    },
+    unit() {
+
     }
   },
   data() {
     return {
+      unit: "주",
       stacked: false,
       LeadTimeForChangeDetailDataSets: [],
+      LeadTimeForChangeDetailDataSetsDaily: [],
+      LeadTimeForChangeDetailDataSetsWeeks: [],
       LeadTimeForChange: {
         color: "#ef8156",
         rate: "seed",
         data: {
-          labels: [1, 2, 3, 4, 5, 6, 7, 8, 9, 0],
-          series: [542, 480, 430, 550, 530, 453, 380, 434, 568, 610]
+          labels: [],
+          series: []
+        },
+        day_data: {
+          labels: [],
+          series: []
+        },
+        week_data: {
+          labels: [],
+          series: []
         },
         drawBaseLine: {
           horizontalLine: [{
@@ -235,8 +267,16 @@ export default {
         color: "#41B883",
         rate: "fruit",
         data: {
-          labels: ["12pm", "3pm", "6pm", "9pm", "12am", "3am", "6am", "9am"],
-          series: [40, 500, 650, 700, 1200, 1250, 1300, 1900]
+          labels: [],
+          series: []
+        },
+        day_data: {
+          labels: [],
+          series: []
+        },
+        week_data: {
+          labels: [],
+          series: []
         },
         drawBaseLine: {
           horizontalLine: [{
@@ -258,8 +298,16 @@ export default {
         color: "#68B3C8",
         rate: "flower",
         data: {
-          labels: ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October"],
-          series: [80, 78, 86, 96, 83, 85, 76, 75, 88, 90]
+          labels: [],
+          series: []
+        },
+        day_data: {
+          labels: [],
+          series: []
+        },
+        week_data: {
+          labels: [],
+          series: []
         },
         drawBaseLine: {
           horizontalLine: [{
@@ -277,8 +325,16 @@ export default {
         color: "#fcc468",
         rate: "sprout",
         data: {
-          labels: ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October"],
-          series: [80, 78, 86, 96, 83, 85, 76, 75, 88, 90]
+          labels: [],
+          series: []
+        },
+        day_data: {
+          labels: [],
+          series: []
+        },
+        week_data: {
+          labels: [],
+          series: []
         },
         drawBaseLine: {
           horizontalLine: [{
@@ -378,7 +434,8 @@ export default {
         clearInterval(this.interval);
         await this.createdMethod()
       }
-    }, async getRepositoryInfo() {
+    },
+    async getRepositoryInfo() {
       let axiosResponse;
 
       try {
@@ -394,8 +451,9 @@ export default {
       return axiosResponse.data;
     },
     submitButtonPush() {
+      this.unit = '주';
       try {
-        this.getAllDoraMetric(this.dateFormat(this.startTime), this.dateFormat(this.endTime), this.selects.multiple);
+        this.getAllDoraMetric(this.dateFormat(this.startTime[0]), this.dateFormat(this.startTime[1]), this.selects.multiple);
       } catch (e) {
         alert("잘못 입력하셨습니다.");
         console.error(e);
@@ -433,7 +491,8 @@ export default {
       } else if (BodyData.hasOwnProperty('timeToRestoreServiceMap')) {
         return BodyData.timeToRestoreServiceMap;
       }
-    }, async getDoraMetric(start_time, end_time, repo_id, MetricName) {
+    },
+    async getDoraMetric(start_time, end_time, repo_id, MetricName) {
       console.log(MetricName + "이 들어왔네")
       const Message = await axios.get(this.custom.defaultURL + "/dorametric/" + MetricName, {
         headers: setHeaderJWT(),
@@ -503,7 +562,30 @@ export default {
         data_series.push(detail.totalValue);
         start_date.setDate(start_date.getDate() + 1);
       }
-      this.LeadTimeForChangeDetailDataSets = [
+
+      this.LeadTimeForChangeDetailDataSetsWeeks = [
+        {
+          label: 'coding time',
+          data: this.slice7DaysCalculateWithoutZero(coding_time),
+          backgroundColor: this.getStackedColor("codingTime"),
+        },
+        {
+          label: 'pickup time',
+          data: this.slice7DaysCalculateWithoutZero(pickup_time),
+          backgroundColor: this.getStackedColor("pickupTime"),
+        },
+        {
+          label: 'review time',
+          data: this.slice7DaysCalculateWithoutZero(review_time),
+          backgroundColor: this.getStackedColor("reviewTime"),
+        },
+        {
+          label: 'deploy time',
+          data: this.slice7DaysCalculateWithoutZero(deploy_time),
+          backgroundColor: this.getStackedColor("deployTime"),
+        },
+      ]
+      this.LeadTimeForChangeDetailDataSetsDaily = [
         {
           label: 'coding time',
           data: coding_time,
@@ -525,8 +607,16 @@ export default {
           backgroundColor: this.getStackedColor("deployTime"),
         },
       ]
-      this.LeadTimeForChange.data.labels = date_labels;
-      this.LeadTimeForChange.data.series = data_series;
+      this.LeadTimeForChangeDetailDataSets = this.LeadTimeForChangeDetailDataSetsWeeks;
+
+      let firstAndFinalDay = this.extractFirstAndFinalDay(date_labels);
+      let calculateWithoutZero = this.slice7DaysCalculateWithoutZero(data_series);
+      this.LeadTimeForChange.day_data.labels = date_labels;
+      this.LeadTimeForChange.day_data.series = data_series;
+      this.LeadTimeForChange.week_data.labels = firstAndFinalDay;
+      this.LeadTimeForChange.week_data.series = calculateWithoutZero;
+      this.LeadTimeForChange.data.labels = firstAndFinalDay;
+      this.LeadTimeForChange.data.series = calculateWithoutZero;
       this.LeadTimeForChange.rate = level;
       this.LeadTimeForChange.color = this.colorPickByLevel(level);
     },
@@ -534,13 +624,30 @@ export default {
       let date_labels = [];
       let data_series = [];
 
+      let diffDate = (end_date.getTime() - start_date.getTime()) / (1000 * 60 * 60 * 24);
+      let week = diffDate / 7;
+      let other = diffDate - week;
+
+
       while (start_date <= end_date) {
         date_labels.push(this.dateFormat(start_date));
         data_series.push(info[this.dateFormat(start_date)] || 0);
         start_date.setDate(start_date.getDate() + 1);
       }
-      this.DeploymentFrequency.data.labels = date_labels;
-      this.DeploymentFrequency.data.series = data_series;
+
+
+      let slice7Days = this.slice7Days(data_series);
+      let firstAndFinalDay = this.extractFirstAndFinalDay(date_labels);
+      console.log("slice :", data_series);
+      console.log("firstAndFinalDay :", date_labels);
+      console.log(this.DeploymentFrequency.day_data);
+      this.DeploymentFrequency.day_data.labels = date_labels;
+      this.DeploymentFrequency.day_data.series = data_series;
+      console.log(this.DeploymentFrequency.day_data);
+      this.DeploymentFrequency.week_data.labels = firstAndFinalDay;
+      this.DeploymentFrequency.week_data.series = slice7Days;
+      this.DeploymentFrequency.data.labels = firstAndFinalDay;
+      this.DeploymentFrequency.data.series = slice7Days;
       this.DeploymentFrequency.rate = level;
       this.DeploymentFrequency.color = this.colorPickByLevel(level);
     },
@@ -553,8 +660,14 @@ export default {
         data_series.push(info[this.dateFormat(start_date)] || 0);
         start_date.setDate(start_date.getDate() + 1);
       }
-      this.MTTR.data.labels = date_labels;
-      this.MTTR.data.series = data_series;
+      let firstAndFinalDay = this.extractFirstAndFinalDay(date_labels);
+      let calculateWithoutZero = this.slice7DaysCalculateWithoutZero(data_series);
+      this.MTTR.day_data.labels = date_labels;
+      this.MTTR.day_data.series = data_series;
+      this.MTTR.week_data.labels = firstAndFinalDay;
+      this.MTTR.week_data.series = calculateWithoutZero;
+      this.MTTR.data.labels = firstAndFinalDay;
+      this.MTTR.data.series = calculateWithoutZero;
       this.MTTR.rate = level;
       this.MTTR.color = this.colorPickByLevel(level);
     },
@@ -567,10 +680,92 @@ export default {
         data_series.push(info[this.dateFormat(start_date)] || 0);
         start_date.setDate(start_date.getDate() + 1);
       }
-      this.ChangeFailureRate.data.labels = date_labels;
-      this.ChangeFailureRate.data.series = data_series;
+      let firstAndFinalDay = this.extractFirstAndFinalDay(date_labels);
+      let calculateWithoutZero = this.slice7DaysCalculateWithoutZero(data_series);
+      console.log("calculateWithoutZero : ", calculateWithoutZero);
+      this.ChangeFailureRate.day_data.labels = date_labels;
+      this.ChangeFailureRate.day_data.series = data_series;
+      this.ChangeFailureRate.week_data.labels = firstAndFinalDay;
+      this.ChangeFailureRate.week_data.series = calculateWithoutZero;
+      this.ChangeFailureRate.data.labels = firstAndFinalDay;
+      this.ChangeFailureRate.data.series = calculateWithoutZero;
       this.ChangeFailureRate.rate = level;
       this.ChangeFailureRate.color = this.colorPickByLevel(level);
+    },
+    slice7Days(arr) {
+      arr = arr.map(element => {
+        return element || 0
+      });
+      let ret = [];
+      let week = parseInt(arr.length / 7);
+      let day = arr.length % 7;
+      let sum = 0;
+      if (day !== 0) {
+        arr.slice(0, day).forEach(element => sum += element);
+        ret.push(sum);
+      }
+      for (let i = 0; i < week; i++) {
+        sum = 0;
+        arr.slice(7 * i + day, 7 * (i + 1) + day).forEach(element => sum += element);
+        ret.push(sum);
+      }
+      return ret;
+    },
+    slice7DaysCalculateWithoutZero(arr) {
+      arr = arr.map(element => {
+        return element || 0
+      });
+      let ret = [];
+      let week = parseInt(arr.length / 7);
+      let day = arr.length % 7;
+      let sum = 0;
+      let size = day;
+      if (day !== 0) {
+        arr.slice(0, day).forEach(element => {
+          if(element === 0) size--;
+          sum += element
+        });
+        size===0 ? ret.push(0) : ret.push(sum / size);
+      }
+      for (let i = 0; i < week; i++) {
+        sum = 0;
+        size = 7;
+        arr.slice(7 * i + day, 7 * (i + 1) + day).forEach(element => {
+          if(element === 0) size--;
+          sum += element
+        });
+        size===0 ? ret.push(0) : ret.push(sum / size);
+      }
+      return ret;
+    },
+    extractFirstAndFinalDay(arr) {
+      let ret = [];
+      let week = parseInt(arr.length / 7);
+      let day = arr.length % 7;
+      if (day !== 0) {
+        ret.push([arr[0], ' ~ ',arr[day - 1]]);
+      }
+      for (let i = 0; i < week; i++) {
+        ret.push([arr[7 * i + day], ' ~ ', arr[(7 * (i + 1)) + day - 1]]);
+      }
+      return ret;
+    },
+    changeUnit(unit) {
+      this.unit = unit;
+      if(unit === '주') {
+        this.LeadTimeForChangeDetailDataSets = JSON.parse(JSON.stringify(this.LeadTimeForChangeDetailDataSetsWeeks));
+        this.LeadTimeForChange.data = JSON.parse(JSON.stringify(this.LeadTimeForChange.week_data));
+        this.DeploymentFrequency.data = JSON.parse(JSON.stringify(this.DeploymentFrequency.week_data));
+        this.ChangeFailureRate.data = JSON.parse(JSON.stringify(this.ChangeFailureRate.week_data));
+        this.MTTR.data = JSON.parse(JSON.stringify(this.MTTR.week_data));
+      }
+      if(unit === '일') {
+        this.LeadTimeForChangeDetailDataSets = JSON.parse(JSON.stringify(this.LeadTimeForChangeDetailDataSetsDaily));
+        this.LeadTimeForChange.data = JSON.parse(JSON.stringify(this.LeadTimeForChange.day_data));
+        this.DeploymentFrequency.data = JSON.parse(JSON.stringify(this.DeploymentFrequency.day_data));
+        this.ChangeFailureRate.data = JSON.parse(JSON.stringify(this.ChangeFailureRate.day_data));
+        this.MTTR.data = JSON.parse(JSON.stringify(this.MTTR.day_data));
+      }
     }
   },
   async created() {

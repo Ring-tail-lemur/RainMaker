@@ -65,6 +65,11 @@ export default {
           tooltipCaretSize: 8,
           tooltipCornerRadius: 6,
           tooltipXOffset: 10,
+          callbacks: {
+            title: function(tooltipItems, data) {
+              return;
+            }
+          }
         },
         legend: {
           display: false
@@ -77,7 +82,8 @@ export default {
               fontStyle: "bold",
               beginAtZero: true,
               maxTicksLimit: 5,
-              padding: 20
+              padding: 20,
+              suggestedMax: this.suggestedMax,
             },
             gridLines: {
               zeroLineColor: "transparent",
@@ -114,6 +120,7 @@ export default {
     }
   },
   props: {
+    suggestedMax: { type: Number },
     stacked: {type: Boolean},
     labels: {
       type: [Object, Array],
