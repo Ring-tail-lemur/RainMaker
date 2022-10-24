@@ -6,17 +6,8 @@ on:
     paths:
       - "SRC/BackEnd_API/**"
   workflow_dispatch:
-jobs:
-  build:
-    defaults:
-      run:
-        working-directory: "./SRC/BackEnd_API"
-    runs-on: windows-latest
-    
-    steps:
-      - uses: actions/checkout@v2
-        env:
-          BE-YML : '
+env:
+  BE-YML : '
             spring:
             datasource:
               driver-class-name: needToInsert
@@ -67,6 +58,15 @@ jobs:
               suffix: .html
             '
 
+jobs:
+  build:
+    defaults:
+      run:
+        working-directory: "./SRC/BackEnd_API"
+    runs-on: windows-latest
+    
+    steps:
+      - uses: actions/checkout@v2
       - name: 'Set Application.yml'
         shell: pwsh
         run: |
