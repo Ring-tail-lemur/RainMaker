@@ -1,5 +1,4 @@
 name: '[DEPLOY] BE SVR DEPLOY PIPELINE'
-
 on:
   push:
     branches:
@@ -7,7 +6,6 @@ on:
     paths:
       - "SRC/BackEnd_API/**"
   workflow_dispatch:
-
 jobs:
   build:
     defaults:
