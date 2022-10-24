@@ -17,7 +17,7 @@
         runs-on: windows-latest
         steps:
         - uses: actions/checkout@v2
-        - name: 'eventHubs Config 포함'
+        - name: 'insert configuration files'
           shell: pwsh
           run: |
             pushd './${{env.AZURE_FUNCTION_APP_PACKAGE_PATH}}'
@@ -50,16 +50,17 @@
                   "eventHubConnectionString" : ""
               } 
             ' >> event-hub-app-config.json
-            ls
-            cat ./event-hub-app-config.json
             popd
-        - uses: microsoft/variable-substitution@v1 
+
+        - name: 'EVENT_HUB_CONNECTION_STRING SUBSTITUTION'
+          uses: microsoft/variable-substitution@v1 
           with:
             files: '${{env.AZURE_FUNCTION_APP_PACKAGE_PATH}}HttpTrigger-node-test/event-hub/event-hub-app-config.json'
           env:
             eventHubConnectionString : ${{secrets.AZURE_EVENT_HUB_CONNECTION_STRING}}
 
-        - uses: microsoft/variable-substitution@v1 
+        - name: 'SLACK WEBHOOK URL SUBSTITUTION'
+          uses: microsoft/variable-substitution@v1 
           with:
             files: '${{env.AZURE_FUNCTION_APP_PACKAGE_PATH}}slack-config.json'
           env:
