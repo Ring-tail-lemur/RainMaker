@@ -6,6 +6,8 @@ on:
       - main
     paths:
       - "SRC/ETLs/analyst/**"
+  workflow_dispatch:
+
 
 env:
   AZURE_FUNCTIONAPP_NAME: github-analystics   
