@@ -27,7 +27,7 @@ jobs:
           ETL_URI: ${{secrets.ETL_SLACK_WEBHOOK_URI}}
         shell: pwsh
         run: |
-          pushd './${{ env.POM_XML_DIRECTORY }}src/main/'
+          pushd './${{ env.POM_XML_DIRECTORY }}/src/main/'
           mkdir resources
           mkdir resources/static
           mkdir resources/META-INF
