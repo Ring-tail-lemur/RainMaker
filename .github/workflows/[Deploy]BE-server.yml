@@ -1,4 +1,4 @@
-name: '[DEPLOY] BE SVR Code'
+name: '[DEPLOY] BE SVR DEPLOY PIPELINE'
 
 on:
   push:
