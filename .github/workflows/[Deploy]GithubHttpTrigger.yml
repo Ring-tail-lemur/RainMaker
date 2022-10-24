@@ -66,7 +66,8 @@
           env:
             slack-bot-uri: ${{secrets.GL_SLACK_WEBHOOK_URI}}
 
-        - uses: microsoft/variable-substitution@v1 
+        - name: 'MS SQL CONFIGURATION SUBSTITUTION'
+          uses: microsoft/variable-substitution@v1 
           with:
             files: '${{env.AZURE_FUNCTION_APP_PACKAGE_PATH}}ms-sql-config.json'
           env:
