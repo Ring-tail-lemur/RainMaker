@@ -7,56 +7,56 @@ on:
       - "SRC/BackEnd_API/**"
   workflow_dispatch:
 env:
-  BE-YML : '
-            spring:
-            datasource:
-              driver-class-name: needToInsert
-              url: needToInsert
-              username: needToInsert
-              password: needToInsert
-            security:
-              oauth2:
-                client:
-                  registration:
-                    github:
-                      redirectUri: "needToInsert"
-                      clientId: needToInsert
-                      clientSecret: needToInsert
-                      scope:
-                        - repo
-                        - repo:status
-                        - repo_deployment
-                        - public_repo
-                        - repo:invite
-                        - admin:repo_hook
-                        - write:repo_hook
-                        - read:repo_hook
-                        - admin:org
-                        - admin:public_key
-            dev:
-              frontendUri : "http://127.0.0.1:3000"
-              backendUri : "http://127.0.0.1:8080"
-            jpa:
-              database: sql-server
-              show-sql: true
+  BE-YML: '
+          spring:
+          datasource:
+            driver-class-name: needToInsert
+            url: needToInsert
+            username: needToInsert
+            password: needToInsert
+          security:
+            oauth2:
+              client:
+                registration:
+                  github:
+                    redirectUri: "needToInsert"
+                    clientId: needToInsert
+                    clientSecret: needToInsert
+                    scope:
+                      - repo
+                      - repo:status
+                      - repo_deployment
+                      - public_repo
+                      - repo:invite
+                      - admin:repo_hook
+                      - write:repo_hook
+                      - read:repo_hook
+                      - admin:org
+                      - admin:public_key
+          dev:
+            frontendUri : "http://127.0.0.1:3000"
+            backendUri : "http://127.0.0.1:8080"
+          jpa:
+            database: sql-server
+            show-sql: true
+            hibernate:
+              ddl-auto: none
+            properties:
               hibernate:
-                ddl-auto: none
-              properties:
-                hibernate:
-                  format_sql: true
-                  show_sql: true
-                  dialect: org.hibernate.dialect.SQLServer2012Dialect
-              open-in-view: false
-            h2:
-              console:
-                enabled: true
-                path: /h2
-            thymeleaf:
-              cache: false
-              check-template-location: true
-              prefix: classpath:/templates/
-              suffix: .html
-            '
+                format_sql: true
+                show_sql: true
+                dialect: org.hibernate.dialect.SQLServer2012Dialect
+            open-in-view: false
+          h2:
+            console:
+              enabled: true
+              path: /h2
+          thymeleaf:
+            cache: false
+            check-template-location: true
+            prefix: classpath:/templates/
+            suffix: .html
+          '
 
 jobs:
   build:
