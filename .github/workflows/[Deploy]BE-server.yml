@@ -1,4 +1,4 @@
-name: '[DEPLOY] BE SVR DEPLOY PIPELINE'
+# name: '[DEPLOY] BE SVR DEPLOY PIPELINE'
 on:
   push:
     branches:
