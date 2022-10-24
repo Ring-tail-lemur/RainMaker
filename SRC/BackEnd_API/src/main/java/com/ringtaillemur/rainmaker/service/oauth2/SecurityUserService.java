@@ -9,15 +9,21 @@ import java.util.HashSet;
 import java.util.Optional;
 import java.util.Set;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -28,16 +34,54 @@ import com.google.gson.GsonBuilder;
 import com.ringtaillemur.rainmaker.domain.OAuthUser;
 import com.ringtaillemur.rainmaker.domain.enumtype.OauthUserLevel;
 import com.ringtaillemur.rainmaker.dto.configdto.DeployProperties;
+import com.ringtaillemur.rainmaker.dto.securitydto.LoginUser;
+import com.ringtaillemur.rainmaker.dto.securitydto.SessionMemory;
 import com.ringtaillemur.rainmaker.repository.OAuthRepository;
 
+import lombok.RequiredArgsConstructor;
+
 @Service
+@RequiredArgsConstructor
 public class SecurityUserService {
 
-	@Autowired
-	OAuthRepository oAuthRepository;
+	private final OAuthRepository oAuthRepository;
+	private final DeployProperties deployProperties;
+	private final SessionMemory sessionMemory;
 
-	@Autowired
-	DeployProperties deployProperties;
+	public String getUserSession(String code, HttpServletRequest req) throws IOException {
+		String userGithubToken = getUserGitHubOAuthToken(code);
+
+		//http GET을 통하여 Github 고유 JWT 가져오는 메서드
+		String userInfoLine = getUserInfoWithToken(userGithubToken);
+		// userInfoLine -> OauthUser로 변환(OauthUserLevel == FIRST_AUTH_USER)
+		OAuthUser nowLoginUser = stringToUserFirstAuthUserEntity(
+			userInfoLine, userGithubToken.replace("\"", ""));
+		//Repository 에 들어가 있는 상태의 OauthUser Entity 리턴
+		Optional<OAuthUser> nowUser = checkDuplicationAndCommitUser(nowLoginUser);
+
+		LoginUser newLoginUser = new LoginUser(nowUser.get());
+		HttpSession httpSession = req.getSession();
+		httpSession.setAttribute("user", newLoginUser);
+		sessionMemory.loginUserHashMap.put(httpSession.getId(), newLoginUser);
+		return httpSession.getId();
+	}
+
+	public void logout() {
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
+		String tmp = null;
+		Long userRemoteId = Long.parseLong((String)authentication.getPrincipal());
+		for (String key : sessionMemory.loginUserHashMap.keySet()) {
+			Long sessionRemoteId = sessionMemory.loginUserHashMap.get(key).getUserRemoteId();
+			if (userRemoteId.equals(sessionRemoteId)) {
+				tmp = key;
+				break;
+			}
+		}
+		if (tmp != null) {
+			sessionMemory.loginUserHashMap.remove(tmp);
+		}
+	}
 
 	public Set<SimpleGrantedAuthority> setAuthorities(OauthUserLevel oauthUserLevel) {
 		Set<SimpleGrantedAuthority> grantedAuthorities = new HashSet<>();
