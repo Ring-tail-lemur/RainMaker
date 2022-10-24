@@ -1,4 +1,4 @@
-name:  '[PRACTICE] ETL Code'
+name:  '[DEPLOY] ETL Code'
 
 on:
   push:
@@ -6,14 +6,19 @@ on:
       - main
     paths:
       - "SRC/ETLs/analyst/**"
-  workflow_dispatch:
 
-
+# CONFIGURATION
+# For help, go to https://github.com/Azure/Actions
+#
+# 1. Set up the following secrets in your repository:
+#   AZURE_FUNCTIONAPP_PUBLISH_PROFILE
+#
+# 2. Change these variables for your configuration:
 env:
-  AZURE_FUNCTIONAPP_NAME: github-analystics   
+  AZURE_FUNCTIONAPP_NAME: github-analystics     # set this to your function app name on Azure
   POM_XML_DIRECTORY: 'SRC/ETLs/analyst'
   POM_FUNCTIONAPP_NAME: analyst-1659606593521
-  JAVA_VERSION: '11.x.x'                      
+  JAVA_VERSION: '11.x.x'                      # set this to the java version to use
 
 jobs:
   build-and-deploy:
@@ -24,21 +29,34 @@ jobs:
       - name: 'reset persistence.xml'
         env:
           SUPER_PERSISTENCE: ${{secrets.DATABASE_PERSISTENCE_XML}}
-          ETL_URI: ${{secrets.ETL_SLACK_WEBHOOK_URI}}
         shell: pwsh
         run: |
-          pushd './${{ env.POM_XML_DIRECTORY }}/src/main/'
-          mkdir resources
-          mkdir resources/static
-          mkdir resources/META-INF
+          pushd './${{ env.POM_XML_DIRECTORY }}'
           echo '
             {
-              "slack_uri" : "${{env.ETL_URI}}"
+              "slack_uri" : "${{secrets.ETL_SLACK_WEBHOOK_URI}}"
+            }
+          ' >> ./slack-secret.json
+          pushd './'
+          echo '
+            {
+              "slack_uri" : "${{secrets.ETL_SLACK_WEBHOOK_URI}}"
+            }
+          ' >> ./src/main/java/com/ringtaillemur/analyst/restapi/slack-secret.json
+          pushd './src/main/'
+          mkdir resources
+          mkdir resources/static
+          mkdir ./resources/META-INF
+          echo '
+            {
+              "slack_uri" : "${{secrets.ETL_SLACK_WEBHOOK_URI}}"
             }
           ' >> ./resources/static/slack-secret.json
+          ls ./resources/
           echo '${{env.SUPER_PERSISTENCE}}' >> ./resources/META-INF/persistence.xml
           chmod 777 ./resources/META-INF/persistence.xml
           ls ./resources/META-INF/persistence.xml
+          popd
       - name: Setup Java Sdk ${{ env.JAVA_VERSION }}
         uses: actions/setup-java@v1
         with:
@@ -58,3 +76,4 @@ jobs:
           app-name: ${{ env.AZURE_FUNCTIONAPP_NAME }}
           package: './${{ env.POM_XML_DIRECTORY }}/target/azure-functions/${{ env.POM_FUNCTIONAPP_NAME }}'
           publish-profile: ${{ secrets.AZURE_FUNCTIONAPP_PUBLISH_PROFILE_ETL }}
+ 
