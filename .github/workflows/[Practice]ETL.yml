@@ -1,0 +1,58 @@
+name:  '[PRACTICE] ETL Code'
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - "SRC/ETLs/analyst/**"
+
+env:
+  AZURE_FUNCTIONAPP_NAME: github-analystics   
+  POM_XML_DIRECTORY: 'SRC/ETLs/analyst'
+  POM_FUNCTIONAPP_NAME: analyst-1659606593521
+  JAVA_VERSION: '11.x.x'                      
+
+jobs:
+  build-and-deploy:
+    runs-on: windows-latest
+    environment: dev
+    steps:
+      - uses: actions/checkout@master
+      - name: 'reset persistence.xml'
+        env:
+          SUPER_PERSISTENCE: ${{secrets.DATABASE_PERSISTENCE_XML}}
+          ETL_URI: ${{secrets.ETL_SLACK_WEBHOOK_URI}}
+        shell: pwsh
+        run: |
+          pushd './${{ env.POM_XML_DIRECTORY }}src/main/'
+          mkdir resources
+          mkdir resources/static
+          mkdir resources/META-INF
+          echo '
+            {
+              "slack_uri" : "${{env.ETL_URI}}"
+            }
+          ' >> ./resources/static/slack-secret.json
+          echo '${{env.SUPER_PERSISTENCE}}' >> ./resources/META-INF/persistence.xml
+          chmod 777 ./resources/META-INF/persistence.xml
+          ls ./resources/META-INF/persistence.xml
+      - name: Setup Java Sdk ${{ env.JAVA_VERSION }}
+        uses: actions/setup-java@v1
+        with:
+          java-version: ${{ env.JAVA_VERSION }}
+
+      - name: 'Restore Project Dependencies Using Mvn'
+        env:
+          SUPER_PERSISTENCE: ${{secrets.DATABASE_PERSISTENCE_XML}}
+        shell: pwsh
+        run: |
+          pushd './${{ env.POM_XML_DIRECTORY }}'
+          mvn clean package
+          popd
+      - name: 'Run Azure Functions Action'
+        uses: Azure/functions-action@v1
+        with:
+          app-name: ${{ env.AZURE_FUNCTIONAPP_NAME }}
+          package: './${{ env.POM_XML_DIRECTORY }}/target/azure-functions/${{ env.POM_FUNCTIONAPP_NAME }}'
+          publish-profile: ${{ secrets.AZURE_FUNCTIONAPP_PUBLISH_PROFILE_ETL }}
