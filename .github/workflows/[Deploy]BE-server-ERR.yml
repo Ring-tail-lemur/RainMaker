@@ -1,0 +1,113 @@
+name: '[DEPLOY] BE SVR DEPLOY PIPELINE'
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - "SRC/BackEnd_API/**"
+  workflow_dispatch:
+env:
+  BE-YML : '
+            spring:
+            datasource:
+              driver-class-name: needToInsert
+              url: needToInsert
+              username: needToInsert
+              password: needToInsert
+            security:
+              oauth2:
+                client:
+                  registration:
+                    github:
+                      redirectUri: "needToInsert"
+                      clientId: needToInsert
+                      clientSecret: needToInsert
+                      scope:
+                        - repo
+                        - repo:status
+                        - repo_deployment
+                        - public_repo
+                        - repo:invite
+                        - admin:repo_hook
+                        - write:repo_hook
+                        - read:repo_hook
+                        - admin:org
+                        - admin:public_key
+            dev:
+              frontendUri : "http://127.0.0.1:3000"
+              backendUri : "http://127.0.0.1:8080"
+            jpa:
+              database: sql-server
+              show-sql: true
+              hibernate:
+                ddl-auto: none
+              properties:
+                hibernate:
+                  format_sql: true
+                  show_sql: true
+                  dialect: org.hibernate.dialect.SQLServer2012Dialect
+              open-in-view: false
+            h2:
+              console:
+                enabled: true
+                path: /h2
+            thymeleaf:
+              cache: false
+              check-template-location: true
+              prefix: classpath:/templates/
+              suffix: .html
+            '
+
+jobs:
+  build:
+    defaults:
+      run:
+        working-directory: "./SRC/BackEnd_API"
+    runs-on: windows-latest
+    
+    steps:
+      - uses: actions/checkout@v2
+      - name: 'Set Application.yml'
+        shell: pwsh
+        run: |
+          pushd './src/main/resources/'
+          echo '${{env.BE-YML}}' >> ./application.yml
+          chmod 777 ./application.yml
+          ls
+          cat ./application.yml
+          pwd
+          popd
+
+      - name: 'BE SERVER APPLICATION YML SUBTITUTION'
+        uses: microsoft/variable-substitution@v1 
+        with:
+          files: 'D:\a\RainMaker\RainMaker\SRC\BackEnd_API\src\main\resources\application.yml'
+        env:
+          spring.datasource.driver-class-name : ${{secrets.APPLICATION_YML_DATASOURCE_DRIVER_CLASS_NAME}}
+          spring.datasource.url : ${{secrets.APPLICATION_YML_DATASOURCE_URL}}
+          spring.datasource.username : ${{secrets.APPLICATION_YML_DATASOURCE_USERNAME}}
+          spring.datasource.password : ${{secrets.APPLICATION_YML_DATASOURCE_PASSWORD}}
+          spring.security.oauth2.client.registration.github.redirectUri : ${{secrets.APPLICATION_YML_REDIRECT_URL}}
+          spring.security.oauth2.client.registration.github.clientId : ${{secrets.APPLICATION_YML_CLIENT_ID}}
+          spring.security.oauth2.client.registration.github.clientSecret : ${{secrets.APPLICATION_YML_CLIENT_SECRET}}
+          spring.dev.frontendUri : ${{secrets.APPLICATION_YML_FRONTEND_URI}}
+          spring.dev.backendUri : ${{secrets.APPLICATION_YML_BACKEND_URI}}
+
+      - name: Set up Java version
+        uses: actions/setup-java@v1
+        with:
+          java-version: '17'
+
+      - name: Build with Gradle without test
+        shell: pwsh
+        run: |
+          ./gradlew bootJar
+
+      - name: Deploy to Azure Web App
+        id: deploy-to-webapp
+        uses: azure/webapps-deploy@v2
+        with:
+          app-name: 'spring-api-server'
+          slot-name: 'Production'
+          publish-profile: ${{ secrets.BACKEND_PUBLISH }}
+          package: '**/libs/*.jar'
