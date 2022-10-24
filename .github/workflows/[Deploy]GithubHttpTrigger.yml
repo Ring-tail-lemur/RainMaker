@@ -6,6 +6,7 @@
           - main
         paths: 
           - "SRC/HTTP_Hook_Listeners/githubWebhookTrigger/**"
+      workflow_dispatch:
     env:
       AZURE_FUNCTION_APP_NAME: swm-project-github-webhook    # set this to your application's name
       AZURE_FUNCTION_APP_PACKAGE_PATH: './SRC/HTTP_Hook_Listeners/githubWebhookTrigger/'      # set this to the path to your web app project, defaults to the repository root
