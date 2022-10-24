@@ -1,4 +1,5 @@
-name: '[DEPLOY] BE SVR DEPLOY PIPELINE'
+name: '[DEPLOY] BE SVR Code'
+
 on:
   push:
     branches:
@@ -6,6 +7,7 @@ on:
     paths:
       - "SRC/BackEnd_API/**"
   workflow_dispatch:
+
 jobs:
   build:
     defaults:
@@ -16,22 +18,18 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: 'Set Application.yml'
-        env:
-          BE-YML: ${{ secrets.JAVA_SPRING_BE_APPLICATION_YML}}
         shell: pwsh
         run: |
           pushd './src/main/resources/'
-          echo '${{env.BE-YML}}' >> ./application.yml
+          echo '${{secrets.JAVA_SPRING_BE_APPLICATION_YML}}' >> ./application.yml
           chmod 777 ./application.yml
           ls
           cat ./application.yml
           pwd
           popd
-
-      - name: 'BE SERVER APPLICATION YML SUBTITUTION'
-        uses: microsoft/variable-substitution@v1 
+      - uses: microsoft/variable-substitution@v1 
         with:
-          files: 'D:\a\RainMaker\RainMaker\SRC\BackEnd_API\src\main\resources\application.yml, application.yml'
+          files: 'D:\a\RainMaker\RainMaker\SRC\BackEnd_API\src\main\resources/application.yml'
         env:
           spring.datasource.driver-class-name : ${{secrets.APPLICATION_YML_DATASOURCE_DRIVER_CLASS_NAME}}
           spring.datasource.url : ${{secrets.APPLICATION_YML_DATASOURCE_URL}}
@@ -42,7 +40,6 @@ jobs:
           spring.security.oauth2.client.registration.github.clientSecret : ${{secrets.APPLICATION_YML_CLIENT_SECRET}}
           spring.dev.frontendUri : ${{secrets.APPLICATION_YML_FRONTEND_URI}}
           spring.dev.backendUri : ${{secrets.APPLICATION_YML_BACKEND_URI}}
-
       - name: Set up Java version
         uses: actions/setup-java@v1
         with:
