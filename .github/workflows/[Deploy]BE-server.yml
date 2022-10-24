@@ -1,4 +1,4 @@
-name: '[PRACTICE] BE SVR Code'
+name: '[DEPLOY] BE SVR Code'
 
 on:
   push:
