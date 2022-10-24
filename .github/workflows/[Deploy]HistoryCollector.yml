@@ -7,18 +7,11 @@ on:
     paths:
       - "SRC/history_collector/**"
 
-# CONFIGURATION
-# For help, go to https://github.com/Azure/Actions
-#
-# 1. Set up the following secrets in your repository:
-#   AZURE_FUNCTIONAPP_PUBLISH_PROFILE
-#
-# 2. Change these variables for your configuration:
 env:
-  AZURE_FUNCTIONAPP_NAME: github-history-collector     # set this to your function app name on Azure
+  AZURE_FUNCTIONAPP_NAME: github-history-collector   
   POM_XML_DIRECTORY: 'SRC/history_collector'
   POM_FUNCTIONAPP_NAME: historycollector-1661914840110
-  JAVA_VERSION: '11.x.x'                      # set this to the java version to use
+  JAVA_VERSION: '11.x.x'            
 
 jobs:
   build-and-deploy:
