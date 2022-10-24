@@ -1,4 +1,4 @@
-# name: '[DEPLOY] BE SVR DEPLOY PIPELINE'
+name: '[DEPLOY] BE SVR DEPLOY PIPELINE'
 on:
   push:
     branches:
@@ -15,7 +15,7 @@ jobs:
     
     steps:
       - uses: actions/checkout@v2
-      - env:
+        env:
           BE-YML : '
             spring:
             datasource:
