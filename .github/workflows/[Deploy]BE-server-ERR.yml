@@ -5,7 +5,8 @@ on:
       - main
     paths:
       - "SRC/BackEnd_API/**"
-      
+  workflow_dispatch:
+
 env:
   BE-YML: '
           spring:
