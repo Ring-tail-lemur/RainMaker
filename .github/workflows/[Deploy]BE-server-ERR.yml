@@ -19,53 +19,53 @@ jobs:
         env:
           BE-YML: '
             spring:
-            datasource:
-              driver-class-name: needToInsert
-              url: needToInsert
-              username: needToInsert
-              password: needToInsert
-            security:
-              oauth2:
-                client:
-                  registration:
-                    github:
-                      redirectUri: "needToInsert"
-                      clientId: needToInsert
-                      clientSecret: needToInsert
-                      scope:
-                        - repo
-                        - repo:status
-                        - repo_deployment
-                        - public_repo
-                        - repo:invite
-                        - admin:repo_hook
-                        - write:repo_hook
-                        - read:repo_hook
-                        - admin:org
-                        - admin:public_key
-            dev:
-              frontendUri : "http://127.0.0.1:3000"
-              backendUri : "http://127.0.0.1:8080"
-            jpa:
-              database: sql-server
-              show-sql: true
-              hibernate:
-                ddl-auto: none
-              properties:
+              datasource:
+                driver-class-name: needToInsert
+                url: needToInsert
+                username: needToInsert
+                password: needToInsert
+              security:
+                oauth2:
+                  client:
+                    registration:
+                      github:
+                        redirectUri: "needToInsert"
+                        clientId: needToInsert
+                        clientSecret: needToInsert
+                        scope:
+                          - repo
+                          - repo:status
+                          - repo_deployment
+                          - public_repo
+                          - repo:invite
+                          - admin:repo_hook
+                          - write:repo_hook
+                          - read:repo_hook
+                          - admin:org
+                          - admin:public_key
+              dev:
+                frontendUri : "http://127.0.0.1:3000"
+                backendUri : "http://127.0.0.1:8080"
+              jpa:
+                database: sql-server
+                show-sql: true
                 hibernate:
-                  format_sql: true
-                  show_sql: true
-                  dialect: org.hibernate.dialect.SQLServer2012Dialect
-              open-in-view: false
-            h2:
-              console:
-                enabled: true
-                path: /h2
-            thymeleaf:
-              cache: false
-              check-template-location: true
-              prefix: classpath:/templates/
-              suffix: .html
+                  ddl-auto: none
+                properties:
+                  hibernate:
+                    format_sql: true
+                    show_sql: true
+                    dialect: org.hibernate.dialect.SQLServer2012Dialect
+                open-in-view: false
+              h2:
+                console:
+                  enabled: true
+                  path: /h2
+              thymeleaf:
+                cache: false
+                check-template-location: true
+                prefix: classpath:/templates/
+                suffix: .html
             '
         shell: pwsh
         run: |
@@ -80,7 +80,7 @@ jobs:
       - name: 'BE SERVER APPLICATION YML SUBTITUTION'
         uses: microsoft/variable-substitution@v1 
         with:
-          files: 'D:\a\RainMaker\RainMaker\SRC\BackEnd_API\src\main\resources\application.yml'
+          files: 'D:\a\RainMaker\RainMaker\SRC\BackEnd_API\src\main\resources\application.yml, application.yml'
         env:
           spring.datasource.driver-class-name : ${{secrets.APPLICATION_YML_DATASOURCE_DRIVER_CLASS_NAME}}
           spring.datasource.url : ${{secrets.APPLICATION_YML_DATASOURCE_URL}}
