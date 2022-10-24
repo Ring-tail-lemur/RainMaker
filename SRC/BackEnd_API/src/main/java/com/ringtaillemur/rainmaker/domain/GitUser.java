@@ -15,6 +15,5 @@ public class GitUser extends BaseEntity {
 	@Id
 	@Column(name = "git_user_id")
 	private Long id;
-
 	private String name;
 }
