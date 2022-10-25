@@ -19,7 +19,7 @@
           - uses: actions/checkout@v2
 
           - name: 'push slack-secret / ms-config.js'
-            shell: shell
+            shell: bash
             run: |
               pushd ./${{ env.AZURE_FUNCTION_APP_PACKAGE_PATH}}
               echo ' 
