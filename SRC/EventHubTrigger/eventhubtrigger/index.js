@@ -12,7 +12,7 @@ module.exports = async function (context, eventGridEvent) {
         context.log(fileUrl);
         const documents = await blobExtractor.blobModule(fileUrl,context);
         context.log(documents);
-        // documents는 json모양의 object이다..
+        // documents는 json모양의 object이다.
         for (const element of documents) {
             await controllerModule.controllerMain(element, context, dbConnectionPool);
         }
