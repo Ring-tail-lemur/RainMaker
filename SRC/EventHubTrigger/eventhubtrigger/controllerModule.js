@@ -46,13 +46,9 @@ async function controllerMain(eventObj, context, pool){
             await issueMainModule.issueMain(pool, eventObj, context);
             context.log("issue insert(or delete or edit) ");
         }
-
-        // await deduplicationRepository.insertDeduplication(pool, eventObj.id);
     } catch (e) {
         err_log_module.log(e, "main.js");
         console.log(e);
-    } finally {
-
     }
 
 }

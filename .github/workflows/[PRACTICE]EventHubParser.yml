@@ -68,7 +68,7 @@
               node-version: ${{ env.NODE_VERSION }}
 
           - name: 'Resolve Project Dependencies Using Npm'
-            shell: pwsh
+            shell: bash
             run: |
               pushd './${{ env.AZURE_FUNCTION_APP_PACKAGE_PATH }}'
               npm install
@@ -80,4 +80,4 @@
             with:
               app-name: ${{ env.AZURE_FUNCTION_APP_NAME }}
               package: ${{ env.AZURE_FUNCTION_APP_PACKAGE_PATH }}
-              publish-profile: ${{ secrets.AZURE_FUNCTION_GITHUB_PARSER }}
+              publish-profile: ${{ secrets.AZURE_FUNCTION_EVENT_HUB_PARSER }}
