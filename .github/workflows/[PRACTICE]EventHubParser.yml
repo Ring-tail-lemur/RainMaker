@@ -1,0 +1,83 @@
+    name: '[PRACTICE] EventHubParser'
+    
+    on:
+      push:
+        branches: 
+          - main
+        paths: 
+          - "SRC/EventHubTrigger/**"
+        
+    env:
+      AZURE_FUNCTION_APP_NAME: eventhubtrigger    # set this to your application's name
+      AZURE_FUNCTION_APP_PACKAGE_PATH: './SRC/EventHubTrigger/'      # set this to the path to your web app project, defaults to the repository root
+      NODE_VERSION: '18.x'                     # set this to the node version to use (supports 8.x, 10.x, 12.x, 14.x)
+
+    jobs:
+      build-and-deploy:
+        runs-on: ubuntu-latest
+        steps:
+          - uses: actions/checkout@v2
+
+          - name: 'push slack-secret / ms-config.js'
+            shell: shell
+            run: |
+              pushd ./${{ env.AZURE_FUNCTION_APP_PACKAGE_PATH}}
+              echo ' 
+              {
+                "slack-bot-uri" : "ddd"
+              }
+              ' >> ./slack-config.json
+              pushd './'
+              echo '
+              {
+                "authentication": {
+                    "options" : {
+                        "userName" : "rr", 
+                        "password" : "dkfl!"
+                    },
+                    "type" : "default"
+                },
+                "server" : "raet", 
+                "port" : 1433,
+                "options": {
+                "database" : "DB",
+                "encrypt" : true
+                }
+              }' >> ./ms-sql-config.json
+              cat ./ms-sql-config.json
+              popd
+          - uses: microsoft/variable-substitution@v1 
+            with: 
+              files: '${{env.AZURE_FUNCTION_APP_PACKAGE_PATH}}ms-sql-config.json'
+            env:
+              authentication.options.userName : ${{secrets.JSON_DB_USERNAME}}
+              authentication.options.password : ${{secrets.JSON_DB_PASSWORD}}
+              server: ${{secrets.JSON_DB_SERVER}}
+              options.database: ${{secrets.JSON_DB_DATABASE}}
+
+          - uses: microsoft/variable-substitution@v1 
+            with:
+              files: '${{env.AZURE_FUNCTION_APP_PACKAGE_PATH}}slack-config.json'
+            env:
+              slack-bot-uri: ${{secrets.GP_SLACK_WEBHOOK_URI}}
+
+
+          - name: Setup Node ${{ env.NODE_VERSION }} Environment
+            uses: actions/setup-node@v2
+            with:
+              node-version: ${{ env.NODE_VERSION }}
+
+          - name: 'Resolve Project Dependencies Using Npm'
+            shell: pwsh
+            run: |
+              pushd './${{ env.AZURE_FUNCTION_APP_PACKAGE_PATH }}'
+              npm install
+              npm run build --if-present
+              npm run test --if-present
+              popd
+          - name: 'Run Azure Functions Action'
+            uses: Azure/functions-action@v1
+            with:
+              app-name: ${{ env.AZURE_FUNCTION_APP_NAME }}
+              package: ${{ env.AZURE_FUNCTION_APP_PACKAGE_PATH }}
+              publish-profile: ${{ secrets.AZURE_FUNCTION_GITHUB_PARSER }}
