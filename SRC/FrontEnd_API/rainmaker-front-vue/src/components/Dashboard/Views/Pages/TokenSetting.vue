@@ -85,7 +85,7 @@ export default {
       await axios({
         headers: setHeaderJWT(),
         method: "post",
-        url: this.custom.defaultURL + "/token",
+        url: this.custom.defaultURL + "/api/user/token",
         data: {
           token: this.githubToken
         }
