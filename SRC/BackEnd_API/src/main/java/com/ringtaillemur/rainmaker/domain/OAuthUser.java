@@ -36,7 +36,7 @@ public class OAuthUser extends BaseEntity {
 	@Enumerated(value = EnumType.STRING)
 	OauthUserLevel userLevel;
 
-	@OneToMany(mappedBy = "oAuthUser", cascade = CascadeType.PERSIST)
+	@OneToMany(mappedBy = "oAuthUser", cascade = CascadeType.ALL, orphanRemoval = true)
 	private List<OAuthUserRepositoryTable> OAuthUserRepositoryTables = new ArrayList<>();
 
 	@Builder
@@ -66,10 +66,22 @@ public class OAuthUser extends BaseEntity {
 		OAuthUserRepositoryTables.stream()
 			.filter(table -> !getOAuthUserRepositoryTables().contains(table))
 			.forEach(this::addOAuthUserRepositoryTable);
+		
+		List<OAuthUserRepositoryTable> tables = getOAuthUserRepositoryTables().stream()
+				.filter(table -> !OAuthUserRepositoryTables.contains(table)).toList();
+		
+		getOAuthUserRepositoryTables().removeAll(tables);
+		for(OAuthUserRepositoryTable table : tables) {
+			removeOAuthUserRepositoryTable(table);
+		}
 	}
 
 	public void addOAuthUserRepositoryTable(OAuthUserRepositoryTable oAuthUserRepositoryTable) {
 		oAuthUserRepositoryTable.setOAuthUser(this);
+	}
+	
+	public void removeOAuthUserRepositoryTable(OAuthUserRepositoryTable oAuthUserRepositoryTable) {
+		oAuthUserRepositoryTable.removeOAuthUser(this);
 	}
 
 }

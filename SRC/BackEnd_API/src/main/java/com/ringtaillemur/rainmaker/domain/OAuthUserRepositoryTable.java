@@ -1,12 +1,6 @@
 package com.ringtaillemur.rainmaker.domain;
 
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
+import javax.persistence.*;
 
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -28,12 +22,18 @@ public class OAuthUserRepositoryTable {
 	@JoinColumn(name = "oauth_user_id")
 	private OAuthUser oAuthUser;
 
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.LAZY, cascade = {CascadeType.MERGE, CascadeType.PERSIST})
 	@JoinColumn(name = "repository_id")
 	private Repository repository;
 
 	public void setOAuthUser(OAuthUser oAuthUser) {
 		oAuthUser.getOAuthUserRepositoryTables().add(this);
+		this.oAuthUser = oAuthUser;
+	}
+	
+	
+	public void removeOAuthUser(OAuthUser oAuthUser) {
+		oAuthUser.getOAuthUserRepositoryTables().remove(this);
 		this.oAuthUser = oAuthUser;
 	}
 }

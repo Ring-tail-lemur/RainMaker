@@ -224,21 +224,21 @@ public class UserService {
 		String token = getToken(userId);
 
 		Set<GitOrganization> gitOrganizationSet = new HashSet<>();
-
+		
 		List<Repository> repositoryList = registerRepositoryResponseDto.getRepoDetailsList().stream()
 			.map(repositoryDetail -> repositoryService.changeRepositoryDetailToRepository(token, gitOrganizationSet,
 				repositoryDetail))
 			.toList();
-		gitOrganizationService.saveGitOrganizations(gitOrganizationSet);
-
 		OAuthUser oAuthUser = getOAuthUserById(userId);
 		List<HistoryCollectorDto> historyCollectorDtoList = getHistoryCollectorDtoList(token, repositoryList,
-			oAuthUser);
+				oAuthUser);
+		gitOrganizationService.saveGitOrganizations(gitOrganizationSet);
+//		repositoryService.saveAllRepositories(repositoryList);
+		
 		List<OAuthUserRepositoryTable> oAuthUserRepositoryTables = getoAuthUserRepositoryTables(
 			repositoryList, oAuthUser);
 		oAuthUser.setUserLevel(OauthUserLevel.AUTHED_HISTORY_COLLECT_NOT_ENDED_USER);
 		oAuthUser.setOAuthUserRepositoryTables(oAuthUserRepositoryTables);
-		repositoryService.saveAllRepositories(repositoryList);
 		return historyCollectorDtoList;
 	}
 
