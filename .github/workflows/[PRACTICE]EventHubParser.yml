@@ -6,6 +6,8 @@
           - main
         paths: 
           - "SRC/EventHubTrigger/**"
+      workflow_dispatch:
+        
         
     env:
       AZURE_FUNCTION_APP_NAME: eventhubtrigger    # set this to your application's name
@@ -77,7 +79,9 @@
               popd
           - name: 'Run Azure Functions Action'
             uses: Azure/functions-action@v1
+            id: fa
             with:
-              app-name: ${{ env.AZURE_FUNCTION_APP_NAME }}
-              package: ${{ env.AZURE_FUNCTION_APP_PACKAGE_PATH }}
-              publish-profile: ${{ secrets.AZURE_FUNCTION_EVENT_HUB_PARSER }}
+              app-name: 'event-hub-trigger'
+              slot-name: 'Production'
+              package: ${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}
+              publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_DE07B0EF6A5241F8AAD1C25A717820E1 }}
