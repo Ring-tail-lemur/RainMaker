@@ -1,0 +1,28 @@
+{
+  "id": "1cccbe7f-dc9a-477a-bb95-f9919ecd4d93",
+  "_rid": "6LZfAJRxZZm5BAAAAAAAAA==",
+  "_self": "dbs/6LZfAA==/colls/6LZfAJRxZZk=/docs/6LZfAJRxZZm5BAAAAAAAAA==/",
+  "_ts": 1660351435,
+  "_etag": "\"0000c81d-0000-2500-0000-62f6f3cb0000\"",
+
+  "X_GitHub_Delivery":"efeedb80-21e1-11ed-8cd1-8005ff40c417",
+  "hook_event":"release",
+  "source":"github",
+  "action":"created",
+  "release_id":"74480969",
+  "release_url":"https://api.github.com/repos/Ring-tail-lemur/test-for-fake-project/releases/74480969",
+  "release_author_id":"81180977",
+  "release_name": "jonghyun_release",
+  "release_tag_name":"v1.0.2",
+  "draft":"false",
+  "published_at":"2022-08-16T05:57:41Z",
+  "pre_release":"false",
+  "repository_id":"510731046",
+  "repository_name": "test-for-fake-project",
+  "repository_owner_id":"107110653",
+  "repository_private":"false",
+  "repository_owner_type":"Organization",
+  "owner_name": "Ring-tail-lemur",
+  "event_time":"2022-8-16T05:57:43Z",
+  "sendingTimeInFunction":"2022-8-16T05:57:43Z"
+}

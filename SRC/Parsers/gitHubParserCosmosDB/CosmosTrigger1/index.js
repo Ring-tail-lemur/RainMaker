@@ -12,8 +12,8 @@ module.exports = async function (context, documents) {
         // context.log("DBConnection \n", dbConnectionPool.pool);
 
         if (!!documents && documents.length > 0) {
-            for (let i = 0; i < documents.length; i++) {
-                await controllerModule.controllerMain(documents[i], context, dbConnectionPool);
+            for (const element of documents) {
+                await controllerModule.controllerMain(element, context, dbConnectionPool);
             }
         }
     } catch (e) {
