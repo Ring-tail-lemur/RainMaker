@@ -5,8 +5,8 @@ import java.util.List;
 
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ringtaillemur.rainmaker.dto.webdto.responsedto.DeploymentFrequencyDto;
@@ -14,7 +14,8 @@ import com.ringtaillemur.rainmaker.service.dorametrics.DeploymentFrequencyServic
 
 import lombok.RequiredArgsConstructor;
 
-@RestController("/api/dorametric/deployment-frequency")
+@RestController
+@RequestMapping("/api/dorametric/deployment-frequency")
 @RequiredArgsConstructor
 public class DeploymentFrequencyController {
 

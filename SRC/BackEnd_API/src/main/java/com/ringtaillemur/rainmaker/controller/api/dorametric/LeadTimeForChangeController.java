@@ -5,8 +5,8 @@ import java.util.List;
 
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ringtaillemur.rainmaker.dto.webdto.responsedto.LeadTimeForChangeByTimeDto;
@@ -15,6 +15,7 @@ import com.ringtaillemur.rainmaker.service.dorametrics.LeadTimeForChangeService;
 import lombok.RequiredArgsConstructor;
 
 @RestController("/api/dorametric/lead-time-for-change")
+@RequestMapping("/api/dorametric/lead-time-for-change")
 @RequiredArgsConstructor
 public class LeadTimeForChangeController {
 

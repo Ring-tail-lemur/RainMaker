@@ -5,8 +5,8 @@ import java.util.List;
 
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ringtaillemur.rainmaker.dto.webdto.responsedto.ChangeFailureRateDto;
@@ -14,7 +14,8 @@ import com.ringtaillemur.rainmaker.service.dorametrics.ChangeFailureRateService;
 
 import lombok.RequiredArgsConstructor;
 
-@RestController("/api/dorametric/change-failure-rate")
+@RestController
+@RequestMapping("/api/dorametric/change-failure-rate")
 @RequiredArgsConstructor
 public class ChangeFailureRateController {
 	private final ChangeFailureRateService changeFailureRateService;
