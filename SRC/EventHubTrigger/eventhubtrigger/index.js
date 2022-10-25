@@ -4,6 +4,7 @@ const configModule = require('./ms-sql/msSQLMakeConfig.js');
 const blobExtractor = require('./blob/blob-extractor.js');
 module.exports = async function (context, eventGridEvent) {
     global.config = await configModule.makeConfig(context);
+    // 
     const dbConnectionPool = new sql.ConnectionPool(config);
     try{
         await dbConnectionPool.connect();
