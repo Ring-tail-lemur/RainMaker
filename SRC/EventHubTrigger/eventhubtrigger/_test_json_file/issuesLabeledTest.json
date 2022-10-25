@@ -1,0 +1,18 @@
+{
+  "hook_event": "issues",
+  "X_GitHub_Delivery": "2048db50-2368-11ed-9c2f-ce0901225c07",
+  "event_triggered_time": "2022-8-24T04:49:25Z",
+  "source": "github",
+  "action": "labeled",
+  "issue_number": "242",
+  "issue_remote_id": "1347870611",
+  "action_title": "issuetest",
+  "actor_remote_id": "81180977",
+  "repository_remote_id": "510731046",
+  "repository_private": "false",
+  "repository_owner_type": "Organization",
+  "repository_owner_id": "107110653",
+  "action_time": "2022-08-24T04:49:24Z",
+  "label_name_list": "bug,documentation,aaaaa11111,[RainMaker]runtime-error-rererererelelesese",
+  "label_id_list": "4298624572,4298624574,4453526843,4454749959"
+}

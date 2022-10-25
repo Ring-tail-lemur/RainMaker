@@ -1,0 +1,16 @@
+{
+  "hook_event": "issues",
+  "X_GitHub_Delivery": "bfede540-22d9-11ed-81c4-3ee998508fe4",
+  "event_triggered_time": "2022-8-23T11:50:15Z",
+  "source": "github",
+  "action": "closed",
+  "issue_number": "244",
+  "issue_remote_id": "1347819834",
+  "action_title": "안녕이슈",
+  "actor_remote_id": "81180977",
+  "repository_remote_id": "510731046",
+  "repository_private": "false",
+  "repository_owner_type": "Organization",
+  "repository_owner_id": "107110653",
+  "action_time": "2022-08-23T11:50:13Z"
+}
