@@ -78,7 +78,6 @@
               popd
           - name: 'Run Azure Functions Action'
             uses: Azure/functions-action@v1
-            id: fa
             with:
               app-name: 'event-hub-trigger'
               slot-name: 'Production'
