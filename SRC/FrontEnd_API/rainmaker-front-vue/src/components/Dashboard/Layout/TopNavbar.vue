@@ -130,7 +130,7 @@
           await axios({
             headers: setHeaderJWT(),
             method: "get",
-            url: this.custom.defaultURL + '/custom-logout'
+            url: this.custom.defaultURL + '/api/user/logout'
           });
         } catch (e) {
           console.log(e);

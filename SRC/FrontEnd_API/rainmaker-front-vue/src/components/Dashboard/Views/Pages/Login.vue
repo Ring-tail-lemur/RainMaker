@@ -68,7 +68,6 @@
       },
       async githubChange() {
         const url = this.custom.myURL;
-        console.log(`URL : , ${url}`, this.custom.clientId);
 
         let replaceUrl = `https://github.com/login/oauth/authorize?response_type=code&client_id=${this.custom.clientId}&scope=repo%20repo:status%20repo_deployment%20public_repo%20repo:invite%20admin:repo_hook%20write:repo_hook%20read:repo_hook%20admin:org%20admin:public_key&state=8U6-X7-6MVIRmkTQbb-ySo36wSRugfaBNjpHlTVJ0hY%3D&redirect_uri=${url}/login/oauth2/code/github`;
         window.location.replace(replaceUrl);

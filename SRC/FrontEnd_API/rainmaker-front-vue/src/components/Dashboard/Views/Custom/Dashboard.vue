@@ -420,7 +420,7 @@ export default {
     async checkWaitingStatus() {
       let response;
       try {
-        response = await axios.get(this.custom.defaultURL + "/api/check", {headers: setHeaderJWT()});
+        response = await axios.get(this.custom.defaultURL + "/api/user/check", {headers: setHeaderJWT()});
       } catch (e) {
         if (e.request.status === 445) {
           this.$router.push('/fakePage/CallAdminPlease');
@@ -439,7 +439,7 @@ export default {
       let axiosResponse;
 
       try {
-        axiosResponse = await axios.get(this.custom.defaultURL + "/user/repository-info", {
+        axiosResponse = await axios.get(this.custom.defaultURL + "/api/user/repositories", {
           headers: setHeaderJWT()
         });
         this.waiting = true
@@ -494,7 +494,7 @@ export default {
     },
     async getDoraMetric(start_time, end_time, repo_id, MetricName) {
       console.log(MetricName + "이 들어왔네")
-      const Message = await axios.get(this.custom.defaultURL + "/dorametric/" + MetricName, {
+      const Message = await axios.get(this.custom.defaultURL + "/api/dorametric/" + MetricName, {
         headers: setHeaderJWT(),
         params: {
           start_time: start_time,

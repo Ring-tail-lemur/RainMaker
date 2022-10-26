@@ -11,22 +11,23 @@ import org.springframework.web.reactive.function.client.WebClient;
 
 import com.ringtaillemur.rainmaker.domain.OAuthUser;
 import com.ringtaillemur.rainmaker.domain.enumtype.OauthUserLevel;
-import com.ringtaillemur.rainmaker.dto.historycollectordto.HistoryCollector;
+import com.ringtaillemur.rainmaker.dto.historycollectordto.HistoryCollectorDto;
 import com.ringtaillemur.rainmaker.repository.OAuthRepository;
 
 import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
-public class ServerlessFunctionTriggerService {
+public class ServerlessFunctionApiService {
 
 	private final OAuthRepository oAuthRepository;
-	private final UserConfigService userConfigService;
+	private final UserService userService;
 
-	public void triggerHistoryCollector(List<HistoryCollector> historyCollectorList) {
-		final Long userId = userConfigService.getUserId();
-		if (checkHistoryCollectorListIsNull(historyCollectorList, userId))
+	public void triggerHistoryCollector(List<HistoryCollectorDto> historyCollectorDtoList) {
+		final Long userId = userService.getCurrentUserId();
+		if (checkHistoryCollectorListIsNull(historyCollectorDtoList, userId))
 			return;
+
 		try {
 			WebClient ServerlessFunctionClient = WebClient.builder()
 				.baseUrl("https://github-history-collector.azurewebsites.net")
@@ -34,21 +35,21 @@ public class ServerlessFunctionTriggerService {
 			ServerlessFunctionClient.post()
 				.uri("/api/HttpExample")
 				.accept(MediaType.APPLICATION_JSON)
-				.bodyValue(historyCollectorList)
+				.bodyValue(historyCollectorDtoList)
 				.exchange()
 				.flux()
 				.subscribe((result) -> changeAuthority(result, userId));
 		} catch (Exception e) {
-			e.printStackTrace();
+			throw new RuntimeException("History Collector를 불러오는데 실패했습니다." + e.getMessage());
 		}
 	}
 
-	private boolean checkHistoryCollectorListIsNull(List<HistoryCollector> historyCollectorList, Long userId) {
-		if (historyCollectorList.isEmpty()) {
+	private boolean checkHistoryCollectorListIsNull(List<HistoryCollectorDto> historyCollectorDtoList, Long userId) {
+		if (historyCollectorDtoList.isEmpty()) {
 			Optional<OAuthUser> id = oAuthRepository.findById(userId);
 			OAuthUser oAuthUser = id.orElseThrow();
 			oAuthUser.setUserLevel(OauthUserLevel.AUTHED_HISTORY_COLLECT_ENDED_USER);
-			userConfigService.saveUser(oAuthUser);
+			userService.saveUser(oAuthUser);
 			return true;
 		}
 		return false;
