@@ -36,15 +36,9 @@ public class UtilService {
 			.collect(Collectors.groupingBy(getAnalysisLocalDate));
 		return dailyEntityListMap.entrySet()
 			.stream()
-			.map(x -> new AbstractMap.SimpleEntry<>(
-					x.getKey(),
-					x.getValue()
-						.stream()
-						.map(getAnalysisValue)
-						.toList()
-				)
-			)
-			.collect(Collectors.toMap(AbstractMap.SimpleEntry::getKey, AbstractMap.SimpleEntry::getValue));
+			.collect(Collectors.toMap(
+				Map.Entry::getKey,
+				entry -> entry.getValue().stream().map(getAnalysisValue).toList()));
 	}
 
 	private static Map<LocalDate, Double> getDailyAverageMap(Map<LocalDate, List<Number>> dailyValueListMap) {

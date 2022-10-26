@@ -75,7 +75,7 @@ export default {
         RepositoryInfo = await axios({
           headers: setHeaderJWT(),
           method: "get",
-          url: this.custom.defaultURL + "/RepositorySelect",
+          url: this.custom.defaultURL + "/api/user/remote/repositories",
         });
         console.log("inheyok  === =  " , RepositoryInfo);
       } catch (e) {
@@ -85,7 +85,7 @@ export default {
       this.tableData = RepositoryInfo.data;
     },
     async registerRepository() {
-      
+
       let tableData = this.tableData;
       let repoIds = [];
 
@@ -98,13 +98,13 @@ export default {
         alert("리포지토리를 선택해주세요");
         return;
       }
-      
+
       this.waiting = true;
 
       await axios({
         headers: setHeaderJWT(),
         method: "post",
-        url: this.custom.defaultURL + "/RepositorySelect",
+        url: this.custom.defaultURL + "/api/user/repositories",
         data : {
           repoIds: repoIds
         }

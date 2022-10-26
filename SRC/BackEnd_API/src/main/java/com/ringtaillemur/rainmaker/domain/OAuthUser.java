@@ -3,6 +3,7 @@ package com.ringtaillemur.rainmaker.domain;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -11,16 +12,16 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import org.json.JSONObject;
+
 import com.ringtaillemur.rainmaker.domain.enumtype.OauthUserLevel;
 
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 @Entity
 @Data
-@Setter
 @NoArgsConstructor
 @Table(name = "oauth_user")
 public class OAuthUser extends BaseEntity {
@@ -35,7 +36,7 @@ public class OAuthUser extends BaseEntity {
 	@Enumerated(value = EnumType.STRING)
 	OauthUserLevel userLevel;
 
-	@OneToMany(mappedBy = "oAuthUser")
+	@OneToMany(mappedBy = "oAuthUser", cascade = CascadeType.ALL, orphanRemoval = true)
 	private List<OAuthUserRepositoryTable> OAuthUserRepositoryTables = new ArrayList<>();
 
 	@Builder
@@ -47,9 +48,40 @@ public class OAuthUser extends BaseEntity {
 		this.userLevel = inputUserLevel;
 	}
 
+	public OAuthUser(String userInfoLine, String oAuthToken) {
+		JSONObject userInfoJSONObject = new JSONObject(userInfoLine);
+		userRemoteId = userInfoJSONObject.getLong("id");
+		name = userInfoJSONObject.getString("login");
+		url = userInfoJSONObject.getString("url");
+		oauthToken = oAuthToken;
+		userLevel = OauthUserLevel.FIRST_AUTH_USER;
+	}
+
 	public OAuthUser update(String oauthToken) {
 		this.oauthToken = oauthToken;
 		return this;
+	}
+
+	public void setOAuthUserRepositoryTables(List<OAuthUserRepositoryTable> OAuthUserRepositoryTables) {
+		OAuthUserRepositoryTables.stream()
+			.filter(table -> !getOAuthUserRepositoryTables().contains(table))
+			.forEach(this::addOAuthUserRepositoryTable);
+		
+		List<OAuthUserRepositoryTable> tables = getOAuthUserRepositoryTables().stream()
+				.filter(table -> !OAuthUserRepositoryTables.contains(table)).toList();
+		
+		getOAuthUserRepositoryTables().removeAll(tables);
+		for(OAuthUserRepositoryTable table : tables) {
+			removeOAuthUserRepositoryTable(table);
+		}
+	}
+
+	public void addOAuthUserRepositoryTable(OAuthUserRepositoryTable oAuthUserRepositoryTable) {
+		oAuthUserRepositoryTable.setOAuthUser(this);
+	}
+	
+	public void removeOAuthUserRepositoryTable(OAuthUserRepositoryTable oAuthUserRepositoryTable) {
+		oAuthUserRepositoryTable.removeOAuthUser(this);
 	}
 
 }

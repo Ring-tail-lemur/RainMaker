@@ -28,6 +28,9 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'
 	implementation 'org.springframework.boot:spring-boot-starter-webflux'
 
+	implementation group: 'p6spy', name: 'p6spy', version: '3.9.1'
+
+
 	implementation('nz.net.ultraq.thymeleaf:thymeleaf-layout-dialect')
 	implementation group: 'com.microsoft.sqlserver', name: 'mssql-jdbc', version: '6.1.0.jre7'
 	implementation group: 'org.json', name: 'json', version: '20220320'

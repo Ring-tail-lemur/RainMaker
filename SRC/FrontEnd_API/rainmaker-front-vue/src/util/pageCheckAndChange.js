@@ -7,7 +7,7 @@ async function pageCheckAndChange(to, from, next) {
   const defaultURL = URLConfig.defaultURL;
 
   try {
-    let response = await axios.get(defaultURL + "/api/check", {headers: setHeaderJWT()});
+    let response = await axios.get(defaultURL + "/api/user/check", {headers: setHeaderJWT()});
   } catch (error) {
     if (error.request.status === 401) {
       next('/login')

@@ -5,6 +5,7 @@ import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.function.Function;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -41,23 +42,24 @@ public class LeadTimeForChangeService {
 
 	private Map<LocalDate, LeadTimeForChangeDetailDto> getLocalDateLeadTimeForChangeDetailDtoMap(
 		List<LeadTimeForChange> leadTimeForChangeList) {
+
+		Function<LeadTimeForChange, LocalDate> getDeploymentTime =
+			leadTimeForChange -> leadTimeForChange.getDeploymentTime().toLocalDate();
+
 		Map<LocalDate, Double> codingTimeMap = utilService.makeDailyAverageMap(leadTimeForChangeList,
-			leadTimeForChange -> leadTimeForChange.getDeploymentTime().toLocalDate(),
-			LeadTimeForChange::getCodingTimePart);
+			getDeploymentTime, LeadTimeForChange::getCodingTimePart);
 
 		Map<LocalDate, Double> pickupTimeMap = utilService.makeDailyAverageMap(leadTimeForChangeList,
-			leadTimeForChange -> leadTimeForChange.getDeploymentTime().toLocalDate(),
-			LeadTimeForChange::getPickupTimePart);
+			getDeploymentTime, LeadTimeForChange::getPickupTimePart);
 
 		Map<LocalDate, Double> reviewTimeMap = utilService.makeDailyAverageMap(leadTimeForChangeList,
-			leadTimeForChange -> leadTimeForChange.getDeploymentTime().toLocalDate(),
-			LeadTimeForChange::getReviewTimePart);
+			getDeploymentTime, LeadTimeForChange::getReviewTimePart);
 
 		Map<LocalDate, Double> deployTimeMap = utilService.makeDailyAverageMap(leadTimeForChangeList,
-			leadTimeForChange -> leadTimeForChange.getDeploymentTime().toLocalDate(),
-			LeadTimeForChange::getDeploymentTimePart);
+			getDeploymentTime, LeadTimeForChange::getDeploymentTimePart);
 
 		Map<LocalDate, LeadTimeForChangeDetailDto> leadTimeForChangeDetailMap = new HashMap<>();
+
 		for (LocalDate localDate : codingTimeMap.keySet()) {
 			LeadTimeForChangeDetailDto leadTimeForChangeDetailDto = LeadTimeForChangeDetailDto.builder()
 				.codingTime(codingTimeMap.get(localDate))
