@@ -50,7 +50,7 @@ const Charts = () => import(/* webpackChunkName: "widgets" */ 'src/components/Da
 const LoginMiddleWare = () => import(/* webpackChunkName: "widgets" */ 'src/components/Dashboard/Views/Custom/loginMiddleWare.vue')
 const RepositorySelect = () => import(/* webpackChunkName: "widgets" */ 'src/components/Dashboard/Views/Custom/RepositorySelect.vue')
 const DashBoard = () => import(/* webpackChunkName: "widgets" */ 'src/components/Dashboard/Views/Custom/Dashboard.vue')
-const MainPage = () => import(/* webpackChunkName: "widgets" */ 'src/components/Dashboard/Views/Custom/MainPage.vue');
+const MainPage = () => import(/* webpackChunkName: "widgets" */ '@/components/Dashboard/Views/Custom/MainPage/MainPage.vue');
 
 const requireAuth =  () => async (to, from, next) => {
   await pageCheckAndChange(to, from, next)

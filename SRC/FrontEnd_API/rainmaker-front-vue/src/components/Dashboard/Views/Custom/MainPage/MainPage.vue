@@ -1,28 +1,27 @@
 <template>
   <div class="desktop-1 screen">
     <div class="top-bar">
-      <div class="logo">
-        <img class="rain-maker-1" src="./-rainmaker-1.png" alt="RainMaker 1"/>
-        <div class="rain-maker">RainMaker</div>
-      </div>
+      <a class="logo" href="/">
+        <img class="rain-maker-1" src="./RainMakerLogo.png" alt="RainMaker 1"/>
+      </a>
 
-      <div class="frame-3">
+      <a class="frame-3" href="#">
         <div class="text inter-normal-gray-20px">제품 설명</div>
-      </div>
-      <div class="frame-4">
+      </a>
+      <a class="frame-4" href="https://inhyeok-blog.tistory.com/">
         <div class="text inter-normal-gray-20px">관련 블로그</div>
-      </div>
-      <div class="frame-5">
+      </a>
+      <a class="frame-5" href="https://inhyeok-blog.tistory.com/">
         <div class="text inter-normal-gray-20px">문의하기</div>
-      </div>
+      </a>
       <div class="frame-null">
       </div>
-      <div class="frame-6">
+      <a class="frame-6" href="/register">
         <div class="text inter-normal-gray-20px">회원가입</div>
-      </div>
-      <div class="frame-7">
+      </a>
+      <a class="frame-7" href="/login">
         <div class="text inter-normal-gray-20px">로그인</div>
-      </div>
+      </a>
     </div>
     <img class="title" src="./title.png" alt="Title"/>
     <div class="middle-title">
@@ -96,7 +95,7 @@
 
 .inter-light-black-25px {
   color: var(--black);
-  font-family: var(--font-family-inter);
+  /*font-family: var(--font-family-inter);*/
   font-size: var(--font-size-m);
   font-weight: 300;
   font-style: normal;
@@ -104,7 +103,7 @@
 
 .inter-normal-gray-20px {
   color: var(--gray);
-  font-family: var(--font-family-inter);
+  /*font-family: var(--font-family-inter);*/
   font-size: var(--font-size-s);
   font-weight: 400;
   font-style: normal;
@@ -112,7 +111,7 @@
 
 .inter-bold-black-35px {
   color: var(--black);
-  font-family: var(--font-family-inter);
+  /*font-family: var(--font-family-inter);*/
   font-size: var(--font-size-l);
   font-weight: 700;
   font-style: normal;
@@ -120,7 +119,7 @@
 
 .inter-normal-quill-gray-20px {
   color: var(--quill-gray);
-  font-family: var(--font-family-inter);
+  /*font-family: var(--font-family-inter);*/
   font-size: var(--font-size-s);
   font-weight: 400;
   font-style: normal;
@@ -236,6 +235,7 @@
 }
 
 .title {
+  object-fit: scale-down;
   height: 85vh;
   width: 100%;
 }
@@ -322,7 +322,7 @@
 .rain-maker-1 {
   height: 30%;
   object-fit: scale-down;
-  width: 10%;
+  width: 100%;
 }
 
 .frame-3 {
