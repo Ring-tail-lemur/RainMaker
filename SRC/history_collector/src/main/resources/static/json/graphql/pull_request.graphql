@@ -3,6 +3,8 @@
         pullRequest(number: $[[pull_request_number_list]]) {
             databaseId
             number
+            deletions
+            additions
         }
         databaseId
     }
