@@ -53,6 +53,14 @@
       "data.repository.pullRequest.deletions": [
         "deletions",
         "int"
+      ],
+      "data.repository.pullRequest.headRefName": [
+        "pull_request_open_branch_name",
+        "string"
+        ],
+      "data.repository.pullRequest.baseRefName": [
+        "pull_request_close_branch_name",
+        "string"
       ]
     }
   },

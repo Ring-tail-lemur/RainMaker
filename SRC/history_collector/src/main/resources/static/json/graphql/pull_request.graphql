@@ -5,6 +5,8 @@
             number
             deletions
             additions
+            headRefName
+            baseRefName
         }
         databaseId
     }
