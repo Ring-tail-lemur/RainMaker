@@ -9,7 +9,7 @@ async function sendErrMessage(e, now){
 
 async function makeMessage(err, now){
     const message = `
-    Github Listener Error Ocurred
+    Parser Error Ocurred
     --------------------------------------
     Error Location : ${now}
     --------------------------------------

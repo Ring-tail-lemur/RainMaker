@@ -14,7 +14,7 @@ async function insertPullRequestByRepoIdAndBranchId(dbConnectionPool ,remote_ide
         await dbConnectionPool.request()
             .query(sqlQuery);
     } catch (e) {
-        err_log_module.log(e, "pullRequestCreateRepository.js // insertPullRequestByRepoIdAndBranchId");
+        await err_log_module.log(e, "pullRequestCreateRepository.js // insertPullRequestByRepoIdAndBranchId");
         console.error(e);
     }
 }
