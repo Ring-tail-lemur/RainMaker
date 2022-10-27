@@ -13,7 +13,7 @@ async function makeMessage(err, now){
     --------------------------------------
     Error Location : ${now}
     --------------------------------------
-    Error message : ${err}
+    Error message : ${err.toString()}
     `
     return message;
 }
