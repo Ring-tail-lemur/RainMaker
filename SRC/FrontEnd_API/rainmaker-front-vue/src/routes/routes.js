@@ -50,6 +50,7 @@ const Charts = () => import(/* webpackChunkName: "widgets" */ 'src/components/Da
 const LoginMiddleWare = () => import(/* webpackChunkName: "widgets" */ 'src/components/Dashboard/Views/Custom/loginMiddleWare.vue')
 const RepositorySelect = () => import(/* webpackChunkName: "widgets" */ 'src/components/Dashboard/Views/Custom/RepositorySelect.vue')
 const DashBoard = () => import(/* webpackChunkName: "widgets" */ 'src/components/Dashboard/Views/Custom/Dashboard.vue')
+const MainPage = () => import(/* webpackChunkName: "widgets" */ 'src/components/Dashboard/Views/Custom/MainPage.vue');
 
 const requireAuth =  () => async (to, from, next) => {
   await pageCheckAndChange(to, from, next)
@@ -195,6 +196,12 @@ let loginPage = {
   component: Login
 }
 
+let mainPage = {
+  path: '/main',
+  name: 'MainPage',
+  component: MainPage
+}
+
 let githubTokenSettingPage = {
   path: '/register/token',
   name: 'TokenSetting',
@@ -252,21 +259,9 @@ let DashBoardPage = {
 const routes = [
   {
     path: '/',
-    component: DashboardLayout,
-    redirect: '/admin/overview',
-    children: [
-      {
-        path: 'calendar',
-        name: 'Calendar',
-        component: Calendar
-      },
-      {
-        path: 'charts',
-        name: 'Charts',
-        component: Charts
-      }
-    ]
+    redirect: '/main'
   },
+  mainPage,
   componentsMenu,
   formsMenu,
   tablesMenu,
@@ -279,23 +274,6 @@ const routes = [
   RepositorySelectPage,
   DashBoardPage,
   githubTokenSettingPage,
-  {
-    path: '/admin',
-    component: DashboardLayout,
-    redirect: '/admin/overview',
-    children: [
-      {
-        path: 'overview',
-        name: 'Overview',
-        component: Overview
-      },
-      {
-        path: 'widgets',
-        name: 'Widgets',
-        component: Widgets
-      }
-    ]
-  },
   {path: '*', component: NotFound}
 ];
 
