@@ -1,9 +1,11 @@
 <template>
   <div class="desktop-1 screen">
     <div class="top-bar">
-      <a class="logo" href="/">
-        <img class="rain-maker-1" src="./RainMakerLogo.png" alt="RainMaker 1"/>
-      </a>
+      <div class="logo">
+        <a href="/">
+          <img class="rain-maker-1" src="./rainmaker-logo.png" alt="RainMaker 1"/>
+        </a>
+      </div>
 
       <a class="frame-3" href="#">
         <div class="text inter-normal-gray-20px">제품 설명</div>
