@@ -29,7 +29,7 @@ jobs:
           pushd './src'
           echo '
           {
-            "myURL" : "https://victorious-forest-095d4a310.1.azurestaticapps.net",
+            "myURL" : "https://www.rainmaker.cool",
             "defaultURL" : "https://spring-api-server.azurewebsites.net",
             "clientId" : "42286a47489496b3129b",
             "endURL" : "/login/oauth2/code/github"
