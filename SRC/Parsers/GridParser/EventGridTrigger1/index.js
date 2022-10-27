@@ -6,7 +6,5 @@ module.exports = async function (context, eventGridEvent) {
     const fileUrl = eventGridEvent.data.fileUrl;
     context.log(fileUrl);
     const documents = blobModule.blobExtract(fileUrl, context);
-    for(const document of documents){
-        context.log(document);
-    }
+    context.log(documents);
 };
