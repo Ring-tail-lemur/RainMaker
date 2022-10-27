@@ -34,6 +34,7 @@ jobs:
                 "slack-bot-uri" : "ddd"
               }
           ' >> ./slack-config.json
+          pushd './'
           echo '
               {
                 "authentication": {
