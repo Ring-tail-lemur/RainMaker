@@ -2,6 +2,9 @@
   "trailingSlash": "auto",
   "routes": [
     {
+      "route": "/"
+    },
+    {
       "route": "/register/token"
     },
     {
