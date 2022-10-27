@@ -31,7 +31,7 @@ public class SecurityConfig {
 			.addFilterBefore(sessionFilterInternal, UsernamePasswordAuthenticationFilter.class)
 			.authorizeRequests(a -> a
 				.antMatchers("/api/user/login/**")
-				.permitAll()
+			 .permitAll()
 				.antMatchers("/api/user/token")
 				.hasAnyAuthority("FIRST_AUTH_USER", "AUTH_NOT_REPOSITORY_SELECT",
 					"AUTHED_HISTORY_COLLECT_NOT_ENDED_USER", "AUTHED_HISTORY_COLLECT_ENDED_USER")

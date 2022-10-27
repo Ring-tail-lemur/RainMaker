@@ -13,8 +13,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.ringtaillemur.rainmaker.domain.GitOrganization;
-import com.ringtaillemur.rainmaker.domain.OAuthUser;
-import com.ringtaillemur.rainmaker.domain.OAuthUserRepositoryTable;
 import com.ringtaillemur.rainmaker.domain.Repository;
 import com.ringtaillemur.rainmaker.domain.enumtype.OwnerType;
 import com.ringtaillemur.rainmaker.dto.webdto.responsedto.RepositoryDetailDto;
@@ -30,12 +28,14 @@ public class RepositoryService {
 	private final RepositoryRepository repositoryRepository;
 	private final OAuthUserRepositoryService oAuthUserRepositoryService;
 
-	public List<Repository> findRepositories(OAuthUser oAuthUser) {
-		List<OAuthUserRepositoryTable> oAuthUserRepositoryTableList = oAuthUserRepositoryService
-			.getRepositoryByOAuthUser(oAuthUser);
-		return oAuthUserRepositoryTableList.stream()
-			.map(OAuthUserRepositoryTable::getRepository)
-			.toList();
+	public List<Repository> findRepositories(List<Repository> repositoryList) {
+
+		return repositoryRepository.findByIdsIn(repositoryList.stream().map(Repository::getId).toList());
+		// List<OAuthUserRepositoryTable> oAuthUserRepositoryTableList = oAuthUserRepositoryService
+		// 	.getRepositoryByOAuthUser(oAuthUser);
+		// return oAuthUserRepositoryTableList.stream()
+		// 	.map(OAuthUserRepositoryTable::getRepository)
+		// 	.toList();
 	}
 
 	public Optional<Repository> getRepositoryById(Long repositoryId) {
