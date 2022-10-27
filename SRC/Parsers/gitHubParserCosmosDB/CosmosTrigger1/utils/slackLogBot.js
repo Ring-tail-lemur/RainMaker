@@ -1,4 +1,5 @@
 const axios = require('axios');
+const fs = require("fs");
 
 async function sendErrMessage(e, now){
     const sqlConfig =  await readJsonSecret('hi');
