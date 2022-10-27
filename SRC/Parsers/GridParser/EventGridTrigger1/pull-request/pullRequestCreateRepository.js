@@ -1,12 +1,12 @@
 // const pool = require('../ms-sql/msSQLPool');
 const err_log_module = require('../utils/slackLogBot.js');
-async function insertPullRequestByRepoIdAndBranchId(dbConnectionPool ,remote_identifier, pull_request_number, repository_id, open_branch_name, close_branch_name) {
+async function insertPullRequestByRepoIdAndBranchId(dbConnectionPool ,remote_identifier, pull_request_number, repository_id, open_branch_name, close_branch_name, additions, deletions) {
 
-    console.log(remote_identifier, pull_request_number, repository_id, open_branch_name, close_branch_name);
+    console.log(remote_identifier, pull_request_number, repository_id, open_branch_name, close_branch_name, additions, deletions);
 
     const sqlQuery = `
-        INSERT INTO pull_request (pull_request_id, pull_request_number, repository_id, pull_request_open_branch_name, pull_request_close_branch_name)
-        VALUES ('${remote_identifier}', ${pull_request_number}, ${repository_id}, '${open_branch_name}', '${close_branch_name}');
+        INSERT INTO pull_request (pull_request_id, pull_request_number, repository_id, pull_request_open_branch_name, pull_request_close_branch_name, additions, deletions)
+        VALUES ('${remote_identifier}', ${pull_request_number}, ${repository_id}, '${open_branch_name}', '${close_branch_name}', '${additions}', '${deletions}');
     `;
     console.log(sqlQuery);
 
@@ -14,7 +14,7 @@ async function insertPullRequestByRepoIdAndBranchId(dbConnectionPool ,remote_ide
         await dbConnectionPool.request()
             .query(sqlQuery);
     } catch (e) {
-        await err_log_module.log(e, "pullRequestCreateRepository.js // insertPullRequestByRepoIdAndBranchId");
+        err_log_module.log(e, "pullRequestCreateRepository.js // insertPullRequestByRepoIdAndBranchId");
         console.error(e);
     }
 }
