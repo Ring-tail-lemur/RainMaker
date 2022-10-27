@@ -13,7 +13,7 @@ module.exports.pullRequestOpenMain = pullRequestOpenMain;
 
 /*
 pullRequestOpen 이벤트 sample
-{
+{d
     "hook_event":"pull_request",
     "source":"github",
     "action":"opened",
