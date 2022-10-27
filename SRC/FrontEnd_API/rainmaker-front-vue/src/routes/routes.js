@@ -51,6 +51,7 @@ const LoginMiddleWare = () => import(/* webpackChunkName: "widgets" */ 'src/comp
 const RepositorySelect = () => import(/* webpackChunkName: "widgets" */ 'src/components/Dashboard/Views/Custom/RepositorySelect.vue')
 const DashBoard = () => import(/* webpackChunkName: "widgets" */ 'src/components/Dashboard/Views/Custom/Dashboard.vue')
 const MainPage = () => import(/* webpackChunkName: "widgets" */ '@/components/Dashboard/Views/Custom/MainPage/MainPage.vue');
+const LeadTimeForChangeDetails = () => import(/* webpackChunkName: "widgets" */ '@/components/Dashboard/Views/Custom/LeadTimeForChangeComponent/LeadTimeForChangeDetails.vue');
 
 const requireAuth =  () => async (to, from, next) => {
   await pageCheckAndChange(to, from, next)
@@ -256,11 +257,24 @@ let DashBoardPage = {
   beforeEnter: requireAuth()
 }
 
+let LeadTimeForChangeDetailPage = {
+  path: '/dashboard/lead-time-for-change',
+  component: DashboardLayout,
+  children : [
+    {
+      path: '',
+      name: 'LeadTimeForChangeDetails',
+      component : LeadTimeForChangeDetails
+    }
+  ]
+}
+
 const routes = [
   {
     path: '/',
     redirect: '/main'
   },
+  LeadTimeForChangeDetailPage,
   mainPage,
   componentsMenu,
   formsMenu,
