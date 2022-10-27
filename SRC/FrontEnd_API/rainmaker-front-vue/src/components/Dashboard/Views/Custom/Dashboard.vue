@@ -80,7 +80,7 @@
           <span slot="title">변경 리드 타임</span>
           <badge slot="title-label" :type="LeadTimeForChange.rate">{{ LeadTimeForChange.rate }}</badge>
           <p-button slot="footer-right" aria-label="add button" :type="typeChange(LeadTimeForChange.rate)" round icon
-                    size="sm">
+                    size="sm" onclick="location.href='/dashboard/lead-time-for-change'">
             <i class="nc-icon nc-simple-add"></i>
           </p-button>
         </chart-card>

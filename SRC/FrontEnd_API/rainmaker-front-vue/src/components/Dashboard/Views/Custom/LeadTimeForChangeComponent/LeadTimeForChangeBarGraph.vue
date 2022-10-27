@@ -23,6 +23,14 @@
       </span>
       <span slot="title">변경 리드 타임</span>
       <badge slot="title-label" :type="LeadTimeForChange.rate">{{ LeadTimeForChange.rate }}</badge>
+      <span slot="CustomSlot"><br></span>
+      <div slot="footer">
+        <hr>
+        <div class="stats">
+          <i class="fa fa-check"></i> 7일 동안의 지표입니다.
+        </div>
+      </div>
+
     </chart-card>
   </div>
 </template>
@@ -93,15 +101,15 @@ export default {
         drawBaseLine: {
           horizontalLine: [{
             y: 1440,
-            style: 'rgba(65,184,131,0.2)',
+            style: 'rgba(65,184,131,0.6)',
             text: 'fruit'
           }, {
             y: 10080,
-            style: 'rgba(104,179,200,0.2)',
+            style: 'rgba(104,179,200,0.6)',
             text: 'flower'
           }, {
             y: 43200,
-            style: 'rgba(252,196,104,0.2)',
+            style: 'rgba(252,196,104,0.6)',
             text: 'sprout'
           }]
         },
@@ -269,7 +277,7 @@ export default {
     },
     colorPickByLevel(level) {
       if (level == "seed") {
-        return "#ef8156";E
+        return "#ef8156";
       } else if (level == "sprout") {
         return "#fcc468";
       } else if (level == "flower") {

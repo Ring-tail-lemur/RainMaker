@@ -222,6 +222,12 @@ let lockPage = {
   component: Lock
 }
 
+let chartPage = {
+  path: '/charts',
+  name: 'charts',
+  component: Charts
+}
+
 let loginMiddleWarePage = {
   path: '/login/oauth2/code/github',
   name: 'LoginMiddleWare',
@@ -277,6 +283,7 @@ const routes = [
   LeadTimeForChangeDetailPage,
   mainPage,
   componentsMenu,
+  chartPage,
   formsMenu,
   tablesMenu,
   mapsMenu,
