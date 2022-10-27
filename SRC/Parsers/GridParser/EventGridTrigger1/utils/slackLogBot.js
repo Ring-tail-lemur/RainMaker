@@ -3,7 +3,7 @@ const fs = require('fs');
 async function sendErrMessage(e, now){
     const sqlConfig =  await readJsonSecret('hi');
     const message = await makeMessage(e,now);
-    const uri = JSON.stringify(sqlConfig.slack-bot-uri).replace(/['"]+/g, '');
+    const uri = JSON.stringify(sqlConfig['slack-bot-uri'].replace(/['"]+/g, '');
     axios.post(uri,{"text": `${message}`});
 }
 
