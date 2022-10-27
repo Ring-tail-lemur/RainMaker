@@ -54,7 +54,7 @@ jobs:
 
       - uses: microsoft/variable-substitution@v1 
         with: 
-          files: '${{env.AZURE_FUNCTION_APP_PACKAGE_PATH}}ms-sql-config.json'
+          files: '${{env.AZURE_FUNCTIONAPP_PACKAGE_PATH}}ms-sql-config.json'
         env:
           authentication.options.userName : ${{secrets.JSON_DB_USERNAME}}
           authentication.options.password : ${{secrets.JSON_DB_PASSWORD}}
@@ -63,7 +63,7 @@ jobs:
 
       - uses: microsoft/variable-substitution@v1 
         with:
-          files: '${{env.AZURE_FUNCTION_APP_PACKAGE_PATH}}slack-config.json'
+          files: '${{env.AZURE_FUNCTIONAPP_PACKAGE_PATH}}slack-config.json'
         env:
           slack-bot-uri: ${{secrets.GP_SLACK_WEBHOOK_URI}}
 
