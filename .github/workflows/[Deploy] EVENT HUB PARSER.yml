@@ -1,13 +1,13 @@
 # Docs for the Azure Web Apps Deploy action: https://github.com/azure/functions-action
 # More GitHub Actions for Azure: https://github.com/Azure/actions
 
-name: '[DEPLOY] eventhubparser'
+name: '[DEPLOY] EVENT HUB PARSER'
 
 on:
   push:
     branches:
       - main
-    path: 
+    paths: 
       - "SRC/Parsers/GridParser/**"
   workflow_dispatch:
 
