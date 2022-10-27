@@ -230,8 +230,7 @@ public class UserService {
 				repositoryDetail))
 			.toList();
 		OAuthUser oAuthUser = getOAuthUserById(userId);
-		List<HistoryCollectorDto> historyCollectorDtoList = getHistoryCollectorDtoList(token, repositoryList,
-				oAuthUser);
+		List<HistoryCollectorDto> historyCollectorDtoList = getHistoryCollectorDtoList(token, repositoryList);
 		gitOrganizationService.saveGitOrganizations(gitOrganizationSet);
 //		repositoryService.saveAllRepositories(repositoryList);
 		
@@ -242,9 +241,8 @@ public class UserService {
 		return historyCollectorDtoList;
 	}
 
-	private List<HistoryCollectorDto> getHistoryCollectorDtoList(String token, List<Repository> repositoryList,
-		OAuthUser oAuthUser) {
-		List<Repository> repositories = repositoryService.findRepositories(oAuthUser);
+	private List<HistoryCollectorDto> getHistoryCollectorDtoList(String token, List<Repository> repositoryList) {
+		List<Repository> repositories = repositoryService.findRepositories(repositoryList);
 		return repositoryList.stream()
 			.filter(repository -> !repositories.contains(repository))
 			.peek(webhookSettingFunction(token))
