@@ -45,6 +45,8 @@ async function controllerMain(eventObj, context, pool){
         } else if (hook_event == 'issues') {
             await issueMainModule.issueMain(pool, eventObj, context);
             context.log("issue insert(or delete or edit) ");
+        }else{
+            context.log("trash~");
         }
     } catch (e) {
         err_log_module.log(e, "main.js");
