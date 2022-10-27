@@ -1,9 +1,14 @@
 package org.example.functions.util;
 
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.nio.charset.StandardCharsets;
 import java.time.LocalTime;
 import java.time.ZoneId;
 
@@ -33,7 +38,6 @@ public class SlackLogger {
 	public void sendLogNotErr(String message){
 		try {
 			LocalTime nowTime = LocalTime.now(ZoneId.of("Asia/Seoul"));
-			System.out.println(slackLogBotUri);
 			JSONObject newJsonObj = new JSONObject();
 			URL uri = new URL(slackLogBotUri);
 			HttpURLConnection connection = (HttpURLConnection) uri.openConnection();
@@ -69,7 +73,6 @@ public class SlackLogger {
 	public void sendLog(Exception e, String message) throws IOException {
 		try {
 			LocalTime nowTime = LocalTime.now(ZoneId.of("Asia/Seoul"));
-			System.out.println(slackLogBotUri);
 			JSONObject newJsonObj = new JSONObject();
 			URL uri = new URL(slackLogBotUri);
 			HttpURLConnection connection = (HttpURLConnection) uri.openConnection();
@@ -116,7 +119,7 @@ public class SlackLogger {
 			return slackSecretJSONObject.getString("slack_uri");
 		}catch (Exception e){
 			e.printStackTrace();
-			String slackSecret = readFile("slack-secret.json");
+			String slackSecret = readFile("static/slack-secret.json");
 			JSONObject slackSecretJSONObject = new JSONObject(slackSecret);
 			return slackSecretJSONObject.getString("slack_uri");
 
@@ -124,7 +127,6 @@ public class SlackLogger {
 	}
 
 	private String readFile(String filePath) throws IOException {
-		System.out.println("now Reading File!");
 		InputStream input = this.getClass().getResourceAsStream(filePath);
 		ByteArrayOutputStream result = new ByteArrayOutputStream();
 		byte[] buffer = new byte[1024];

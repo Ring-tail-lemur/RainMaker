@@ -45,6 +45,14 @@
       "data.repository.databaseId": [
         "repository_id",
         "int"
+      ],
+      "data.repository.pullRequest.additions": [
+        "additions",
+        "int"
+      ],
+      "data.repository.pullRequest.deletions": [
+        "deletions",
+        "int"
       ]
     }
   },
