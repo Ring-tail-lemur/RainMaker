@@ -16,7 +16,7 @@ async function controllerMain(eventObj, context, pool){
     const hook_event = eventObj.hook_event;
 
     context.log(hook_event);
-
+// 
     try {
         if (hook_event == 'pull_request') {
             await pullRequestMainModule.pullRequestMain(pool, eventObj, context);
