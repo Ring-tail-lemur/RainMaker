@@ -21,7 +21,6 @@ import org.springframework.stereotype.Component;
 import com.ringtaillemur.rainmaker.dto.configdto.DeployProperties;
 
 @Component
-@Lazy
 public class SlackLogger {
 	@Autowired
 	DeployProperties deployProperties;
@@ -39,7 +38,7 @@ public class SlackLogger {
 		String newMessage =
 			nowTime.toString() +
 				"\nBE LOG"+
-				"\n----------------------\nErrMessage : " +
+				"\n----------------------\nMessage : " +
 				message;
 		newJsonObj.put("text", newMessage);
 		OutputStreamWriter streamWriter = new OutputStreamWriter(
