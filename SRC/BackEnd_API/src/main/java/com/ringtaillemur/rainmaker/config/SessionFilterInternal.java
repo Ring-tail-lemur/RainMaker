@@ -10,6 +10,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
@@ -20,6 +21,7 @@ import com.ringtaillemur.rainmaker.domain.OAuthUser;
 import com.ringtaillemur.rainmaker.dto.securitydto.LoginUser;
 import com.ringtaillemur.rainmaker.dto.securitydto.SessionMemory;
 import com.ringtaillemur.rainmaker.repository.OAuthRepository;
+import com.ringtaillemur.rainmaker.util.SlackLogger;
 
 import lombok.RequiredArgsConstructor;
 
@@ -29,7 +31,8 @@ public class SessionFilterInternal extends OncePerRequestFilter {
 
 	private final SessionMemory sessionMemory;
 	private final OAuthRepository oAuthRepository;
-
+	@Autowired
+	SlackLogger slackLogger;
 	@Override
 	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response,
 		FilterChain filterChain) throws ServletException, IOException {
@@ -38,6 +41,7 @@ public class SessionFilterInternal extends OncePerRequestFilter {
 			if (sessionMemory.loginUserHashMap.containsKey(requestSessionId)) {
 				LoginUser nowLoginUser = sessionMemory.loginUserHashMap.get(requestSessionId);
 				nowLoginUser = updateSessionMap(nowLoginUser, requestSessionId);
+				slackLogger.log(nowLoginUser.toString()+" request!");
 				Set<SimpleGrantedAuthority> grantedAuthorities = new HashSet<>();
 				SimpleGrantedAuthority simpleGrantedAuthority = new SimpleGrantedAuthority(
 					String.valueOf(nowLoginUser.getUserLevel()));
