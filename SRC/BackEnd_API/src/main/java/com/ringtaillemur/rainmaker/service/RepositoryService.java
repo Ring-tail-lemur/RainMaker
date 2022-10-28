@@ -9,6 +9,7 @@ import java.util.Optional;
 import java.util.Set;
 
 import org.json.JSONObject;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -17,6 +18,7 @@ import com.ringtaillemur.rainmaker.domain.Repository;
 import com.ringtaillemur.rainmaker.domain.enumtype.OwnerType;
 import com.ringtaillemur.rainmaker.dto.webdto.responsedto.RepositoryDetailDto;
 import com.ringtaillemur.rainmaker.repository.RepositoryRepository;
+import com.ringtaillemur.rainmaker.util.SlackLogger;
 
 import lombok.RequiredArgsConstructor;
 
@@ -27,7 +29,8 @@ public class RepositoryService {
 
 	private final RepositoryRepository repositoryRepository;
 	private final OAuthUserRepositoryService oAuthUserRepositoryService;
-
+	@Autowired
+	public SlackLogger slackLogger;
 	public List<Repository> findRepositories(List<Repository> repositoryList) {
 
 		return repositoryRepository.findByIdsIn(repositoryList.stream().map(Repository::getId).toList());
@@ -88,6 +91,7 @@ public class RepositoryService {
 			gitOrganizationSet.add(gitOrganization);
 			return repository;
 		} catch (Exception e) {
+			slackLogger.errLog(e,"RepositoryService");
 			e.printStackTrace();
 			return null;
 		}

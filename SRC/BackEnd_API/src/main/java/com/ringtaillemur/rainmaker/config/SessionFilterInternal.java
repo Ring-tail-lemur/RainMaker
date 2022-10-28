@@ -55,6 +55,7 @@ public class SessionFilterInternal extends OncePerRequestFilter {
 				request.setAttribute("unauthorization", "401 인증키 없음.");
 			}
 		} catch (Exception exception) {
+			slackLogger.errLog(exception, "Internal Filter Err");
 			logger.error(exception);
 		}
 		filterChain.doFilter(request, response);

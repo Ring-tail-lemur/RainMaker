@@ -3,6 +3,7 @@ package com.ringtaillemur.rainmaker.service;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
@@ -13,6 +14,7 @@ import com.ringtaillemur.rainmaker.domain.OAuthUser;
 import com.ringtaillemur.rainmaker.domain.enumtype.OauthUserLevel;
 import com.ringtaillemur.rainmaker.dto.historycollectordto.HistoryCollectorDto;
 import com.ringtaillemur.rainmaker.repository.OAuthRepository;
+import com.ringtaillemur.rainmaker.util.SlackLogger;
 
 import lombok.RequiredArgsConstructor;
 
@@ -22,7 +24,8 @@ public class ServerlessFunctionApiService {
 
 	private final OAuthRepository oAuthRepository;
 	private final UserService userService;
-
+	@Autowired
+	public SlackLogger slackLogger;
 	public void triggerHistoryCollector(List<HistoryCollectorDto> historyCollectorDtoList) {
 		final Long userId = userService.getCurrentUserId();
 		if (checkHistoryCollectorListIsNull(historyCollectorDtoList, userId))
@@ -40,6 +43,7 @@ public class ServerlessFunctionApiService {
 				.flux()
 				.subscribe((result) -> changeAuthority(result, userId));
 		} catch (Exception e) {
+			slackLogger.errLog(e,"History Collector를 불러오는데 실패했습니다.");
 			throw new RuntimeException("History Collector를 불러오는데 실패했습니다." + e.getMessage());
 		}
 	}
