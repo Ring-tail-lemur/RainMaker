@@ -30,6 +30,7 @@
 
         </div>
       </slot>
+      <slot name="CustomSlot"></slot>
       <slot name="subtitle"></slot>
       <component :is="chartComponent"
                  :chart-id="chartId"

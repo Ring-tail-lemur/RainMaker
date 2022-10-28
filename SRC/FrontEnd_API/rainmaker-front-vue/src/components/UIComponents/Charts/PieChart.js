@@ -7,7 +7,7 @@ const defaultOptions = {
   },
 
   tooltips: {
-    enabled: false
+    enabled: true
   },
   scales: {
     yAxes: [{
