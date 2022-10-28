@@ -324,6 +324,10 @@ public class UserService {
 			.orElseGet(() -> oAuthRepository.save(oAuthUser));
 	}
 
+	public void updateOAuthUser(OAuthUser oAuthUser) {
+		oAuthRepository.save(oAuthUser);
+	}
+
 	private String getUserInfo(String userGithubToken) throws IOException {
 		URL url = new URL("https://api.github.com/user");
 		HttpURLConnection http = (HttpURLConnection)url.openConnection();

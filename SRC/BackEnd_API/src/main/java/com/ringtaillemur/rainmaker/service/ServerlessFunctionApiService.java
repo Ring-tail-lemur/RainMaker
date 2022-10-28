@@ -3,10 +3,10 @@ package com.ringtaillemur.rainmaker.service;
 import java.util.List;
 import java.util.Optional;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.reactive.function.client.ClientResponse;
 import org.springframework.web.reactive.function.client.WebClient;
 
@@ -24,8 +24,8 @@ public class ServerlessFunctionApiService {
 
 	private final OAuthRepository oAuthRepository;
 	private final UserService userService;
-	@Autowired
-	public SlackLogger slackLogger;
+	private final SlackLogger slackLogger;
+
 	public void triggerHistoryCollector(List<HistoryCollectorDto> historyCollectorDtoList) {
 		final Long userId = userService.getCurrentUserId();
 		if (checkHistoryCollectorListIsNull(historyCollectorDtoList, userId))
@@ -48,12 +48,13 @@ public class ServerlessFunctionApiService {
 		}
 	}
 
-	private boolean checkHistoryCollectorListIsNull(List<HistoryCollectorDto> historyCollectorDtoList, Long userId) {
+	@Transactional
+	boolean checkHistoryCollectorListIsNull(List<HistoryCollectorDto> historyCollectorDtoList, Long userId) {
 		if (historyCollectorDtoList.isEmpty()) {
 			Optional<OAuthUser> id = oAuthRepository.findById(userId);
 			OAuthUser oAuthUser = id.orElseThrow();
 			oAuthUser.setUserLevel(OauthUserLevel.AUTHED_HISTORY_COLLECT_ENDED_USER);
-			userService.saveUser(oAuthUser);
+			userService.updateOAuthUser(oAuthUser);
 			return true;
 		}
 		return false;
