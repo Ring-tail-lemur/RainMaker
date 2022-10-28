@@ -1,5 +1,7 @@
 package com.ringtaillemur.rainmaker.dto.configdto;
 
+import javax.annotation.PostConstruct;
+
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
@@ -7,6 +9,7 @@ import lombok.Data;
 
 @Data
 @Component
+
 public class DeployProperties {
 	@Value("${spring.dev.frontendUri}")
 	public String frontEndBaseUri;
@@ -16,4 +19,6 @@ public class DeployProperties {
 	public String clientId;
 	@Value("${spring.security.oauth2.client.registration.github.clientSecret}")
 	public String clientSecret;
+	@Value("${spring.slack.slack-secret-url}")
+	public String slackWebhookUrl;
 }
