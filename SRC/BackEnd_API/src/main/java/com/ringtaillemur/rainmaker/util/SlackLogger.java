@@ -79,7 +79,7 @@ public class SlackLogger {
 			}
 			String newMessage =
 				nowTime.toString() +
-					"\nHistoryCollector Got Err! \n----------------------\nErrLog : " +
+					"\nBE Got Err! \n----------------------\nErrLog : " +
 					errStack +
 					"\n----------------------\nErrMessage : " +
 					message;
