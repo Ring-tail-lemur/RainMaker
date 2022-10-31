@@ -18,6 +18,7 @@ import lombok.NoArgsConstructor;
 public class LeadTimeForChangeSourcePullRequestDetailData implements Serializable {
 
 	private Long pullRequestId;
+	private Long repositoryId;
 	private Long leadTimeForChangeId;
 	private Long codingTime;
 	private Long pickupTime;
