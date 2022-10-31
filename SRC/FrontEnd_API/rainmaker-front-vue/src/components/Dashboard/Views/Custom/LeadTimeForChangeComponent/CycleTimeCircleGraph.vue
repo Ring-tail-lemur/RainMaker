@@ -1,10 +1,11 @@
 <template>
   <div class="col-md-4">
-    <chart-card :chart-data="emailChart"
+    <chart-card :chart-data="cycleTime"
                 chart-type="Pie"
-                title="Email Statistics"
+                title="CycleTime"
                 description="Last Campaign Performance"
-                :chart-options="{cutoutPercentage: 70}">
+                :key="testData"
+                :chart-options="cycleTime.options">
       <span slot="title">싸이클 타임</span>
       <template slot="footer">
         <div class="legend">
@@ -27,6 +28,9 @@ import { Card } from 'src/components/UIComponents'
 import ChartCard from 'src/components/UIComponents/Cards/ChartCard'
 import PieChart from 'src/components/UIComponents/Charts/PieChart'
 import DoughnutChart from "@/components/UIComponents/Charts/DoughnutChart";
+import axios from "axios";
+import setHeaderJWT from "@/util/setHeaderJWT";
+import Loading from "@/components/Dashboard/Layout/LoadingMainPanel";
 
 const tooltipOptions = {
   tooltipFillColor: "rgba(0,0,0,0.5)",
@@ -43,20 +47,20 @@ const tooltipOptions = {
   tooltipCaretSize: 8,
   tooltipCornerRadius: 6,
   tooltipXOffset: 10,
+
 };
 export default {
   components: {
     Card,
     ChartCard,
     PieChart,
-    DoughnutChart
+    DoughnutChart,
   },
   data() {
     return {
-      emailChart: {
-        labels: ['코딩 시간',
-          '인지 시간',
-          '리뷰 시간', '배포 시간'],
+      testData : 0,
+      cycleTime: {
+        labels: ['코딩 시간', '인지 시간', '리뷰 시간', '배포 시간'],
         datasets: [{
           label: "Emails",
           pointRadius: 0,
@@ -68,13 +72,64 @@ export default {
             'rgba(203,104,252,0.7)'
           ],
           borderWidth: 0,
-          data: [542, 480, 430,492]
+          // data: [1]
         }],
         options: {
-          tooltips: tooltipOptions
+          tooltips: tooltipOptions,
+          cutoutPercentage: 70
         }
       },
     }
+  },
+  methods : {
+    async createdMethod(showDate) {
+      let Today = new Date();
+      const FormatToday = this.dateFormat(Today);
+      Today.setDate(Today.getDate()- showDate);
+      const FormatLastMonth = this.dateFormat(Today);
+      const repositories = await this.getRepositoryInfo();
+      const repositoryArr = [];
+      repositories.forEach((repository) => {
+        repositoryArr.push(repository['repositoryId']);
+      });
+      await this.getCycleTime(FormatLastMonth, FormatToday, repositoryArr, "/lead-time-for-change/cycle-time-detail");
+    },
+    async getRepositoryInfo() {
+      let axiosResponse;
+      axiosResponse = await axios.get(this.custom.defaultURL + "/api/user/repositories", {
+        headers: setHeaderJWT()
+      });
+      return axiosResponse.data;
+    },
+    async getCycleTime(start_time, end_time, repo_ids, MetricName) {
+      console.log(start_time, end_time, repo_ids, MetricName, "이 들어왔네")
+      const Message = await axios.get(this.custom.defaultURL + "/api/dorametric" + MetricName, {
+        headers: setHeaderJWT(),
+        params: {
+          start_time: start_time,
+          end_time: end_time,
+          repo_id: repo_ids.toString()
+        }
+      })
+      let responseData = Message.data;
+      console.log("after : ", responseData);
+      this.cycleTime.datasets[0].data = [responseData.codingAverageTime, responseData.pickupAverageTime, responseData.reviewAverageTime, responseData.deployAverageTime];
+      this.cycleTime.labels = [responseData.codingTimeLevel, responseData.pickupTimeLevel, responseData.reviewTimeLevel, responseData.deployTimeLevel];
+
+      this.testData = 1;
+    },
+    dateFormat(date) {
+      let month = date.getMonth() + 1;
+      let day = date.getDate();
+
+      month = month >= 10 ? month : '0' + month;
+      day = day >= 10 ? day : '0' + day;
+
+      return date.getFullYear() + '-' + month + '-' + day;
+    },
+  },
+  async created() {
+    await this.createdMethod(14);
   }
 }
 </script>

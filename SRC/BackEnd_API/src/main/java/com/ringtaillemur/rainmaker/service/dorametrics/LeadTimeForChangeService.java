@@ -74,7 +74,7 @@ public class LeadTimeForChangeService {
 
 		return leadTimeForChangeDetailMap;
 	}
-	
+
 	public CycleTimeDetailDto getCycleTimeDetailDto(List<Long> repositoryIds, LocalDate startTime,
 		LocalDate endTime) {
 		LocalDateTime startDateTime = startTime.atStartOfDay();

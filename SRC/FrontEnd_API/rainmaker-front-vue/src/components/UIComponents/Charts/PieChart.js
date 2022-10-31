@@ -95,5 +95,6 @@ export default {
     this.chartData = this.assignChartData({});
     this.options = this.assignChartOptions(defaultOptions);
     this.renderChart(this.chartData, this.options);
+
   }
 }
