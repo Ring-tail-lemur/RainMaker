@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.ringtaillemur.rainmaker.domain.LeadTimeForChange;
+import com.ringtaillemur.rainmaker.dto.webdto.responsedto.CycleTimeDetailDto;
 import com.ringtaillemur.rainmaker.dto.webdto.responsedto.LeadTimeForChangeByTimeDto;
 import com.ringtaillemur.rainmaker.dto.webdto.responsedto.LeadTimeForChangeDetailDto;
 import com.ringtaillemur.rainmaker.repository.LeadTimeForChangeRepository;
@@ -71,5 +72,15 @@ public class LeadTimeForChangeService {
 		}
 
 		return leadTimeForChangeDetailMap;
+	}
+	
+	public CycleTimeDetailDto getCycleTimeDetailDto(List<Long> repositoryIds, LocalDate startTime,
+		LocalDate endTime) {
+		LocalDateTime startDateTime = startTime.atStartOfDay();
+		LocalDateTime endDateTime = endTime.plusDays(1).atStartOfDay();
+		List<LeadTimeForChange> leadTimeForChangeList = leadTimeForChangeRepository.findByRepositoryIdInAndDeploymentTimeBetween(
+			repositoryIds, startDateTime, endDateTime);
+
+		return null;
 	}
 }
