@@ -1,0 +1,18 @@
+{
+  "properties": [
+    {
+      "name": "spring.slack.slack-secret-url",
+      "type": "java.lang.String",
+      "description": "Description for spring.slack.slack-secret-url."
+    },
+    {
+      "name": "spring.dev.frontendUri",
+      "type": "java.lang.String",
+      "description": "Description for spring.dev.frontendUri."
+    },
+    {
+      "name": "spring.dev.backendUri",
+      "type": "java.lang.String",
+      "description": "Description for spring.dev.backendUri."
+    }
+  ] }
