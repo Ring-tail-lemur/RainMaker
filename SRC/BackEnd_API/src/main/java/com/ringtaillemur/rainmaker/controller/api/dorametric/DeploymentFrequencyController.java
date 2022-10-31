@@ -28,5 +28,4 @@ public class DeploymentFrequencyController {
 		@RequestParam("repo_id") List<Long> repositoryIds) {
 		return deploymentFrequencyService.getDeploymentFrequency(repositoryIds, startTime, endTime);
 	}
-
 }
