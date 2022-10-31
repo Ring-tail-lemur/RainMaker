@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
+import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -81,6 +82,15 @@ public class LeadTimeForChangeService {
 		List<LeadTimeForChange> leadTimeForChangeList = leadTimeForChangeRepository.findByRepositoryIdInAndDeploymentTimeBetween(
 			repositoryIds, startDateTime, endDateTime);
 
-		return null;
+		return CycleTimeDetailDto.builder()
+			.leadTimeForChangeDetailDtos(leadTimeForChangeList.stream()
+				.map((leadTimeForChange) -> new LeadTimeForChangeDetailDto(
+					leadTimeForChange.getFirstCommitTime(),
+					leadTimeForChange.getPrOpenTime(),
+					leadTimeForChange.getFirstReviewTime(),
+					leadTimeForChange.getPrCloseTime(),
+					leadTimeForChange.getDeploymentTime())
+				).collect(Collectors.toList()))
+			.build();
 	}
 }
