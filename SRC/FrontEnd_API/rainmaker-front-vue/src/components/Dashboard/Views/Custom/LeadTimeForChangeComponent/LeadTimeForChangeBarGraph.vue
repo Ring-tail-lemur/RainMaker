@@ -159,10 +159,10 @@ export default {
           return 'success';
       }
     },
-    async createdMethod() {
+    async createdMethod(showDate) {
       let Today = new Date();
       const FormatToday = this.dateFormat(Today);
-      Today.setDate(Today.getDate()- 6);
+      Today.setDate(Today.getDate()- showDate);
       const FormatLastMonth = this.dateFormat(Today);
 
       const repositories = await this.getRepositoryInfo();
@@ -422,7 +422,7 @@ export default {
     },
   },
   async created() {
-    await this.createdMethod();
+    await this.createdMethod(14);
   }
 }
 
