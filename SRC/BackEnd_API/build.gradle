@@ -1,8 +1,8 @@
 plugins {
-	id 'org.springframework.boot' version '2.7.1'
-	id 'io.spring.dependency-management' version '1.0.11.RELEASE'
-	id 'java'
-	id "com.microsoft.azure.azurewebapp" version "1.1.0"
+    id 'org.springframework.boot' version '2.7.1'
+    id 'io.spring.dependency-management' version '1.0.11.RELEASE'
+    id 'java'
+    id "com.microsoft.azure.azurewebapp" version "1.6.0"
 }
 
 group = 'com.rainmaker'
@@ -10,56 +10,56 @@ version = '0.0.1-SNAPSHOT'
 sourceCompatibility = '17'
 
 configurations {
-	compileOnly {
-		extendsFrom annotationProcessor
-	}
+    compileOnly {
+        extendsFrom annotationProcessor
+    }
 }
 
 repositories {
-	mavenCentral()
+    mavenCentral()
 }
 
 dependencies {
-	implementation 'org.springframework.boot:spring-boot-starter-web'
-	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
-	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
-	implementation 'org.springframework.boot:spring-boot-starter-validation'
-	implementation 'org.springframework.boot:spring-boot-starter-security'
-	implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'
-	implementation 'org.springframework.boot:spring-boot-starter-webflux'
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+    implementation 'org.springframework.boot:spring-boot-starter-validation'
+    implementation 'org.springframework.boot:spring-boot-starter-security'
+    implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'
+    implementation 'org.springframework.boot:spring-boot-starter-webflux'
 
-	implementation group: 'p6spy', name: 'p6spy', version: '3.9.1'
+    implementation group: 'p6spy', name: 'p6spy', version: '3.9.1'
 
 
-	implementation('nz.net.ultraq.thymeleaf:thymeleaf-layout-dialect')
-	implementation group: 'com.microsoft.sqlserver', name: 'mssql-jdbc', version: '6.1.0.jre7'
-	implementation group: 'org.json', name: 'json', version: '20220320'
-	implementation group: 'io.jsonwebtoken', name: 'jjwt', version: '0.9.1'
+    implementation('nz.net.ultraq.thymeleaf:thymeleaf-layout-dialect')
+    implementation group: 'com.microsoft.sqlserver', name: 'mssql-jdbc', version: '6.1.0.jre7'
+    implementation group: 'org.json', name: 'json', version: '20220320'
+    implementation group: 'io.jsonwebtoken', name: 'jjwt', version: '0.9.1'
 
-	compileOnly 'org.projectlombok:lombok'
+    compileOnly 'org.projectlombok:lombok'
 
-	annotationProcessor "org.springframework.boot:spring-boot-configuration-processor"
-	annotationProcessor 'org.projectlombok:lombok'
+    annotationProcessor "org.springframework.boot:spring-boot-configuration-processor"
+    annotationProcessor 'org.projectlombok:lombok'
 
-	testImplementation 'org.springframework.boot:spring-boot-starter-test'
-	testImplementation 'org.springframework.security:spring-security-test'
-	testImplementation 'org.springframework.boot:spring-boot-starter-test'
-	testImplementation group: 'org.mockito', name: 'mockito-core', version: '4.6.1'
-	testImplementation group: 'org.mockito', name: 'mockito-junit-jupiter', version: '4.6.1'
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    testImplementation 'org.springframework.security:spring-security-test'
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    testImplementation group: 'org.mockito', name: 'mockito-core', version: '4.6.1'
+    testImplementation group: 'org.mockito', name: 'mockito-junit-jupiter', version: '4.6.1'
 }
 
 tasks.named('test') {
-	useJUnitPlatform()
+    useJUnitPlatform()
 }
 
 azurewebapp {
     subscription = '0d021892-6a06-4807-a518-9cea938b4dfd'
     resourceGroup = 'MainProjectResourceGroup'
     appName = 'spring-api-server'
-    pricingTier = 'F1' 
-    region = 'koreacentral' 
+    pricingTier = 'F1'
+    region = 'koreacentral'
     runtime {
-        os = 'Windows' 
+        os = 'Windows'
         webContainer = 'Java SE'
         javaVersion = 'Java 17'
     }
