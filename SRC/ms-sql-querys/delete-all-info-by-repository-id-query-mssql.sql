@@ -3,7 +3,7 @@ DECLARE @repositoryId BIGINT
 SET @repositoryId = 544985444
 
 
-
+-- 초기 세팅 
 DECLARE @organizationId BIGINT
 SET @organizationId = (SELECT owner_organization_id
                        FROM repository
