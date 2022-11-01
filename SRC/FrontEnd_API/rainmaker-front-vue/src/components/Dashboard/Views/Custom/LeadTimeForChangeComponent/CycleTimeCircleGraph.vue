@@ -5,7 +5,8 @@
                 title="CycleTime"
                 description="Last Campaign Performance"
                 :key="testData"
-                :chart-options="cycleTime.options">
+                :chart-options="cycleTime.options"
+                >
       <span slot="title">싸이클 타임</span>
       <template slot="footer">
         <div class="legend">
@@ -17,7 +18,7 @@
         </div>
         <hr>
         <div class="stats">
-          <i class="fa fa-check"></i> 7일 동안의 지표입니다.
+          <i class="fa fa-check"></i> 14일 동안의 지표입니다.
         </div>
       </template>
     </chart-card>
@@ -113,6 +114,13 @@ export default {
       })
       let responseData = Message.data;
       console.log("after : ", responseData);
+      if(!responseData.codingAverageTime && !responseData.pickupAverageTime && !responseData.reviewAverageTime && !responseData.deployAverageTime){
+        this.cycleTime.datasets[0].data = [0.00000000000000001];
+        this.cycleTime.labels = ["데이터가 없습니다"];
+        this.cycleTime.datasets[0].backgroundColor = ["#838383"];
+        this.testData = 1;
+        return;
+      }
       this.cycleTime.datasets[0].data = [responseData.codingAverageTime, responseData.pickupAverageTime, responseData.reviewAverageTime, responseData.deployAverageTime];
       this.cycleTime.labels = [responseData.codingTimeLevel, responseData.pickupTimeLevel, responseData.reviewTimeLevel, responseData.deployTimeLevel];
 

@@ -27,7 +27,7 @@
       <div slot="footer">
         <hr>
         <div class="stats">
-          <i class="fa fa-check"></i> 7일 동안의 지표입니다.
+          <i class="fa fa-check"></i> 14일 동안의 지표입니다.
         </div>
       </div>
 
