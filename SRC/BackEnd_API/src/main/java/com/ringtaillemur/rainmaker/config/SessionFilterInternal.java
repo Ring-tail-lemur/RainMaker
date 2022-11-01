@@ -40,6 +40,7 @@ public class SessionFilterInternal extends OncePerRequestFilter {
 			String requestSessionId = request.getHeader("SessionId");
 			if (sessionMemory.loginUserHashMap.containsKey(requestSessionId)) {
 				LoginUser nowLoginUser = sessionMemory.loginUserHashMap.get(requestSessionId);
+				nowLoginUser = updateSessionMap(nowLoginUser, requestSessionId);
 				slackLogger.log(nowLoginUser.getUsername());
 
 				Set<SimpleGrantedAuthority> grantedAuthorities = new HashSet<>();

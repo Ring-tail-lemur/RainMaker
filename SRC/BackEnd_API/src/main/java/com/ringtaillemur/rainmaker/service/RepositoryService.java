@@ -32,13 +32,7 @@ public class RepositoryService {
 	@Autowired
 	public SlackLogger slackLogger;
 	public List<Repository> findRepositories(List<Repository> repositoryList) {
-
 		return repositoryRepository.findByIdsIn(repositoryList.stream().map(Repository::getId).toList());
-		// List<OAuthUserRepositoryTable> oAuthUserRepositoryTableList = oAuthUserRepositoryService
-		// 	.getRepositoryByOAuthUser(oAuthUser);
-		// return oAuthUserRepositoryTableList.stream()
-		// 	.map(OAuthUserRepositoryTable::getRepository)
-		// 	.toList();
 	}
 
 	public Optional<Repository> getRepositoryById(Long repositoryId) {
