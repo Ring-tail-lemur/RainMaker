@@ -3,6 +3,8 @@ package com.ringtaillemur.rainmaker.dto.webdto.responsedto;
 import java.time.Duration;
 import java.time.LocalDateTime;
 
+import com.ringtaillemur.rainmaker.domain.LeadTimeForChange;
+
 import lombok.Builder;
 import lombok.Data;
 
@@ -32,4 +34,13 @@ public class LeadTimeForChangeDetailDto {
 		this.reviewTime = Duration.between(firstReviewTime, prCloseTime).getSeconds() / 60.0;
 		this.deployTime = Duration.between(prCloseTime, deploymentTime).getSeconds() / 60.0;
 	}
+
+	public LeadTimeForChangeDetailDto(LeadTimeForChange leadTimeForChange) {
+		this(leadTimeForChange.getFirstCommitTime(),
+			leadTimeForChange.getPrOpenTime(),
+			leadTimeForChange.getFirstReviewTime(),
+			leadTimeForChange.getPrCloseTime(),
+			leadTimeForChange.getDeploymentTime());
+	}
+
 }
