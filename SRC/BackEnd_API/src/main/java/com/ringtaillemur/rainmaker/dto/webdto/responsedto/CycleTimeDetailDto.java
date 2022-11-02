@@ -1,14 +1,11 @@
 package com.ringtaillemur.rainmaker.dto.webdto.responsedto;
 
+import java.util.List;
+
 import com.ringtaillemur.rainmaker.util.enumtype.ProductivityLevel;
 
 import lombok.Builder;
 import lombok.Data;
-
-import java.time.Duration;
-import java.time.LocalDateTime;
-import java.util.List;
-import java.util.stream.Collectors;
 
 @Data
 public class CycleTimeDetailDto {
@@ -22,8 +19,6 @@ public class CycleTimeDetailDto {
 	private double deployAverageTime;
 	private ProductivityLevel deployTimeLevel;
 
-
-	@Builder
 	public CycleTimeDetailDto(List<LeadTimeForChangeDetailDto> leadTimeForChangeDetailDtos) {
 
 		this.codingAverageTime = leadTimeForChangeDetailDtos.stream()
@@ -46,10 +41,24 @@ public class CycleTimeDetailDto {
 			.average()
 			.orElse(0);
 
+		setAllLevel();
+	}
+
+	private void setAllLevel() {
 		this.codingTimeLevel = getCodingTimeProductivityLevel();
 		this.pickupTimeLevel = getPickUpTimeProductivityLevel();
-		this.reviewTimeLevel = getReviewTimeProductivityLevel();
 		this.deployTimeLevel = getDeployTimeProductivityLevel();
+		this.reviewTimeLevel = getReviewTimeProductivityLevel();
+	}
+
+	@Builder
+	public CycleTimeDetailDto(Long codingAverageTime, Long pickupAverageTime, Long reviewAverageTime,
+		Long deployAverageTime) {
+		this.codingAverageTime = codingAverageTime;
+		this.pickupAverageTime = pickupAverageTime;
+		this.reviewAverageTime = reviewAverageTime;
+		this.deployAverageTime = deployAverageTime;
+		setAllLevel();
 	}
 
 	private ProductivityLevel getCodingTimeProductivityLevel() {
