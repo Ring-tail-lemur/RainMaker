@@ -26,4 +26,6 @@ public class LeadTimeForChangeSourcePullRequestDetailData implements Serializabl
 	private Long deployTime;
 	private Long codeChange;
 	private Long reviewSize;
+	private String visitedPullRequests;
+	private String pullRequestUrl;
 }
