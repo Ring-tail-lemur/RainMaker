@@ -11,7 +11,7 @@ class Singleton(type):
 
 class MsSql(metaclass=Singleton):
     def __init__(self):
-        
+        self.conn = pymssql.connect(server='rainmaker-azure-sql-server.database.windows.net', user='rainmaker@rainmaker-azure-sql-server', password='dkffkrRhfldudndnjstnddl!', database='RainMakerSystemDB', as_dict =True) 
     
     def execute(self, query):
         self.cursor = self.conn.cursor()
@@ -41,12 +41,14 @@ class MsSql(metaclass=Singleton):
             return self.modify_query(query)
 
     def select_query_df(self, query):
+        print(query)
         self.cursor.execute(query)
         result = self.cursor.fetchall()
         result_df = pd.DataFrame(result)
         return result_df
 
     def modify_query(self, query):
+        print(query)
         self.cursor.execute(query)
         result = list()
         row = self.cursor.fetchone()

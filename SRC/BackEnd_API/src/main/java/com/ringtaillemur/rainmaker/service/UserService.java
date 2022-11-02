@@ -230,8 +230,8 @@ public class UserService {
 				repositoryDetail))
 			.toList();
 		OAuthUser oAuthUser = getOAuthUserById(userId);
-		List<HistoryCollectorDto> historyCollectorDtoList = getHistoryCollectorDtoList(token, repositoryList);
 		gitOrganizationService.saveGitOrganizations(gitOrganizationSet);
+		List<HistoryCollectorDto> historyCollectorDtoList = getHistoryCollectorDtoList(token, repositoryList);
 //		repositoryService.saveAllRepositories(repositoryList);
 		
 		List<OAuthUserRepositoryTable> oAuthUserRepositoryTables = getoAuthUserRepositoryTables(
