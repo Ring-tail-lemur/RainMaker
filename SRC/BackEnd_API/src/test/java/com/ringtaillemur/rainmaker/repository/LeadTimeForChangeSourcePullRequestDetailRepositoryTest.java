@@ -1,7 +1,5 @@
 package com.ringtaillemur.rainmaker.repository;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 import java.util.List;
 
 import org.junit.jupiter.api.Test;
@@ -20,4 +18,10 @@ class LeadTimeForChangeSourcePullRequestDetailRepositoryTest {
 		List<LeadTimeForChangeSourcePullRequestDetail> all = leadTimeForChangeSourcePullRequestDetailRepository.findAll();
 	}
 
+	@Test
+	void queryTest() {
+		List<LeadTimeForChangeSourcePullRequestDetail> byDataLeadTimeForChangeIdIn =
+			leadTimeForChangeSourcePullRequestDetailRepository.findByDataLeadTimeForChangeIdIn(List.of(2310L, 2311L, 2312L, 2313L));
+		System.out.println("byDataLeadTimeForChangeIdIn = " + byDataLeadTimeForChangeIdIn);
+	}
 }
