@@ -4,7 +4,7 @@
                 chart-id="activity-chart"
                 :color="LeadTimeForChange.color"
                 :stacked="stacked"
-                :suggestedMax="50000"
+                :suggestedMax="10000"
                 chart-title="Lead Time For Change"
                 :chart-options="LeadTimeForChange.drawBaseLine"
                 :class="'border-' + LeadTimeForChange.rate">
