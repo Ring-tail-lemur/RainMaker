@@ -35,6 +35,7 @@ dependencies {
     implementation group: 'com.microsoft.sqlserver', name: 'mssql-jdbc', version: '6.1.0.jre7'
     implementation group: 'org.json', name: 'json', version: '20220320'
     implementation group: 'io.jsonwebtoken', name: 'jjwt', version: '0.9.1'
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
 
     compileOnly 'org.projectlombok:lombok'
 
