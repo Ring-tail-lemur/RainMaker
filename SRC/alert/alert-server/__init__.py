@@ -1,8 +1,8 @@
 import datetime
 import logging
-from dataframesModule import dataModule
 import azure.functions as func
-
+import extractor
+import chooser
 
 def main(mytimer: func.TimerRequest) -> None:
     utc_timestamp = datetime.datetime.utcnow().replace(
@@ -13,8 +13,9 @@ def main(mytimer: func.TimerRequest) -> None:
 
     logging.info('Python timer trigger function ran at %s', utc_timestamp)
 
-    data_module = dataModule.DataModule()
-
-    above_repository = data_module.get_above_average()
-    print(above_repository)
+    ext = extractor.Extractor()
+    chooser = chooser.Chooser() 
+    alert_user = ext.get_burn_out_user()
+    alert_user_with_deduplication = chooser.get_alert_user(alert_user)
+    print("",alert_user_with_deduplication)
     
