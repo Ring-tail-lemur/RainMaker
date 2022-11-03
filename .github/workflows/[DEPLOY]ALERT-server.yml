@@ -42,10 +42,7 @@ jobs:
       - name: Install dependencies
         run : |
           pushd './${{env.AZURE_FUNCTIONAPP_PACKAGE_PATH}}'
-          ls
-          sudo -H pip3 install --upgrade --ignore-installed pip setuptools
           pip install -r requirements.txt
-          tree
           popd
         
       # Optional: Add step to run tests here
@@ -78,6 +75,6 @@ jobs:
           app-name: 'rainmaker-alert-server'
           slot-name: 'Production'
           package: ${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}
-          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_02AC41A6C642470086A13F06FA52D412 }}
+          publish-profile: ${{ secrets.ALERT_SERVER_PUBLISH_PROFILE }}
           scm-do-build-during-deployment: true
           enable-oryx-build: true
