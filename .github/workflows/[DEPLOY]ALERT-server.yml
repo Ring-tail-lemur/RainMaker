@@ -9,7 +9,7 @@ on:
   workflow_dispatch:
 
 env:
-  AZURE_FUNCTIONAPP_PACKAGE_PATH: '.SRC/alert' # set this to the path to your web app project, defaults to the repository root
+  AZURE_FUNCTIONAPP_PACKAGE_PATH: './SRC/alert' # set this to the path to your web app project, defaults to the repository root
   PYTHON_VERSION: '3.9' # set this to the python version to use (supports 3.6, 3.7, 3.8)
 
 jobs:
@@ -22,7 +22,7 @@ jobs:
       - name: 'Insert ms-sql.json'
         shell: bash
         run: |
-          pushd './${{env.AZURE_FUNCTION_APP_PACKAGE_PATH}}'
+          pushd './${{env.AZURE_FUNCTIONAPP_PACKAGE_PATH}}'
           echo '${{secrets.ALERT_SSERVER_MS_SQL}}' >> ./alert-server/ms-sql.json
           popd
 
