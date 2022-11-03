@@ -54,6 +54,8 @@ jobs:
         with:
           name: python-app
           path: |
+            ls
+            pwd
             !venv/
 
   deploy:
