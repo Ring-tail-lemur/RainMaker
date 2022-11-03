@@ -9,7 +9,6 @@ def main(mytimer: func.TimerRequest) -> None:
         from . import chooser
     except:
         print('hi')
-        print('hi')
     utc_timestamp = datetime.datetime.utcnow().replace(
         tzinfo=datetime.timezone.utc).isoformat()
 
