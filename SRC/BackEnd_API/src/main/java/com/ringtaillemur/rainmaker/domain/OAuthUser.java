@@ -32,6 +32,7 @@ public class OAuthUser extends BaseEntity {
 	private String name;
 	private String oauthToken;
 	private String url;
+	private String SlackUrl;
 
 	@Enumerated(value = EnumType.STRING)
 	OauthUserLevel userLevel;

@@ -40,6 +40,7 @@ const VectorMaps = () => import(/* webpackChunkName: "maps" */ 'src/components/D
 import Calendar from 'src/components/Dashboard/Views/Calendar/CalendarRoute.vue'
 import repositorySelect from "@/components/Dashboard/Views/Custom/RepositorySelect";
 import TokenSetting from "@/components/Dashboard/Views/Pages/TokenSetting";
+import SlackWebhookRegister from "@/components/Dashboard/Views/Pages/SlackWebhookRegister";
 import axios from "axios";
 import setHeaderJWT from "@/api/setHeaderJWT";
 import pageCheckAndChange from "@/util/pageCheckAndChange";
@@ -210,6 +211,13 @@ let githubTokenSettingPage = {
   beforeEnter: requireAuth()
 }
 
+let slackWebhookRegisterPage = {
+  path: '/user/SlackWebhookRegister',
+  name: 'SlackWebhookRegister',
+  component: SlackWebhookRegister,
+  beforeEnter: requireAuth()
+}
+
 let registerPage = {
   path: '/register',
   name: 'Register',
@@ -280,6 +288,7 @@ const routes = [
     path: '/',
     redirect: '/main'
   },
+  slackWebhookRegisterPage,
   LeadTimeForChangeDetailPage,
   mainPage,
   componentsMenu,

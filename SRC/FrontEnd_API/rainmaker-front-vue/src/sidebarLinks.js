@@ -25,10 +25,15 @@ export default [
   {
     name: 'Settings',
     icon: 'nc-icon nc-pin-3',
-    children: [{
-      name: 'Repository 선택',
-      path: '/RepositorySelect'
-    },
+    children: [
+      {
+        name: 'Repository 선택',
+        path: '/RepositorySelect'
+      },
+      {
+        name: 'Slack URL 등록',
+        path: '/user/SlackWebhookRegister'
+      },
     ]
   },
   {

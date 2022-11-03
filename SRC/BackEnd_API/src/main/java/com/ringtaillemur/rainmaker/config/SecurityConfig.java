@@ -41,7 +41,7 @@ public class SecurityConfig {
 				antMatchers(HttpMethod.POST, "/api/user/repositories")
 				.hasAnyAuthority("AUTH_NOT_REPOSITORY_SELECT", "AUTHED_HISTORY_COLLECT_NOT_ENDED_USER",
 					"AUTHED_HISTORY_COLLECT_ENDED_USER")
-				.antMatchers("/api/dorametric/**")
+				.antMatchers("/api/dorametric/**", "api/user/slack/url")
 				.hasAnyAuthority(OauthUserLevel.AUTHED_HISTORY_COLLECT_ENDED_USER.toString())
 				.antMatchers(HttpMethod.GET, "/api/user/repositories")
 				.hasAnyAuthority(OauthUserLevel.AUTHED_HISTORY_COLLECT_ENDED_USER.toString())

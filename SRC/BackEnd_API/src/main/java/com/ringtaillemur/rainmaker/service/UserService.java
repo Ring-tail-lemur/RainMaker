@@ -71,6 +71,11 @@ public class UserService {
 	private final OAuthUserRepositoryService oAuthUserRepositoryService;
 	private final EntityManager entityManager;
 
+	public void setSlackUrl(String Url) throws Exception {
+		OAuthUser currentUser = getCurrentUser();
+		currentUser.setSlackUrl(Url);
+	}
+
 	@Transactional
 	public void setOAuthToken(String oAuthToken) throws Exception {
 		if (!verifyToken(oAuthToken)) {
