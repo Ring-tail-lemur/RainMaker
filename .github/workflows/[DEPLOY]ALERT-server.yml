@@ -34,6 +34,7 @@ jobs:
       - name: Create and start virtual environment
         run: |
           pushd './${{env.AZURE_FUNCTIONAPP_PACKAGE_PATH}}'
+          ls
           python -m venv venv
           source venv/bin/activate
           popd
@@ -41,6 +42,7 @@ jobs:
       - name: Install dependencies
         run : |
           pushd './${{env.AZURE_FUNCTIONAPP_PACKAGE_PATH}}'
+          ls
           pip install -r requirements.txt
           popd
         
@@ -52,6 +54,7 @@ jobs:
           name: python-app
           path: |
             pushd './${{env.AZURE_FUNCTIONAPP_PACKAGE_PATH}}'
+            ls
             . 
             !venv/
             popd
