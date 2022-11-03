@@ -18,10 +18,8 @@ class MsSql(metaclass=Singleton):
     def execute(self, query):
         self.cursor = self.conn.cursor()
         if(query[0] == 'S'):
-            # print("SELECT")
             return self.select_query(query)
         else:
-            # print("Modifying")
             return self.modify_query(query)
     
     def select_query(self, query):
