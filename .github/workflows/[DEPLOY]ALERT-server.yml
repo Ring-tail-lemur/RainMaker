@@ -45,8 +45,7 @@ jobs:
           ls
           sudo -H pip3 install --upgrade --ignore-installed pip setuptools
           pip install -r requirements.txt
-          ls
-          ls ./venv/
+          tree
           popd
         
       # Optional: Add step to run tests here
