@@ -33,11 +33,12 @@ jobs:
 
       - name: Create and start virtual environment
         run: |
+          pushd './${{env.AZURE_FUNCTIONAPP_PACKAGE_PATH}}'
           python -m venv venv
           source venv/bin/activate
+          popd
 
       - name: Install dependencies
-        shell : bash 
         run : |
           pushd './${{env.AZURE_FUNCTIONAPP_PACKAGE_PATH}}'
           pip install -r requirements.txt
@@ -50,8 +51,10 @@ jobs:
         with:
           name: python-app
           path: |
+            pushd './${{env.AZURE_FUNCTIONAPP_PACKAGE_PATH}}'
             . 
             !venv/
+            popd
 
   deploy:
     runs-on: ubuntu-latest
