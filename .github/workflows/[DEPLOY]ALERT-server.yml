@@ -54,7 +54,6 @@ jobs:
         with:
           name: python-app
           path: |
-            pushd '${{env.AZURE_FUNCTIONAPP_PACKAGE_PATH}}'
             !venv/
             popd
 
