@@ -55,7 +55,6 @@ jobs:
           name: python-app
           path: |
             !venv/
-            popd
 
   deploy:
     runs-on: ubuntu-latest
