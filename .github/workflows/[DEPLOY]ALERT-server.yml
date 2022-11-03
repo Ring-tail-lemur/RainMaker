@@ -6,7 +6,7 @@ on:
       - main
     paths:
       - "SRC/alert/**"
-
+  workflow_dispatch:
 
 env:
   AZURE_FUNCTIONAPP_PACKAGE_PATH: './SRC/alert' # set this to the path to your web app project, defaults to the repository root
