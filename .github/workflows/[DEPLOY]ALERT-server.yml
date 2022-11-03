@@ -68,13 +68,21 @@ jobs:
           name: python-app
           path: ${{env.AZURE_FUNCTIONAPP_PACKAGE_PATH}}
 
+      - name: 'DEBUG'
+        run: |
+          pwd
+          ls
+          pushd './${{env.AZURE_FUNCTIONAPP_PACKAGE_PATH}}'
+          pwd
+          ls
+
       - name: 'Deploy to Azure Functions'
         uses: Azure/functions-action@v1
         id: deploy-to-function
         with:
           app-name: 'rainmaker-alert-server'
           slot-name: 'Production'
-          package: ${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}
+          package: ${{env.AZURE_FUNCTIONAPP_PACKAGE_PATH}}
           publish-profile: ${{ secrets.ALERT_SERVER_PUBLISH_PROFILE }}
           scm-do-build-during-deployment: true
           enable-oryx-build: true
