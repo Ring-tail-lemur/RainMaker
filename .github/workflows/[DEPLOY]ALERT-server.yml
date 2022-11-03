@@ -45,6 +45,7 @@ jobs:
           ls
           sudo -H pip3 install --upgrade --ignore-installed pip setuptools
           pip install -r requirements.txt
+          ls
           popd
         
       # Optional: Add step to run tests here
@@ -54,9 +55,7 @@ jobs:
         with:
           name: python-app
           path: |
-            ls
-            pwd
-            !venv/
+            ${{env.AZURE_FUNCTIONAPP_PACKAGE_PATH}}/!venv/
 
   deploy:
     runs-on: ubuntu-latest
