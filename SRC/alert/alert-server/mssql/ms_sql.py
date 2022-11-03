@@ -1,5 +1,6 @@
 import pymssql
 import pandas as pd
+import json
 class Singleton(type):
     _instances = {}
     def __call__(cls, *args, **kwargs):
@@ -11,7 +12,9 @@ class Singleton(type):
 
 class MsSql(metaclass=Singleton):
     def __init__(self):
-        
+        configObj = self.make_ms_config()
+        self.conn = pymssql.connect(server=configObj.get("server"), user=configObj.get("user"), password=configObj.get("password"), database=configObj.get("database"), as_dict =True) 
+
     def execute(self, query):
         self.cursor = self.conn.cursor()
         if(query[0] == 'S'):
@@ -59,3 +62,8 @@ class MsSql(metaclass=Singleton):
         return result
     def close(self):
         self.conn.close()
+
+    def make_ms_config(self):
+        file = open('./ms-sql.json')
+        jsonString = json.load(file)
+        return jsonString
