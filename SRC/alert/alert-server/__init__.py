@@ -2,7 +2,7 @@ import datetime
 import logging
 import azure.functions as func
 import extractor
-import chooser
+from . import chooser
 
 def main(mytimer: func.TimerRequest) -> None:
     utc_timestamp = datetime.datetime.utcnow().replace(
@@ -14,8 +14,8 @@ def main(mytimer: func.TimerRequest) -> None:
     logging.info('Python timer trigger function ran at %s', utc_timestamp)
 
     ext = extractor.Extractor()
-    chooser = chooser.Chooser() 
+    choose = chooser.Chooser() 
     alert_user = ext.get_burn_out_user()
-    alert_user_with_deduplication = chooser.get_alert_user(alert_user)
+    alert_user_with_deduplication = choose.get_alert_user(alert_user)
     print("",alert_user_with_deduplication)
     
