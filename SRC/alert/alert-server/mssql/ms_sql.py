@@ -11,8 +11,7 @@ class Singleton(type):
 
 class MsSql(metaclass=Singleton):
     def __init__(self):
-        self.conn = pymssql.connect(server='rainmaker-azure-sql-server.database.windows.net', user='rainmaker@rainmaker-azure-sql-server', password='dkffkrRhfldudndnjstnddl!', database='RainMakerSystemDB', as_dict =True) 
-    
+        
     def execute(self, query):
         self.cursor = self.conn.cursor()
         if(query[0] == 'S'):
