@@ -6,4 +6,3 @@ azure-functions
 pymssql
 pandas
 logging
-json
