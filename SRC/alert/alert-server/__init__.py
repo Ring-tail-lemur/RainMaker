@@ -17,7 +17,7 @@ def main(mytimer: func.TimerRequest) -> None:
         alert_user = ext.get_burn_out_user()
         alert_user_with_deduplication = choose.get_alert_user(alert_user)
         print("",alert_user_with_deduplication)
-        logging.info(alert_user_with_deduplication)
+        logging.info("이 유저들에게 알림 보내야함~",alert_user_with_deduplication)
     except Exception as e:
         logging.error(e)
         logging.info('hi')
