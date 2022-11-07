@@ -16,13 +16,13 @@
                     들어가세요.<br>
                     2. 아래의 스코프를 <b>꼭</b> 체크해주세요!<br>
                     <div class="text-center m-3">
-                      <span class="github-webhook-scope">read:discussion</span>
-                      <span class="github-webhook-scope">read:org</span>
-                      <span class="github-webhook-scope">read:user</span>
                       <span class="github-webhook-scope">repo</span>
-                      <span class="github-webhook-scope">user:email</span>
-                      <span class="github-webhook-scope">read:repo_hook</span>
+                      <span class="github-webhook-scope">read:org</span>
                       <span class="github-webhook-scope">write:repo_hook</span>
+                      <span class="github-webhook-scope">read:repo_hook</span>
+                      <span class="github-webhook-scope">read:user</span>
+                      <span class="github-webhook-scope">user:email</span>
+                      <span class="github-webhook-scope">read:discussion</span>
                     </div>
                   </div>
                   <p slot="footer" type="info">

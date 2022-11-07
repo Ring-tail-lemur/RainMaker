@@ -57,6 +57,11 @@ public class UserController {
 		userService.setOAuthToken(requestBody.get("token"));
 	}
 
+	@PostMapping("/slack/url")
+	public void userSlackUrlRegister(@RequestBody Map<String, String> requestBody) throws Exception {
+		userService.setSlackUrl(requestBody.get("slackUrl"));
+	}
+
 	@GetMapping("/login/oauth2/code/github")
 	public String githubLogin(
 		@RequestParam(value = "code", required = false, defaultValue = "test") String code,
