@@ -12,7 +12,7 @@ class Chooser(metaclass=Singleton):
         print("Choose alert User")
     def get_alert_user(self, user_df):
         import pandas as pd
-        from user import user
+        from .user import user
         try:
             get_user_module = user.User()
             user_list = user_df.values.tolist()
