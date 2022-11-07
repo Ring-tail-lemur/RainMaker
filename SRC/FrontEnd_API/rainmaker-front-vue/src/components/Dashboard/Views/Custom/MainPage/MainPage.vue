@@ -79,7 +79,7 @@
 <script>
 </script>
 <style>
-@import url("https://fonts.googleapis.com/css?family=Inter:400,300,700,600");
+/*@import url("https://fonts.googleapis.com/css?family=Inter:400,300,700,600");*/
 
 :root {
   --black: rgba(0, 0, 0, 1);
