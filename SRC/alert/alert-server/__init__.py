@@ -20,6 +20,7 @@ def main(mytimer: func.TimerRequest) -> None:
         else:
             logging.info('hh...')
         print("",alert_user_with_deduplication)
-    except:
+    except Exception as e:
+        logging.error(e)
         logging.info('hi')
     
