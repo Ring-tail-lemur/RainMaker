@@ -13,8 +13,11 @@ class Chooser(metaclass=Singleton):
     def get_alert_user(self, user_df):
         import pandas as pd
         from user import user
-        get_user_module = user.User()
-        user_list = user_df.values.tolist()
-        alert_user_list_with_deduplicate = get_user_module.get_alert_user_deduplicate(user_list)
-        return alert_user_list_with_deduplicate
+        try:
+            get_user_module = user.User()
+            user_list = user_df.values.tolist()
+            alert_user_list_with_deduplicate = get_user_module.get_alert_user_deduplicate(user_list)
+            return alert_user_list_with_deduplicate
+        except:
+            raise Exception('Chooser에서 오류 남!~')
         

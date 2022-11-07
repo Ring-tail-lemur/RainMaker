@@ -1,8 +1,8 @@
 import datetime
 import logging
 import azure.functions as func
-import extractor
-import chooser
+from __app__ import extractor
+from __app__ import chooser
 def main(mytimer: func.TimerRequest) -> None:
     utc_timestamp = datetime.datetime.utcnow().replace(
         tzinfo=datetime.timezone.utc).isoformat()
