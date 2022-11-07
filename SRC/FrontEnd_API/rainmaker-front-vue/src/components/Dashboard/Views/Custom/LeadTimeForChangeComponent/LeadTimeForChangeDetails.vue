@@ -4,6 +4,9 @@
       <lead-time-for-change-bar class="col-lg-6 col-sm-6"></lead-time-for-change-bar>
       <cycle-time-circle-graph class="col-lg-6 col-sm-6"></cycle-time-circle-graph>
     </div>
+    <div>
+      <LeadTimeForChangeDetailTable></LeadTimeForChangeDetailTable>
+    </div>
   </div>
   <loading-main-panel v-else="waiting"></loading-main-panel>
 </template>
@@ -11,8 +14,12 @@
 import CircleChartCard from 'src/components/UIComponents/Cards/CircleChartCard.vue'
 import Loading from 'src/components/Dashboard/Layout/LoadingMainPanel.vue'
 import LoadingMainPanel from "@/components/Dashboard/Layout/LoadingMainPanel";
-import LeadTimeForChangeBar from "@/components/Dashboard/Views/Custom/LeadTimeForChangeComponent/LeadTimeForChangeBarGraph";
+import LeadTimeForChangeBar
+  from "@/components/Dashboard/Views/Custom/LeadTimeForChangeComponent/LeadTimeForChangeBarGraph";
 import CycleTimeCircleGraph from "@/components/Dashboard/Views/Custom/LeadTimeForChangeComponent/CycleTimeCircleGraph";
+import LeadTimeForChangeDetailTable
+  from "@/components/Dashboard/Views/Custom/LeadTimeForChangeComponent/LeadTimeForChangeDetailTable";
+
 const WorldMap = () => ({
   component: import('@/components/Dashboard/Views/Maps/WorldMap.vue'),
   loading: Loading,
@@ -24,6 +31,7 @@ export default {
     LeadTimeForChangeBar,
     LoadingMainPanel,
     CircleChartCard,
+    LeadTimeForChangeDetailTable,
     WorldMap,
   },
   data() {
