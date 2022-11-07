@@ -16,7 +16,7 @@ class Extractor(metaclass=Singleton):
 
     def extract_burnout_user(self):
         try:
-            import to_many_pr
+            from .to_many_pr import to_many_pr
             import pandas as pd
             self.alert_user_df = pd.DataFrame(index=range(0,0), columns=['USER_ID'])
             
