@@ -285,7 +285,7 @@ public class UserService {
 
 	private String setUserWebhookByRepoName(String token, String owner_name, String repo_name) {
 		try {
-			String body = "{\"config\": { \"url\": \"https://github-listener-nodejs.azurewebsites.net\", \"content_type\":\"'json'\", \"insecure_ssl\": \"'0'\" }, \"events\": [\"pull_request\", \"push\", \"label\", \"repository\", \"release\", \"issues\", \"create\", \"delete\", \"issue_comment\", \"pull_request_review_comment\"], \"active\": true}";
+			String body = "{\"config\": { \"url\": \"https://github-listener-nodejs.azurewebsites.net/api/HttpTrigger-node-test\", \"content_type\":\"'json'\", \"insecure_ssl\": \"'0'\" }, \"events\": [\"pull_request\", \"push\", \"label\", \"repository\", \"release\", \"issues\", \"create\", \"delete\", \"issue_comment\", \"pull_request_review_comment\"], \"active\": true}";
 			return webClient.post()
 				.uri(String.format("/repos/%s/%s/hooks", owner_name, repo_name))
 				.header("Authorization", "Bearer " + token)
