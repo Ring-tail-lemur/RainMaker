@@ -28,13 +28,9 @@ class Extractor(metaclass=Singleton):
             raise Exception('extractor 오류')
 
         logging.info('now Extractor.py 30번쨰 줄')
-        if self.alert_user_df.empty():
-            logging.warning('비었다! 번아웃 유저 없어요')   
-        
-        else:
-            self.alert_user_df = self.alert_user_df.drop_duplicates()
-            logging.info(type(self.alert_user_df))
-            return self.alert_user_df
+        self.alert_user_df = self.alert_user_df.drop_duplicates()
+        logging.info(type(self.alert_user_df))
+        return self.alert_user_df
         
     def get_burn_out_user(self):
         return self.alert_user_df
