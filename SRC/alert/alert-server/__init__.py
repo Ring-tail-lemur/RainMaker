@@ -23,5 +23,5 @@ def main(mytimer: func.TimerRequest) -> None:
         alert_user_with_deduplication = choose.get_alert_user(alert_user)
         print("",alert_user_with_deduplication)
     except:
-        logging.info('hihi')
+        logging.info('hi')
     
