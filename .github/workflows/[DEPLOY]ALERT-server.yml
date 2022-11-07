@@ -54,8 +54,8 @@ jobs:
           slot-name: 'Production'
           package: ${{env.AZURE_FUNCTIONAPP_PACKAGE_PATH}}
           publish-profile: ${{ secrets.ALERT_SERVER_PUBLISH_PROFILE }}
-          scm-do-build-during-deployment: false
-          enable-oryx-build: false
+          scm-do-build-during-deployment: true
+          enable-oryx-build: true
       # Optional: Add step to run tests here
 
   #     - name: Upload artifact for deployment job
