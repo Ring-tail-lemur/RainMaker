@@ -1,5 +1,6 @@
 import pymssql
 import pandas as pd
+import logging
 import json
 class Singleton(type):
     _instances = {}
@@ -42,6 +43,7 @@ class MsSql(metaclass=Singleton):
 
     def select_query_df(self, query):
         print(query)
+        logging.info(query)
         self.cursor.execute(query)
         result = self.cursor.fetchall()
         result_df = pd.DataFrame(result)
@@ -49,6 +51,7 @@ class MsSql(metaclass=Singleton):
 
     def modify_query(self, query):
         print(query)
+        logging.info(query)
         self.cursor.execute(query)
         result = list()
         row = self.cursor.fetchone()

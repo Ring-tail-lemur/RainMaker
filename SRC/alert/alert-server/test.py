@@ -7,5 +7,6 @@ if __name__ == "__main__":
         alert_user = ext.get_burn_out_user()
         alert_user_with_deduplication = choose.get_alert_user(alert_user)
         print("",alert_user_with_deduplication)
-    except:
+    except Exception as e:
+        print(e)
         print('hi')

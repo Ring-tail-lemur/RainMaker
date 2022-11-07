@@ -50,6 +50,7 @@ class PrExtractor():
                 }
                 new_df = pd.DataFrame(new_data)
                 result_df = pd.concat([result_df, new_df])
+            logging.info(result_df)
         return result_df
 
     def this_week_pr(self, repo_pr_df):
