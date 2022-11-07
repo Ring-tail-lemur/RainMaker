@@ -4,7 +4,7 @@
 
     </div>
     <div class="col-md-12 card">
-      <h4 class="title">변경 리드 타임 세부 사항</h4>
+      <h4 class="Detail-title">변경 리드 타임 세부 사항</h4>
       <div class="card-header">
       </div>
       <div class="card-body row">
