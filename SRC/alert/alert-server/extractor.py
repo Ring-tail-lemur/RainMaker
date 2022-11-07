@@ -26,7 +26,7 @@ class Extractor(metaclass=Singleton):
         except Exception as e:
             logging.info(e)
             raise Exception('extractor 오류')
-
+        logging.info(type(self.alert_user_df))
         self.alert_user_df = self.alert_user_df.drop_duplicates()
         
     def get_burn_out_user(self):
