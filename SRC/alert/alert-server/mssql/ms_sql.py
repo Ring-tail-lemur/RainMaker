@@ -65,6 +65,8 @@ class MsSql(metaclass=Singleton):
         self.conn.close()
 
     def make_ms_config(self):
-        file = open('ms-sql.json')
-        jsonString = json.load(file)
-        return jsonString
+        import os
+        script_dir = os.path.dirname(__file__)
+        with open(os.path.join(script_dir, 'ms-sql.json')) as file:
+            jsonString = json.load(file)
+            return jsonString
