@@ -11,9 +11,8 @@ class Repository(metaclass=Singleton):
         # print('repository')
     
     def get_repo_and_user_info_list(self,repo_list):
-        import sys, os
-        sys.path.append(os.path.dirname(os.path.abspath(os.path.dirname(__file__))))
-        
+        # import sys, os
+        # sys.path.append(os.path.dirname(os.path.abspath(os.path.dirname(__file__))))
         from mssql import ms_sql
         repo_list = list(map(str,repo_list))
         repo_list_str = ','.join(repo_list)

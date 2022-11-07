@@ -1,8 +1,9 @@
-from to_many_pr import repository_main
-from to_many_pr import pull_request_main
+import repository_main
+import pull_request_main
 from datetime import datetime
 import datetime as dt
 import pandas as pd
+import logging
 class PrExtractor():
     pr = pull_request_main.PullRequest()
     now = datetime.now()
