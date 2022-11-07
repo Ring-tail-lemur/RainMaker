@@ -5,7 +5,7 @@ import datetime as dt
 import pandas as pd
 import logging
 class PrExtractor():
-    pr = pull_request_main.PullRequest()
+    
     now = datetime.now()
     week_ago = now+dt.timedelta(weeks=-1)
     month_ago = now+dt.timedelta(weeks=-5)
@@ -25,9 +25,10 @@ class PrExtractor():
 
     def get_repository_pr_cnt(self):
         # 레포 리스트
-        repository_list = self.pr.get_repository_id_list()
+        pr = pull_request_main.PullRequest()
+        repository_list = pr.get_repository_id_list()
         # 풀리케 리스트
-        pull_request_df = self.pr.get_pull_request()
+        pull_request_df = pr.get_pull_request()
         # 결과 DataFrame
         result_df = pd.DataFrame(columns=['repository_id','now','last'])
         # 각 레포 별로 최근 일주일의 PR 개수, 한달간의 PR 개수 가져옴 

@@ -1,3 +1,4 @@
+import logging
 class Singleton(type):
     _instances = {}
     def __call__(cls, *args, **kwargs):
@@ -7,10 +8,7 @@ class Singleton(type):
             cls._instances[cls].__init__(*args, **kwargs)
         return cls._instances[cls]
 
-
-
 class PullRequest(metaclass=Singleton):
-    pull_request_in_month = None
     def __init__(self):
         self.set_pull_request_df()
     
