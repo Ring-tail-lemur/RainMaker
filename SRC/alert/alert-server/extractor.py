@@ -24,10 +24,14 @@ class Extractor(metaclass=Singleton):
             to_many_pr_org_owner_user = pr_extractor.get_user_above_average()
             self.alert_user_df = pd.concat([self.alert_user_df, to_many_pr_org_owner_user])
         except Exception as e:
+            logging.error(e)
             logging.info(e)
             raise Exception('extractor 오류')
         logging.info(type(self.alert_user_df))
-        self.alert_user_df = self.alert_user_df.drop_duplicates()
+        if self.alert_user_df != None:
+            self.alert_user_df = self.alert_user_df.drop_duplicates()
+        else:
+            return None
         
     def get_burn_out_user(self):
         return self.alert_user_df
