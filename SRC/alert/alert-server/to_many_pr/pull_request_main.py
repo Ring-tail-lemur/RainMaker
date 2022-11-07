@@ -18,8 +18,8 @@ class PullRequest(metaclass=Singleton):
         return self.pull_request_in_month
 
     def set_pull_request_df(self):
-        # import sys, os
-        # sys.path.append(os.path.dirname(os.path.abspath(os.path.dirname(__file__))))
+        import sys, os
+        sys.path.append(os.path.dirname(os.path.abspath(os.path.dirname(__file__))))
         from .mssql import ms_sql
         import pandas as pd
         from datetime import datetime
