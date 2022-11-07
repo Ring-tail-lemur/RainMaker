@@ -43,40 +43,10 @@ jobs:
         run : |
           pushd './${{env.AZURE_FUNCTIONAPP_PACKAGE_PATH}}'
           pip install -r requirements.txt
+          ls
           popd
-        
-      # Optional: Add step to run tests here
-
-      - name: Upload artifact for deployment job
-        uses: actions/upload-artifact@v2
-        with:
-          name: python-app
-          path: |
-            ${{env.AZURE_FUNCTIONAPP_PACKAGE_PATH}}/venv
-
-  deploy:
-    runs-on: ubuntu-latest
-    needs: build
-    environment:
-      name: 'Production'
-      url: ${{ steps.deploy-to-function.outputs.webapp-url }}
-
-    steps:
-      - name: Download artifact from build job
-        uses: actions/download-artifact@v2
-        with:
-          name: python-app
-          path: ${{env.AZURE_FUNCTIONAPP_PACKAGE_PATH}}
-
-      - name: 'DEBUG'
-        run: |
-          pwd
-          ls
-          pushd './${{env.AZURE_FUNCTIONAPP_PACKAGE_PATH}}'
-          pwd
-          ls
-
-      - name: 'Deploy to Azure Functions'
+      
+      - name: '에라 모르겠다 그냥 배포하자'
         uses: Azure/functions-action@v1
         id: deploy-to-function
         with:
@@ -86,3 +56,44 @@ jobs:
           publish-profile: ${{ secrets.ALERT_SERVER_PUBLISH_PROFILE }}
           scm-do-build-during-deployment: true
           enable-oryx-build: true
+      # Optional: Add step to run tests here
+
+  #     - name: Upload artifact for deployment job
+  #       uses: actions/upload-artifact@v2
+  #       with:
+  #         name: python-app
+  #         path: |
+  #           ${{env.AZURE_FUNCTIONAPP_PACKAGE_PATH}}/venv
+
+  # deploy:
+  #   runs-on: ubuntu-latest
+  #   needs: build
+  #   environment:
+  #     name: 'Production'
+  #     url: ${{ steps.deploy-to-function.outputs.webapp-url }}
+
+  #   steps:
+  #     - name: Download artifact from build job
+  #       uses: actions/download-artifact@v2
+  #       with:
+  #         name: python-app
+  #         path: ${{env.AZURE_FUNCTIONAPP_PACKAGE_PATH}}
+
+  #     - name: 'DEBUG'
+  #       run: |
+  #         pwd
+  #         ls
+  #         pushd './${{env.AZURE_FUNCTIONAPP_PACKAGE_PATH}}'
+  #         pwd
+  #         ls
+
+  #     - name: 'Deploy to Azure Functions'
+  #       uses: Azure/functions-action@v1
+  #       id: deploy-to-function
+  #       with:
+  #         app-name: 'rainmaker-alert-server'
+  #         slot-name: 'Production'
+  #         package: ${{env.AZURE_FUNCTIONAPP_PACKAGE_PATH}}
+  #         publish-profile: ${{ secrets.ALERT_SERVER_PUBLISH_PROFILE }}
+  #         scm-do-build-during-deployment: true
+  #         enable-oryx-build: true
