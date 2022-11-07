@@ -1,14 +1,9 @@
-
-
+import datetime
+import logging
+from azure import function as func
+import extractor
+from . import chooser
 def main(mytimer: func.TimerRequest) -> None:
-    try:
-        import datetime
-        import logging
-        from azure import function as func
-        import extractor
-        from . import chooser
-    except:
-        print('hi')
     utc_timestamp = datetime.datetime.utcnow().replace(
         tzinfo=datetime.timezone.utc).isoformat()
 
