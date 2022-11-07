@@ -15,7 +15,7 @@ def main(mytimer: func.TimerRequest) -> None:
         ext = extractor.Extractor()
         choose = chooser.Chooser() 
         alert_user = ext.get_burn_out_user()
-        if alert_user != None:
+        if not alert_user.empty():
             alert_user_with_deduplication = choose.get_alert_user(alert_user)
         else:
             logging.info('hh...')
