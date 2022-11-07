@@ -1,5 +1,5 @@
-from __app__.to_many_pr import repository_main
-from __app__.to_many_pr import pull_request_main
+from to_many_pr import repository_main
+from to_many_pr import pull_request_main
 from datetime import datetime
 import datetime as dt
 import pandas as pd

@@ -2,7 +2,7 @@ class User():
     def get_alert_user_deduplicate(self, user_list):
         import sys, os
         sys.path.append(os.path.dirname(os.path.abspath(os.path.dirname(__file__))))
-        from __app__.mssql import ms_sql
+        from mssql import ms_sql
         import pandas as pd
         from datetime import datetime
         import datetime as dt
