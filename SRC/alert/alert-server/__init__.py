@@ -1,8 +1,8 @@
 import datetime
 import logging
 from azure import function as func
-import extractor
-from . import chooser
+# import extractor
+# from . import chooser
 def main(mytimer: func.TimerRequest) -> None:
     utc_timestamp = datetime.datetime.utcnow().replace(
         tzinfo=datetime.timezone.utc).isoformat()
@@ -11,12 +11,12 @@ def main(mytimer: func.TimerRequest) -> None:
         logging.info('The timer is past due!')
 
     logging.info('Python timer trigger function ran at %s', utc_timestamp)
-    try:
-        ext = extractor.Extractor()
-        choose = chooser.Chooser() 
-        alert_user = ext.get_burn_out_user()
-        alert_user_with_deduplication = choose.get_alert_user(alert_user)
-        print("",alert_user_with_deduplication)
-    except:
-        logging.info('hi')
+    # try:
+    #     ext = extractor.Extractor()
+    #     choose = chooser.Chooser() 
+    #     alert_user = ext.get_burn_out_user()
+    #     alert_user_with_deduplication = choose.get_alert_user(alert_user)
+    #     print("",alert_user_with_deduplication)
+    # except:
+    #     logging.info('hi')
     
