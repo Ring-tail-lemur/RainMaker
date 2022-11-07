@@ -1,5 +1,5 @@
-import repository_main
-import pull_request_main
+from . import repository_main
+from . import pull_request_main
 from datetime import datetime
 import datetime as dt
 import pandas as pd
