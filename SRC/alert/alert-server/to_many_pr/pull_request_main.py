@@ -20,7 +20,7 @@ class PullRequest(metaclass=Singleton):
     def set_pull_request_df(self):
         import sys, os
         sys.path.append(os.path.dirname(os.path.abspath(os.path.dirname(__file__))))
-        from .mssql import ms_sql
+        from ..mssql import ms_sql
         import pandas as pd
         from datetime import datetime
         import datetime as dt
