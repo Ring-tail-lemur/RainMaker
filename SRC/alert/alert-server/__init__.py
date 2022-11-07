@@ -1,6 +1,6 @@
 import datetime
 import logging
-from azure import function as func
+import azure.functions as func
 # import extractor
 # from . import chooser
 def main(mytimer: func.TimerRequest) -> None:
