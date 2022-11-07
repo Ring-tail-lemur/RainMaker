@@ -23,7 +23,7 @@ jobs:
         shell: bash
         run: |
           pushd './${{env.AZURE_FUNCTIONAPP_PACKAGE_PATH}}'
-          echo '${{secrets.ALERT_SERVER_MS_SQL}}' >> ./alert-server/ms-sql.json
+          echo '${{secrets.ALERT_SERVER_MS_SQL}}' >> ./alert-server/mssql/ms-sql.json
           popd
 
       - name: Setup Python version
