@@ -27,11 +27,6 @@
                     job: 'Develop',
                     salary: '€ 99,225',
                     active: false
-                  }, {
-                    name: 'John Doe',
-                    job: 'Design',
-                    salary: '€ 89,241',
-                    active: false
                   }]" header-row-class-name="text-primary">
                   <el-table-column type="index">
 
