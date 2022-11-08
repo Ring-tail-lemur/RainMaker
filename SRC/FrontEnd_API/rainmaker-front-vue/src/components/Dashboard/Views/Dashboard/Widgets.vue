@@ -1,21 +1,21 @@
 <template>
   <div>
     <div>
-<!--      <div class="col-lg-6 col-md-12 text-center">-->
-<!--        <task-list></task-list>-->
-<!--        <card>-->
-<!--          <div slot="header" class="card-text">-->
-<!--            <h4 class="card-title">Employees Stats</h4>-->
-<!--            <p class="card-category">New employees on 15th September, 2016</p>-->
-<!--          </div>-->
-<!--          <el-table :data="employeeData" header-row-class-name="text-warning">-->
-<!--            <el-table-column width="50px" align="left" prop="id" label="ID"/>-->
-<!--            <el-table-column align="center" prop="name" label="NAME"/>-->
-<!--            <el-table-column align="center" prop="salary" label="SALARY"/>-->
-<!--            <el-table-column align="center" prop="country" label="COUNTRY"/>-->
-<!--          </el-table>-->
-<!--        </card>-->
-<!--      </div>-->
+      <div class="col-lg-6 col-md-12 text-center">
+        <task-list></task-list>
+        <card>
+          <div slot="header" class="card-text">
+            <h4 class="card-title">Employees Stats</h4>
+            <p class="card-category">New employees on 15th September, 2016</p>
+          </div>
+          <el-table :data="employeeData" header-row-class-name="text-warning">
+            <el-table-column width="50px" align="left" prop="id" label="ID"/>
+            <el-table-column align="center" prop="name" label="NAME"/>
+            <el-table-column align="center" prop="salary" label="SALARY"/>
+            <el-table-column align="center" prop="country" label="COUNTRY"/>
+          </el-table>
+        </card>
+      </div>
       <div class="col-lg-12 col-md-12">
         <time-line>
           <time-line-item badgeType="danger" badgeIcon="nc-icon nc-single-copy-04" :inverted="false">
@@ -94,61 +94,61 @@
         </time-line>
       </div>
     </div>
-<!--    <div class="row">-->
-<!--      <div class="col-md-6">-->
-<!--        <div class="row">-->
+    <div class="row">
+      <div class="col-md-6">
+        <div class="row">
 
-<!--          <div class="col-lg-6">-->
-<!--            <card type="pricing">-->
-<!--              <h6 slot="header" class="card-category"> Alpha Pack</h6>-->
-<!--              <div class="card-icon icon-primary ">-->
-<!--                <i class="nc-icon nc-spaceship"></i>-->
-<!--              </div>-->
-<!--              <h3 class="card-title">69$</h3>-->
-<!--              <ul>-->
-<!--                <li>Working materials in EPS</li>-->
-<!--                <li>6 months access to the library</li>-->
-<!--              </ul>-->
-<!--              <p-button type="primary" round slot="footer">Add to Cart</p-button>-->
-<!--            </card>-->
-<!--          </div>-->
-<!--          <div class="col-lg-6">-->
-<!--            <card type="pricing" class="card-plain">-->
-<!--              <h6 slot="header" class="card-category"> Bravo Pack</h6>-->
-<!--              <div class="card-icon icon-warning ">-->
-<!--                <i class="nc-icon nc-shop"></i>-->
-<!--              </div>-->
-<!--              <h3 class="card-title">10$</h3>-->
-<!--              <ul>-->
-<!--                <li>Complete documentation</li>-->
-<!--                <li>Working materials in Sketch</li>-->
-<!--              </ul>-->
-<!--              <p-button slot="footer" type="warning" round class="btn-neutral">Add to Cart</p-button>-->
-<!--            </card>-->
-<!--          </div>-->
+          <div class="col-lg-6">
+            <card type="pricing">
+              <h6 slot="header" class="card-category"> Alpha Pack</h6>
+              <div class="card-icon icon-primary ">
+                <i class="nc-icon nc-spaceship"></i>
+              </div>
+              <h3 class="card-title">69$</h3>
+              <ul>
+                <li>Working materials in EPS</li>
+                <li>6 months access to the library</li>
+              </ul>
+              <p-button type="primary" round slot="footer">Add to Cart</p-button>
+            </card>
+          </div>
+          <div class="col-lg-6">
+            <card type="pricing" class="card-plain">
+              <h6 slot="header" class="card-category"> Bravo Pack</h6>
+              <div class="card-icon icon-warning ">
+                <i class="nc-icon nc-shop"></i>
+              </div>
+              <h3 class="card-title">10$</h3>
+              <ul>
+                <li>Complete documentation</li>
+                <li>Working materials in Sketch</li>
+              </ul>
+              <p-button slot="footer" type="warning" round class="btn-neutral">Add to Cart</p-button>
+            </card>
+          </div>
 
-<!--        </div>-->
-<!--      </div>-->
-<!--      <div class="col-md-6">-->
-<!--        <card type="testimonial">-->
-<!--          <div class="icon icon-primary">-->
-<!--            <i class="fa fa-quote-right"></i>-->
-<!--          </div>-->
-<!--          <p class="card-description">-->
-<!--            The networking at Web Summit is like no other European tech conference.-->
-<!--          </p>-->
-<!--          <template slot="footer">-->
-<!--            <h4 class="card-title">Gina Andrew</h4>-->
-<!--            <h6 class="card-category">@ginaandrew</h6>-->
-<!--            <div class="card-avatar">-->
-<!--              <a href="#pablo">-->
-<!--                <img class="img" src="static/img/faces/joe-gardner-2.jpg">-->
-<!--              </a>-->
-<!--            </div>-->
-<!--          </template>-->
-<!--        </card>-->
-<!--      </div>-->
-<!--    </div>-->
+        </div>
+      </div>
+      <div class="col-md-6">
+        <card type="testimonial">
+          <div class="icon icon-primary">
+            <i class="fa fa-quote-right"></i>
+          </div>
+          <p class="card-description">
+            The networking at Web Summit is like no other European tech conference.
+          </p>
+          <template slot="footer">
+            <h4 class="card-title">Gina Andrew</h4>
+            <h6 class="card-category">@ginaandrew</h6>
+            <div class="card-avatar">
+              <a href="#pablo">
+                <img class="img" src="static/img/faces/joe-gardner-2.jpg">
+              </a>
+            </div>
+          </template>
+        </card>
+      </div>
+    </div>
   </div>
 </template>
 <script>
