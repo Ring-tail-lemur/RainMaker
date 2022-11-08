@@ -5,7 +5,7 @@ async function pullRequestCloseMain(pool, eventObject, context) {
     //pull_request_event entity 생성 및 삽입
     await pullRequestCreateRepository.insertPullRequestEventClosedByPullRequestIdAndUserId(pool, context, eventObject.X_GitHub_Delivery,eventObject.action, eventObject.pull_request_closed_time, eventObject.pull_request_remote_identifier, eventObject.pull_request_user_id);
     //pull_request_direction entity 생성 및 삽입
-    await pullRequestCreateRepository.insertPullRequestDirectionBySourcePullRequestId(pool, eventObject.pull_request_remote_identifier);
+    // await pullRequestCreateRepository.insertPullRequestDirectionBySourcePullRequestId(pool, eventObject.pull_request_remote_identifier);
 }
 
 module.exports.pullRequestCloseMain = pullRequestCloseMain;
