@@ -21,7 +21,7 @@ const testData = {
     "repository_owner_id": "107110653",
     "repository_private": "false",
     "pull_request_label_id": "4298624576",
-    "pull_request_label_name": "duplicate"
+    "pull_request_label_name": "[RainMaker]runtime-error-duplicate"
 }
 
 
