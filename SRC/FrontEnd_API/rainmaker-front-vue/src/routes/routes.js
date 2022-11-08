@@ -283,6 +283,11 @@ let LeadTimeForChangeDetailPage = {
   ]
 }
 
+let WidgetPage = {
+  path: '/admin/widget',
+  component: Widgets
+}
+
 const routes = [
   {
     path: '/',
@@ -304,6 +309,7 @@ const routes = [
   RepositorySelectPage,
   DashBoardPage,
   githubTokenSettingPage,
+  WidgetPage,
   {path: '*', component: NotFound}
 ];
 
