@@ -1,6 +1,6 @@
 BEGIN TRAN
 DECLARE @repositoryId BIGINT
-SET @repositoryId = 544985444
+SET @repositoryId = 510731046
 
 
 -- 초기 세팅 
@@ -83,5 +83,11 @@ DELETE
 FROM lead_time_for_change
 OUTPUT deleted.*
 WHERE lead_time_for_change.repository_id = @repositoryId
+
+-- time_to_restore_service 정보 삭제
+DELETE
+FROM time_to_restore_service
+OUTPUT deleted.*
+WHERE repository_id = @repositoryId
 
 ROLLBACK TRAN
