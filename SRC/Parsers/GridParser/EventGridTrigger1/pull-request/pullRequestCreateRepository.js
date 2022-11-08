@@ -59,6 +59,23 @@ async function insertPullRequestEventOpenByPullRequestIdAndUserId(dbConnectionPo
     }
 }
 
+async function updatePullRequestRuntimeErrorLabelId(dbConnectionPool, label_id, pull_request_id) {
+    const sqlQuery = `
+    UPDATE pull_request
+    SET pull_request.runtime_error_label_id=${label_id}
+    FROM pull_request WHERE pull_request_id=${pull_request_id};
+    `;
+    console.log(sqlQuery);
+
+    try {
+        await dbConnectionPool.request()
+            .query(sqlQuery);
+    } catch (e) {
+        err_log_module.log(e, "pullRequestCreateRepository.js // updatePullRequestRuntimeErrorLabelId");
+        console.error(e);
+    }
+}
+
 async function insertPullRequestDirectionBySourcePullRequestId(dbConnectionPool, pull_request_remote_identifier) {
     // const dbConnectionPool = await pool;
 
@@ -103,3 +120,4 @@ module.exports.insertPullRequestByRepoIdAndBranchId = insertPullRequestByRepoIdA
 module.exports.insertPullRequestEventOpenByPullRequestIdAndUserId = insertPullRequestEventOpenByPullRequestIdAndUserId;
 module.exports.insertPullRequestEventClosedByPullRequestIdAndUserId = insertPullRequestEventClosedByPullRequestIdAndUserId;
 module.exports.insertPullRequestDirectionBySourcePullRequestId = insertPullRequestDirectionBySourcePullRequestId;
+module.exports.updatePullRequestRuntimeErrorLabelId = updatePullRequestRuntimeErrorLabelId;
