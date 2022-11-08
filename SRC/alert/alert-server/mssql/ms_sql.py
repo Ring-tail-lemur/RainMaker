@@ -1,5 +1,6 @@
 import pymssql
 import pandas as pd
+import logging
 import json
 class Singleton(type):
     _instances = {}
@@ -42,6 +43,7 @@ class MsSql(metaclass=Singleton):
 
     def select_query_df(self, query):
         print(query)
+        logging.info(query)
         self.cursor.execute(query)
         result = self.cursor.fetchall()
         result_df = pd.DataFrame(result)
@@ -49,6 +51,7 @@ class MsSql(metaclass=Singleton):
 
     def modify_query(self, query):
         print(query)
+        logging.info(query)
         self.cursor.execute(query)
         result = list()
         row = self.cursor.fetchone()
@@ -62,6 +65,8 @@ class MsSql(metaclass=Singleton):
         self.conn.close()
 
     def make_ms_config(self):
-        file = open('./ms-sql.json')
-        jsonString = json.load(file)
-        return jsonString
+        import os
+        script_dir = os.path.dirname(__file__)
+        with open(os.path.join(script_dir, 'ms-sql.json')) as file:
+            jsonString = json.load(file)
+            return jsonString

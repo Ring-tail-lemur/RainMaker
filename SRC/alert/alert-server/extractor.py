@@ -1,3 +1,4 @@
+import logging
 class Singleton(type):
     _instances = {}
     def __call__(cls, *args, **kwargs):
@@ -10,20 +11,26 @@ class Singleton(type):
 
 class Extractor(metaclass=Singleton):
     def __init__(self):
-        print("Extractor")
+        logging.info("Extractor")
         self.extract_burnout_user()
 
     def extract_burnout_user(self):
-        from to_many_pr import to_many_pr
-        import pandas as pd
-        self.alert_user_df = pd.DataFrame(index=range(0,0), columns=['USER_ID'])
-        
-        pr_extractor = to_many_pr.PrExtractor()
-        to_many_pr_org_owner_user = pr_extractor.get_user_above_average()
-        self.alert_user_df = pd.concat([self.alert_user_df, to_many_pr_org_owner_user])
+        try:
+            from .to_many_pr import to_many_pr
+            import pandas as pd
+            self.alert_user_df = pd.DataFrame(index=range(0,0), columns=['USER_ID'])
+            
+            pr_extractor = to_many_pr.PrExtractor()
+            to_many_pr_org_owner_user = pr_extractor.get_user_above_average()
+            self.alert_user_df = pd.concat([self.alert_user_df, to_many_pr_org_owner_user])
+        except Exception as e:
+            logging.error(e)
+            raise Exception('extractor 오류')
 
-
+        logging.info('now Extractor.py 30번쨰 줄')
         self.alert_user_df = self.alert_user_df.drop_duplicates()
+        logging.info(type(self.alert_user_df))
+        return self.alert_user_df
         
     def get_burn_out_user(self):
         return self.alert_user_df
