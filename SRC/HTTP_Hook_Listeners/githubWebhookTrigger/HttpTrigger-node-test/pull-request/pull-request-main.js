@@ -2,8 +2,9 @@
 const open_module = require('./open.js');
 const close_module = require('./close.js');
 const err_log_module = require('../utils/slackLogBot.js');
+const label_module = require('./label.js');
 async function pullRequestMain(context, hookBody, cloudEventObj){
-    let resultObj = new Object();
+    let resultObj = undefined;
     cloudEventObj.action = JSON.stringify(hookBody.action).replace(/['"]+/g, '');
     cloudEventObj.pull_request_remote_identifier = JSON.stringify(hookBody.pull_request.id).replace(/['"]]+/g, '');
     cloudEventObj.repository_name = JSON.stringify(hookBody.repository.name).replace(/['"]+/g, ''); 
@@ -15,10 +16,12 @@ async function pullRequestMain(context, hookBody, cloudEventObj){
     try{
         if(cloudEventObj.action == 'opened'){
             resultObj = await open_module.pullRequestOpen(hookBody,cloudEventObj);
-        }else if(cloudEventObj.action == 'closed'){
-            resultObj = await close_module.pullRequestClose(context, hookBody,cloudEventObj);
-        }else{
-            context.log("action : "+ cloudEventObj.action + " event occurred, not yet develop perfectly.");
+        }else if(cloudEventObj.action == 'closed') {
+            resultObj = await close_module.pullRequestClose(context, hookBody, cloudEventObj);
+        }else if (cloudEventObj.action == 'labeled') {
+            resultObj = await label_module.pullRequestLabeled(hookBody,cloudEventObj)
+        } else {
+            context.log("action : " + cloudEventObj.action + " event occurred, not yet develop perfectly.");
             resultObj = cloudEventObj;
         }       
         return resultObj;
