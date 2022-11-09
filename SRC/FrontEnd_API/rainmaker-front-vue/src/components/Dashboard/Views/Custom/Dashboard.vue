@@ -60,7 +60,7 @@
                     chart-id="activity-chart"
                     :color="LeadTimeForChange.color"
                     :stacked="stacked"
-                    :suggestedMax="10000"
+                    :suggestedMax="2000"
                     chart-title="Lead Time For Change"
                     :chart-options="LeadTimeForChange.drawBaseLine"
                     :class="'border-' + LeadTimeForChange.rate">
@@ -79,6 +79,11 @@
           </span>
           <span slot="title">변경 리드 타임</span>
           <badge slot="title-label" :type="LeadTimeForChange.rate">{{ LeadTimeForChange.rate }}</badge>
+          <template slot="footer-title">
+            <div class="stats">
+              <i class="fa fa-check"></i> 더보기 버튼을 통해 자세한 정보를 제공받으세요!
+            </div>
+          </template>
           <p-button slot="footer-right" aria-label="add button" :type="typeChange(LeadTimeForChange.rate)" round icon
                     size="sm" onclick="location.href='/dashboard/lead-time-for-change'">
             <i class="nc-icon nc-simple-add"></i>
@@ -104,8 +109,13 @@
         </span>
           <span slot="title">배포 빈도</span>
           <badge slot="title-label" :type="DeploymentFrequency.rate">{{ DeploymentFrequency.rate }}</badge>
+          <template slot="footer-title">
+            <div class="stats">
+              <i class="fa fa-check"></i> 더보기 버튼을 통해 자세한 정보를 제공받으세요!
+            </div>
+          </template>
           <p-button slot="footer-right" aria-label="add button" :type="typeChange(DeploymentFrequency.rate)" round icon
-                    size="sm">
+                    size="sm" onclick="location.href='/dashboard/deployment-frequency'">
             <i class="nc-icon nc-simple-add"></i>
           </p-button>
         </chart-card>
@@ -128,8 +138,13 @@
         </span>
           <span slot="title">변경 실패율</span>
           <badge slot="title-label" :type="ChangeFailureRate.rate">{{ ChangeFailureRate.rate }}</badge>
+          <template slot="footer-title">
+            <div class="stats">
+              <i class="fa fa-check"></i> 더보기 버튼을 통해 자세한 정보를 제공받으세요!
+            </div>
+          </template>
           <p-button slot="footer-right" aria-label="add button" :type="typeChange(ChangeFailureRate.rate)" round icon
-                    size="sm">
+                    size="sm" onclick="location.href='/dashboard/change-failure-rate'">
             <i class="nc-icon nc-simple-add"></i>
           </p-button>
         </chart-card>
@@ -140,7 +155,7 @@
                     chart-id="active-countries-chart"
                     :color="MTTR.color"
                     chart-title="Mean Time To Recover"
-                    :suggestedMax="12000"
+                    :suggestedMax="200"
                     :chart-options="MTTR.drawBaseLine"
                     :class="'border-' + MTTR.rate">
           <span slot="hover-slot" class="tooltip-custom">
@@ -152,7 +167,13 @@
           </span>
           <span slot="title">평균 회복 시간</span>
           <badge slot="title-label" :type="MTTR.rate">{{ MTTR.rate }}</badge>
-          <p-button slot="footer-right" aria-label="add button" :type="typeChange(MTTR.rate)" round icon size="sm">
+          <template slot="footer-title">
+            <div class="stats">
+              <i class="fa fa-check"></i> 더보기 버튼을 통해 자세한 정보를 제공받으세요!
+            </div>
+          </template>
+          <p-button slot="footer-right" aria-label="add button" :type="typeChange(MTTR.rate)"
+                    round icon size="sm" onclick="location.href='/dashboard/mean-time-to-recover'">
             <i class="nc-icon nc-simple-add"></i>
           </p-button>
         </chart-card>
@@ -455,7 +476,7 @@ export default {
       try {
         this.getAllDoraMetric(this.dateFormat(this.startTime[0]), this.dateFormat(this.startTime[1]), this.selects.multiple);
       } catch (e) {
-        alert("잘못 입력하셨습니다.");
+        alert("기간을 선택해주세요!");
         console.error(e);
         return;
       }
@@ -471,8 +492,12 @@ export default {
       }
     },
     getAllDoraMetric(start_time, end_time, repo_id) {
-      if (start_time === undefined || end_time === undefined || repo_id === undefined) {
-        alert("잘못 입력하셨습니다.");
+      if (start_time === undefined || end_time === undefined) {
+        alert("기간을 선택해주세요");
+        return;
+      }
+      if (repo_id === undefined || repo_id.length === 0) {
+        alert("Github 리포지토리를 선택해주세요!");
         return;
       }
       this.getDoraMetric(start_time, end_time, repo_id, "lead-time-for-change");
