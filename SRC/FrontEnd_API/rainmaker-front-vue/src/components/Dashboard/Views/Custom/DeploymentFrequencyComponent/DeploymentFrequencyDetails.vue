@@ -10,6 +10,7 @@
             <div slot="content">
               <el-table :data="releaseData" header-row-class-name="text-primary">
                 <el-table-column prop="version" label="버전명"></el-table-column>
+                <el-table-column prop="repositoryName" label="리포지토리명"></el-table-column>
                 <el-table-column prop="commitCount" label="커밋 갯수"></el-table-column>
                 <el-table-column prop="codeChange" label="코드 변화량"></el-table-column>
                 <el-table-column prop="releaseTime" label="배포 시간"></el-table-column>
@@ -43,6 +44,7 @@ export default {
       releaseDataSet: [
         [{
           releaseDate : '2022-08-04',
+          repositoryName : 'RainMaker',
           version: 'v1.0.0',
           commitCount: '4',
           codeChange: '284',
@@ -51,6 +53,7 @@ export default {
         }],
         [{
           releaseDate : '2022-08-04',
+          repositoryName : 'RainMaker',
           version: 'v1.0.1',
           commitCount: '10',
           codeChange: '184',
@@ -59,6 +62,7 @@ export default {
         }],
         [{
           releaseDate : '2022-08-05',
+          repositoryName : 'RainMaker',
           version: 'v1.0.2',
           commitCount: '10',
           codeChange: '184',
@@ -67,6 +71,7 @@ export default {
         }],
         [{
           releaseDate : '2022-08-06',
+          repositoryName : 'test-for-fake-project',
           version: 'v1.0.2',
           commitCount: '10',
           codeChange: '184',
