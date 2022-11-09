@@ -1,8 +1,8 @@
-async function insertIssueByRepoIdAndLabelId(dbConnectionPool, issue_id, repo_id, user_id, state, issue_label_id, context){
+async function insertIssueByRepoIdAndLabelId(dbConnectionPool, issue_id, repo_id, user_id, state, issue_label_id, issue_number, context){
 
     const sqlQuery = `
-    INSERT INTO issue (issue_id, repository_id, open_user_id, state, issue_label_id)
-    VALUES (${issue_id}, ${repo_id}, ${user_id}, UPPER('${state}'), ${issue_label_id});
+    INSERT INTO issue (issue_id, repository_id, open_user_id, state, issue_label_id, issue_number)
+    VALUES (${issue_id}, ${repo_id}, ${user_id}, UPPER('${state}'), ${issue_label_id}, ${issue_number});
     `;
     console.log(sqlQuery);
 
