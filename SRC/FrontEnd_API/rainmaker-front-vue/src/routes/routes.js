@@ -53,6 +53,7 @@ const RepositorySelect = () => import(/* webpackChunkName: "widgets" */ 'src/com
 const DashBoard = () => import(/* webpackChunkName: "widgets" */ 'src/components/Dashboard/Views/Custom/Dashboard.vue')
 const MainPage = () => import(/* webpackChunkName: "widgets" */ '@/components/Dashboard/Views/Custom/MainPage/MainPage.vue');
 const LeadTimeForChangeDetails = () => import(/* webpackChunkName: "widgets" */ '@/components/Dashboard/Views/Custom/LeadTimeForChangeComponent/LeadTimeForChangeDetails.vue');
+const DeploymentFrequencyDetails = () => import(/* webpackChunkName: "widgets" */ '@/components/Dashboard/Views/Custom/DeploymentFrequencyComponent/DeploymentFrequencyDetails');
 
 const requireAuth =  () => async (to, from, next) => {
   await pageCheckAndChange(to, from, next)
@@ -283,6 +284,18 @@ let LeadTimeForChangeDetailPage = {
   ]
 }
 
+let DeploymentFrequencyDetailPage = {
+  path: '/dashboard/deployment-frequency',
+  component: DashboardLayout,
+  children : [
+    {
+      path: '',
+      name: 'DeploymentFrequencyDetails',
+      component : DeploymentFrequencyDetails
+    }
+  ]
+}
+
 let WidgetPage = {
   path: '/admin/widget',
   component: Widgets
@@ -295,6 +308,7 @@ const routes = [
   },
   slackWebhookRegisterPage,
   LeadTimeForChangeDetailPage,
+  DeploymentFrequencyDetailPage,
   mainPage,
   componentsMenu,
   chartPage,
