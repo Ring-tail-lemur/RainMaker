@@ -225,10 +225,14 @@ export default {
           }
         }
       );
-      let responseData = response.data;
+      let responseData = response.data.sort(function(a,b){
+        if (a.pullRequestUrl > b.pullRequestUrl) {
+          return 1;
+        }
+        return -1;
+      })
       this.tableData = responseData.map(x => {
         let urlList = x.pullRequestUrl.split('/');
-        console.log("asdfasdfaksoifoasdkfj")
         let entries = Object.entries(x.branchStayDuration).map((value, index) => {
           value[1] = value[1]+'분'
           if (value[1] == '-1분') {
