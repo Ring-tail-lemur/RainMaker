@@ -8,20 +8,23 @@ const controllerModule = require('./controllerModule.js');
 
 
 const testData = {
-    "hook_event": "pull_request",
-    "X_GitHub_Delivery": "3caaa2e0-5f33-11ed-8e07-77d0975a3dc9",
-    "event_triggered_time": "2022-11-8T07:02:01Z",
+    "hook_event": "issues",
+    "X_GitHub_Delivery": "42b79e30-600b-11ed-94f3-15dab9b0fcd2",
+    "event_triggered_time": "2022-11-9T08:48:24Z",
     "source": "github",
-    "action": "labeled",
-    "pull_request_remote_identifier": "1113807258",
-    "repository_name": "test-for-fake-project",
-    "repository_identifier": "510731046",
-    "repository_owner_type": "Organization",
-    "repository_owner_name": "Ring-tail-lemur",
-    "repository_owner_id": "107110653",
+    "action": "opened",
+    "issue_number": "299",
+    "issue_remote_id": "1441676893",
+    "action_title": "fdgfs",
+    "actor_remote_id": "68802559",
+    "repository_remote_id": "510731046",
     "repository_private": "false",
-    "pull_request_label_id": "4298624576",
-    "pull_request_label_name": "[RainMaker]runtime-error-duplicate"
+    "repository_owner_type": "Organization",
+    "repository_owner_id": "107110653",
+    "action_time": "2022-11-09T08:48:19Z",
+    "state": "open",
+    "label_name_list": "[RainMaker]runtime-error-new",
+    "label_id_list": "4695699824"
 }
 
 
