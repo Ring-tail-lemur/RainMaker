@@ -1,15 +1,17 @@
 package com.ringtaillemur.rainmaker;
 
-import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
-import java.util.Optional;
 
 import com.ringtaillemur.rainmaker.domain.*;
 import com.ringtaillemur.rainmaker.domain.enumtype.OwnerType;
+import com.ringtaillemur.rainmaker.domain.procedure.ReleaseDetail;
 import com.ringtaillemur.rainmaker.dto.webdto.responsedto.RegisterRepositoryResponseDto;
 import com.ringtaillemur.rainmaker.repository.OAuthRepository;
 import com.ringtaillemur.rainmaker.repository.OAuthUserRepositoryRepository;
+import com.ringtaillemur.rainmaker.repository.ReleaseDetailRepository;
+import com.ringtaillemur.rainmaker.repository.ReleaseSuccessRepository;
 import com.ringtaillemur.rainmaker.repository.RepositoryRepository;
 import com.ringtaillemur.rainmaker.service.UserService;
 import com.ringtaillemur.rainmaker.service.dorametrics.LeadTimeForChangeService;
@@ -18,6 +20,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import com.ringtaillemur.rainmaker.repository.GitUserRepository;
+
 import org.springframework.test.annotation.Rollback;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -38,6 +41,9 @@ class RainmakerWebserverApplicationTest {
 	
 	@Autowired
 	UserService userService;
+
+	@Autowired
+	ReleaseSuccessRepository releaseSuccessRepository;
 
 	@Test
 	@Transactional
@@ -95,10 +101,32 @@ class RainmakerWebserverApplicationTest {
 	
 	@Autowired
 	LeadTimeForChangeService leadTimeForChangeService;
+
+	@Autowired
+	ReleaseDetailRepository releaseDetailRepository;
 	@Test
 	@Transactional
-	void test3() {
-		leadTimeForChangeService.getCycleTimeDetailDto(List.of(510731046L), LocalDate.now().minusDays(30L), LocalDate.now());
+	@Rollback(value = false)
+	void test4() {
+		List<Long> repositoryIds = new ArrayList<>();
+		repositoryIds.add(517528822L);
+		repositoryIds.add(544985444L);
+		// List<ReleaseDetailRepository.res> res = releaseDetailRepository.varcharToRepoIdProcedure(
+		// 	"517528822, 544985444");
+		// System.out.println(res.get(0).getValue() + ", " + res.get(1).getValue());
+		// List<ReleaseDetailRepository.res> releaseDetails = releaseDetailRepository.releaseDetailProcedure("517528822,544985444,510731046");
+		List<ReleaseDetail> releaseDetails = releaseDetailRepository.releaseDetailProcedure("517528822,544985444,510731046");
+
+		// System.out.println(releaseDetails[0]);
+		// System.out.println(releaseDetails[1]);
+
+		System.out.println("HI");
+		releaseDetails.stream().map(releaseDetail -> {
+			// System.out.println(releaseDetail.getRelease_name());
+			System.out.println("releaseDetail = " + releaseDetail.getReleaseName());
+			return null;
+		});
+
 	}
-	
+
 }

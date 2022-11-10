@@ -28,4 +28,13 @@ public class DeploymentFrequencyController {
 		@RequestParam("repo_id") List<Long> repositoryIds) {
 		return deploymentFrequencyService.getDeploymentFrequency(repositoryIds, startTime, endTime);
 	}
+
+	@GetMapping("/deployment-frequency-detail")
+	// public DeploymentFrequencyDetailDto getDeploymentFrequencyDetailBySource(
+	public void getDeploymentFrequencyDetailBySource(
+		@RequestParam("start_time") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate startTime,
+		@RequestParam("end_time") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate endTime,
+		@RequestParam("repo_id") List<Long> repositoryIds) {
+		return;
+	}
 }
