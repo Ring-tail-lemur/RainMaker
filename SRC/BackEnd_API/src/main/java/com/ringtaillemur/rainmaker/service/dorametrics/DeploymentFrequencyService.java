@@ -9,7 +9,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.ringtaillemur.rainmaker.domain.ReleaseSuccess;
+import com.ringtaillemur.rainmaker.dto.webdto.responsedto.DeploymentFrequencyDetailDto;
 import com.ringtaillemur.rainmaker.dto.webdto.responsedto.DeploymentFrequencyDto;
+import com.ringtaillemur.rainmaker.repository.ReleaseDetailRepository;
 import com.ringtaillemur.rainmaker.repository.ReleaseSuccessRepository;
 import com.ringtaillemur.rainmaker.service.UtilService;
 
@@ -22,6 +24,7 @@ public class DeploymentFrequencyService {
 
 	private final ReleaseSuccessRepository releaseSuccessRepository;
 	private final UtilService utilService;
+	private final ReleaseDetailRepository releaseDetailRepository;
 
 	public DeploymentFrequencyDto getDeploymentFrequency(List<Long> repositoryIds, LocalDate startTime,
 		LocalDate endTime) {
@@ -36,5 +39,14 @@ public class DeploymentFrequencyService {
 			releaseSuccess -> releaseSuccess.getReleasedAt().toLocalDate());
 
 		return new DeploymentFrequencyDto(startTime, endTime, dailyCountMap);
+	}
+
+	public DeploymentFrequencyDetailDto getDeploymentFrequencyDetailDto(List<Long> repositoryIds, LocalDate startTime,
+		LocalDate endTime) {
+		LocalDateTime startDateTime = startTime.atStartOfDay();
+		LocalDateTime endDateTime = endTime.plusDays(1).atStartOfDay();
+
+		return new DeploymentFrequencyDetailDto(
+			releaseDetailRepository.releaseDetailProcedure(repositoryIds.toString(), startDateTime, endDateTime));
 	}
 }

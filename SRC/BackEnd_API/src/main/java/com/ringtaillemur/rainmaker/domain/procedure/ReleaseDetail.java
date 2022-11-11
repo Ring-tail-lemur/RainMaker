@@ -1,5 +1,7 @@
 package com.ringtaillemur.rainmaker.domain.procedure;
 
+import java.time.LocalDateTime;
+
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.NamedStoredProcedureQueries;
@@ -22,6 +24,14 @@ import lombok.Getter;
 			@StoredProcedureParameter(
 				name = "repoString",
 				type = String.class,
+				mode = ParameterMode.IN),
+			@StoredProcedureParameter(
+				name = "startTime",
+				type = LocalDateTime.class,
+				mode = ParameterMode.IN),
+			@StoredProcedureParameter(
+				name = "endTime",
+				type = LocalDateTime.class,
 				mode = ParameterMode.IN)
 		})
 })
@@ -35,5 +45,6 @@ public class ReleaseDetail {
 	private int commitSize;
 	private String repositoryName;
 	private int codeChangeSize;
+	private LocalDateTime publishedAt;
 
 }
