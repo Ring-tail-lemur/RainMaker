@@ -4,6 +4,10 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.persistence.StoredProcedureQuery;
+
 import com.ringtaillemur.rainmaker.domain.*;
 import com.ringtaillemur.rainmaker.domain.enumtype.OwnerType;
 import com.ringtaillemur.rainmaker.domain.procedure.ReleaseDetail;
@@ -111,22 +115,32 @@ class RainmakerWebserverApplicationTest {
 		List<Long> repositoryIds = new ArrayList<>();
 		repositoryIds.add(517528822L);
 		repositoryIds.add(544985444L);
-		// List<ReleaseDetailRepository.res> res = releaseDetailRepository.varcharToRepoIdProcedure(
-		// 	"517528822, 544985444");
-		// System.out.println(res.get(0).getValue() + ", " + res.get(1).getValue());
-		// List<ReleaseDetailRepository.res> releaseDetails = releaseDetailRepository.releaseDetailProcedure("517528822,544985444,510731046");
-		List<ReleaseDetail> releaseDetails = releaseDetailRepository.releaseDetailProcedure("517528822,544985444,510731046");
-
-		// System.out.println(releaseDetails[0]);
-		// System.out.println(releaseDetails[1]);
+		System.out.println("=================\n" + repositoryIds);
+		System.out.println("=================\n" + "517528822,544985444,510731046");
+		List<ReleaseDetail> releaseDetails = releaseDetailRepository.releaseDetailProcedure(repositoryIds.toString());
 
 		System.out.println("HI");
-		releaseDetails.stream().map(releaseDetail -> {
-			// System.out.println(releaseDetail.getRelease_name());
-			System.out.println("releaseDetail = " + releaseDetail.getReleaseName());
-			return null;
-		});
+		for(var releaseDetail : releaseDetails) {
+			System.out.println(releaseDetail.getReleaseName());
+		}
 
+	}
+
+	@PersistenceContext
+	private EntityManager em;
+
+	@Test
+	@Transactional
+	@Rollback(value = false)
+	void test5() {
+		StoredProcedureQuery storedProcedureQuery = em.createNamedStoredProcedureQuery("getReleaseDetailList");
+		storedProcedureQuery.setParameter("repoString", "544985444");
+		boolean execute = storedProcedureQuery.execute();
+
+		@SuppressWarnings("unchecked")
+		List<Object[]> list = storedProcedureQuery.getResultList();
+
+		System.out.println(list);
 	}
 
 }

@@ -1,9 +1,6 @@
 package com.ringtaillemur.rainmaker.domain.procedure;
 
-import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.NamedStoredProcedureQueries;
 import javax.persistence.NamedStoredProcedureQuery;
@@ -20,7 +17,7 @@ import lombok.Getter;
 	@NamedStoredProcedureQuery(
 		name = "getReleaseDetailList",
 		procedureName = "releaseDetail",
-		resultClasses = { ReleaseDetail.class },
+		resultClasses = {ReleaseDetail.class},
 		parameters = {
 			@StoredProcedureParameter(
 				name = "repoString",
@@ -31,8 +28,6 @@ import lombok.Getter;
 public class ReleaseDetail {
 
 	@Id
-	// @GeneratedValue(strategy = GenerationType.IDENTITY)
-	// @Column(name = "release_id", unique = true, nullable = false, scale = 0)
 	private Long releaseId;
 
 	private String tagName;
