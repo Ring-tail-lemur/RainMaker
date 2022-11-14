@@ -1,7 +1,7 @@
 <template>
   <navbar navbar-menu-classes="navbar-right" v-model="showMenu">
     <div class="navbar-wrapper">
-      <a class="navbar-brand" href="/dashboard">RainMaker</a>
+      <a class="navbar-brand" href="/main">RainMaker</a>
     </div>
   </navbar>
 </template>
