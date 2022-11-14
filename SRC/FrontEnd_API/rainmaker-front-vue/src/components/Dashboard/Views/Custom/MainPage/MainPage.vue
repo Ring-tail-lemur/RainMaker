@@ -13,8 +13,8 @@
       <a class="frame-4" href="https://inhyeok-blog.tistory.com/">
         <div class="text inter-normal-gray-20px">관련 블로그</div>
       </a>
-      <a class="frame-5" href="https://inhyeok-blog.tistory.com/">
-        <div class="text inter-normal-gray-20px">문의하기</div>
+      <a class="frame-5" href="/dashboard">
+        <div class="text inter-normal-gray-20px">대시 보드</div>
       </a>
       <div class="frame-null">
       </div>
