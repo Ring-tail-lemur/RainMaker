@@ -5,8 +5,8 @@
         <time-line type="simple" class="timeline-margin">
 
           <time-line-item badgeType="danger" badgeIcon="nc-icon nc-share-66" :inverted="true"
-                          v-for="releaseData in releaseDataSet">
-<!--                          :style="{ 'margin-bottom' : releaseData[0].margin}">-->
+                          v-for="releaseData in releaseDataSet"
+                          :style="{ 'margin-bottom' : releaseData[0].margin + 'px'}">
             <div slot="Description" class="datetime-title">{{ releaseData[0].releaseDate }}</div>
             <div slot="content">
               <el-table :data="releaseData" header-row-class-name="text-primary">
@@ -45,42 +45,7 @@ export default {
   data() {
     return {
       releaseDataSet: [
-        [{
-          releaseDate: '2022-08-04',
-          repositoryName: 'RainMaker',
-          releaseName: 'v1.0.0',
-          commitSize: '4',
-          codeChangeSize: '284',
-          publishedAt: '2022-08-04, 14시 32분',
-          margin: '0px'
-        }],
-        [{
-          releaseDate: '2022-08-04',
-          repositoryName: 'RainMaker',
-          version: 'v1.0.1',
-          commitCount: '10',
-          codeChange: '184',
-          releaseTime: '2022-08-04, 14시 32분',
-          margin: '50px'
-        }],
-        [{
-          releaseDate: '2022-08-05',
-          repositoryName: 'RainMaker',
-          version: 'v1.0.2',
-          commitCount: '10',
-          codeChange: '184',
-          releaseTime: '2022-08-04, 14시 32분',
-          margin: '650px'
-        }],
-        [{
-          releaseDate: '2022-08-06',
-          repositoryName: 'test-for-fake-project',
-          version: 'v1.0.2',
-          commitCount: '10',
-          codeChange: '184',
-          releaseTime: '2022-08-04, 14시 32분',
-          margin: '0px'
-        }],
+        [],
       ],
     }
   },
@@ -103,28 +68,25 @@ export default {
         repositoryArr.push(repository['repositoryId']);
       });
       let deploymentFrequencyDetail = await this.getDeploymentFrequencyDetail(FormatLastMonth, FormatToday, repositoryArr);
-      deploymentFrequencyDetail[0]["margin"] = '0px'
-      deploymentFrequencyDetail[0]["releaseDate"] = '2022-11-11'
-      deploymentFrequencyDetail[1]["margin"] = '0px'
-      deploymentFrequencyDetail[1]["releaseDate"] = '2022-11-11'
-      console.log("deploymentFrequencyDetail === ", deploymentFrequencyDetail);
-      let a = []
-      let b = []
-      b.push(deploymentFrequencyDetail[0])
-      a.push(b)
-      this.releaseDataSet = a;
+      this.releaseDataSet = deploymentFrequencyDetail;
     },
     async getDeploymentFrequencyDetail(start_time, end_time, repo_ids) {
       let axiosResponse;
-      axiosResponse = await axios.get(this.custom.defaultURL + "/api/dorametric/deployment-frequency/deployment-frequency-detail", {
+      axiosResponse = (await axios.get(this.custom.defaultURL + "/api/dorametric/deployment-frequency/deployment-frequency-detail", {
         headers: setHeaderJWT(),
         params: {
           start_time: start_time,
           end_time: end_time,
           repo_id: repo_ids.toString()
         }
-      });
-      return axiosResponse.data.releaseDetail;
+      })).data;
+
+      const releaseDateSet = []
+
+      for (let i = 0; i < axiosResponse.length ; i++) {
+        releaseDateSet.push([axiosResponse[i]]);
+      }
+      return releaseDateSet;
     },
     dateFormat(date) {
       let month = date.getMonth() + 1;
