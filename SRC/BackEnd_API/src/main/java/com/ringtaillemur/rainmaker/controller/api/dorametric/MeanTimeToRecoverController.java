@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.ringtaillemur.rainmaker.dto.webdto.responsedto.MttrDetailDto;
 import com.ringtaillemur.rainmaker.dto.webdto.responsedto.TimeToRestoreServiceDto;
 import com.ringtaillemur.rainmaker.service.dorametrics.TimeToRestoreServiceService;
 
@@ -27,5 +28,13 @@ public class MeanTimeToRecoverController {
 		@RequestParam("end_time") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate endTime,
 		@RequestParam("repo_id") List<Long> repositoryIds) {
 		return timeToRestoreServiceService.getTimeToRestoreService(repositoryIds, startTime, endTime);
+	}
+
+	@GetMapping("mttr-detail")
+	public List<MttrDetailDto> getTimeToRestoreServiceDetail(
+		@RequestParam("start_time") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate startTime,
+		@RequestParam("end_time") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate endTime,
+		@RequestParam("repo_id") List<Long> repositoryIds) {
+			return timeToRestoreServiceService.getTimeToRestoreServiceDetail(repositoryIds, startTime, endTime);
 	}
 }
