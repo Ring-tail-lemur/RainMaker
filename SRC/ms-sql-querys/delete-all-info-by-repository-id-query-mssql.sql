@@ -43,14 +43,21 @@ SELECT pull_request_id
 FROM pull_request
 WHERE repository_id = @repositoryId;
 
-DELETE PR
+DELETE pull_request
 OUTPUT deleted.*
-FROM pull_request PR
-         JOIN pull_request_commit_table PRCT
-              ON PR.pull_request_id = PRCT.pull_request_id
-         JOIN commits C
-              ON PRCT.commit_id = C.commit_id
-WHERE PR.repository_id = @repositoryId;
+FROM pull_request
+WHERE pull_request_id IN (SELECT pull_request_id FROM @PR_id)
+
+DELETE commits
+OUTPUT deleted.*
+FROM commits
+JOIN pull_request_commit_table prct on commits.commit_id = prct.commit_id
+WHERE prct.pull_request_id IN (SELECT pull_request_id FROM @PR_id)
+
+DELETE pull_request_commit_table
+OUTPUT deleted.*
+FROM pull_request_commit_table
+WHERE pull_request_id IN (SELECT pull_request_id FROM @PR_id)
 
 DELETE
 FROM pull_request_comment
