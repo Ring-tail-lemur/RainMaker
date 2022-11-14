@@ -80,8 +80,8 @@
           <span slot="title">변경 리드 타임</span>
           <badge slot="title-label" :type="LeadTimeForChange.rate">{{ LeadTimeForChange.rate }}</badge>
           <template slot="footer-title">
-            <div class="stats">
-              <i class="fa fa-check"></i> 더보기 버튼을 통해 자세한 정보를 제공받으세요!
+            <div class="stats" style="width: 100%">
+              <i class="fa fa-check" style=""></i> 더보기 버튼을 통해 자세한 정보를 제공받으세요!
             </div>
           </template>
           <p-button slot="footer-right" aria-label="add button" :type="typeChange(LeadTimeForChange.rate)" round icon
@@ -155,7 +155,7 @@
                     chart-id="active-countries-chart"
                     :color="MTTR.color"
                     chart-title="Mean Time To Recover"
-                    :suggestedMax="200"
+                    :suggestedMax="10"
                     :chart-options="MTTR.drawBaseLine"
                     :class="'border-' + MTTR.rate">
           <span slot="hover-slot" class="tooltip-custom">
@@ -173,7 +173,7 @@
             </div>
           </template>
           <p-button slot="footer-right" aria-label="add button" :type="typeChange(MTTR.rate)"
-                    round icon size="sm" onclick="location.href='/dashboard/mean-time-to-recover'">
+                    round icon size="sm" onclick="location.href='/dashboard/mean-time-to-repair'">
             <i class="nc-icon nc-simple-add"></i>
           </p-button>
         </chart-card>
@@ -387,8 +387,7 @@ export default {
       waiting: false,
       interval: ''
     }
-  },
-  methods: {
+  },  methods: {
     hideBreakDown() {
       this.stacked = false;
       delete this.LeadTimeForChange.data.datasets
@@ -793,6 +792,7 @@ export default {
       }
     }
   },
+
   async created() {
     await this.createdMethod();
   }

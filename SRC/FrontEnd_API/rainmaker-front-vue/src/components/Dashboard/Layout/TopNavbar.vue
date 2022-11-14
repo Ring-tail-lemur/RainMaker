@@ -12,29 +12,11 @@
 
         </navbar-toggle-button>
       </div>
-      <a class="navbar-brand" href="#pablo">RainMaker</a>
+      <a class="navbar-brand">RainMaker</a>
     </div>
 
     <template slot="navbar-menu">
-      <form>
-        <div class="input-group no-border">
-          <input type="text" value="" class="form-control" placeholder="Search...">
-          <div class="input-group-append">
-            <div class="input-group-text">
-              <i class="nc-icon nc-zoom-split"></i>
-            </div>
-          </div>
-        </div>
-      </form>
       <ul class="navbar-nav">
-        <li class="nav-item">
-          <a class="nav-link btn-magnify" href="#pablo">
-            <i class="nc-icon nc-layout-11"></i>
-            <p>
-              <span class="d-lg-none d-md-block">Stats</span>
-            </p>
-          </a>
-        </li>
 
         <li class="nav-item logoutBox" v-if="this.isLogin" v-on:click="logout()">
           <a class="nav-link btn-magnify">
@@ -48,7 +30,7 @@
           </a>
         </li>
 
-        <drop-down icon="nc-icon nc-bell-55" tag="li"
+        <drop-down icon="nc-icon nc-settings-gear-65" tag="li"
                    position="right"
                    direction="none"
                    class="nav-item btn-rotate dropdown">
@@ -58,23 +40,15 @@
              data-toggle="dropdown"
              aria-haspopup="true"
              :aria-expanded="isOpen">
-            <i class="nc-icon nc-bell-55"></i>
+            <i class="nc-icon nc-settings-gear-65"></i>
             <p>
               <span class="d-lg-none d-md-block">Some Actions</span>
             </p>
           </a>
-          <a class="dropdown-item" href="#">Action</a>
-          <a class="dropdown-item" href="#">Another action</a>
-          <a class="dropdown-item" href="#">Something else here</a>
+          <a class="dropdown-item" href="/RepositorySelect">Github 리포지토리 선택</a>
+          <a class="dropdown-item" href="/register/token">토큰 설정</a>
+          <a class="dropdown-item" href="/user/SlackWebhookRegister">Slack URL 등록</a>
         </drop-down>
-        <li class="nav-item">
-          <a class="nav-link btn-rotate" href="#pablo">
-            <i class="nc-icon nc-settings-gear-65"></i>
-            <p>
-              <span class="d-lg-none d-md-block">Account</span>
-            </p>
-          </a>
-        </li>
       </ul>
     </template>
   </navbar>

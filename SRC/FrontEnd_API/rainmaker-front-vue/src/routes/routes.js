@@ -53,6 +53,7 @@ const RepositorySelect = () => import(/* webpackChunkName: "widgets" */ 'src/com
 const DashBoard = () => import(/* webpackChunkName: "widgets" */ 'src/components/Dashboard/Views/Custom/Dashboard.vue')
 const MainPage = () => import(/* webpackChunkName: "widgets" */ '@/components/Dashboard/Views/Custom/MainPage/MainPage.vue');
 const LeadTimeForChangeDetails = () => import(/* webpackChunkName: "widgets" */ '@/components/Dashboard/Views/Custom/LeadTimeForChangeComponent/LeadTimeForChangeDetails.vue');
+const MeanTimeToRepairDetails = () => import('@/components/Dashboard/Views/Custom/MeanTimeTORepairComponent/MeanTimeToRepairDetails.vue')
 const DeploymentFrequencyDetails = () => import(/* webpackChunkName: "widgets" */ '@/components/Dashboard/Views/Custom/DeploymentFrequencyComponent/DeploymentFrequencyDetails');
 
 const requireAuth =  () => async (to, from, next) => {
@@ -281,7 +282,21 @@ let LeadTimeForChangeDetailPage = {
       name: 'LeadTimeForChangeDetails',
       component : LeadTimeForChangeDetails
     }
-  ]
+  ],
+  beforeEnter: requireAuth()
+}
+
+let MeanTimeToRepairDetailPage = {
+  path: '/dashboard/mean-time-to-repair',
+  component: DashboardLayout,
+  children : [
+    {
+      path: '',
+      name: 'MeanTimeToRepairDetails',
+      component : MeanTimeToRepairDetails
+    }
+  ],
+  beforeEnter: requireAuth()
 }
 
 let DeploymentFrequencyDetailPage = {
@@ -324,6 +339,7 @@ const routes = [
   DashBoardPage,
   githubTokenSettingPage,
   WidgetPage,
+  MeanTimeToRepairDetailPage,
   {path: '*', component: NotFound}
 ];
 
