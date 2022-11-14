@@ -8,4 +8,4 @@ class Sender():
         from .slack import slack_main
         for user in user_list:
             real_sender = slack_main.SlackSender()
-            real_sender.send_slack_message_with_user_id(user)
+            real_sender.send_slack_message(user)
