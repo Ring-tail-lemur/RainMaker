@@ -30,7 +30,7 @@ public class SecurityConfig {
 			.disable()
 			.addFilterBefore(sessionFilterInternal, UsernamePasswordAuthenticationFilter.class)
 			.authorizeRequests(a -> a
-				.antMatchers("/api/user/login/**", "/api/dorametric/time-to-restore-service/mttr-detail", "/api/**")
+				.antMatchers("/api/user/login/**")
 			 .permitAll()
 				.antMatchers("/api/user/token")
 				.hasAnyAuthority("FIRST_AUTH_USER", "AUTH_NOT_REPOSITORY_SELECT",
