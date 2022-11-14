@@ -311,6 +311,11 @@ let DeploymentFrequencyDetailPage = {
   ]
 }
 
+let CalendarPage = {
+  path: '/calendar',
+  component: Calendar
+}
+
 let WidgetPage = {
   path: '/admin/widget',
   component: Widgets
@@ -321,6 +326,7 @@ const routes = [
     path: '/',
     redirect: '/main'
   },
+  CalendarPage,
   slackWebhookRegisterPage,
   LeadTimeForChangeDetailPage,
   DeploymentFrequencyDetailPage,
