@@ -1,7 +1,7 @@
 <template>
   <div class="desktop-1 screen">
     <div class="top-bar">
-      <div class="logo">
+      <div class="logo-main">
         <a href="/">
           <img class="rain-maker-1" src="/static/img/rainmaker-logo-main.png" alt="RainMaker 1"/>
         </a>
@@ -299,7 +299,7 @@
   width: 10vw;
 }
 
-.logo {
+.logo-main {
   justify-content: center;
   align-items: center;
 
