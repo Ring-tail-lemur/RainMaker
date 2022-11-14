@@ -31,7 +31,7 @@ public class DeploymentFrequencyController {
 	}
 
 	@GetMapping("/deployment-frequency-detail")
-	public DeploymentFrequencyDetailDto getDeploymentFrequencyDetailBySource(
+	public List<DeploymentFrequencyDetailDto> getDeploymentFrequencyDetailBySource(
 		@RequestParam("start_time") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate startTime,
 		@RequestParam("end_time") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate endTime,
 		@RequestParam("repo_id") List<Long> repositoryIds) {
