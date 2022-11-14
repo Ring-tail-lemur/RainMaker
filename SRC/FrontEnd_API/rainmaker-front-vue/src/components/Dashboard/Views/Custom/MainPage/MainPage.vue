@@ -3,7 +3,7 @@
     <div class="top-bar">
       <div class="logo">
         <a href="/">
-          <img class="rain-maker-1" src="./rainmaker-logo.png" alt="RainMaker 1"/>
+          <img class="rain-maker-1" src="/static/img/rainmaker-logo-main.png" alt="RainMaker 1"/>
         </a>
       </div>
 

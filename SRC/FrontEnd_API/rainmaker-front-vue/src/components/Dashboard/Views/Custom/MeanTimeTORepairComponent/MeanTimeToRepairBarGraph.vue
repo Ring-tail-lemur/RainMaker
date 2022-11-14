@@ -16,9 +16,13 @@
           </span>
       <span slot="title">평균 회복 시간</span>
       <badge slot="title-label" :type="MTTR.rate">{{ MTTR.rate }}</badge>
-      <p-button slot="footer-right" aria-label="add button" :type="typeChange(MTTR.rate)" round icon size="sm">
-        <i class="nc-icon nc-simple-add"></i>
-      </p-button>
+      <span slot="CustomSlot"><br></span>
+      <div slot="footer">
+        <hr>
+        <div class="stats">
+          <i class="fa fa-check"></i> 14일 동안의 지표입니다.
+        </div>
+      </div>
     </chart-card>
   </div>
 </template>

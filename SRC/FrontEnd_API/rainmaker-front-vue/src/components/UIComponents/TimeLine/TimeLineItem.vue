@@ -1,7 +1,8 @@
 <template>
   <li :class="{'timeline-inverted': inverted}">
-<!--  <li class="timeline-inverted">-->
-      <slot name="badge">
+
+    <slot name="Description" style="display: inline-block; transform:translateX(-100px);  width: 100px;"></slot>
+    <slot name="badge">
       <div class="timeline-badge" :class="badgeType">
         <i :class="badgeIcon"></i>
       </div>

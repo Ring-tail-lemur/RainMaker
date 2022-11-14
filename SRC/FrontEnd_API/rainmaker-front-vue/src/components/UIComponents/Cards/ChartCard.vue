@@ -50,12 +50,12 @@
       <slot name="footer">
         <hr>
         <div class="row">
-          <div class="col-sm-7">
+          <div class="col-sm-8">
             <div class="footer-title">
               <slot name="footer-title"></slot>
             </div>
           </div>
-          <div class="col-sm-5">
+          <div class="col-sm-4">
             <div class="pull-right">
               <slot name="footer-right"></slot>
             </div>

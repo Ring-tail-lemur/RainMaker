@@ -3,23 +3,31 @@ package com.ringtaillemur.rainmaker;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
-import com.ringtaillemur.rainmaker.domain.*;
-import com.ringtaillemur.rainmaker.domain.enumtype.OwnerType;
-import com.ringtaillemur.rainmaker.dto.webdto.responsedto.RegisterRepositoryResponseDto;
-import com.ringtaillemur.rainmaker.repository.OAuthRepository;
-import com.ringtaillemur.rainmaker.repository.OAuthUserRepositoryRepository;
-import com.ringtaillemur.rainmaker.repository.RepositoryRepository;
-import com.ringtaillemur.rainmaker.service.UserService;
-import com.ringtaillemur.rainmaker.service.dorametrics.LeadTimeForChangeService;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.persistence.StoredProcedureQuery;
+
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-
-import com.ringtaillemur.rainmaker.repository.GitUserRepository;
-import org.springframework.test.annotation.Rollback;
 import org.springframework.transaction.annotation.Transactional;
+
+import com.ringtaillemur.rainmaker.domain.OAuthUser;
+import com.ringtaillemur.rainmaker.domain.OAuthUserRepositoryTable;
+import com.ringtaillemur.rainmaker.domain.Repository;
+import com.ringtaillemur.rainmaker.domain.enumtype.OwnerType;
+import com.ringtaillemur.rainmaker.dto.webdto.responsedto.DeploymentFrequencyDetailDto;
+import com.ringtaillemur.rainmaker.dto.webdto.responsedto.RegisterRepositoryResponseDto;
+import com.ringtaillemur.rainmaker.repository.GitUserRepository;
+import com.ringtaillemur.rainmaker.repository.OAuthRepository;
+import com.ringtaillemur.rainmaker.repository.OAuthUserRepositoryRepository;
+import com.ringtaillemur.rainmaker.repository.ReleaseDetailRepository;
+import com.ringtaillemur.rainmaker.repository.ReleaseSuccessRepository;
+import com.ringtaillemur.rainmaker.repository.RepositoryRepository;
+import com.ringtaillemur.rainmaker.service.UserService;
+import com.ringtaillemur.rainmaker.service.dorametrics.DeploymentFrequencyService;
+import com.ringtaillemur.rainmaker.service.dorametrics.LeadTimeForChangeService;
 
 @SpringBootTest
 class RainmakerWebserverApplicationTest {
@@ -38,6 +46,9 @@ class RainmakerWebserverApplicationTest {
 	
 	@Autowired
 	UserService userService;
+
+	@Autowired
+	ReleaseSuccessRepository releaseSuccessRepository;
 
 	@Test
 	@Transactional
@@ -95,10 +106,45 @@ class RainmakerWebserverApplicationTest {
 	
 	@Autowired
 	LeadTimeForChangeService leadTimeForChangeService;
+
+	@Autowired
+	ReleaseDetailRepository releaseDetailRepository;
+
+	@Autowired
+	DeploymentFrequencyService deploymentFrequencyService;
 	@Test
 	@Transactional
-	void test3() {
-		leadTimeForChangeService.getCycleTimeDetailDto(List.of(510731046L), LocalDate.now().minusDays(30L), LocalDate.now());
+	void test4() {
+		List<Long> repositoryIds = new ArrayList<>();
+		repositoryIds.add(517528822L);
+		repositoryIds.add(544985444L);
+		repositoryIds.add(510731046L);
+
+		List<DeploymentFrequencyDetailDto> deploymentFrequencyDetailDto = deploymentFrequencyService.getDeploymentFrequencyDetailDto(
+			repositoryIds,
+			LocalDate.now().minusDays(14L), LocalDate.now());
+
+		deploymentFrequencyDetailDto.stream()
+			.forEach(d -> {
+				System.out.println(d.getReleaseName());
+				System.out.println(d.getCodeChangeSize());
+				System.out.println(d.getMargin());
+				System.out.println();
+			});
 	}
-	
+
+	@PersistenceContext
+	private EntityManager em;
+
+	@Test
+	@Transactional
+	void test5() {
+		StoredProcedureQuery storedProcedureQuery = em.createNamedStoredProcedureQuery("getReleaseDetailList");
+		storedProcedureQuery.setParameter("repoString", "544985444");
+		boolean execute = storedProcedureQuery.execute();
+		@SuppressWarnings("unchecked")
+		List<Object[]> list = storedProcedureQuery.getResultList();
+		System.out.println(list);
+	}
+
 }
