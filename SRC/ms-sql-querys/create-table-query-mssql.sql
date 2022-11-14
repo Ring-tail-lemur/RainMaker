@@ -251,13 +251,12 @@ CREATE TABLE oauth_user_repository_table
 
 CREATE TABLE alert_log
 (
-    id  BIGINT          NOT NULL AUTO_INCREMENT PRIMARY KEY,
-    user_remote_id      BIGINT       NOT NULL, 
+    id  BIGINT          NOT NULL  IDENTITY(1,1) PRIMARY KEY ,
+    user_remote_id      BIGINT       NOT NULL,
     alert_type          VARCHAR(20)  NOT NULL,
     created_date        DATETIME2    NOT NULL DEFAULT GETDATE(),
     modified_date       DATETIME2    NOT NULL DEFAULT GETDATE()
 );
-
 alter table oauth_user_repository_table
     add constraint foreign_key_name
         foreign key (oauth_user_id) references oauth_user (user_remote_id);
