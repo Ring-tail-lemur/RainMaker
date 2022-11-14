@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.ringtaillemur.rainmaker.domain.TimeToRestoreService;
 import com.ringtaillemur.rainmaker.domain.view.MttrDetail;
+import com.ringtaillemur.rainmaker.dto.webdto.responsedto.MttrBreakDownDto;
 import com.ringtaillemur.rainmaker.dto.webdto.responsedto.MttrDetailDto;
 import com.ringtaillemur.rainmaker.dto.webdto.responsedto.TimeToRestoreServiceDto;
 import com.ringtaillemur.rainmaker.repository.MttrDetailRepository;
@@ -52,5 +53,13 @@ public class TimeToRestoreServiceService {
 			repositoryIds, startDateTime, endDateTime);
 
 		return mttrDetailList.stream().map(MttrDetailDto::new).toList();
+	}
+
+	public MttrBreakDownDto getMeanTimeToRecoverBreakDown(List<Long> repositoryIds, LocalDate startTime,
+		LocalDate endTime) {
+		List<MttrDetailDto> timeToRestoreServiceDetail = getTimeToRestoreServiceDetail(repositoryIds, startTime,
+			endTime);
+
+		return new MttrBreakDownDto(timeToRestoreServiceDetail);
 	}
 }

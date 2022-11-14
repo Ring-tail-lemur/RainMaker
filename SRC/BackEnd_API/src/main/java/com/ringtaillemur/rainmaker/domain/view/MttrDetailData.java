@@ -5,9 +5,6 @@ import java.time.LocalDateTime;
 
 import javax.persistence.Embeddable;
 
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateTimeDeserializer;
-
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -25,7 +22,6 @@ public class MttrDetailData implements Serializable {
 	private LocalDateTime firstReviewTime;
 	private LocalDateTime prOpenTime;
 	private LocalDateTime prCloseTime;
-	@JsonDeserialize(using = LocalDateTimeDeserializer.class)
 	private LocalDateTime deploymentTime;
 	private LocalDateTime endTime;
 	private Long issueNumber;

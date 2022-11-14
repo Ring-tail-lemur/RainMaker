@@ -140,7 +140,7 @@
                     chart-id="active-countries-chart"
                     :color="MTTR.color"
                     chart-title="Mean Time To Recover"
-                    :suggestedMax="12000"
+                    :suggestedMax="10"
                     :chart-options="MTTR.drawBaseLine"
                     :class="'border-' + MTTR.rate">
           <span slot="hover-slot" class="tooltip-custom">
@@ -152,7 +152,8 @@
           </span>
           <span slot="title">평균 회복 시간</span>
           <badge slot="title-label" :type="MTTR.rate">{{ MTTR.rate }}</badge>
-          <p-button slot="footer-right" aria-label="add button" :type="typeChange(MTTR.rate)" round icon size="sm">
+          <p-button slot="footer-right" aria-label="add button" :type="typeChange(MTTR.rate)" round icon size="sm"
+                    onclick="location.href='/dashboard/mean-time-to-repair'">
             <i class="nc-icon nc-simple-add"></i>
           </p-button>
         </chart-card>
@@ -366,8 +367,7 @@ export default {
       waiting: false,
       interval: ''
     }
-  },
-  methods: {
+  },  methods: {
     hideBreakDown() {
       this.stacked = false;
       delete this.LeadTimeForChange.data.datasets
@@ -768,6 +768,7 @@ export default {
       }
     }
   },
+
   async created() {
     await this.createdMethod();
   }
