@@ -251,7 +251,7 @@ CREATE TABLE oauth_user_repository_table
 
 CREATE TABLE alert_log
 (
-    id  BIGINT          NOT NULL     PRIMARY KEY,
+    id  BIGINT          NOT NULL AUTO_INCREMENT PRIMARY KEY,
     user_remote_id      BIGINT       NOT NULL, 
     alert_type          VARCHAR(20)  NOT NULL,
     created_date        DATETIME2    NOT NULL DEFAULT GETDATE(),
