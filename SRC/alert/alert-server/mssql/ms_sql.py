@@ -13,8 +13,8 @@ class Singleton(type):
 
 class MsSql(metaclass=Singleton):
     def __init__(self):
-        configObj = self.make_ms_config()
-        self.conn = pymssql.connect(server=configObj.get("server"), user=configObj.get("user"), password=configObj.get("password"), database=configObj.get("database"), as_dict =True) 
+        self.configObj = self.make_ms_config()
+        self.conn = pymssql.connect(server=self.configObj.get("server"), user=self.configObj.get("user"), password=self.configObj.get("password"), database=self.configObj.get("database"), as_dict =True) 
 
     def execute(self, query):
         if(query[0] == 'S'):
@@ -29,7 +29,7 @@ class MsSql(metaclass=Singleton):
         row = self.cursor.fetchone()
         while row:
             result.append(row)
-            row = self.cursor.fetchone()
+            row = cursor.fetchone()
         return result
 
     def execute_pd(self,query):
@@ -45,18 +45,22 @@ class MsSql(metaclass=Singleton):
         logging.info(query)
         cursor = self.conn.cursor()
         cursor.execute(query)
-        result = self.cursor.fetchall()
+        result = cursor.fetchall()
         result_df = pd.DataFrame(result)
         return result_df
 
     def modify_query(self, query):
-
+        new_conn = pymssql.connect(server=self.configObj.get("server"), user=self.configObj.get("user"), password=self.configObj.get("password"), database=self.configObj.get("database"), as_dict =True) 
         print("\"{}\"".format(query))
         logging.info(query)
-        cursor = self.conn.cursor()
-        cursor.execute(query)
-        row = cursor.fetchone()  
-        print('success')
+        new_cursor = new_conn.cursor()
+        new_cursor.execute(query)
+        new_conn.commit()
+        # while row:  
+        #     print("Inserted Product ID : " +str(row[0]))
+        #     row = new_cursor.fetchone()  
+        # print('success')
+        new_conn.close()
         return True
 
     def close(self):
