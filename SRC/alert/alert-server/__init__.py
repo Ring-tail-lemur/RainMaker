@@ -3,6 +3,7 @@ import logging
 import azure.functions as func
 from . import extractor
 from . import chooser
+from . import sender
 def main(mytimer: func.TimerRequest) -> None:
     utc_timestamp = datetime.datetime.utcnow().replace(
         tzinfo=datetime.timezone.utc).isoformat()
@@ -14,10 +15,12 @@ def main(mytimer: func.TimerRequest) -> None:
     try:
         ext = extractor.Extractor()
         choose = chooser.Chooser() 
+        send = sender.Sender()
         alert_user = ext.get_burn_out_user()
         if alert_user.size > 0:
             alert_user_with_deduplication = choose.get_alert_user(alert_user)
             if alert_user_with_deduplication.size > 0:
+                send.sending_alert_users(alert_user_with_deduplication)
                 logging.info(alert_user_with_deduplication)
     except Exception as e:
         logging.error(e)
