@@ -17,14 +17,14 @@ class MsSql(metaclass=Singleton):
         self.conn = pymssql.connect(server=configObj.get("server"), user=configObj.get("user"), password=configObj.get("password"), database=configObj.get("database"), as_dict =True) 
 
     def execute(self, query):
-        self.cursor = self.conn.cursor()
         if(query[0] == 'S'):
             return self.select_query(query)
         else:
             return self.modify_query(query)
     
     def select_query(self, query):
-        self.cursor.execute(query)
+        cursor = self.conn.cursor()
+        cursor.execute(query)
         result = list()
         row = self.cursor.fetchone()
         while row:
@@ -33,7 +33,6 @@ class MsSql(metaclass=Singleton):
         return result
 
     def execute_pd(self,query):
-        self.cursor = self.conn.cursor()
         if(query[0] == 'S'):
             # print("SELECT")
             return self.select_query_df(query)
@@ -44,23 +43,22 @@ class MsSql(metaclass=Singleton):
     def select_query_df(self, query):
         print(query)
         logging.info(query)
-        self.cursor.execute(query)
+        cursor = self.conn.cursor()
+        cursor.execute(query)
         result = self.cursor.fetchall()
         result_df = pd.DataFrame(result)
         return result_df
 
     def modify_query(self, query):
-        print(query)
+
+        print("\"{}\"".format(query))
         logging.info(query)
-        self.cursor.execute(query)
-        result = list()
-        row = self.cursor.fetchone()
-        while row:
-            result.append(row)
-            row = self.cursor.fetchone()
-        self.cursor.execute(query)
-        self.cursor.commit()
-        return result
+        cursor = self.conn.cursor()
+        cursor.execute(query)
+        row = cursor.fetchone()  
+        print('success')
+        return True
+
     def close(self):
         self.conn.close()
 
@@ -70,3 +68,7 @@ class MsSql(metaclass=Singleton):
         with open(os.path.join(script_dir, 'ms-sql.json')) as file:
             jsonString = json.load(file)
             return jsonString
+
+
+a = MsSql()
+a.execute("INSERT INTO alert_log (user_remote_id, alert_type, created_date, modified_date) VALUES (81180977, \'BURNOUT\', DEFAULT, DEFAULT)")

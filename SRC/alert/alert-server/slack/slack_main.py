@@ -18,10 +18,12 @@ class SlackSender():
         print('hi')
         slack_url = self.find_slack_url_with_user_id(user_id)
         if slack_url is not None:
+
+            self.insert_log_to_db(user_id)
             print(slack_url)
             payload = {"text" : "{}".format(self.message)}
             r = requests.post(slack_url, json = payload)
-            print(r)
+            
 
     def find_slack_url_with_user_id(self, user_id):
         user_info_df = self.get_user_info_with_id(user_id)
@@ -39,6 +41,11 @@ class SlackSender():
         user_info_df = db.execute_pd(get_user_info_with_id_query)
         return user_info_df
 
+    def insert_log_to_db(self, user_id):
+        insert_log_query = """INSERT INTO alert_log (user_remote_id, alert_type, created_date, modified_date) VALUES ({}, '{}', DEFAULT, DEFAULT);""".format(user_id, "BURNOUT")
+        db = ms_sql.MsSql()
+        result = db.execute(insert_log_query)
+
+
 s = SlackSender()
 s.send_slack_message(81180977)
-# print(s.get_user_info_with_id(81180977))
