@@ -20,8 +20,8 @@ def main(mytimer: func.TimerRequest) -> None:
         if len(alert_user) > 0:
             alert_user_with_deduplication = choose.get_alert_user(alert_user)
             if len(alert_user_with_deduplication) > 0:
+                logging.info('Sender Start')
                 send.sending_alert_users(alert_user_with_deduplication)
-                logging.info(alert_user_with_deduplication)
     except Exception as e:
         logging.error(e)
         logging.info('hi')
