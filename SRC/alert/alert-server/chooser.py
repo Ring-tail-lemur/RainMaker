@@ -21,7 +21,7 @@ class Chooser(metaclass=Singleton):
             alert_user_list_with_deduplicate = get_user_module.get_alert_user_deduplicate(user_list)
             if alert_user_list_with_deduplicate is None:
                 return None
-            if len(alert_user_list_with_deduplicate > 0):
+            if len(alert_user_list_with_deduplicate) > 0:
                 return alert_user_list_with_deduplicate
         except Exception as e:
             logging.error(e)
