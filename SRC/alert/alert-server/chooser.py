@@ -20,7 +20,10 @@ class Chooser(metaclass=Singleton):
             get_user_module = user.User()
             user_list = user_df.values.tolist()
             alert_user_list_with_deduplicate = get_user_module.get_alert_user_deduplicate(user_list)
-            return alert_user_list_with_deduplicate
+            if len(alert_user_list_with_deduplicate > 0):
+                return alert_user_list_with_deduplicate
+            else:
+                return None
         except Exception as e:
             logging.error(e)
             raise Exception('Chooser에서 오류 남!~')

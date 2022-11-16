@@ -30,7 +30,7 @@ def main(mytimer: func.TimerRequest) -> None:
             logging.info("ALERT USER WITH DEDUPLICATION")
             logging.info(alert_user_with_deduplication)
             logging.info('==============================================')
-            if len(alert_user_with_deduplication) > 0:
+            if alert_user_with_deduplication is not None:
                 send.sending_alert_users(alert_user_with_deduplication)
     except Exception as e:
         logging.error(traceback.format_list())
