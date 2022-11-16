@@ -1,3 +1,4 @@
+import logging
 class Singleton(type):
     _instances = {}
     def __call__(cls, *args, **kwargs):
@@ -18,6 +19,7 @@ class Chooser(metaclass=Singleton):
             user_list = user_df.values.tolist()
             alert_user_list_with_deduplicate = get_user_module.get_alert_user_deduplicate(user_list)
             return alert_user_list_with_deduplicate
-        except:
+        except Exception as e:
+            logging.error(e)
             raise Exception('Chooser에서 오류 남!~')
         
