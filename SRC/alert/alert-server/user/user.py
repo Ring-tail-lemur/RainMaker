@@ -1,3 +1,4 @@
+import logging
 class User():
     def get_alert_user_deduplicate(self, user_list):
         import sys, os
@@ -20,6 +21,8 @@ class User():
         
         
         alert_user_today_df = db.execute_pd(alert_user_today_query)
+        logging.WARNING('user.py')
+        logging.WARNING(alert_user_today_df)
         for idx in alert_user_today_df.index:
             user_list.remove(alert_user_today_df[idx,'USER_ID'])
         return user_list
