@@ -4,6 +4,7 @@ import azure.functions as func
 from . import extractor
 from . import chooser
 from . import sender
+import traceback
 def main(mytimer: func.TimerRequest) -> None:
     utc_timestamp = datetime.datetime.utcnow().replace(
         tzinfo=datetime.timezone.utc).isoformat()
@@ -23,6 +24,6 @@ def main(mytimer: func.TimerRequest) -> None:
                 logging.info('Sender Start')
                 send.sending_alert_users(alert_user_with_deduplication)
     except Exception as e:
-        logging.error(e)
+        logging.error(traceback.format_list())
         logging.info('hi')
     
