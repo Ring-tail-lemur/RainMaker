@@ -27,7 +27,6 @@ class Extractor(metaclass=Singleton):
             logging.error(e)
             raise Exception('extractor 오류')
 
-        logging.info('now Extractor.py 30번쨰 줄')
         self.alert_user_df = self.alert_user_df.drop_duplicates()
         logging.info(type(self.alert_user_df))
         return self.alert_user_df

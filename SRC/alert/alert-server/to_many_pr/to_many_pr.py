@@ -17,10 +17,8 @@ class PrExtractor():
         rp = repository_main.Repository()
         result_df = self.get_repository_pr_cnt()
         burn_out_repository = result_df['repository_id'].values.tolist()
-        # print(burn_out_repository)
         burn_out_user_list = rp.get_repo_and_user_info_list(burn_out_repository)
         return burn_out_user_list
-        # print(burn_out_user_list)
 
 
     def get_repository_pr_cnt(self):
@@ -40,7 +38,6 @@ class PrExtractor():
             self.this_week_pr(repo_pr_df)
             # 지난 한 달의 PR DF
             self.month_ago_pr(repo_pr_df)
-            # TODO: 현재는 그냥 현재/7 > 지난 한 달 / 28 이면 True 반환중. 개선 필요
             repo_pr_len_list = self.make_repository_cnt()
             if(repo_pr_len_list[1]/7 > repo_pr_len_list[2]/28):
                 repo_pr_len_list[0] = repository
@@ -51,7 +48,6 @@ class PrExtractor():
                 }
                 new_df = pd.DataFrame(new_data)
                 result_df = pd.concat([result_df, new_df])
-            logging.info(result_df)
         return result_df
 
     def this_week_pr(self, repo_pr_df):
@@ -68,8 +64,5 @@ class PrExtractor():
     def make_repository_cnt(self):
         return [0, len(self.last_week_pr_list), len(self.last_month_pr_list)]
 
-# test = PrExtractor()
-# test.get_user_above_average()
-# print(result_list)
 
         

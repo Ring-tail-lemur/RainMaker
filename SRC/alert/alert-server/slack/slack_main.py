@@ -15,14 +15,13 @@ class SlackSender():
         logging.info('slack_sender')
     
     def send_slack_message(self,user_id):
-        print('hi')
         slack_url = self.find_slack_url_with_user_id(user_id)
         if slack_url is not None:
-
             self.insert_log_to_db(user_id)
             print(slack_url)
             payload = {"text" : "{}".format(self.message)}
             r = requests.post(slack_url, json = payload)
+            logging.info(user_id," : Sending 완료")
             
 
     def find_slack_url_with_user_id(self, user_id):
