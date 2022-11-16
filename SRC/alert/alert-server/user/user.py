@@ -26,8 +26,11 @@ class User():
                 user_list.remove(alert_user_today_df[idx,'USER_ID'])
             except:
                 return None
-            if len(user_list) < 1:
-                return None
+            try:
+                if len(user_list) < 1:
+                    return None
+            except:
+                print(len(user_list))
         return user_list
 
         
