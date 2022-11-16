@@ -1,5 +1,7 @@
 import logging
 import traceback
+
+
 class Singleton(type):
     _instances = {}
     def __call__(cls, *args, **kwargs):
@@ -12,9 +14,8 @@ class Singleton(type):
 class Chooser(metaclass=Singleton):
     def get_alert_user(self, user_df):
         import pandas as pd
+
         from .user import user
-        logging.info("Chooser alert User")
-        logging.info(user_df)
         try:
             get_user_module = user.User()
             user_list = user_df.values.tolist()

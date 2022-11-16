@@ -11,9 +11,6 @@ class SlackSender():
     2. WIP가 3개 인 직원이 있나 찾아보세요. 동시에 진행중인 작업이 4개 이상이면 작업자가 정신적인 피로를 느낄 수 있습니다.\n
     3. 팀의 멤버들의 작업일이 달의 90% 이상일 수도 있어요. 휴가를 보내보시는건 어떨까요?
     """
-    def __init__(self):
-        logging.info('slack_sender')
-    
     def send_slack_message(self,user_id):
         slack_url = self.find_slack_url_with_user_id(user_id)
         if slack_url is not None:

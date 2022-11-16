@@ -21,7 +21,6 @@ class Repository(metaclass=Singleton):
         """.format(repo_list_str)
         db = ms_sql.MsSql()
         self.burn_out_owner_user = db.execute_pd(find_burnout_user_query)
-        logging.info(self.burn_out_owner_user)
         # print(self.burn_out_owner_user)
         return self.burn_out_owner_user
         

@@ -11,7 +11,6 @@ class Singleton(type):
 
 class Extractor(metaclass=Singleton):
     def __init__(self):
-        logging.info("Extractor")
         self.extract_burnout_user()
 
     def extract_burnout_user(self):
@@ -28,7 +27,6 @@ class Extractor(metaclass=Singleton):
             raise Exception('extractor 오류')
 
         self.alert_user_df = self.alert_user_df.drop_duplicates()
-        logging.info(type(self.alert_user_df))
         return self.alert_user_df
         
     def get_burn_out_user(self):
