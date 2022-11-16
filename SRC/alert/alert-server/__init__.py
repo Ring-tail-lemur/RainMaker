@@ -17,9 +17,9 @@ def main(mytimer: func.TimerRequest) -> None:
         choose = chooser.Chooser() 
         send = sender.Sender()
         alert_user = ext.get_burn_out_user()
-        if alert_user.size > 0:
+        if len(alert_user) > 0:
             alert_user_with_deduplication = choose.get_alert_user(alert_user)
-            if alert_user_with_deduplication.size > 0:
+            if len(alert_user_with_deduplication) > 0:
                 send.sending_alert_users(alert_user_with_deduplication)
                 logging.info(alert_user_with_deduplication)
     except Exception as e:

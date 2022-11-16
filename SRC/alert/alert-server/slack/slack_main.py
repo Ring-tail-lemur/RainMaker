@@ -45,7 +45,3 @@ class SlackSender():
         insert_log_query = """INSERT INTO alert_log (user_remote_id, alert_type, created_date, modified_date) VALUES ({}, '{}', DEFAULT, DEFAULT);""".format(user_id, "BURNOUT")
         db = ms_sql.MsSql()
         result = db.execute(insert_log_query)
-
-
-s = SlackSender()
-s.send_slack_message(81180977)
