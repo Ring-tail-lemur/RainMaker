@@ -10,10 +10,12 @@ class Singleton(type):
 
 class Chooser(metaclass=Singleton):
     def __init__(self):
-        print("Choose alert User")
+        print("Chooser")
     def get_alert_user(self, user_df):
         import pandas as pd
         from .user import user
+        logging.info("Chooser alert User")
+        logging.info("user_df")
         try:
             get_user_module = user.User()
             user_list = user_df.values.tolist()
