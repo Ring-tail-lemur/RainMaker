@@ -22,7 +22,12 @@ class User():
         
         alert_user_today_df = db.execute_pd(alert_user_today_query)
         for idx in alert_user_today_df.index:
-            user_list.remove(alert_user_today_df[idx,'USER_ID'])
+            try:
+                user_list.remove(alert_user_today_df[idx,'USER_ID'])
+            except:
+                return None
+            if len(user_list) < 1:
+                return None
         return user_list
 
         

@@ -28,6 +28,8 @@ def main(mytimer: func.TimerRequest) -> None:
             alert_user_with_deduplication = choose.get_alert_user(alert_user)
             logging.info("Chooser Done")
             logging.info("ALERT USER WITH DEDUPLICATION")
+            if alert_user_with_deduplication is None:
+                alert_user_with_deduplication = []
             logging.info(alert_user_with_deduplication)
             logging.info('==============================================')
             if alert_user_with_deduplication is not None:
