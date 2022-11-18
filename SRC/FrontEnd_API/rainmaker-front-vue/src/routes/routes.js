@@ -53,6 +53,7 @@ const RepositorySelect = () => import(/* webpackChunkName: "widgets" */ 'src/com
 const DashBoard = () => import(/* webpackChunkName: "widgets" */ 'src/components/Dashboard/Views/Custom/Dashboard.vue')
 const MainPage = () => import(/* webpackChunkName: "widgets" */ '@/components/Dashboard/Views/Custom/MainPage/MainPage.vue');
 const LeadTimeForChangeDetails = () => import(/* webpackChunkName: "widgets" */ '@/components/Dashboard/Views/Custom/LeadTimeForChangeComponent/LeadTimeForChangeDetails.vue');
+const ChangeFailureRateDetails = () => import(/* webpackChunkName: "widgets" */ '@/components/Dashboard/Views/Custom/ChangeFailureRateComponent/ChangeFailureRateDetails');
 const MeanTimeToRepairDetails = () => import('@/components/Dashboard/Views/Custom/MeanTimeTORepairComponent/MeanTimeToRepairDetails.vue')
 const DeploymentFrequencyDetails = () => import(/* webpackChunkName: "widgets" */ '@/components/Dashboard/Views/Custom/DeploymentFrequencyComponent/DeploymentFrequencyDetails');
 
@@ -286,6 +287,20 @@ let LeadTimeForChangeDetailPage = {
   beforeEnter: requireAuth()
 }
 
+let ChangeFailureRateDetailPage = {
+  path: '/dashboard/change-failure-rate',
+  component: DashboardLayout,
+  children : [
+    {
+      path: '',
+      name: 'LeadTimeForChangeDetails',
+      component : ChangeFailureRateDetails
+    }
+  ],
+  beforeEnter: requireAuth()
+}
+
+
 let MeanTimeToRepairDetailPage = {
   path: '/dashboard/mean-time-to-repair',
   component: DashboardLayout,
@@ -330,6 +345,7 @@ const routes = [
   slackWebhookRegisterPage,
   LeadTimeForChangeDetailPage,
   DeploymentFrequencyDetailPage,
+  ChangeFailureRateDetailPage,
   mainPage,
   componentsMenu,
   chartPage,
