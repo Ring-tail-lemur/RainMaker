@@ -8,10 +8,9 @@
       <div class="col-lg-12 col-md-12">
         <time-line>
 
-          <time-line-item badgeType="danger" badgeIcon="nc-icon nc-share-66" :inverted="releaseData[0].success"
+          <time-line-item :badgeType="changeColor(releaseData[0].success)" badgeIcon="nc-icon nc-share-66" :inverted="releaseData[0].success"
                           v-for="releaseData in releaseDataSet"
                           :style="{ 'margin-bottom' : releaseData[0].margin + 'px'}">
-<!--            <div slot="Description" class="datetime-title">{{ releaseData[0].releaseDate }}</div>-->
             <div slot="content">
               <el-table :data="releaseData" header-row-class-name="text-primary">
                 <el-table-column prop="releaseName" label="버전명"></el-table-column>
@@ -101,9 +100,15 @@ export default {
 
       return date.getFullYear() + '-' + month + '-' + day;
     },
+    changeColor(type) {
+      if(type) {
+        return 'info'
+      }
+      return 'danger'
+    }
   },
   created() {
-    this.getTableData(50)
+    this.getTableData(30)
   }
 }
 </script>

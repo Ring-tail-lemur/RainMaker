@@ -99,7 +99,7 @@ export default {
     },
   },
   created() {
-    this.getTableData(14)
+    this.getTableData(30)
   }
 }
 </script>
