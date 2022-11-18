@@ -1,6 +1,7 @@
 package com.ringtaillemur.rainmaker;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,7 +18,8 @@ import com.ringtaillemur.rainmaker.domain.OAuthUser;
 import com.ringtaillemur.rainmaker.domain.OAuthUserRepositoryTable;
 import com.ringtaillemur.rainmaker.domain.Repository;
 import com.ringtaillemur.rainmaker.domain.enumtype.OwnerType;
-import com.ringtaillemur.rainmaker.dto.webdto.responsedto.DeploymentFrequencyDetailDto;
+import com.ringtaillemur.rainmaker.domain.procedure.ChangeFailureRateDetail;
+import com.ringtaillemur.rainmaker.dto.webdto.responsedto.ChangeFailureRateDetailDto;
 import com.ringtaillemur.rainmaker.dto.webdto.responsedto.RegisterRepositoryResponseDto;
 import com.ringtaillemur.rainmaker.repository.GitUserRepository;
 import com.ringtaillemur.rainmaker.repository.OAuthRepository;
@@ -26,6 +28,7 @@ import com.ringtaillemur.rainmaker.repository.ReleaseDetailRepository;
 import com.ringtaillemur.rainmaker.repository.ReleaseSuccessRepository;
 import com.ringtaillemur.rainmaker.repository.RepositoryRepository;
 import com.ringtaillemur.rainmaker.service.UserService;
+import com.ringtaillemur.rainmaker.service.dorametrics.ChangeFailureRateService;
 import com.ringtaillemur.rainmaker.service.dorametrics.DeploymentFrequencyService;
 import com.ringtaillemur.rainmaker.service.dorametrics.LeadTimeForChangeService;
 
@@ -112,6 +115,9 @@ class RainmakerWebserverApplicationTest {
 
 	@Autowired
 	DeploymentFrequencyService deploymentFrequencyService;
+
+	@Autowired
+	ChangeFailureRateService rateService;
 	@Test
 	@Transactional
 	void test4() {
@@ -120,14 +126,15 @@ class RainmakerWebserverApplicationTest {
 		repositoryIds.add(544985444L);
 		repositoryIds.add(510731046L);
 
-		List<DeploymentFrequencyDetailDto> deploymentFrequencyDetailDto = deploymentFrequencyService.getDeploymentFrequencyDetailDto(
+		List<ChangeFailureRateDetailDto> changeFailureRateDetailDto = rateService.getChangeFailureRateDetailDto(
 			repositoryIds,
-			LocalDate.now().minusDays(14L), LocalDate.now());
+			LocalDate.now().minusDays(40L), LocalDate.now());
 
-		deploymentFrequencyDetailDto.stream()
+		changeFailureRateDetailDto.stream()
 			.forEach(d -> {
 				System.out.println(d.getReleaseName());
 				System.out.println(d.getCodeChangeSize());
+				System.out.println(d.isSuccess());
 				System.out.println(d.getMargin());
 				System.out.println();
 			});

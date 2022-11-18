@@ -1,13 +1,16 @@
 <template>
   <div>
+    <div class="row">
+      <h3 class="col-lg-6 col-md-6 title-name-center"><i class="fa fa-check"></i>실패 배포</h3>
+      <h3 class="col-lg-6 col-md-6 title-name-center"><i class="fa fa-check"></i>성공 배포</h3>
+    </div>
     <div>
       <div class="col-lg-12 col-md-12">
-        <time-line type="simple" class="timeline-margin">
+        <time-line>
 
-          <time-line-item badgeType="success" badgeIcon="nc-icon nc-share-66" :inverted="true"
+          <time-line-item :badgeType="changeColor(releaseData[0].success)" badgeIcon="nc-icon nc-share-66" :inverted="releaseData[0].success"
                           v-for="releaseData in releaseDataSet"
                           :style="{ 'margin-bottom' : releaseData[0].margin + 'px'}">
-            <div slot="Description" class="datetime-title">{{ releaseData[0].releaseDate }}</div>
             <div slot="content">
               <el-table :data="releaseData" header-row-class-name="text-primary">
                 <el-table-column prop="releaseName" label="버전명"></el-table-column>
@@ -72,7 +75,7 @@ export default {
     },
     async getDeploymentFrequencyDetail(start_time, end_time, repo_ids) {
       let axiosResponse;
-      axiosResponse = (await axios.get(this.custom.defaultURL + "/api/dorametric/deployment-frequency/deployment-frequency-detail", {
+      axiosResponse = (await axios.get(this.custom.defaultURL + "/api/dorametric/change-failure-rate/change-failure-rate-detail", {
         headers: setHeaderJWT(),
         params: {
           start_time: start_time,
@@ -97,6 +100,12 @@ export default {
 
       return date.getFullYear() + '-' + month + '-' + day;
     },
+    changeColor(type) {
+      if(type) {
+        return 'info'
+      }
+      return 'danger'
+    }
   },
   created() {
     this.getTableData(30)
@@ -116,7 +125,7 @@ export default {
   font-size: 17px;
 }
 
-.timeline-margin {
-  margin-left: 100px;
+.title-name-center {
+  text-align: center;
 }
 </style>
