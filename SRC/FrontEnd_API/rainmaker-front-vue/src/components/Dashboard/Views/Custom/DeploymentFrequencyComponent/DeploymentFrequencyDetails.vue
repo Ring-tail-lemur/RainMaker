@@ -4,7 +4,7 @@
       <div class="col-lg-12 col-md-12">
         <time-line type="simple" class="timeline-margin">
 
-          <time-line-item badgeType="danger" badgeIcon="nc-icon nc-share-66" :inverted="true"
+          <time-line-item badgeType="success" badgeIcon="nc-icon nc-share-66" :inverted="true"
                           v-for="releaseData in releaseDataSet"
                           :style="{ 'margin-bottom' : releaseData[0].margin + 'px'}">
             <div slot="Description" class="datetime-title">{{ releaseData[0].releaseDate }}</div>
