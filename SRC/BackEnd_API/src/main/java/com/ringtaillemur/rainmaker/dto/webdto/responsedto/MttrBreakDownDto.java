@@ -13,6 +13,16 @@ public class MttrBreakDownDto {
 	private double deployAverageTime;
 	private double convinceAverageTime;
 
+	public MttrBreakDownDto(double startAverageTime, double codingAverageTime, double pickupAverageTime,
+		double reviewAverageTime, double deployAverageTime, double convinceAverageTime) {
+		this.startAverageTime = startAverageTime;
+		this.codingAverageTime = codingAverageTime;
+		this.pickupAverageTime = pickupAverageTime;
+		this.reviewAverageTime = reviewAverageTime;
+		this.deployAverageTime = deployAverageTime;
+		this.convinceAverageTime = convinceAverageTime;
+	}
+
 	public MttrBreakDownDto(List<MttrDetailDto> timeToRestoreServiceDetail) {
 		this.startAverageTime = timeToRestoreServiceDetail.stream()
 			.mapToLong(MttrDetailDto::getStartTime)

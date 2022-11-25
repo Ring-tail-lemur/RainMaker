@@ -4,25 +4,21 @@ import java.time.LocalDate;
 import java.util.List;
 
 import org.springframework.format.annotation.DateTimeFormat;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
 
 import com.ringtaillemur.rainmaker.dto.webdto.responsedto.ChangeFailureRateDetailDto;
 import com.ringtaillemur.rainmaker.dto.webdto.responsedto.ChangeFailureRateDto;
-import com.ringtaillemur.rainmaker.dto.webdto.responsedto.DeploymentFrequencyDetailDto;
 import com.ringtaillemur.rainmaker.service.dorametrics.ChangeFailureRateService;
 
 import lombok.RequiredArgsConstructor;
 
-@RestController
-@RequestMapping("/api/dorametric/change-failure-rate")
+// @RestController
+// @RequestMapping("/api/dorametric/change-failure-rate")
 @RequiredArgsConstructor
 public class ChangeFailureRateController {
 	private final ChangeFailureRateService changeFailureRateService;
 
-	@GetMapping
+	// @GetMapping
 	public ChangeFailureRateDto doraChangeFailureRateApi(
 		@RequestParam("start_time") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate startTime,
 		@RequestParam("end_time") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate endTime,
@@ -30,7 +26,7 @@ public class ChangeFailureRateController {
 		return changeFailureRateService.getChangeFailureRate(repositoryIds, startTime, endTime);
 	}
 
-	@GetMapping("/change-failure-rate-detail")
+	// @GetMapping("/change-failure-rate-detail")
 	public List<ChangeFailureRateDetailDto> getChangeFailureRateDetailBySource(
 		@RequestParam("start_time") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate startTime,
 		@RequestParam("end_time") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate endTime,
