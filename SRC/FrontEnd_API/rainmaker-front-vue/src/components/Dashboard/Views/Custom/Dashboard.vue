@@ -107,7 +107,7 @@
             <small><b>뛰어난 팀은 변경사항을 자주 배포하고 있습니다.</b></small>
           </span>
         </span>
-          <span slot="title">배포 빈도</span>
+          <span slot="title">배포 횟수</span>
           <badge slot="title-label" :type="DeploymentFrequency.rate">{{ DeploymentFrequency.rate }}</badge>
           <template slot="footer-title">
             <div class="stats">

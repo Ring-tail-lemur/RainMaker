@@ -4,10 +4,7 @@ import java.time.LocalDate;
 import java.util.List;
 
 import org.springframework.format.annotation.DateTimeFormat;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
 
 import com.ringtaillemur.rainmaker.dto.webdto.responsedto.DeploymentFrequencyDetailDto;
 import com.ringtaillemur.rainmaker.dto.webdto.responsedto.DeploymentFrequencyDto;
@@ -15,14 +12,14 @@ import com.ringtaillemur.rainmaker.service.dorametrics.DeploymentFrequencyServic
 
 import lombok.RequiredArgsConstructor;
 
-@RestController
-@RequestMapping("/api/dorametric/deployment-frequency")
+// @RestController
+// @RequestMapping("/api/dorametric/deployment-frequency")
 @RequiredArgsConstructor
 public class DeploymentFrequencyController {
 
 	private final DeploymentFrequencyService deploymentFrequencyService;
 
-	@GetMapping
+	// @GetMapping
 	public DeploymentFrequencyDto doraDeploymentFrequencyForRestApi(
 		@RequestParam("start_time") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate startTime,
 		@RequestParam("end_time") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate endTime,
@@ -30,7 +27,7 @@ public class DeploymentFrequencyController {
 		return deploymentFrequencyService.getDeploymentFrequency(repositoryIds, startTime, endTime);
 	}
 
-	@GetMapping("/deployment-frequency-detail")
+	// @GetMapping("/deployment-frequency-detail")
 	public List<DeploymentFrequencyDetailDto> getDeploymentFrequencyDetailBySource(
 		@RequestParam("start_time") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate startTime,
 		@RequestParam("end_time") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate endTime,

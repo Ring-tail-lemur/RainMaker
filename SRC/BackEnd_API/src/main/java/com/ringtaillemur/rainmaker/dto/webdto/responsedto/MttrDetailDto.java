@@ -20,6 +20,19 @@ public class MttrDetailDto {
 	private Long issueNumber;
 	private Long mttr;
 
+	public MttrDetailDto(String url, Long startTime, Long codingTime, Long pickupTime, Long reviewTime, Long deployTime,
+		Long convinceTime, Long issueNumber, Long mttr) {
+		this.url = url;
+		this.startTime = startTime;
+		this.codingTime = codingTime;
+		this.pickupTime = pickupTime;
+		this.reviewTime = reviewTime;
+		this.deployTime = deployTime;
+		this.convinceTime = convinceTime;
+		this.issueNumber = issueNumber;
+		this.mttr = mttr;
+	}
+
 	public MttrDetailDto(MttrDetail mttrDetail) {
 		MttrDetailData mttrDetailData = mttrDetail.getData();
 		url = mttrDetailData.getIssueUrl();
