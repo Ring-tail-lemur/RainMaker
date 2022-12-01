@@ -1,4 +1,6 @@
 # RainMaker
+
+
 <br>
 <b>RainMaker는 개발팀의 생산성을 올리기 위한 모니터링 프로젝트입니다.</b><br>
 Event Driven Architecture를 사용, 실시간으로 개발자들의 생산 활동을 추적합니다.<br>
@@ -26,4 +28,11 @@ Event Driven Architecture를 사용, 실시간으로 개발자들의 생산 활�
   - 개발 초기 기획 : https://vidi-programming.tistory.com/98<br>
   - 개발 중간 발표 자료 : https://vidi-programming.tistory.com/105?category=953445<br>
   
-  
+  <br>
+▸ 국문표기  <br>
+
+이 성과는 2022년도 과학기술정보통신부의 재원으로 정보통신기획평가원의 지원을 받아 수행된 연구임(IITP-2022-SW마에스트로과정).  <br>
+
+▸ 영문표기  <br>
+
+This work was supported by the Institute of Information & Communications Technology Planning & Evaluation(IITP) grant funded by the Ministry of Science and ICT(MSIT) (IITP-2022-SW Maestro training course).
