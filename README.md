@@ -1,11 +1,15 @@
 # RainMaker
 
 
+
+
 <br>
 <b>RainMaker는 개발팀의 생산성을 올리기 위한 모니터링 프로젝트입니다.</b><br>
 Event Driven Architecture를 사용, 실시간으로 개발자들의 생산 활동을 추적합니다.<br>
 생산 활동의 추적을 통해 DORA Metrics(Four Keys Metrics)를 출력합니다.<br>
-사용자는 서비스를 통해 개발 병목 지점을 파악하고, 이를 해결해나가는 과정에서 좋은 DevOps 문화를 정착시킬 수 있습니다.<br>
+사용자는 서비스를 통해 개발 병목 지점을 파악하고, 이를 해결해나가는 과정에서 좋은 DevOps 문화를 정착시킬 수 있습니다.<br><br>
+<b>프로젝트 아키텍쳐</b>
+<img width="781" alt="image" src="https://user-images.githubusercontent.com/68802559/230732156-ce44c1c4-c27f-47e5-a5eb-0013f45b7ef4.png">
 <br>
 * 구성원 : <br>
     - Team Lead && DevOps && BigData Structure : @vidigummy<br>
